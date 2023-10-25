@@ -1,0 +1,25 @@
+﻿<Window x:Class="SuperCarter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SuperCarter"
+        mc:Ignorable="d"
+        Title="Super Carter" Height="450" Width="800">
+
+    <Grid>
+        <!-- Hamburger Menu -->
+        <StackPanel Orientation="Vertical" Width="60" HorizontalAlignment="Left">
+            <ToggleButton Content="≡" Width="50" Height="50" VerticalAlignment="Top"/>
+            <!-- Other menu items go here -->
+        </StackPanel>
+
+        <!-- Content Area -->
+        <Grid Margin="60,0,0,0">
+            <TextBlock Text="Your content goes here..." Foreground="{StaticResource ForegroundColor}" />
+
+            <!-- Theme switcher -->
+            <Button Content="Toggle Theme" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="OnToggleThemeClicked"/>
+        </Grid>
+    </Grid>
+</Window>

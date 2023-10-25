@@ -1,0 +1,21 @@
+﻿<Application x:Class="SuperCarter.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SuperCarter"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Default Theme (Light) -->
+            <ResourceDictionary x:Key="LightTheme">
+                <SolidColorBrush x:Key="BackgroundColor" Color="White"/>
+                <SolidColorBrush x:Key="ForegroundColor" Color="Black"/>
+            </ResourceDictionary>
+
+            <!-- Dark theme -->
+            <ResourceDictionary x:Key="DarkTheme">
+                <SolidColorBrush x:Key="BackgroundColor" Color="Black"/>
+                <SolidColorBrush x:Key="ForegroundColor" Color="White"/>
+            </ResourceDictionary>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

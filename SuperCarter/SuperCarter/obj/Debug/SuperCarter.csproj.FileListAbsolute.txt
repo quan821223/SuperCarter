@@ -1,0 +1,17 @@
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\bin\Debug\SuperCarter.exe.config
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\bin\Debug\SuperCarter.exe
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\bin\Debug\SuperCarter.pdb
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter.csproj.AssemblyReference.cache
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter.csproj.SuggestedBindingRedirects.cache
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\MainWindow.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\App.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter_MarkupCompile.cache
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter_MarkupCompile.lref
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\MainWindow.baml
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter.g.resources
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter.Properties.Resources.resources
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter.csproj.GenerateResource.cache
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter.csproj.CoreCompileInputs.cache
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter.exe
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter.pdb
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\App.baml
