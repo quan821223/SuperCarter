@@ -1,4 +1,10 @@
-﻿using System;
+﻿using AvalonDock.Layout;
+using SuperCarter.Model;
+using SuperCarter.View;
+using SuperCarter.View.Dashboard;
+using SuperCarter.View.Script;
+using SuperCarter.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,46 +18,153 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SuperCarter.Services;
+using Notification.Wpf;
 
 namespace SuperCarter
 {
     /// <summary>
-    /// MainWindow.xaml 的互動邏輯
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public static SuperCarterViewModel SuperCarterVM { get; set; }
+      
+        public SequenceEditer sequenceEditer { get; set; }
+        public Overview overview { get; set; }
+        public CommunicationInterface communicationInterface { get; set; }
         public MainWindow()
         {
+
+           
+
             InitializeComponent();
-        }
-        private bool _isDarkTheme = false;
 
-        private bool IsLightThemeActive()
-        {
-            return Application.Current.Resources.MergedDictionaries.Contains(Application.Current.Resources["LightTheme"] as ResourceDictionary);
-        }
-        private void OnToggleThemeClicked(object sender, RoutedEventArgs e)
-        {
-            if (IsLightThemeActive())
-            {
-                Application.Current.Resources.MergedDictionaries.Remove(Application.Current.Resources["LightTheme"] as ResourceDictionary);
-                Application.Current.Resources.MergedDictionaries.Add(Application.Current.Resources["DarkTheme"] as ResourceDictionary);
-            }
-            else
-            {
-                Application.Current.Resources.MergedDictionaries.Remove(Application.Current.Resources["DarkTheme"] as ResourceDictionary);
-                Application.Current.Resources.MergedDictionaries.Add(Application.Current.Resources["LightTheme"] as ResourceDictionary);
-            }
+            SuperCarterVM = new SuperCarterViewModel();
+          
+            sequenceEditer = new SequenceEditer();
+            overview = new Overview();
 
-            // 確認主題是否已經切換
-            if (IsLightThemeActive())
+            if (dockManager.Visibility == Visibility.Visible)
+                dockManager.Visibility = Visibility.Hidden;
+
+            GridPrincipal.Children.Clear();
+            // hiding all text views.
+            /// TextViewPortIII_Output
+            var TextViewPortIII_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "TextViewPortIII_Output");
+            if (TextViewPortIII_Output.IsEnabled)
+                TextViewPortIII_Output.Hide();
+
+            /// TextViewPortII_Output
+            var TextViewPortII_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "TextViewPortII_Output");
+            if (TextViewPortII_Output.IsEnabled)
+                TextViewPortII_Output.Hide();
+
+            /// TextViewPortI_Output
+            var TextViewPortI_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "TextViewPortI_Output");
+            if (TextViewPortI_Output.IsEnabled)
+                TextViewPortI_Output.Hide();
+
+            /// AllViewText_Output
+            var AllViewText_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "AllViewText_Output");
+            if (AllViewText_Output.IsEnabled)
+                AllViewText_Output.Hide();
+
+            this.DataContext = SuperCarterVM;
+           
+
+
+        }
+
+        private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = ListViewMenu.SelectedIndex + 1;
+            switch (index)
             {
-                MessageBox.Show("目前是亮色主題");
+                case 1:
+                    GridPrincipal.Children.Clear();
+
+                    if (dockManager.Visibility != Visibility.Hidden)
+                        dockManager.Visibility = Visibility.Hidden;
+                    break;
+                case 2:
+                    GridPrincipal.Children.Clear();
+                    GridPrincipal.Children.Add(sequenceEditer);
+                    if (dockManager.Visibility != Visibility.Visible)
+                        dockManager.Visibility = Visibility.Visible;
+                    break;
+                case 3:
+                    GridPrincipal.Children.Clear();
+                    GridPrincipal.Children.Add(overview);
+                    if (dockManager.Visibility != Visibility.Visible)
+                        dockManager.Visibility = Visibility.Visible;
+                    break;
+
+
             }
-            else
+        }
+        private void ClearTextViewPortII_Click(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as SuperCarterViewModel).TextViewPortII = "";
+        }
+
+        private void ClearAllViewText_Click(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as SuperCarterViewModel).AllViewText = "";
+        }
+
+        private void ClearTextViewPortIII_Click(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as SuperCarterViewModel).TextViewPortIII = "";
+        }
+        private void ClearTextViewPortI_Click(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as SuperCarterViewModel).TextViewPortI = "";
+        }
+        private void AllViewText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            if (AllViewText.LineCount > 500)
+                (this.DataContext as SuperCarterViewModel).AllViewText = "";
+            AllViewText.ScrollToEnd();
+
+        }
+        private void TextViewPortI_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TextViewPortI.LineCount > 500)
+                (this.DataContext as SuperCarterViewModel).TextViewPortI = "";
+            TextViewPortI.ScrollToEnd();
+        }
+        private void TextViewPortII_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TextViewPortII.LineCount > 500)
+                (this.DataContext as SuperCarterViewModel).TextViewPortII = "";
+            TextViewPortII.ScrollToEnd();
+        }
+        private void TextViewPortIII_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TextViewPortIII.LineCount > 500)
+                (this.DataContext as SuperCarterViewModel).TextViewPortIII = "";
+            TextViewPortIII.ScrollToEnd();
+        }
+
+        private void PortSettingMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            communicationInterface = new CommunicationInterface();
+            communicationInterface.Show();
+            communicationInterface.DataContext = SuperCarterVM;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //ConfigbyJSON.logger.Log(NLog.LogLevel.Debug, "Auto_save_candidaters_process...");
+            nlogMessageAggregator.Instance.SendMessage(new nlogtype
             {
-                MessageBox.Show("目前是暗色主題");
-            }
+                LogLevel = NLog.LogLevel.Debug,
+                Msg = "Auto_save_candidaters_process..."
+            });
+            SuperCarterVM.AutoSaveStatus();
         }
     }
 }

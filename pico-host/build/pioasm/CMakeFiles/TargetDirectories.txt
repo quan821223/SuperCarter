@@ -1,0 +1,3 @@
+D:/YQRepo/supercarriermonitoringsystem/pico-host/build/pioasm/CMakeFiles/pioasm.dir
+D:/YQRepo/supercarriermonitoringsystem/pico-host/build/pioasm/CMakeFiles/edit_cache.dir
+D:/YQRepo/supercarriermonitoringsystem/pico-host/build/pioasm/CMakeFiles/rebuild_cache.dir

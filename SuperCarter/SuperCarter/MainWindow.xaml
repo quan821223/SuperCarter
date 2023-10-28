@@ -3,23 +3,662 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonDock="https://github.com/Dirkster99/AvalonDock"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:SpyderToggle="clr-namespace:Spyder.Controls.Toggle;assembly=Spyder.Controls.Toggle" 
+        xmlns:gif="http://wpfanimatedgif.codeplex.com" 
+        xmlns:notifications="clr-namespace:Notification.Wpf.Controls;assembly=Notification.Wpf"
+        xmlns:des="clr-namespace:SuperCarter.ViewModel"
+        xmlns:model="clr-namespace:SuperCarter.Model"    
         xmlns:local="clr-namespace:SuperCarter"
         mc:Ignorable="d"
-        Title="Super Carter" Height="450" Width="800">
-
+        Title="SuperCarter" Height="450" Width="800" MinHeight="650" MinWidth="960" Closing="Window_Closing">
     <Grid>
-        <!-- Hamburger Menu -->
-        <StackPanel Orientation="Vertical" Width="60" HorizontalAlignment="Left">
-            <ToggleButton Content="≡" Width="50" Height="50" VerticalAlignment="Top"/>
-            <!-- Other menu items go here -->
-        </StackPanel>
+        <Grid.Resources>
+            <Style x:Key="ListViewItemstyle" TargetType="ListViewItem">
+                <Setter Property="Margin" Value="0 2 0 2" />
+                <Setter Property="Width" Value="31" />
+                <Setter Property="Height" Value="33" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border Name="Border"
+                            Padding="5"
+                            CornerRadius="3"
+                            SnapsToDevicePixels="true">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Gray" ShadowDepth=".1" BlurRadius=".4" Opacity="0.3" Direction="0"/>
+                                </Border.Effect>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter TargetName="Border" Property="Background" Value="white" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter TargetName="Border" Property="Background" Value="#EEE"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
-        <!-- Content Area -->
-        <Grid Margin="60,0,0,0">
-            <TextBlock Text="Your content goes here..." Foreground="{StaticResource ForegroundColor}" />
+            <Style x:Key="Imagestyle" TargetType="Image">
+                <Setter Property="Margin" Value="0 0 0 0" />
+                <Setter Property="Width" Value="25" />
+                <Setter Property="Height" Value="25" />
+            </Style>
+            <Style x:Key="Gridstyle" TargetType="Grid">
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="Width" Value="25" />
+                <Setter Property="Height" Value="25" />
+            </Style>
+        </Grid.Resources>
+        <!--以下為 home page-->
+        <Grid MinHeight="300">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
 
-            <!-- Theme switcher -->
-            <Button Content="Toggle Theme" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="OnToggleThemeClicked"/>
+                <Image Grid.Row="0"
+                   MaxWidth="100"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   Source="/Images/auo_lite.png"  />
+                <TextBlock Grid.Row="1"
+                           Text="DQA Standart FIDM test&#x000A;@ Super Carrier board" 
+                           FontWeight="Bold"                           
+                           FontSize="8"
+                           Margin="0 0 0 0"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"
+                           Foreground="#FF005087"/>
+                <TextBlock 
+                           Text="設計驗證" 
+                           FontWeight="Bold"                           
+                           FontSize="13"
+                           Margin="0 0 0 0"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"
+                           Foreground="#FF005087"/>
+                <TextBlock 
+                           Text="{Binding SoftwareVersion}" 
+                           FontWeight="Bold"                           
+                           FontSize="13"
+                           Margin="0 0 0 0"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"
+                           Foreground="#FF005087"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button 
+                        Width="110"
+                        Height="110"
+                        Margin="12"
+                        Content="ISP"
+                        Command="{Binding OpenISPtool}"
+                        Background="#19DDDDDD"
+                        VerticalAlignment="Top"
+                        >
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <ContentControl>
+                                                <Border Name="innerborder" 
+                                                    BorderBrush="#FFD4D4D4"
+                                                    BorderThickness="1,1,2,2" 
+                                                    Background="{TemplateBinding Background}" CornerRadius="5">
+                                                    <StackPanel Orientation="Vertical" 
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center">
+                                                        <Image Width="60" Height="60" 
+                                                           Source="/Images/firmware-icon-15.jpg" 
+                                                           />
+                                                        <TextBlock Text="View"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Stretch"
+                                                               />
+                                                    </StackPanel>
+                                                </Border>
+                                            </ContentControl>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="Button.IsPressed" Value="True" >
+                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button 
+                        Width="110"
+                        Height="110"
+                         Margin="12"
+                        Content="ISP"
+                        Command="{Binding OpenISPtool}"
+                        Background="#19DDDDDD"
+                        VerticalAlignment="Top"
+                        >
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <ContentControl>
+                                                <Border Name="innerborder" 
+                                                    BorderBrush="#FFD4D4D4"
+                                                    BorderThickness="1,1,2,2" 
+                                                    Background="{TemplateBinding Background}" CornerRadius="5">
+                                                    <StackPanel Orientation="Vertical" 
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center">
+                                                        <Image Width="60" Height="60" 
+                                                           Source="/Images/icon.png" 
+                                                           />
+                                                        <TextBlock Text="View"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Stretch"
+                                                               />
+                                                    </StackPanel>
+                                                </Border>
+                                            </ContentControl>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="Button.IsPressed" Value="True" >
+                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+
+
+            </StackPanel>
+
+
+
         </Grid>
+
+
+        <Grid   Grid.Row="0" Margin="37,30,3,3" >
+            <avalonDock:DockingManager x:Name="dockManager"  
+                                       Background="White"
+                                   AnchorablesSource="{Binding Tools}" 
+                                   DocumentsSource="{Binding Files}"                                           
+                                   Margin="3"     
+                                    
+                                   >
+                <avalonDock:LayoutRoot >
+                    <avalonDock:LayoutPanel Orientation="Horizontal" >
+                        <avalonDock:LayoutAnchorablePaneGroup DockWidth="3*" DockHeight="1*"
+                                                             
+                                                              Orientation="Vertical" >
+                            <avalonDock:LayoutAnchorablePaneGroup DockHeight="3*"
+                                                                  
+                                                                  Orientation="Horizontal">
+                                <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequences" DockHeight="4*">
+                                    <avalonDock:LayoutAnchorable CanAutoHide="False"
+                                                                 CanHide="False"
+                                                                 CanClose="False"
+                                                                     ContentId="Application_window"
+                                                                     Title="Application">
+                                        <Grid  x:Name="GridPrincipal" Grid.Row="0" Background="White" />
+                                    </avalonDock:LayoutAnchorable>
+                                </avalonDock:LayoutAnchorablePane>
+                            </avalonDock:LayoutAnchorablePaneGroup >
+                            <avalonDock:LayoutAnchorablePane Name="AllViewText_window" DockWidth="1*" DockHeight="1*">
+                                <avalonDock:LayoutAnchorable ContentId="AllViewText_Output"
+                                                                 CanAutoHide="True"
+                                                                 CanClose="False"
+                                                                 Title="Output">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="7"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBox x:Name="AllViewText" 
+                                                    Text="{Binding AllViewText, Mode=TwoWay}" 
+                                                    IsReadOnly="True" AcceptsReturn="True"
+                                                    VerticalScrollBarVisibility="Auto"  
+                                                    ScrollViewer.CanContentScroll="True" 
+                                                    FontFamily="Consolas"
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Auto"                     
+                                                    TextChanged="AllViewText_TextChanged"/>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="ClearAllViewText" Content="Clear" Grid.Column="0" Click="ClearAllViewText_Click"/>
+                                        </Grid>
+                                        <Grid Grid.Row="2">
+                                            <Grid.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FF61B2E1" Offset="0"/>
+                                                    <GradientStop Color="#FF0C4667" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Grid.Background>
+                                        </Grid>
+                                    </Grid>
+                                </avalonDock:LayoutAnchorable>
+                                <avalonDock:LayoutAnchorable ContentId="TextViewPortI_Output"
+                                                                 CanAutoHide="True"
+                                                            CanClose="False"
+                                                         Title="Port I">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="7"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBox x:Name="TextViewPortI" Text="{Binding TextViewPortI}" 
+                                                             IsReadOnly="True" AcceptsReturn="True"
+                                                             VerticalScrollBarVisibility="Auto"  
+                                                             ScrollViewer.CanContentScroll="True" 
+                                                             FontFamily="Consolas"
+                                                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                             ScrollViewer.VerticalScrollBarVisibility="Auto"                     
+                                                             TextChanged="TextViewPortI_TextChanged"/>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="ClearTextViewPortI" Content="Clear" Grid.Column="0" Click="ClearTextViewPortI_Click"/>
+                                        </Grid>
+                                        <Grid Grid.Row="2">
+                                            <Grid.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FF61B2E1" Offset="0"/>
+                                                    <GradientStop Color="#FF0C4667" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Grid.Background>
+                                        </Grid>
+                                    </Grid>
+                                </avalonDock:LayoutAnchorable>
+                                <avalonDock:LayoutAnchorable ContentId="TextViewPortII_Output"
+                                                                 CanAutoHide="True"
+                                                                 CanClose="False"
+                                                         Title="Port II">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="7"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBox x:Name="TextViewPortII" Text="{Binding TextViewPortII}" 
+                                                             IsReadOnly="True" AcceptsReturn="True"
+                                                             VerticalScrollBarVisibility="Auto"  
+                                                             ScrollViewer.CanContentScroll="True" 
+                                                             FontFamily="Consolas"
+                                                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                             ScrollViewer.VerticalScrollBarVisibility="Auto"                     
+                                                             TextChanged="TextViewPortII_TextChanged"/>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="ClearTextViewPortII" Content="Clear" Grid.Column="0" Click="ClearTextViewPortII_Click"/>
+                                        </Grid>
+                                        <Grid Grid.Row="2">
+                                            <Grid.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FF61B2E1" Offset="0"/>
+                                                    <GradientStop Color="#FF0C4667" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Grid.Background>
+                                        </Grid>
+                                    </Grid>
+                                </avalonDock:LayoutAnchorable>
+                                <avalonDock:LayoutAnchorable ContentId="TextViewPortIII_Output"
+                                                                 CanAutoHide="True"
+                                                                 CanClose="False"
+                                                         Title="Port III">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="7"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBox x:Name="TextViewPortIII" Text="{Binding TextViewPortIII}" 
+                                                             IsReadOnly="True" AcceptsReturn="True"
+                                                             VerticalScrollBarVisibility="Auto"  
+                                                             ScrollViewer.CanContentScroll="True" 
+                                                             FontFamily="Consolas"
+                                                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                             ScrollViewer.VerticalScrollBarVisibility="Auto"                     
+                                                             TextChanged="TextViewPortIII_TextChanged"/>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="ClearTextViewPortIII" Content="Clear" Grid.Column="0" Click="ClearTextViewPortIII_Click"/>
+                                        </Grid>
+                                        <Grid Grid.Row="2">
+                                            <Grid.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FF61B2E1" Offset="0"/>
+                                                    <GradientStop Color="#FF0C4667" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Grid.Background>
+                                        </Grid>
+                                    </Grid>
+                                </avalonDock:LayoutAnchorable>
+                            </avalonDock:LayoutAnchorablePane>
+                        </avalonDock:LayoutAnchorablePaneGroup>
+
+
+
+
+                    </avalonDock:LayoutPanel>
+
+                </avalonDock:LayoutRoot>
+
+            </avalonDock:DockingManager>
+
+        </Grid>
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="29"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid>
+                    <!--此網格為前端物件的項目-->
+                    <Grid>
+                        <Border  Background="White" CornerRadius="0">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" 
+                                              ShadowDepth = "0" 
+                                              BlurRadius = "3" 
+                                              Opacity = "3" 
+                                              Direction = "0"                                  
+                                              />
+                            </Border.Effect>
+                            <Border.OpacityMask>
+                                <VisualBrush>
+                                    <VisualBrush.Visual>
+                                        <Border Background="Black"
+                                            SnapsToDevicePixels="True"
+                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                            />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Border.OpacityMask>
+                            <Grid  Background="White" >
+
+                            </Grid>
+
+                        </Border>
+                    </Grid>
+                    <!--此網格為後端物件的項目-->
+                    <Grid >
+                        <Menu x:Name="ItemMenu" Grid.Column="1"  HorizontalAlignment="Left" Margin="0 2 0 0" Background="White">
+                            <Menu.Resources>
+                                <Style x:Key="MenuItemstyle" TargetType="MenuItem">
+                                    <Setter Property="FontSize" Value="13" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Background" Value="#FFD6D6D6"/>
+                                </Style>
+                            </Menu.Resources>
+                            <MenuItem x:Name="SettingMenuItem" Header="設定"  >
+                                <MenuItem x:Name="PortSettingMenuItem" Header="埠設定" Click="PortSettingMenuItem_Click" 
+                             />
+                                <MenuItem Header="自動偵測埠" 
+                                  Command="{Binding IsEnableAutoDetectPortdevices}" 
+                                  IsChecked="{Binding IsAutoDetectdevice, Mode=TwoWay}" 
+                                  IsCheckable="True"
+                             />
+                            </MenuItem>
+                            <MenuItem x:Name="FileMenuItem" Header="文件(F)" Style="{StaticResource MenuItemstyle}" Background="White" >
+                                <MenuItem x:Name="ExitMenuItem" Header="退出(X)" 
+                              InputGestureText="Alt+F4"
+                              />
+                                <MenuItem x:Name="PathofDataItem" Header="data資料夾的位置" 
+                              />
+                                <MenuItem x:Name="PathofDefaultscriptItem" Header="script資料夾的位置"  
+                              />
+                                <MenuItem x:Name="PathofLogItem" Header="log資料夾的位置" 
+                              />
+                            </MenuItem>
+                            <MenuItem x:Name="ToolMenuItem" Header="工具(T)"  >
+                                <MenuItem x:Name="CalcMenuItem" Header="計算機(C)" 
+                                  IsCheckable="True" 
+                             />
+                            </MenuItem>
+
+                        </Menu>
+                      
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 1 11 0">
+                            <Label Content="Port0:"/>
+                            <SpyderToggle:RoundToggleButton Grid.Column="1"
+                                                    IsChecked="{Binding RestartToggleChecked_Port0, Mode=TwoWay}"
+                                                    MaxHeight="29"
+                                                    Margin="5 4 5 4"                                                                
+                                                    HorizontalAlignment="Right" />
+                            <Label Content="Port1:"/>
+                            <SpyderToggle:RoundToggleButton Grid.Column="1"
+                                                    IsChecked="{Binding RestartToggleChecked_Port1, Mode=TwoWay}"
+                                                    MaxHeight="29"
+                                                    Margin="5 4 5 4"                                                                 
+                                                    HorizontalAlignment="Right" />
+                            <Label Content="Port2:"/>
+                            <SpyderToggle:RoundToggleButton Grid.Column="1"
+                                                    IsChecked="{Binding RestartToggleChecked_Port2, Mode=TwoWay}"
+                                                    MaxHeight="29"
+                                                    Margin="5 4 5 4"                                                                 
+                                                    HorizontalAlignment="Right" />
+
+                        </WrapPanel>
+
+                    </Grid>
+                </Grid>
+
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="37"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Border  Background="White" CornerRadius="0">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" 
+                                  ShadowDepth = "0" 
+                                              BlurRadius = "3" 
+                                              Opacity = "3" 
+                                              Direction = "0"                                   
+                                  />
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="27"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" >
+
+                                <Button Background="White"
+                                        >
+                                    <Image gif:ImageBehavior.AnimatedSource="/Images/ezgif.com-gif-maker.gif"  />
+                                </Button>
+
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="80"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <ListView x:Name="ListViewMenu"                                        
+                                              Background="#FFD6D6D6" 
+                                              SelectionChanged="ListViewMenu_SelectionChanged"                        
+                                             >
+                                        <ListViewItem x:Name="Homepage" Style="{StaticResource ListViewItemstyle}" ToolTip="設置腳本" >
+                                            <materialDesign:PackIcon Grid.Row="0" 
+                                                                         Kind="Home"
+                                                                         Width="22" Height="22"                                                                        
+                                                                         VerticalAlignment="Stretch" 
+                                                                         Foreground="#FF4D4D4D" 
+                                                                         HorizontalAlignment="Stretch"/>
+
+                                        </ListViewItem>
+                                        <ListViewItem x:Name="Sequencepage" Style="{StaticResource ListViewItemstyle}" ToolTip="設置腳本" >
+                                            <materialDesign:PackIcon Grid.Row="0" 
+                                                                         Kind="Tune"
+                                                                         Width="22" Height="22"                                                                        
+                                                                         VerticalAlignment="Stretch" 
+                                                                         Foreground="#FF4D4D4D" 
+                                                                         HorizontalAlignment="Stretch"/>
+
+                                        </ListViewItem>
+
+                                        <ListViewItem x:Name="Monitorpage" Style="{StaticResource ListViewItemstyle}"  ToolTip="設置RA運行">
+                                            <materialDesign:PackIcon Grid.Row="0" 
+                                                                         Kind="Computer"
+                                                                         Width="22" Height="22"
+                                                                         VerticalAlignment="Stretch" 
+                                                                         Foreground="#FF4D4D4D" 
+                                                                         HorizontalAlignment="Stretch"/>
+                                        </ListViewItem>
+                                        <ListViewItem x:Name="Restorepage" Style="{StaticResource ListViewItemstyle}"  ToolTip="設置RA運行">
+                                            <materialDesign:PackIcon Grid.Row="0" 
+                                                                         Kind="Restore"
+                                                                         Width="22" Height="22"
+                                                                         VerticalAlignment="Stretch" 
+                                                                         Foreground="#FF4D4D4D" 
+                                                                         HorizontalAlignment="Stretch"/>
+                                        </ListViewItem>
+
+                                    </ListView>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Border Background="White" CornerRadius="20">
+                                        <WrapPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                           
+
+                                            <Button Width="31" Height="31"                               
+                                                    Command="{Binding }" 
+                                                    ToolTip="開啟 app 視窗與 所有 text view 視窗"
+                                                    Margin=" 0 3 0 3" >
+                                                <Button.Style>
+
+                                                    <Style TargetType="{x:Type Button}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                                    <ContentControl>
+                                                                        <Border Name="innerborder" BorderBrush="Gray" BorderThickness=".9 .9 .9 1.7" Background="{TemplateBinding Background}" CornerRadius="5">
+                                                                            <Grid>
+                                                                                <materialDesign:PackIcon Kind="WindowMaximize"
+                                                                                                        Width="17" Height="17"
+                                                                                                        VerticalAlignment="Stretch" 
+                                                                                                        Foreground="#FF4D4D4D" 
+                                                                                                        HorizontalAlignment="Stretch"/>
+                                                                            </Grid>
+                                                                        </Border>
+                                                                    </ContentControl>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="Button.IsPressed" Value="True" >
+                                                                            <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                                            <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+
+                                            <Button Width="31" Height="31"                           
+                                                    Command="{Binding }" 
+                                                     ToolTip="開啟所有 text view 視窗"
+                                                    Margin=" 0 3 0 3"
+                                                    >
+                                                <Button.Style>
+
+                                                    <Style TargetType="{x:Type Button}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                                    <ContentControl>
+                                                                        <Border Name="innerborder" BorderBrush="Gray" BorderThickness=".9 .9 .9 1.7" Background="{TemplateBinding Background}" CornerRadius="5">
+                                                                            <Grid>
+                                                                                <materialDesign:PackIcon Kind="ViewAgenda"
+                                                                                                        Width="17" Height="17"
+                                                                                                        VerticalAlignment="Stretch" 
+                                                                                                        Foreground="#FF4D4D4D" 
+                                                                                                        HorizontalAlignment="Stretch"/>
+                                                                            </Grid>
+                                                                        </Border>
+                                                                    </ContentControl>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="Button.IsPressed" Value="True" >
+                                                                            <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                                            <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button> 
+                                            
+                                            
+                                        </WrapPanel>
+
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+                <Grid Grid.Column="1"  >
+                    <notifications:NotificationArea x:Name="WindowArea" HorizontalAlignment="Right" VerticalAlignment="Bottom" Position="TopLeft" MaxItems="3"/>
+                
+                    
+                
+                </Grid>
+            </Grid>
+
+        </Grid>
+    
+
     </Grid>
 </Window>

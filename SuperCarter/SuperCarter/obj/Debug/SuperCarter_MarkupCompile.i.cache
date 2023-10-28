@@ -1,5 +1,5 @@
 ﻿SuperCarter
-
+1.0.0.0
 
 winexe
 C#
@@ -8,13 +8,13 @@ D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\
 SuperCarter
 none
 false
-DEBUG;TRACE
+TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\App.xaml
-1219584333
-
-6-502434485
-13-1310406943
-MainWindow.xaml;
+11-1515410158
+1732278684
+241911774433
+231645942490
+Assets\Brushes.xaml;Assets\Fonts.xaml;Assets\Styles.xaml;MainWindow.xaml;View\CommunicationInterface.xaml;View\Dashboard\ControlTable.xaml;View\Dashboard\Overview.xaml;View\Dashboard\ReliabilityAssuranceDashboard.xaml;View\Dashboard\UserScriptEditor.xaml;View\Script\SequenceEditer.xaml;View\Script\SequencesProtocal.xaml;
 
 False
 

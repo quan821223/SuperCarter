@@ -5,17 +5,10 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <!-- Default Theme (Light) -->
-            <ResourceDictionary x:Key="LightTheme">
-                <SolidColorBrush x:Key="BackgroundColor" Color="White"/>
-                <SolidColorBrush x:Key="ForegroundColor" Color="Black"/>
-            </ResourceDictionary>
 
-            <!-- Dark theme -->
-            <ResourceDictionary x:Key="DarkTheme">
-                <SolidColorBrush x:Key="BackgroundColor" Color="Black"/>
-                <SolidColorBrush x:Key="ForegroundColor" Color="White"/>
-            </ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

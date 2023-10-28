@@ -1,0 +1,20 @@
+﻿<Window x:Class="SuperCarter.View.Script.SequencesProtocal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:paz="clr-namespace:Wpf.Controls.PanAndZoom;assembly=Wpf.Controls.PanAndZoom"
+        xmlns:local="clr-namespace:SuperCarter.View.Script"
+        mc:Ignorable="d"
+        Title="SequencesProtocal" Height="450" Width="800">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+            <DockPanel LastChildFill="True">
+                <paz:ZoomBorder Name="zoomBorder" Stretch="UniformToFill" ZoomSpeed="1.2" ClipToBounds="True" Focusable="True"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Image Source="/Images/CMDprotocal.png" />
+                </paz:ZoomBorder>
+            </DockPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

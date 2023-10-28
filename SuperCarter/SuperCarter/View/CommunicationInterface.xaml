@@ -1,0 +1,141 @@
+﻿<Window x:Class="SuperCarter.View.CommunicationInterface"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:self="clr-namespace:SuperCarter.Model"
+        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+
+        xmlns:local="clr-namespace:SuperCarter.View"
+        mc:Ignorable="d"
+        Title="CommunicationInterface" Height="450" Width="900">
+    <Window.Resources>
+        <DataTemplate x:Key="YourDragTemplate">
+            <Border BorderBrush="Black" BorderThickness="1" Padding="5" Background="LightGray">
+                <TextBlock Text="{Binding Data.YourProperty}" />
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+
+            <TabControl Grid.Column="1" TabStripPlacement="Top" Margin="1" >
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Width="80">
+                        <materialDesign:PackIcon Kind="SerialPort"
+                                                Width="21" Height="21"
+                                                VerticalAlignment="Stretch" 
+                                                Foreground="#FF4D4D4D" 
+                                                HorizontalAlignment="Stretch"
+                                                >
+                            <materialDesign:PackIcon.LayoutTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="0"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </materialDesign:PackIcon.LayoutTransform>
+                        </materialDesign:PackIcon>
+                        <Label Content="port" Foreground="Black" 
+                               HorizontalAlignment="Center" FontWeight="Bold" Margin="0"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="1*" />
+                        
+                    </Grid.ColumnDefinitions>
+                    <TreeView x:Name="treeView" Margin="9" Grid.Column="0" 
+                              ItemsSource="{Binding PortTree}" 
+                             
+                              dd:DragDrop.IsDragSource="True"
+                              dd:DragDrop.IsDropTarget="True"
+                              dd:DragDrop.SelectDroppedItems="True"
+                              dd:DragDrop.UseDefaultDragAdorner="True"
+                              dd:DragDrop.UseDefaultEffectDataTemplate="False" 
+                               VerticalAlignment="Stretch"
+                              >
+                        <i:Interaction.Triggers>
+                            <!--MouseDoubleClick or SelectedItemChanged-->
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding SelectItemChangeCommand}"
+                                                           CommandParameter="{Binding ElementName=treeView,Path=SelectedItem}" />
+
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                                <Setter Property="IsExpanded" Value="True"/>
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                        <TreeView.Resources>
+                            <HierarchicalDataTemplate DataType="{x:Type self:Comporttype}" ItemsSource="{Binding Children}" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Label VerticalAlignment="Center" FontFamily="WingDings" Content="1" FontSize="15"/>
+                                    <TextBlock Text="{Binding FriendlyName}" FontSize="12"/>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                            <DataTemplate DataType="{x:Type self:Portdetectedtype}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label VerticalAlignment="Center" FontFamily="WingDings" Content="7" FontSize="15"/>
+                                    <TextBlock Text="{Binding FullPortName}" FontSize="12"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </TreeView.Resources>
+                    </TreeView>
+
+                    <Grid Grid.Column="1">
+                        <DataGrid x:Name="SerialPortCandidateDatagrid" Margin="13"
+                               
+                                  Grid.Row="1"  
+                                  ItemsSource="{Binding SerialCandidator,  Mode=TwoWay}" 
+                                  HorizontalScrollBarVisibility="Visible"
+                                  VerticalScrollBarVisibility="Visible" 
+                                  ScrollViewer.CanContentScroll="True" 
+                                  GridLinesVisibility="All" 
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False" 
+                                  SelectedCellsChanged="SerialPortCandidateDatagrid_SelectedCellsChanged" 
+                                                                      
+                                  >
+                     
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Height" Value="27"/>
+                                    <Setter Property="FontSize" Value="12"/>
+                                    <Setter Property="BorderBrush" Value="#FFD6D6D6"/>
+                                </Style>
+                            </DataGrid.RowStyle>
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Width="112"
+                                                    Header="Port ID"
+                                                    Binding="{Binding Path=PortID, StringFormat=N0}">
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding PortName}" 
+                                                    IsReadOnly="True"
+                                                    Header="Name" 
+                                                    Width="112"   />
+                                <DataGridTextColumn Binding="{Binding BaudRateValue}" 
+                                                    Header="BaudRate" 
+                                                    Width="112"   />
+                                <DataGridTextColumn Binding="{Binding DataReceivedCasenum}"
+                                                    Header="Rec Case" 
+                                                    Width="112"
+                                                    IsReadOnly="True"
+                                                    />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>
