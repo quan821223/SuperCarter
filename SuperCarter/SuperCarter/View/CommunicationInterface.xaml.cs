@@ -29,7 +29,16 @@ namespace SuperCarter.View
             //if (SerialPortCandidateDatagrid.ItemsSource is not null)
             //    CollectionViewSource.GetDefaultView(SerialPortCandidateDatagrid.ItemsSource).Refresh();
             //SelectSerialportIndex = SerialPortCandidateDatagrid.SelectedIndex;
-            (this.DataContext as SuperCarterViewModel).SelectSerialportIndex = SerialPortCandidateDatagrid.SelectedIndex;
+            (this.DataContext as SuperCarterViewModel).serialportmanager.SelectSerialportIndex = SerialPortCandidateDatagrid.SelectedIndex;
+        }
+        private void SavePortsetting_Click(object sender, RoutedEventArgs e)
+        {
+            SerialPortCandidateDatagrid.CommitEdit();
+        }
+
+        private void treeView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+      
         }
     }
 }

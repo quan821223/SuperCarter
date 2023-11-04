@@ -37,7 +37,7 @@ namespace SuperCarter.View.Script
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CollectionViewSource.GetDefaultView(SequenceScript.ItemsSource).Refresh();
+            //CollectionViewSource.GetDefaultView(SequenceScript.ItemsSource).Refresh();
         }
         private void bt_savetestsequence_Click(object sender, RoutedEventArgs e)
         {

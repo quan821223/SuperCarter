@@ -18,9 +18,8 @@
             </Border>
         </DataTemplate>
     </Window.Resources>
-    <Grid>
-
-            <TabControl Grid.Column="1" TabStripPlacement="Top" Margin="1" >
+    <Grid Margin="8">
+        <TabControl Grid.Column="1" TabStripPlacement="Top" Margin="1" >            
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal" Width="80">
@@ -49,93 +48,308 @@
                         <ColumnDefinition Width="1*" />
                         
                     </Grid.ColumnDefinitions>
-                    <TreeView x:Name="treeView" Margin="9" Grid.Column="0" 
-                              ItemsSource="{Binding PortTree}" 
+                    <Grid Grid.Column="0" >
+                        <TreeView x:Name="treeView" Margin="9" 
+                              ItemsSource="{Binding serialportmanager.PortTree}" 
                              
                               dd:DragDrop.IsDragSource="True"
                               dd:DragDrop.IsDropTarget="True"
                               dd:DragDrop.SelectDroppedItems="True"
                               dd:DragDrop.UseDefaultDragAdorner="True"
                               dd:DragDrop.UseDefaultEffectDataTemplate="False" 
-                               VerticalAlignment="Stretch"
+                               VerticalAlignment="Stretch" DataContextChanged="treeView_DataContextChanged"
                               >
-                        <i:Interaction.Triggers>
-                            <!--MouseDoubleClick or SelectedItemChanged-->
-                            <i:EventTrigger EventName="MouseDoubleClick">
-                                <i:InvokeCommandAction Command="{Binding SelectItemChangeCommand}"
+                            <i:Interaction.Triggers>
+                                <!--MouseDoubleClick or SelectedItemChanged-->
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding serialportmanager.SelectItemChangeCommand}"
                                                            CommandParameter="{Binding ElementName=treeView,Path=SelectedItem}" />
 
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <TreeView.ItemContainerStyle>
-                            <Style TargetType="{x:Type TreeViewItem}">
-                                <Setter Property="IsSelected" Value="{Binding IsSelected}" />
-                                <Setter Property="IsExpanded" Value="True"/>
-                            </Style>
-                        </TreeView.ItemContainerStyle>
-                        <TreeView.Resources>
-                            <HierarchicalDataTemplate DataType="{x:Type self:Comporttype}" ItemsSource="{Binding Children}" >
-                                <StackPanel Orientation="Horizontal">
-                                    <Label VerticalAlignment="Center" FontFamily="WingDings" Content="1" FontSize="15"/>
-                                    <TextBlock Text="{Binding FriendlyName}" FontSize="12"/>
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-                            <DataTemplate DataType="{x:Type self:Portdetectedtype}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Label VerticalAlignment="Center" FontFamily="WingDings" Content="7" FontSize="15"/>
-                                    <TextBlock Text="{Binding FullPortName}" FontSize="12"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </TreeView.Resources>
-                    </TreeView>
-
-                    <Grid Grid.Column="1">
-                        <DataGrid x:Name="SerialPortCandidateDatagrid" Margin="13"
-                               
-                                  Grid.Row="1"  
-                                  ItemsSource="{Binding SerialCandidator,  Mode=TwoWay}" 
-                                  HorizontalScrollBarVisibility="Visible"
-                                  VerticalScrollBarVisibility="Visible" 
-                                  ScrollViewer.CanContentScroll="True" 
-                                  GridLinesVisibility="All" 
-                                  AutoGenerateColumns="False"
-                                  CanUserAddRows="False" 
-                                  SelectedCellsChanged="SerialPortCandidateDatagrid_SelectedCellsChanged" 
-                                                                      
-                                  >
-                     
-                            <DataGrid.RowStyle>
-                                <Style TargetType="DataGridRow">
-                                    <Setter Property="Height" Value="27"/>
-                                    <Setter Property="FontSize" Value="12"/>
-                                    <Setter Property="BorderBrush" Value="#FFD6D6D6"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <TreeView.ItemContainerStyle>
+                                <Style TargetType="{x:Type TreeViewItem}">
+                                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                                    <Setter Property="IsExpanded" Value="True"/>
                                 </Style>
-                            </DataGrid.RowStyle>
+                            </TreeView.ItemContainerStyle>
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type self:Portdetectedtype}" ItemsSource="{Binding ChildNode}" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label VerticalAlignment="Center" FontFamily="WingDings" Content="1" FontSize="15"/>
+                                        <Label Content="{Binding FullPortName}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>                            
+                            </TreeView.Resources>
+                          
+                            <!--<TreeView.ItemContainerStyle>
+                                <Style TargetType="{x:Type TreeViewItem}">
+                                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                                    <Setter Property="IsExpanded" Value="True"/>
+                                </Style>
+                            </TreeView.ItemContainerStyle>
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type self:Comporttype}" ItemsSource="{Binding Children}" >
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label VerticalAlignment="Center" FontFamily="WingDings" Content="1" FontSize="15"/>
+                                        <TextBlock Text="{Binding FriendlyName}" FontSize="12"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                                <DataTemplate DataType="{x:Type self:Portdetectedtype}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label VerticalAlignment="Center" FontFamily="WingDings" Content="7" FontSize="15"/>
+                                        <TextBlock Text="{Binding FullPortName}" FontSize="12"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </TreeView.Resources>-->
+                        </TreeView>
+                    </Grid>                  
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="61"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Background="#FFEEF5FD" >
+                            <ToolBarTray DockPanel.Dock="Left" Orientation="Horizontal" 
+                                         ToolBarTray.IsLocked="True" Margin="12 5">
+                                <ToolBar >
+                                    <Button Command="{Binding serialportmanager.ClearPortitems}"
+                                            ToolTip="Delete the selected item" Width="62">
+                                        <StackPanel Orientation="Vertical">
+                                            <materialDesign:PackIcon Grid.Row="0" 
+                                                                         Kind="broom"
+                                                                         Width="25" Height="25"
+                                                                         VerticalAlignment="Stretch" 
+                                                                         Foreground="#FF4D4D4D" 
+                                                                         HorizontalAlignment="Stretch"/>
+                                         
+                                            <AccessText Grid.Row="1" 
+                                                        Text="Clear"
+                                                        Style="{StaticResource AccessTextstyle}"
+                                                                         />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Command="{Binding serialportmanager.DelectedSelectPortitem}"  Width="62"
+                                            ToolTip="Delete the selected item " >
+                                        <StackPanel Orientation="Vertical">
+                                            <materialDesign:PackIcon Grid.Row="0" 
+                                                                         Kind="eraser"
+                                                                         Width="25" Height="25"
+                                                                         VerticalAlignment="Stretch" 
+                                                                         Foreground="#FF4D4D4D" 
+                                                                         HorizontalAlignment="Stretch"/>
+                                      
+                                            <AccessText Grid.Row="1" 
+                                                        Text="Remove"
+                                                        Style="{StaticResource AccessTextstyle}"
+                                                        />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Command="{Binding serialportmanager.SortingPortitem}" Width="62"
+                                            ToolTip="Delete the selected item "
+                                            >
+                                        <StackPanel Orientation="Vertical">
+                                            <materialDesign:PackIcon Grid.Row="0" 
+                                                                         Kind="SortNumericAscending"
+                                                                         Width="25" Height="25"
+                                                                         VerticalAlignment="Stretch" 
+                                                                         Foreground="#FF4D4D4D" 
+                                                                         HorizontalAlignment="Stretch"/>
+                                  
+                                            <AccessText Grid.Row="1" 
+                                                        Text="Sort"
+                                                        Style="{StaticResource AccessTextstyle}"
+                                                                         />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button x:Name="SavePortsetting"  Command="{Binding }" Width="62"
+                                                    ToolTip="Save all setting" Click="SavePortsetting_Click"
+                                                    >
+                                        <StackPanel Orientation="Vertical">
+                                            <materialDesign:PackIcon Grid.Row="0" 
+                                                                         Kind="ContentSaveOutline"
+                                                                         Width="25" Height="25"
+                                                                         VerticalAlignment="Stretch" 
+                                                                         Foreground="#FF4D4D4D" 
+                                                                         HorizontalAlignment="Stretch"/>
+                                            <AccessText Grid.Row="1" 
+                                                        Text="Save"
+                                                        Style="{StaticResource AccessTextstyle}"
+                                                                         />
+                                        </StackPanel>
+                                    </Button>
+                                    <Separator/>
+                                </ToolBar>
+                            </ToolBarTray>
 
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Width="112"
+                        </Grid>
+                        <Grid Grid.Row="1" Background="#FFEEF5FD">
+                            <DataGrid x:Name="SerialPortCandidateDatagrid" Margin="12 5" 
+                                      ItemsSource="{Binding serialportmanager.SerialCandidator,  Mode=TwoWay}" 
+                                      HorizontalScrollBarVisibility="Visible"
+                                      VerticalScrollBarVisibility="Visible" 
+                                      ScrollViewer.CanContentScroll="True" 
+                                      GridLinesVisibility="All" 
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False" 
+                                      SelectedCellsChanged="SerialPortCandidateDatagrid_SelectedCellsChanged" 
+                                      >
+
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Setter Property="Height" Value="27"/>
+                                        <Setter Property="FontSize" Value="12"/>
+                                        <Setter Property="BorderBrush" Value="#FFD6D6D6"/>
+                                    </Style>
+                                </DataGrid.RowStyle>
+
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="112"
                                                     Header="Port ID"
                                                     Binding="{Binding Path=PortID, StringFormat=N0}">
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding PortName}" 
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding PortName}" 
                                                     IsReadOnly="True"
                                                     Header="Name" 
                                                     Width="112"   />
-                                <DataGridTextColumn Binding="{Binding BaudRateValue}" 
+                                    <DataGridTextColumn Binding="{Binding BaudRateValue}" 
                                                     Header="BaudRate" 
                                                     Width="112"   />
-                                <DataGridTextColumn Binding="{Binding DataReceivedCasenum}"
+                                    <DataGridTextColumn Binding="{Binding DataReceivedCasenum}"
                                                     Header="Rec Case" 
                                                     Width="112"
                                                     IsReadOnly="True"
                                                     />
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        
+                 
 
                     </Grid>
                 </Grid>
             </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Width="80">
+                        <materialDesign:PackIcon Kind="DebugStepOut"
+                                                Width="21" Height="21"
+                                                VerticalAlignment="Stretch" 
+                                                Foreground="#FF4D4D4D" 
+                                                HorizontalAlignment="Stretch"
+                                                >
+                            <materialDesign:PackIcon.LayoutTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="0"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </materialDesign:PackIcon.LayoutTransform>
+                        </materialDesign:PackIcon>
+                        <Label Content="debug" Foreground="Black" 
+                               HorizontalAlignment="Center" FontWeight="Bold" Margin="0"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid Margin="13">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width=".35*"  />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" 
+                                                Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}" 
+                                                FontFamily="Consolas" FontSize="14" 
+                                                Margin="5" TextWrapping="Wrap" AcceptsReturn="True"
+                                                VerticalScrollBarVisibility="Visible"
+                                                >
+                        </TextBox>
+                        <Grid Grid.Column="1">
+                            <Grid.Background>
+                                <RadialGradientBrush>
+                                    <GradientStop Color="#FF61B2E1"/>
+                                    <GradientStop Color="#FF0C4667" Offset="1"/>
+                                </RadialGradientBrush>
+                            </Grid.Background>
+                        </Grid>
+                        <Grid Grid.Column="2" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox Grid.Column="0"  
+                                                    Margin="3"
+                                                    MaxHeight="31"
+                                                    DisplayMemberPath="idName"
+                                                    SelectedValuePath="idValue"  
+                                                    FontSize="12" 
+                                                    ItemsSource="{Binding Path = serialPortViewModelBase.PortIDlist}"
+                                                    SelectedValue="{Binding Path = SelectedCom, Mode=TwoWay}">
 
+                                </ComboBox>
+
+
+                                <CheckBox x:Name="HexSendCheckBox"
+                                                    Content="IsHex"
+                                                    Grid.Column="1"                                                       
+                                                    IsChecked="{Binding IsHexSend}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+                            </Grid>
+                            <Grid Grid.Row="1" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="Senddata"
+                                                Grid.Column="0" 
+                                                Content="Send"  
+                                                Margin="2"
+                                                FontSize="16" 
+                                                Command="{Binding SendData}"  
+                                                >
+                                </Button>
+
+                                <Button Content="File"
+                                                Grid.Column="1" 
+                                                FontSize="16" 
+                                                Margin="2"
+                                                Command="{Binding Testwriteevnt}"
+                                                    />
+                            </Grid>
+                            <Grid Grid.Row="2" >
+                                <CheckBox Grid.Column="0"  
+                                          FontSize="14" 
+                                          VerticalAlignment="Center" 
+                                          IsEnabled="False" >自動發送</CheckBox>
+                            </Grid>
+                            <Grid Grid.Row="3" >
+                                <TextBox Grid.Column="1" IsEnabled="False"
+                                         FontSize="16" 
+                                         Text="1231" VerticalAlignment="Bottom"  />
+                            </Grid>
+
+
+
+
+
+
+                        </Grid>
+
+                    </Grid>
+
+
+                </Grid>
+            </TabItem>
         </TabControl>
+        
     </Grid>
 </Window>

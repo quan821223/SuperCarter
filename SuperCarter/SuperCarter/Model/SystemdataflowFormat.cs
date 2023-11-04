@@ -116,8 +116,6 @@ namespace SuperCarter.Model
         public string PortName { get; set; }
         public List<Portdetectedtype> ChildNode { get; set; }
         public int BaudRateValue { get; set; }
-        public string ParityName { get; set; }
-        public Parity ParityValue { get; set; }
         public int DataReceivedCasenum { get; set; }
 
     }

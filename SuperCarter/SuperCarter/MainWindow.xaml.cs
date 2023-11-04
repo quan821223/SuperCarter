@@ -20,6 +20,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SuperCarter.Services;
 using Notification.Wpf;
+using System.Diagnostics;
 
 namespace SuperCarter
 {
@@ -36,9 +37,6 @@ namespace SuperCarter
         public CommunicationInterface communicationInterface { get; set; }
         public MainWindow()
         {
-
-           
-
             InitializeComponent();
 
             SuperCarterVM = new SuperCarterViewModel();
@@ -73,8 +71,6 @@ namespace SuperCarter
 
             this.DataContext = SuperCarterVM;
            
-
-
         }
 
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -152,8 +148,9 @@ namespace SuperCarter
         private void PortSettingMenuItem_Click(object sender, RoutedEventArgs e)
         {
             communicationInterface = new CommunicationInterface();
-            communicationInterface.Show();
             communicationInterface.DataContext = SuperCarterVM;
+            communicationInterface.Show();
+      
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -164,7 +161,24 @@ namespace SuperCarter
                 LogLevel = NLog.LogLevel.Debug,
                 Msg = "Auto_save_candidaters_process..."
             });
-            SuperCarterVM.AutoSaveStatus();
+            SuperCarterVM.serialportmanager.AutoSaveStatus();
+        }
+
+        private void PathofLogItem_Click(object sender, RoutedEventArgs e)
+        {
+            string dataPath = SuperCarterVM.AppPath + @"logs";
+            Process.Start(new ProcessStartInfo { FileName = dataPath, UseShellExecute = true });
+        }
+
+        private void PathofDefaultscript_Click(object sender, RoutedEventArgs e)
+        {
+            string dataPath = SuperCarterVM.AppPath + @"scripts";
+            Process.Start(new ProcessStartInfo { FileName = dataPath, UseShellExecute = true });
+        }
+
+        private void CalcMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("calc.exe");
         }
     }
 }

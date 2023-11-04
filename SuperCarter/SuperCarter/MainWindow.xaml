@@ -450,14 +450,14 @@
                               />
                                 <MenuItem x:Name="PathofDataItem" Header="data資料夾的位置" 
                               />
-                                <MenuItem x:Name="PathofDefaultscriptItem" Header="script資料夾的位置"  
+                                <MenuItem x:Name="PathofDefaultscript" Header="script資料夾的位置" Click="PathofDefaultscript_Click"  
                               />
-                                <MenuItem x:Name="PathofLogItem" Header="log資料夾的位置" 
+                                <MenuItem x:Name="PathofLogItem" Header="log資料夾的位置" Click="PathofLogItem_Click" 
                               />
                             </MenuItem>
                             <MenuItem x:Name="ToolMenuItem" Header="工具(T)"  >
                                 <MenuItem x:Name="CalcMenuItem" Header="計算機(C)" 
-                                  IsCheckable="True" 
+                                  IsCheckable="True" Click="CalcMenuItem_Click" 
                              />
                             </MenuItem>
 
@@ -466,19 +466,19 @@
                         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 1 11 0">
                             <Label Content="Port0:"/>
                             <SpyderToggle:RoundToggleButton Grid.Column="1"
-                                                    IsChecked="{Binding RestartToggleChecked_Port0, Mode=TwoWay}"
+                                                    IsChecked="{Binding serialportmanager.tbt__Port0, Mode=TwoWay}"
                                                     MaxHeight="29"
                                                     Margin="5 4 5 4"                                                                
                                                     HorizontalAlignment="Right" />
                             <Label Content="Port1:"/>
                             <SpyderToggle:RoundToggleButton Grid.Column="1"
-                                                    IsChecked="{Binding RestartToggleChecked_Port1, Mode=TwoWay}"
+                                                    IsChecked="{Binding serialportmanager.tbt__Port1, Mode=TwoWay}"
                                                     MaxHeight="29"
                                                     Margin="5 4 5 4"                                                                 
                                                     HorizontalAlignment="Right" />
                             <Label Content="Port2:"/>
                             <SpyderToggle:RoundToggleButton Grid.Column="1"
-                                                    IsChecked="{Binding RestartToggleChecked_Port2, Mode=TwoWay}"
+                                                    IsChecked="{Binding serialportmanager.tbt__Port2, Mode=TwoWay}"
                                                     MaxHeight="29"
                                                     Margin="5 4 5 4"                                                                 
                                                     HorizontalAlignment="Right" />

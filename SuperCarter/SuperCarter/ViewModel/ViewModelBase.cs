@@ -19,9 +19,10 @@ namespace SuperCarter.ViewModel
 {
     public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
+        public static Dictionary<string, SerialPort> serialPorts;
         public static int selectedserialtest { get; set; }
         public static List<SendorExecuteSendType> SendorExecuteSequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static ObservableCollection<Portdetectedtype> SerialCandidator { get; set; } = new ObservableCollection<Portdetectedtype>();
+       
         public static ObservableCollection<ScriptItemtype> Scriptdatalist { get; set; } = new ObservableCollection<ScriptItemtype>();
 
         public static Logger logger = LogManager.GetCurrentClassLogger();
@@ -128,6 +129,7 @@ namespace SuperCarter.ViewModel
 
         protected ViewModelBase()
         {
+            // 預設生成的檔案位置
             if (Directory.Exists(AppPath + @"\access") == false) Directory.CreateDirectory(AppPath + @"\access");
             if (Directory.Exists(AppPath + @"\util") == false) Directory.CreateDirectory(AppPath + @"\util");
             if (Directory.Exists(AppPath + @"\config") == false) Directory.CreateDirectory(AppPath + @"\config");

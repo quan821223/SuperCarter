@@ -16,9 +16,10 @@ using System.Windows.Media.Imaging;
 namespace SuperCarter.Model
 {
     
-    public class Comporttype : INode
+    public class Comporttype : INode 
     {
         public string FriendlyName { get; set; }
+       
         public ObservableCollection<Portdetectedtype> Children { get; set; } = new ObservableCollection<Portdetectedtype>();
 
     }
@@ -506,12 +507,10 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(blockBscriptpath));
             OnPropertyChanged(nameof(blockCscriptpath));
             OnPropertyChanged(nameof(blockDscriptpath));
-
             OnPropertyChanged(nameof(blockAitemcount));
             OnPropertyChanged(nameof(blockBitemcount));
             OnPropertyChanged(nameof(blockCitemcount));
             OnPropertyChanged(nameof(blockDitemcount));
-
 
             Estimateruntimefullblock = 0;
             OnPropertyChanged(nameof(Estimateruntimefullblock));
