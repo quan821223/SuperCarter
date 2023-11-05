@@ -4,9 +4,931 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SuperCarter.View.Dashboard"
+             xmlns:SpyderToggle="clr-namespace:Spyder.Controls.Toggle;assembly=Spyder.Controls.Toggle" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:xrpb="clr-namespace:XamlRadialProgressBar;assembly=XamlRadialProgressBar"   
+           
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.Resources>
+            <Style TargetType="Label" x:Key="DashboardLabel">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Height" Value="28"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Console"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+        </Grid.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="390"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="390"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Margin="8">
+                    <!--此網格為前端物件的項目-->
+                    <Grid>
+                        <Border  Background="White" CornerRadius="5">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" 
+                                              ShadowDepth = "0" 
+                                              BlurRadius = "3" 
+                                              Opacity = "3" 
+                                              Direction = "0"                                  
+                                              />
+                            </Border.Effect>
+                            <Border.OpacityMask>
+                                <VisualBrush>
+                                    <VisualBrush.Visual>
+                                        <Border Background="Black"
+                                            SnapsToDevicePixels="True"
+                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                            />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Border.OpacityMask>
+                            <Grid  Background="#FFE0E0E0" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" MinHeight="37" MaxHeight="42"/>
+                                    <RowDefinition Height="5*" />
+
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" VerticalAlignment="Bottom" >
+
+                                </Grid>
+                                <Grid Grid.Row="1" Background="White"/>
+                            </Grid>
+
+                        </Border>
+                    </Grid>
+                    <!--此網格為後端物件的項目-->
+                    <Grid >
+                        <Grid.Resources>
+                            <Style x:Key="TextBlockstyle" TargetType="TextBlock">
+                                <Setter Property="FontFamily" Value="Cascadia Mono PL SemiBold"/>
+                                <Setter Property="Margin" Value="0 0 0 0" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"  MinHeight="37" MaxHeight="42"/>
+                            <RowDefinition Height="5*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" VerticalAlignment="Center" >
+                            <TextBlock VerticalAlignment="Center"
+                                           Margin="13 0 0 0"  
+                                           FontFamily="Console" 
+                                           FontSize="14"
+                                           >Setting</TextBlock>
+
+                        </Grid>
+                        <ScrollViewer Name="ScheduleParametersSet" Grid.Row="1"
+                                          VerticalScrollBarVisibility="Visible" 
+                                          Margin="0 0" Height="320"
+                                             >
+                            <StackPanel Grid.Row="1" Margin="6">
+
+                                <ListBox    ScrollViewer.CanContentScroll="True"   >
+                                    <ListBox.Resources>
+                                        <Style TargetType="{x:Type Expander}">
+                                            <Setter Property="IsExpanded"
+                                                    Value="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"/>
+                                        </Style>
+                                    </ListBox.Resources>
+                                    <ListBox.Template>
+                                        <ControlTemplate TargetType="{x:Type ListBox}">
+                                            <ItemsPresenter/>
+                                        </ControlTemplate>
+                                    </ListBox.Template>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ListBoxItem}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                        <ContentPresenter Content="{TemplateBinding Content}"/>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <!--目前有關運行的相關功能
+                                            ================================================================
+                                            1. T0 資料的蒐集與報告的產出
+                                        
+                                            2. 發送端的腳本輸出
+                                                
+                                        -->
+                                    <Border  Background="White" CornerRadius="6" Margin="6">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="Black" 
+			                                                ShadowDepth = "0" 
+			                                                BlurRadius = "3" 
+			                                                Opacity = "1" 
+			                                                Direction = "0"                                 
+			                                                      />
+                                        </Border.Effect>
+                                        <Border.OpacityMask>
+                                            <VisualBrush>
+                                                <VisualBrush.Visual>
+                                                    <Border Background="Black"
+					                                            SnapsToDevicePixels="True"
+					                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+					                                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+					                                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+					                                            />
+                                                </VisualBrush.Visual>
+                                            </VisualBrush>
+                                        </Border.OpacityMask>
+                                        <WrapPanel Orientation="Horizontal">
+
+                                            <SpyderToggle:RoundToggleButton 
+                                                                IsChecked="{Binding IsEnableExecuteSDMchecklists, Mode=TwoWay}"
+                                                                Command="{Binding ExecuteSDMchecklistScript}"
+                                                                MaxHeight="29"
+                                                                Margin="6"
+                                                                HorizontalAlignment="Right"
+                                                                 />
+                                            <TextBlock Text="快速SDM簡易狀態資料輸出"                                                      
+                                                               Margin="12 0 12 0"
+                                                           Style="{StaticResource TextBlockstyle}"                                                         
+                                                            />
+
+                                        </WrapPanel>
+                                    </Border>
+
+                                    <Expander Background="#ffd32a"  IsExpanded="False" Margin="6">
+                                        <Expander.Header>
+                                            <BulletDecorator>
+                                                <BulletDecorator.Bullet>
+                                                    <materialDesign:PackIcon Grid.Row="0" 
+                                                                                Kind="TuneVerticalVariant"
+                                                                                Width="22" Height="42"
+                                                                                VerticalAlignment="Stretch" 
+                                                                                Foreground="Black" 
+                                                                                HorizontalAlignment="Stretch"/>
+                                                </BulletDecorator.Bullet>
+                                                <TextBlock Margin="10,0,0,0" Text="運行設定 - 快速SDM簡易狀態資料輸出" 
+                                                           FontFamily="Console" 
+                                                           FontSize="14"
+                                                           VerticalAlignment="Center" 
+                                                           HorizontalAlignment="Stretch"
+                                                           Foreground="Black"  />
+                                            </BulletDecorator>
+                                        </Expander.Header>
+                                        <WrapPanel  Background="White"  >
+                                            <StackPanel Orientation="Vertical" Margin ="0 0 0 0" Width="320">
+                                                <Label  Content="選取欲關注項的運行腳本 : "   Margin="0" HorizontalAlignment="Left"/>
+                                                <StackPanel  Orientation="Vertical" Margin ="0">
+
+                                                    <TextBox x:Name="SDMChecklistscriptXMLPath"
+                                                             FontSize="14"                                                                 
+                                                             Text="{Binding SDMChecklistscriptXMLPath}"
+                                                             IsEnabled="{Binding IsUnlockScriptSetting}"
+                                                             FontFamily="Champagne &amp;amp; Limousines"
+                                                             TextChanged="SDMChecklistscriptXMLPath_TextChanged"
+                                                                 />
+
+                                                    <Button Width="300" Height="33" 
+                                                            Command="{Binding LoadSDMchecklistScript}"  
+                                                            IsEnabled="{Binding IsUnlockScriptSetting}"
+                                                            ToolTip="View the path location" 
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left" 
+                                                            Margin="3 3 3 0">
+
+                                                        <Button.Style>
+
+                                                            <Style TargetType="{x:Type Button}">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                                            <ContentControl>
+                                                                                <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.5" Background="{TemplateBinding Background}" CornerRadius="4">
+                                                                                    <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
+                                                                                        <materialDesign:PackIcon Kind="OpenInNew"
+                                                                                                                        Width="23" Height="23"
+                                                                                                                        VerticalAlignment="Stretch" 
+                                                                                                                        Foreground="#FF4D4D4D" 
+                                                                                                                        HorizontalAlignment="Stretch"/>
+                                                                                        <Label Content="選擇" VerticalAlignment="Center" Foreground="Black"/>
+                                                                                    </StackPanel>
+                                                                                </Border>
+                                                                            </ContentControl>
+                                                                            <ControlTemplate.Triggers>
+                                                                                <Trigger Property="Button.IsPressed" Value="True" >
+                                                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                                                </Trigger>
+                                                                            </ControlTemplate.Triggers>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
+                                                </StackPanel>
+
+                                            </StackPanel>
+                                        </WrapPanel>
+                                    </Expander>
+                                    <Expander Background="MediumOrchid"  IsExpanded="True" Margin="5">
+                                        <Expander.Header>
+                                            <BulletDecorator>
+                                                <BulletDecorator.Bullet>
+                                                    <materialDesign:PackIcon Grid.Row="0" 
+                                                                                Kind="TuneVerticalVariant"
+                                                                                Width="22" Height="42"
+                                                                                VerticalAlignment="Stretch" 
+                                                                                Foreground="Black" 
+                                                                                HorizontalAlignment="Stretch"/>
+                                                </BulletDecorator.Bullet>
+                                                <TextBlock Margin="10,0,0,0" Text="運行設定 - 執行腳本" 
+                                                           FontFamily="Console" 
+                                                           FontSize="14"
+                                                           VerticalAlignment="Center" 
+                                                           HorizontalAlignment="Stretch"
+                                                           Foreground="Black"  />
+                                            </BulletDecorator>
+                                        </Expander.Header>
+                                        <WrapPanel  Background="White"  >
+                                            <StackPanel Orientation="Vertical" Margin ="0 0 0 0" Width="330">
+                                                <Label  Content="選取欲執行腳本的位置 : "   Margin="12 0 12 0" HorizontalAlignment="Left"/>
+                                                <StackPanel  Orientation="Vertical" Margin ="0">
+
+
+                                                    <StackPanel  Orientation="Horizontal" Margin ="0">
+                                                        <TextBox x:Name="ScheduleScrollingScriptPath"
+                                                                 FontSize="14"
+                                                                 MinWidth="100"
+                                                                 Text="{Binding ScheduleScrollingScriptPath}"
+                                                                 IsEnabled="{Binding IsUnlockScriptSetting}"
+                                                                 FontFamily="Champagne &amp;amp; Limousines"
+                                                                 TextChanged="ScheduleScrollingScriptPath_TextChanged"/>
+
+                                                        <Button Command="{Binding initialStateConfirm.testrun}" Width="200" Content="test"/>
+                                                    </StackPanel>
+                                                    <Button Width="310" Height="33" 
+                                                                Command="{Binding LoadScheduleScrollingScript}"  
+                                                                IsEnabled="{Binding IsUnlockScriptSetting}"
+                                                                ToolTip="View the path location" 
+                                                                VerticalAlignment="Center"
+                                                                HorizontalAlignment="Left" 
+                                                                Margin="3 3 3 0">
+
+                                                        <Button.Style>
+
+                                                            <Style TargetType="{x:Type Button}">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                                            <ContentControl>
+                                                                                <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.5" Background="{TemplateBinding Background}" CornerRadius="4">
+                                                                                    <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
+                                                                                        <materialDesign:PackIcon Kind="OpenInNew"
+                                                                                                                        Width="23" Height="23"
+                                                                                                                        VerticalAlignment="Stretch" 
+                                                                                                                        Foreground="#FF4D4D4D" 
+                                                                                                                        HorizontalAlignment="Stretch"/>
+                                                                                        <Label Content="選擇" VerticalAlignment="Center" Foreground="Black"/>
+                                                                                    </StackPanel>
+                                                                                </Border>
+                                                                            </ContentControl>
+                                                                            <ControlTemplate.Triggers>
+                                                                                <Trigger Property="Button.IsPressed" Value="True" >
+                                                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                                                </Trigger>
+                                                                            </ControlTemplate.Triggers>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
+
+
+                                                </StackPanel>
+
+                                            </StackPanel>
+                                        </WrapPanel>
+                                    </Expander>
+                                    <Border  Background="White" CornerRadius="6" Margin="6">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="Black" 
+			                                                ShadowDepth = "0" 
+			                                                BlurRadius = "3" 
+			                                                Opacity = "1" 
+			                                                Direction = "0"                                 
+			                                                      />
+                                        </Border.Effect>
+                                        <Border.OpacityMask>
+                                            <VisualBrush>
+                                                <VisualBrush.Visual>
+                                                    <Border Background="Black"
+					                                            SnapsToDevicePixels="True"
+					                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+					                                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+					                                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+					                                            />
+                                                </VisualBrush.Visual>
+                                            </VisualBrush>
+                                        </Border.OpacityMask>
+                                        <WrapPanel Orientation="Horizontal">
+
+                                            <SpyderToggle:RoundToggleButton IsChecked="{Binding IsEnableExecuteScheduleScrolling, Mode=TwoWay}"
+                                                                                Command="{Binding ExecuteScriptScroling}"
+                                                                                MaxHeight="29"
+                                                                                Margin="6"
+                                                                                HorizontalAlignment="Right"
+                                                                                 />
+                                            <TextBlock Text="執行腳本"                                                        
+                                                           Margin="12 0 12 0"
+                                                           Style="{StaticResource TextBlockstyle}"                                                         
+                                                           />
+
+                                        </WrapPanel>
+                                    </Border>
+                                </ListBox>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="1" Margin="7" MinWidth="300" MaxWidth="400">
+                    <!--此網格為前端物件的項目-->
+                    <Grid>
+                        <Border  Background="White" CornerRadius="5">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" 
+                                                      ShadowDepth = "0" 
+                                                      BlurRadius = "3" 
+                                                      Opacity = "3" 
+                                                      Direction = "0"                                  
+                                                      />
+                            </Border.Effect>
+                            <Border.OpacityMask>
+                                <VisualBrush>
+                                    <VisualBrush.Visual>
+                                        <Border Background="Black"
+                                                    SnapsToDevicePixels="True"
+                                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                    />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Border.OpacityMask>
+                            <Grid  Background="#FFE0E0E0" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="5*" />
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="1" VerticalAlignment="Bottom" >
+
+                                </Grid>
+                                <Grid Grid.Row="0" Background="White"/>
+                            </Grid>
+
+                        </Border>
+                    </Grid>
+                    <!--此網格為後端物件的項目-->
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5*" />
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" VerticalAlignment="Center" >
+                            <TextBlock VerticalAlignment="Center"
+                                           Margin="13 0 0 0"  
+                                           FontFamily="Console" 
+                                           FontSize="14"
+                                           >Super Carrier Board</TextBlock>
+                        </Grid>
+                        <Grid Grid.Row="0" Margin="0 0 0 7">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" >
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+                                    <xrpb:RadialProgressBar Value="{Binding Customscript.PercentLoopValue}"	  VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                            Margin="0"
+                                            ArcRotationDegree="270" ArcDirection="Clockwise"
+                                            Foreground="#FF005087" InnerBackgroundBrush="White"
+                                            ArcWidth="20"
+                                            Width="200" Height="200"
+                                            />
+                                    <!--<xrpb:RadialProgressBar Value="{Binding PercentLoopValue, UpdateSourceTrigger=PropertyChanged}"	  VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                Margin="0"
+                                        ArcRotationDegree="270" ArcDirection="Clockwise"
+                                        Foreground="#FF005087" InnerBackgroundBrush="White"
+                                        ArcWidth="20"
+                                        Width="170" Height="170"
+                                        />-->
+                                    <!--<xrpb:RadialProgressBar Value="82" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                Margin="0"
+                                        ArcRotationDegree="270" ArcDirection="Clockwise"
+                                        Foreground="#FF005087" InnerBackgroundBrush="White"
+                                        ArcWidth="20"
+                                        Width="170" Height="170"
+                                        />-->
+
+                                    <StackPanel VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+
+                                        <!--<TextBlock Text="82%" 
+                               FontFamily="Lucida Console"
+                               FontSize="27"
+                               />-->
+
+                                        <TextBlock Text="{Binding Customscript.strLoopValue}" VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontFamily="Lucida Console"
+                                   FontSize="36"/>
+
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Column="1" HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+
+                                        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 0" Height="70">
+                                            <TextBlock Text="loop:" Grid.Row="0"
+                                                               Margin="0"
+                                                               VerticalAlignment="Bottom" 
+                                                               HorizontalAlignment="Center"
+                                                               FontFamily="Lucida Console"
+                                                               FontSize="16"/>
+                                        </Grid>
+
+                                        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 0" Height="60">
+                                            <WrapPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Customscript.CurLoopValue}"
+                                                                    VerticalAlignment="Center"
+                                                                    HorizontalAlignment="Center"
+                                                                    FontFamily="Lucida Console"  
+                                                                    FontSize="14"/>
+                                                <Separator/>
+                                                <TextBlock Text="{Binding Customscript.Fullloop , Mode=TwoWay}" 
+                                                                    VerticalAlignment="Center"
+                                                                    HorizontalAlignment="Center"
+                                                                    FontFamily="Lucida Console" 
+                                                                    FontSize="14"/>
+                                            </WrapPanel>
+                                        </Grid>
+
+                                        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 0" Height="60">
+                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                                <TextBlock Text="phase:" Grid.Row="0"
+                                                               Margin="0"
+                                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                                                               FontFamily="Lucida Console"
+                                                               FontSize="14"/>
+                                                <Label Content="{Binding Customscript.Curphase}" Style ="{StaticResource DashboardLabel}"/>
+
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 0" Height="60">
+                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                                <TextBlock Text="sub-phase:" Grid.Row="0"
+                                                               Margin="0"
+                                                               VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                                                               FontFamily="Lucida Console"
+                                                               FontSize="14"/>
+                                                <Label Content="{Binding Customscript.subloop}" Style ="{StaticResource DashboardLabel}"/>
+
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1" Margin="7">
+                <!--此網格為前端物件的項目-->
+                <Grid>
+                    <Border  Background="White" CornerRadius="5">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" 
+                                                                ShadowDepth = "0" 
+                                                                BlurRadius = "3" 
+                                                                Opacity = "3" 
+                                                                Direction = "0"                                  
+                                                                />
+                        </Border.Effect>
+                        <Border.OpacityMask>
+                            <VisualBrush>
+                                <VisualBrush.Visual>
+                                    <Border Background="Black"
+                                                                SnapsToDevicePixels="True"
+                                                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Border.OpacityMask>
+                        <Grid  Background="#FFE0E0E0" >
+                            <Grid.RowDefinitions>
+
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="5*" />
+
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" VerticalAlignment="Bottom" >
+
+                            </Grid>
+                            <Grid Grid.Row="1" Background="White" />
+                        </Grid>
+
+                    </Border>
+                </Grid>
+                <!--此網格為後端物件的項目-->
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="5*" />
+
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" VerticalAlignment="Center" >
+                        <TextBlock VerticalAlignment="Center"
+                                                   Margin="13 0 0 0"  
+                                                   FontFamily="Console" 
+                                                   FontSize="14"
+                                                   >General</TextBlock>
+
+                    </Grid>
+                    <WrapPanel Grid.Row="1" Margin="2 3 3 3" >
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ListBox >
+                                <ListBox.Resources>
+                                    <Style TargetType="{x:Type Expander}">
+                                        <Setter Property="IsExpanded"
+                                                                Value="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"/>
+                                    </Style>
+                                </ListBox.Resources>
+                                <ListBox.Template>
+                                    <ControlTemplate TargetType="{x:Type ListBox}">
+                                        <ItemsPresenter/>
+                                    </ControlTemplate>
+                                </ListBox.Template>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                    <ContentPresenter Content="{TemplateBinding Content}"/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <Grid Margin="3">
+                                    <!--此網格為前端物件的項目-->
+                                    <Grid>
+                                        <Border  Background="White" CornerRadius="3">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="Black" 
+                                                      ShadowDepth = "0" 
+                                                      BlurRadius = "3" 
+                                                      Opacity = "3" 
+                                                      Direction = "0"                                  
+                                                      />
+                                            </Border.Effect>
+                                            <Border.OpacityMask>
+                                                <VisualBrush>
+                                                    <VisualBrush.Visual>
+                                                        <Border Background="Black"
+                                        SnapsToDevicePixels="True"
+                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                        />
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Border.OpacityMask>
+                                            <Grid />
+                                        </Border>
+                                    </Grid>
+                                    <!--此網格為後端物件的項目-->
+
+                                    <Grid >
+                                        <Expander Background="#FFFFECC3" IsExpanded="True" Margin="0">
+                                            <Expander.Header>
+                                                <BulletDecorator>
+                                                    <BulletDecorator.Bullet>
+                                                        <materialDesign:PackIcon Grid.Row="0" 
+                                                                   Kind="Monitor"
+                                                                Width="22" Height="26"
+                                                                VerticalAlignment="Stretch" 
+                                                                Foreground="#FF4D4D4D" 
+                                                                HorizontalAlignment="Stretch"/>
+                                                    </BulletDecorator.Bullet>
+                                                    <TextBlock Margin="10,0,0,0" Text="Port 0 - TX 1" 
+                                                   FontFamily="Console" 
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center" 
+                                                   HorizontalAlignment="Stretch"
+                                                   Foreground="Black"  />
+                                                </BulletDecorator>
+                                            </Expander.Header>
+                                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="White">
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <!--<Label Content="{Binding Customscript.Port0SDM1SWversion}" Style="{StaticResource DashboardLabel}"/>-->
+                                                    <TextBlock Text="{Binding initialStateConfirm.Port0SDM1HWversion}" />
+
+                                                    <Label Content="SW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                   
+                                                    <Label Content="{Binding Customscript.Port0SDM1HWversion, Mode=TwoWay}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="HW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1DTC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="DTC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1Voltage}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Voltage" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1normalCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Norm_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1sleepCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Sleep_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1Backlighbrightness}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Brightness" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1PCBTemp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="PCB Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1LED1Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="LED1 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1LED2Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="LED2 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1T_chamber}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="T_chamber" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1ADC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="ADC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM1Touchresponse}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Touch" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </WrapPanel>
+                                        </Expander>
+                                    </Grid>
+                                </Grid>
+                                <Grid Margin="3">
+                                    <!--此網格為前端物件的項目-->
+                                    <Grid>
+                                        <Border  Background="White" CornerRadius="3">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="Black" 
+                                                  ShadowDepth = "0" 
+                                                  BlurRadius = "3" 
+                                                  Opacity = "3" 
+                                                  Direction = "0"                                  
+                                                  />
+                                            </Border.Effect>
+                                            <Border.OpacityMask>
+                                                <VisualBrush>
+                                                    <VisualBrush.Visual>
+                                                        <Border Background="Black"
+                                        SnapsToDevicePixels="True"
+                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                        />
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Border.OpacityMask>
+                                            <Grid />
+                                        </Border>
+                                    </Grid>
+                                    <!--此網格為後端物件的項目-->
+                                    <Grid >
+                                        <Expander Background="#FFAEBAF1" IsExpanded="True" Margin="0" >
+                                            <Expander.Header>
+                                                <BulletDecorator>
+                                                    <BulletDecorator.Bullet>
+                                                        <materialDesign:PackIcon Grid.Row="0" 
+                                                                  Kind="Monitor"
+                                                                Width="22" Height="26"
+                                                                VerticalAlignment="Stretch" 
+                                                                Foreground="#FF4D4D4D" 
+                                                                HorizontalAlignment="Stretch"/>
+                                                    </BulletDecorator.Bullet>
+                                                    <TextBlock Margin="10,0,0,0" Text="Port 0 - TX 2" 
+                                                   FontFamily="Console" 
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center" 
+                                                   HorizontalAlignment="Stretch"
+                                                   Foreground="Black"  />
+                                                </BulletDecorator>
+                                            </Expander.Header>
+                                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="White">
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2SWversion}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="SW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2HWversion}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="HW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2DTC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="DTC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2Voltage}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Voltage" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2normalCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Norm_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2sleepCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Sleep_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2Backlighbrightness}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Brightness" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2PCBTemp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="PCB Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2LED1Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="LED1 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2LED2Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="LED2 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2T_chamber}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="T_chamber" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2ADC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="ADC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM2Touchresponse}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Touch" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </WrapPanel>
+                                        </Expander>
+                                    </Grid>
+                                </Grid>
+                                <Grid Margin="3">
+                                    <!--此網格為前端物件的項目-->
+                                    <Grid>
+                                        <Border  Background="White" CornerRadius="3">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="Black" 
+                                                  ShadowDepth = "0" 
+                                                  BlurRadius = "3" 
+                                                  Opacity = "3" 
+                                                  Direction = "0"                                  
+                                                  />
+                                            </Border.Effect>
+                                            <Border.OpacityMask>
+                                                <VisualBrush>
+                                                    <VisualBrush.Visual>
+                                                        <Border Background="Black"
+                                        SnapsToDevicePixels="True"
+                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                        />
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Border.OpacityMask>
+                                            <Grid />
+                                        </Border>
+                                    </Grid>
+                                    <!--此網格為後端物件的項目-->
+                                    <Grid >
+                                        <Expander Background="#FFFFC5B8" IsExpanded="True" Margin="0">
+                                            <Expander.Header>
+                                                <BulletDecorator>
+                                                    <BulletDecorator.Bullet>
+                                                        <materialDesign:PackIcon Grid.Row="0" 
+                                                                                                Kind="Monitor"
+                                                                                                Width="22" Height="26"
+                                                                                                VerticalAlignment="Stretch" 
+                                                                                                Foreground="#FF4D4D4D" 
+                                                                                                HorizontalAlignment="Stretch"/>
+                                                    </BulletDecorator.Bullet>
+                                                    <TextBlock Margin="10,0,0,0" Text="Port 0 - TX 3" 
+                                                                               FontFamily="Console" 
+                                                                               FontSize="14"
+                                                                               VerticalAlignment="Center" 
+                                                                               HorizontalAlignment="Stretch"
+                                                                               Foreground="Black"  />
+                                                </BulletDecorator>
+                                            </Expander.Header>
+                                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="White">
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3SWversion}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="SW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3HWversion}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="HW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3DTC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="DTC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3Voltage}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Voltage" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3normalCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Norm_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3sleepCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Sleep_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3Backlighbrightness}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Brightness" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3PCBTemp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="PCB Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3LED1Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="LED1 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3LED2Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="LED2 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3T_chamber}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="T_chamber" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3ADC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="ADC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                                <StackPanel Width="100" Orientation="Vertical">
+                                                    <Label Content="{Binding Customscript.Port0SDM3Touchresponse}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="Touch" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </WrapPanel>
+                                        </Expander>
+                                    </Grid>
+                                </Grid>
+                            </ListBox>
+                        </ScrollViewer>
+
+                    </WrapPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+
+
+
+
     </Grid>
 </UserControl>

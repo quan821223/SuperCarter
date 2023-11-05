@@ -103,25 +103,6 @@
                                                         />
                         </StackPanel>
                     </Button>
-                    <!--<Button Command="{Binding }" 
-                            x:Name="bt_OutputTextwindow"
-                            Width="110"
-                            ToolTip="Open OutputText window" Click="bt_OutputTextwindow_Click"
-                                            >
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Grid.Row="0" 
-                                                    Kind="ApplicationOutline"
-                                                    Width="20" Height="20"
-                                                    VerticalAlignment="Stretch" 
-                                                    Foreground="#FF4D4D4D" 
-                                                    HorizontalAlignment="Stretch"/>
-                            <AccessText Grid.Row="1" 
-                                        VerticalAlignment="Center"
-                                        Text="OutputText"
-                                        Style="{StaticResource AccessTextstyle}"
-                                        />
-                        </StackPanel>
-                    </Button>-->
 
                     <Separator/>
                 </ToolBar>
@@ -152,14 +133,14 @@
                                                             <TextBlock Text="Squence" Foreground="Blue" />
                                                         </StackPanel>
                                                     </TabItem.Header>
-                                                    <TreeView x:Name="SequenceItemtreeView" 
-                                                                        dd:DragDrop.IsDragSource="True"
+                                                    <!--dd:DragDrop.IsDragSource="True"
                                                                         dd:DragDrop.IsDropTarget="True"
-                                                                        dd:DragDrop.SelectDroppedItems="True"
-                                                                        dd:DragDrop.UseDefaultDragAdorner="True"
-                                                                        dd:DragDrop.UseDefaultEffectDataTemplate="True"
+                                                                      dd:DragDrop.ShowAlwaysDropTargetAdorner="True"
+                                                                      dd:DragDrop.UseDefaultEffectDataTemplate="True"-->
+                                                    <TreeView x:Name="SequenceItemtreeView" 
+                                                                  
                                                                         Margin="0"
-                                                                        ItemsSource="{Binding ScriptToolboxTree}" 
+                                                                        ItemsSource="{Binding scriptEditor.ScriptToolboxTree}" 
                                                                       >
                                                         <i:Interaction.Triggers>
                                                             <!--MouseDoubleClick or SelectedItemChanged-->
@@ -205,7 +186,7 @@
 
                                                 </TabItem>
                                                 <!--MacroSequence-->
-                                                <TabItem>
+                                                <TabItem IsEnabled="False">
                                                     <TabItem.Header>
                                                         <StackPanel Orientation="Horizontal">
                                                             
@@ -215,9 +196,7 @@
                                                     <TreeView x:Name="MacroSequenceItemtreeView" 
                                                                 dd:DragDrop.IsDragSource="True"
                                                                 dd:DragDrop.IsDropTarget="True"
-                                                                dd:DragDrop.SelectDroppedItems="True"
-                                                                dd:DragDrop.UseDefaultDragAdorner="True"
-                                                                dd:DragDrop.UseDefaultEffectDataTemplate="True"
+                                                                dd:DragDrop.DragDirectlySelectedOnly="True"
                                                                 Margin="0"
                                                                 ItemsSource="{Binding MacroScriptToolboxTree}" 
                                                               >
@@ -307,17 +286,18 @@
                                             <Grid Grid.Column="1" >
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="5"/>
-                                                    <RowDefinition Height="69"/>
+                                                    <RowDefinition Height="73"/>
                                                     <RowDefinition Height="1*"/>
                                                 </Grid.RowDefinitions>
                                                 <TextBlock Grid.Row="0" Background="SkyBlue"/>
                                                 <Grid Grid.Row="1" >
                                                     <ScrollViewer Name="scrollViewer"   HorizontalScrollBarVisibility="Auto">
-                                                        <ToolBarTray DockPanel.Dock="Left"                                 
+                                                        <ToolBarTray DockPanel.Dock="Left"       
+                                                                     MinWidth="100"
                                                                  Orientation="Horizontal" 
                                                                  ToolBarTray.IsLocked="True" >
                                                             <ToolBar >
-                                                                <Button Command="{Binding serialPortViewModelBase.ScriptToolBar_Clear}"
+                                                                <Button Command="{Binding scriptEditor.ScriptToolBar_Clear}"
                                                                     Width="68"                                   
                                                                     ToolTip="清除"
                                                                     >
@@ -352,7 +332,7 @@
                                                                     </StackPanel>
                                                                 </Button>
                                                                 <Separator/>
-                                                                <Button Command="{Binding serialPortViewModelBase.ScriptToolBar_AddScriptitem}"                                   
+                                                                <Button Command="{Binding scriptEditor.ScriptToolBar_AddScriptitem}"                                   
                                                                     Width="68" ToolTip="新增空白欄位"
                                                                     >
                                                                     <StackPanel Orientation="Vertical">
@@ -368,7 +348,7 @@
                                                                                 />
                                                                     </StackPanel>
                                                                 </Button>
-                                                                <Button Command="{Binding serialPortViewModelBase.ScriptToolBar_RemoveScriptitem}"
+                                                                <Button Command="{Binding scriptEditor.ScriptToolBar_RemoveScriptitem}"
                                                                     Width="68"
                                                                     >
                                                                     <StackPanel Orientation="Vertical">
@@ -386,7 +366,7 @@
                                                                 </Button>
 
                                                                 <Separator/>
-                                                                <Button Command="{Binding serialPortViewModelBase.SciptToolBar_Openfolder}"
+                                                                <Button Command="{Binding scriptEditor.SciptToolBar_Openfolder}"
                                                                     Width="68" Click="Button_Click" ToolTip="載入腳本">
                                                                     <StackPanel Orientation="Vertical">
                                                                         <materialDesign:PackIcon Grid.Row="0" 
@@ -403,7 +383,7 @@
                                                                 </Button>
                                                                 <WrapPanel Orientation="Vertical">
                                                                     <Label Content="Iterations"/>
-                                                                    <TextBox Text="{Binding serialPortViewModelBase.script_itervalue}"/>
+                                                                    <TextBox Text="{Binding scriptEditor.script_itervalue}"/>
                                                                 </WrapPanel>
                                                                 <Button x:Name="ScriptToolBar_SortScriptitem" Command="{Binding }"
                                                                     Width="68" ToolTip="若對文件有任何異動建議先行刷新在另將文件儲存"
@@ -421,7 +401,7 @@
                                                                                 />
                                                                     </StackPanel>
                                                                 </Button>
-                                                                <Button Command="{Binding serialPortViewModelBase.SciptToolBar_Saveas}"
+                                                                <Button Command="{Binding scriptEditor.SciptToolBar_Saveas}"
                                                                     Width="68" x:Name="bt_savetestsequence" Click="bt_savetestsequence_Click">
                                                                     <StackPanel Orientation="Vertical">
                                                                         <materialDesign:PackIcon Grid.Row="0" 
@@ -468,8 +448,7 @@
                                                               dd:DragDrop.DropScrollingMode="VerticalOnly"
                                                               dd:DragDrop.IsDragSource="True"
                                                               dd:DragDrop.IsDropTarget="True"
-                                                              dd:DragDrop.ShowAlwaysDropTargetAdorner="True"
-                                                              dd:DragDrop.UseDefaultEffectDataTemplate="True"
+                                                              dd:DragDrop.DragDirectlySelectedOnly="True"
                                                               CanUserAddRows="False"
                                                               AutoGenerateColumns="False" 
                                                               ItemsSource="{Binding Scriptdatalist}" 
@@ -516,6 +495,7 @@
                                                              HorizontalAlignment="Stretch" VerticalAlignment="Bottom" TextChanged="Textscriptpath_TextChanged" Foreground="#FFABA8A8"
                                                                  />
                                                 </Grid>
+
 
                                             </Grid>
                                             <!--<RichTextBox></RichTextBox>-->

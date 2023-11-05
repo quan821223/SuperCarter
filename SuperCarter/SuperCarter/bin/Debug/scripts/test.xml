@@ -1,0 +1,6 @@
+<TestSuite>
+  <Prerequisites />
+  <TestSequence TotalTime="200" IterValue="1">
+    <Sequence ID="1" PortNum="all" Nodename="HWversion" MSGname="HWversion" Sequence="FA 52 01 00 01" Delaytime="200" RecSequence="" HashCodevalue="" Loop="1" />
+  </TestSequence>
+</TestSuite>

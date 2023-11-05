@@ -24,5 +24,12 @@ namespace SuperCarter.View.Dashboard
         {
             InitializeComponent();
         }
+        private void CurrentBlockscriptfile_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // that is to move caret to end of textbox.
+            CurrentBlockscriptfile.SelectionLength = 0;
+            CurrentBlockscriptfile.Select(CurrentBlockscriptfile.Text.Length, 0);
+            Keyboard.Focus(CurrentBlockscriptfile);
+        }
     }
 }

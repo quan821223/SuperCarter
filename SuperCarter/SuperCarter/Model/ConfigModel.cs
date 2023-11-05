@@ -302,7 +302,7 @@ namespace SuperCarter.Model
             }
         }
 
-        public void GetScriptXMLTestSuite(ScriptEditor _ScriptEditor)
+        public void GetScriptXMLTestSuite(CTSScriptEditor _ScriptEditor)
         {
             try
             {
@@ -398,7 +398,7 @@ namespace SuperCarter.Model
             }
 
         }
-        public void evt_SaveScriptTestSuitefile(string SavePath, ScriptEditor _ScriptEditor)
+        public void evt_SaveScriptTestSuitefile(string SavePath, CTSScriptEditor _ScriptEditor)
         {
             ScriptionXML = new XmlDocument();
             ScriptionXML.LoadXml("<TestSuites></TestSuites>");

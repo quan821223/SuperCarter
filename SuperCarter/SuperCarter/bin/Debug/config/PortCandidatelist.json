@@ -1,6 +1,6 @@
 [
   {
-    "PortID": 0,
+    "PortID": 2,
     "PortName": "COM10",
     "BaudRateValue": 115200,
     "Reccase": 0

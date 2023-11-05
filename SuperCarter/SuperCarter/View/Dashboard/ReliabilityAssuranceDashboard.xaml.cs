@@ -24,5 +24,20 @@ namespace SuperCarter.View.Dashboard
         {
             InitializeComponent();
         }
+        private void SDMChecklistscriptXMLPath_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // that is to move caret to end of textbox.
+            SDMChecklistscriptXMLPath.SelectionLength = 0;
+            SDMChecklistscriptXMLPath.Select(SDMChecklistscriptXMLPath.Text.Length, 0);
+            Keyboard.Focus(SDMChecklistscriptXMLPath);
+        }
+        private void ScheduleScrollingScriptPath_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // that is to move caret to end of textbox.
+            ScheduleScrollingScriptPath.SelectionLength = 0;
+            ScheduleScrollingScriptPath.Select(ScheduleScrollingScriptPath.Text.Length, 0);
+            Keyboard.Focus(ScheduleScrollingScriptPath);
+        }
     }
+
 }

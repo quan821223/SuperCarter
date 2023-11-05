@@ -27,28 +27,29 @@ namespace SuperCarter.ViewModel
         public int IntrospectIntervalTimer { get; set; } = 3000;
         public SerialPortManager()
         {
-            serialPorts = new Dictionary<string, SerialPort>();
+            try
+            {
 
-            PortTree = new ObservableCollection<Portdetectedtype>(ConfigModel.Instance.GetComPorts());
-            //PortTree.Add(new Comporttype
-            //{
+                serialPorts = new Dictionary<string, SerialPort>();
 
-            //    FriendlyName = "COM",
-            //    Children = SerialPortModel.Instance.GetComPorts()
+                PortTree = new ObservableCollection<Portdetectedtype>(ConfigModel.Instance.GetComPorts());
 
-            //});
+                SerialCandidator = ConfigbyJSON.Instance.ReadPortCandidatelist();
+                OnPropertyChanged(nameof(PortTree));
 
-            SerialCandidator = ConfigbyJSON.Instance.ReadPortCandidatelist();
-            OnPropertyChanged(nameof(PortTree));
+                AutoDetectedPortCount = new System.Timers.Timer(IntrospectIntervalTimer);
 
-            AutoDetectedPortCount = new System.Timers.Timer(IntrospectIntervalTimer);
-
-            //設定呼叫間隔時間為30ms
-            AutoDetectedPortCount.Elapsed += new System.Timers.ElapsedEventHandler(UpdateSystemIntrospectionEvent);
-            AutoDetectedPortCount.AutoReset = true;
-            //設置 執行一次（false）;一直執行(true)
-            AutoDetectedPortCount.Enabled = true;
-            AutoDetectedPortCount.Start();
+                //設定呼叫間隔時間為30ms
+                AutoDetectedPortCount.Elapsed += new System.Timers.ElapsedEventHandler(UpdateSystemIntrospectionEvent);
+                AutoDetectedPortCount.AutoReset = true;
+                //設置 執行一次（false）;一直執行(true)
+                AutoDetectedPortCount.Enabled = true;
+                AutoDetectedPortCount.Start();
+            }
+            catch(Exception ex) {
+                MessageBox.Show(ex.StackTrace);
+            }
+     
         }
         public void OpenPort(string portName)
         {

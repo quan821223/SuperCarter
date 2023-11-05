@@ -12,8 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NLog;
 using SuperCarter.Model;
-
-
+using System.Windows;
 
 namespace SuperCarter.ViewModel
 {
@@ -33,6 +32,8 @@ namespace SuperCarter.ViewModel
         public readonly string FOLDER_IMG = System.Windows.Forms.Application.StartupPath + @"img\";
         public readonly string FOLDER_UTIL = System.Windows.Forms.Application.StartupPath + @"util\";
         public readonly string FOLDER_ACCESS = System.Windows.Forms.Application.StartupPath + @"access\";
+        public readonly string FOLDER_RESULT = System.Windows.Forms.Application.StartupPath + @"result\";
+
         public static Dictionary<int, SerialPort> DicSerialPort = new Dictionary<int, SerialPort>();
         //public static ObservableCollection<Portdetectedtype> SerialCandidator { get; set; } = new ObservableCollection<Portdetectedtype>();
         //public static string AllViewText = null;
@@ -40,8 +41,8 @@ namespace SuperCarter.ViewModel
 
         public static Queue<byte[]> RealtimeSDMDataQueue = new Queue<byte[]>();
         public static ConcurrentQueue<string> RealtimeMsgQueue = new ConcurrentQueue<string>();
-        //public  ConcurrentQueue<SendAndReceiveDatabatchcheck> SendAndReceiveDatabatchQ = new ConcurrentQueue<SendAndReceiveDatabatchcheck>();
-        //public ConcurrentQueue<SendAndReceiveDatabatchcheck> SendAndReceiveDatabatchQ { get; } = new ConcurrentQueue<SendAndReceiveDatabatchcheck>();
+        //public ConcurrentQueue<SendAndReceiveDatabatchcheck> SendAndReceiveDatabatchQ = new ConcurrentQueue<SendAndReceiveDatabatchcheck>();
+        public ConcurrentQueue<SendAndReceiveDatabatchcheck> SendAndReceiveDatabatchQ { get; } = new ConcurrentQueue<SendAndReceiveDatabatchcheck>();
 
 
         public string TestTextView
@@ -231,6 +232,7 @@ namespace SuperCarter.ViewModel
                 var e = new PropertyChangedEventArgs(propertyName);
                 handler(this, e);
             }
+            //MessageBox.Show("Property changed: " + propertyName);
         }
 
         #endregion // INotifyPropertyChanged Members

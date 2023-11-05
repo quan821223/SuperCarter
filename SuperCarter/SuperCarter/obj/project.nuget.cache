@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "5Qg+sTWB+eGLesE3ZsLVCUxfzzsgjixwXYe6CttetQYtH4tFYZqKsF+pAjSbHi8BBl35zIR0OjFYj8iSJnHcfQ==",
+  "dgSpecHash": "vqapkt3zW7CrdgZZ93hFg/Uy+iN0gJbZ63rcIU86y3tRjoKUhV6zwSTBVkQW4mG6T3z/bBEpsE9w3R6fkh7osg==",
   "success": true,
   "projectFilePath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\SuperCarter.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\User\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\dirkster.avalondock\\4.72.1\\dirkster.avalondock.4.72.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\dirkster.avalondock.themes.expression\\4.72.1\\dirkster.avalondock.themes.expression.4.72.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\dirkster.avalondock.themes.vs2013\\4.72.1\\dirkster.avalondock.themes.vs2013.4.72.1.nupkg.sha512",

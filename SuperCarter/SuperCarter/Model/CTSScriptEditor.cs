@@ -52,9 +52,10 @@ namespace SuperCarter.Model
         public bool IncludeFileChildren { get; set; }
     }
 
-    public class ScriptEditor : ViewModelBase
+    public class CTSScriptEditor : ViewModelBase
     {
-        public ScriptEditor()
+     
+        public CTSScriptEditor()
         {
             Fullloop = 1;
             folderViewerlist = new ObservableCollection<Foldertype>();
@@ -64,8 +65,10 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(Viewerpath));
 
             blockAfolderViewerlist = new ObservableCollection<IFiletype>();
+
+     
         }
-        ~ScriptEditor()
+        ~CTSScriptEditor()
         {
             Dispose(true);
             GC.SuppressFinalize(this);

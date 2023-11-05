@@ -81,3 +81,4 @@ D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter.genruntime
 D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\ref\SuperCarter.dll
 D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\bin\Debug\NLog.config
 D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\SuperCarter_Content.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\bin\Debug\CsvHelper.dll

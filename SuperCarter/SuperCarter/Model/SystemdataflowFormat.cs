@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using CsvHelper.Configuration.Attributes;
 
 namespace SuperCarter.Model
 {
@@ -145,5 +146,95 @@ namespace SuperCarter.Model
         public byte[] byte_buffer_Receive { get; set; }
     }
 
+    public class UnifiedHostCommandSettype
+    {
+        // working information
+        [Name("Time")]
+        public string Time { get; set; }
+        [Name("Loop")]
+        public string Loop { get; set; }
+
+        [Name("Blockloop")]
+        public string Blockloop { get; set; }
+        [Name("Phase")]
+        public string Blockphase { get; set; }
+        [Name("#1 PowerMode")]
+        public string DUT1PowerMode { get; set; }
+
+        // for DUT1
+        [Name("#1 InputVoltage")]
+        public string DUT1Voltage { get; set; }
+        [Name("#1 Current(A/uA)")]
+        public string DUT1NormalCurrent { get; set; }
+        [Name("#1 Current(uA)")]
+        public string DUT1SleepCurrent { get; set; }
+        [Name("#1 Diagnostic")]
+        public string DUT1Diagnostic { get; set; }
+        [Name("#1 Lightsensor")]
+        public string DUT1Lightsensor { get; set; }
+        [Name("#1 Touch_finger")]
+        public string DUT1Touchfinger { get; set; }
+        [Name("#1 Touch_XY")]
+        public string DUT1Touch_XY { get; set; }
+        [Name("#1 Brightness(%)")]
+        public string DUT1Brightness { get; set; }
+        [Name("#1 T_chamber")]
+        public string DUT1T_chamber { get; set; }
+        [Name("#1 T_LED1, 2PCB")]
+        public string DUT1T_LED1_2PCB { get; set; }
+        [Name("#1 Diagnostic_raw")]
+        public string DUT1Diagnostic_raw { get; set; }
+        // for DUT2
+        [Name("#2 PowerMode")]
+        public string DUT2PowerMode { get; set; }
+        [Name("#2 InputVoltage")]
+        public string DUT2Voltage { get; set; }
+        [Name("#2 Current(A/uA)")]
+        public string DUT2NormalCurrent { get; set; }
+        [Name("#2 Current(uA)")]
+        public string DUT2SleepCurrent { get; set; }
+        [Name("#2 Diagnostic")]
+        public string DUT2Diagnostic { get; set; }
+        [Name("#2 Lightsensor")]
+        public string DUT2Lightsensor { get; set; }
+        [Name("#2 Touch_finger")]
+        public string DUT2Touchfinger { get; set; }
+        [Name("#2 Touch_XY")]
+        public string DUT2Touch_XY { get; set; }
+        [Name("#2 Brightness(%)")]
+        public string DUT2Brightness { get; set; }
+        [Name("#2 T_chamber")]
+        public string DUT2T_chamber { get; set; }
+        [Name("#2 T_LED1, 2PCB")]
+        public string DUT2T_LED1_2PCB { get; set; }
+        [Name("#2 Diagnostic_raw")]
+        public string DUT2Diagnostic_raw { get; set; }
+        // DUT3
+        [Name("#3 PowerMode")]
+        public string DUT3PowerMode { get; set; }
+        [Name("#3 InputVoltage")]
+        public string DUT3Voltage { get; set; }
+        [Name("#3 Current(A/uA)")]
+        public string DUT3NormalCurrent { get; set; }
+        [Name("#3 Current(uA)")]
+        public string DUT3SleepCurrent { get; set; }
+        [Name("#3 Diagnostic")]
+        public string DUT3Diagnostic { get; set; }
+        [Name("#3 Lightsensor")]
+        public string DUT3Lightsensor { get; set; }
+        [Name("#3 Touch_finger")]
+        public string DUT3Touchfinger { get; set; }
+        [Name("#3 Touch_XY")]
+        public string DUT3Touch_XY { get; set; }
+        [Name("#3 Brightness(%)")]
+        public string DUT3Brightness { get; set; }
+        [Name("#3 T_chamber")]
+        public string DUT3T_chamber { get; set; }
+        [Name("#3 T_LED1, 2PCB")]
+        public string DUT3T_LED1_2PCB { get; set; }
+        [Name("#3 Diagnostic_raw")]
+        public string DUT3Diagnostic_raw { get; set; }
+
+    }
 
 }

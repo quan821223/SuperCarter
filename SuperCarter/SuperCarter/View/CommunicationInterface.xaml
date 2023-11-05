@@ -10,7 +10,7 @@
 
         xmlns:local="clr-namespace:SuperCarter.View"
         mc:Ignorable="d"
-        Title="CommunicationInterface" Height="450" Width="900">
+        Title="CommunicationInterface" Height="450" Width="900" Closing="Window_Closing" Closed="Window_Closed">
     <Window.Resources>
         <DataTemplate x:Key="YourDragTemplate">
             <Border BorderBrush="Black" BorderThickness="1" Padding="5" Background="LightGray">
@@ -192,7 +192,7 @@
                                       GridLinesVisibility="All" 
                                       AutoGenerateColumns="False"
                                       CanUserAddRows="False" 
-                                      SelectedCellsChanged="SerialPortCandidateDatagrid_SelectedCellsChanged" 
+                                      SelectedCellsChanged="SerialPortCandidateDatagrid_SelectedCellsChanged" MouseLeave="SerialPortCandidateDatagrid_MouseLeave" 
                                       >
 
                                 <DataGrid.RowStyle>

@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "SuperCarter/1.0.0": {
         "dependencies": {
+          "CsvHelper": "30.0.1",
           "Dirkster.AvalonDock": "4.72.1",
           "Dirkster.AvalonDock.Themes.Expression": "4.72.1",
           "Dirkster.AvalonDock.Themes.VS2013": "4.72.1",
@@ -27,6 +28,14 @@
         },
         "runtime": {
           "SuperCarter.dll": {}
+        }
+      },
+      "CsvHelper/30.0.1": {
+        "runtime": {
+          "lib/net6.0/CsvHelper.dll": {
+            "assemblyVersion": "30.0.0.0",
+            "fileVersion": "30.0.1.0"
+          }
         }
       },
       "Dirkster.AvalonDock/4.72.1": {
@@ -397,6 +406,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "CsvHelper/30.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rcZtgbWR+As4G3Vpgx0AMNmShGuQLFjkHAPIIflzrfkJCx8/AOd4m96ZRmiU1Wi39qS5UVjV0P8qdgqOo5Cwyg==",
+      "path": "csvhelper/30.0.1",
+      "hashPath": "csvhelper.30.0.1.nupkg.sha512"
     },
     "Dirkster.AvalonDock/4.72.1": {
       "type": "package",

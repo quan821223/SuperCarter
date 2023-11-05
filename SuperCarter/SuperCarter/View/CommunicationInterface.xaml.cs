@@ -40,5 +40,22 @@ namespace SuperCarter.View
         {
       
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+          
+
+          
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            SerialPortCandidateDatagrid.CancelEdit();
+        }
+
+        private void SerialPortCandidateDatagrid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SerialPortCandidateDatagrid.CommitEdit();
+        }
     }
 }
