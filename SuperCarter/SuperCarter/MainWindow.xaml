@@ -570,7 +570,7 @@
                                         <WrapPanel Orientation="Vertical" HorizontalAlignment="Center">
                                            
 
-                                            <Button Width="31" Height="31"                               
+                                            <Button Width="31" Height="31" IsEnabled="False"                              
                                                     Command="{Binding }" 
                                                     ToolTip="開啟 app 視窗與 所有 text view 視窗"
                                                     Margin=" 0 3 0 3" >
@@ -604,10 +604,10 @@
                                                 </Button.Style>
                                             </Button>
 
-                                            <Button Width="31" Height="31"                           
+                                            <Button x:Name="OpenAllview" Width="31" Height="31"                           
                                                     Command="{Binding }" 
                                                      ToolTip="開啟所有 text view 視窗"
-                                                    Margin=" 0 3 0 3"
+                                                    Margin=" 0 3 0 3" Click="OpenAllview_Click"
                                                     >
                                                 <Button.Style>
 

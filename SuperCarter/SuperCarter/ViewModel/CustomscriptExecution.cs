@@ -1,4 +1,4 @@
-﻿using SuperCarter.Model;
+﻿using SuperCarter.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,18 +7,34 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Windows.Forms;
-using SuperCarter.Services;
+using System.Windows.Media.Imaging;
+using static SuperCarter.ViewModel.SuperCarterViewModel;
+using MaterialDesignThemes;
 using System.Windows.Input;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using System.IO;
+using System.Windows.Forms;
+using System.Windows.Markup;
+using System.Windows.Documents;
+using GongSolutions.Wpf.DragDrop;
+using System.Windows.Shapes;
+using System.Xml;
+using Newtonsoft.Json.Linq;
+using SuperCarter.Services;
+using SuperCarter.Model;
+using SuperCarter.Services;
+using SuperCarter.ViewModel;
+using SuperCarter;
 
-namespace SuperCarter.ViewModel
+namespace SuperCarter.Model
 {
+
+
     public class CustomscriptExecution : ViewModelBase
     {
         public ObservableCollection<Foldertype> folderViewerlist { get; set; } = new ObservableCollection<Foldertype>();
         private ObservableCollection<IFiletype> _blockAfolderViewerlist;
-    //    public SerialPortViewModelBase serialPortViewModelBase { get; set; }
+        //public SerialPortViewModelBase serialPortViewModelBase { get; set; }
         public int CommnadID { get; set; } = 0;
         public CSVfile cSVfile { get; set; }
 
@@ -57,6 +73,7 @@ namespace SuperCarter.ViewModel
         public string blockCscriptpath { get; set; }
         public string blockDscriptpath { get; set; }
         public int ExecuteBlockALoop { get; set; }
+        public int EstimateBlockAtotaltime { get; set; }
         public int ExecuteBlockBLoop { get; set; }
         public int ExecuteBlockCLoop { get; set; }
         public int ExecuteBlockDLoop { get; set; }
@@ -221,87 +238,115 @@ namespace SuperCarter.ViewModel
             cancellationToken.ThrowIfCancellationRequested();
             Curphase = blockName;
 
+            //int blockAcycletime = 360000;
+            //int blockA1cycletime = 300000;
+            //int blockA2cycletime = 60000;
+            //int Timercycle = 3000;
+            int blockAcycletime = 180000;
+            int blockA1cycletime = 120000;
+            int blockA2cycletime = 60000;
+            int Timercycle = 3000;
+
             for (int curLoop = 0; curLoop < maxLoop; curLoop++)
             {
                 subloop = curLoop;
                 // 
-                await ExecuteBlockSequences($"{blockName}_{1}", sequences1, scriptDelayTime1, cancellationToken);
-                // 
-                await ExecuteBlockSequences($"{blockName}_{2}", sequences2, scriptDelayTime2, cancellationToken);
+                var blockStartTime = DateTime.Now;
 
+                // Start the block working time loop
+                // Execute sequences1 within cycletime
+                var seq1Task = ExecuteBlockSequences($"{blockName}_{1}", sequences1, blockA1cycletime, cancellationToken, Timercycle);
+                await seq1Task; // Wait for seq1Task to complete
+
+                // Execute sequences2 within cycletime
+                var seq2Task = ExecuteBlockSequences($"{blockName}_{2}", sequences2, blockA2cycletime, cancellationToken, Timercycle);
+                await seq2Task; // Wait for seq2Task to complete
+
+                // Check if block working time is reached
+                if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockAcycletime)
+                {
+                    break; // Exit the loop
+                }
             }
 
             stopwatch.Stop();
-            var remainingTime = TimeSpan.FromMilliseconds((scriptDelayTime1 + scriptDelayTime2) * maxLoop) - stopwatch.Elapsed;
+            var remainingTime = TimeSpan.FromMilliseconds((blockAcycletime) * maxLoop) - stopwatch.Elapsed;
             cancellationToken.ThrowIfCancellationRequested();
             if (remainingTime > TimeSpan.Zero)
             {
                 await Task.Delay(remainingTime, cancellationToken);
             }
-        }
-        private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken)
-        {
 
-            cancellationToken.ThrowIfCancellationRequested();
+        }
+        private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken, int cycletime)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            cancellationToken.Register(() => cancellationTokenSource.Cancel());
+
             bool WorkingBreak = false;
 
             try
             {
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                var Sendorwatch = new Stopwatch();
-
                 var msg1 = $"- Currently on {blockName} iteration: {blockName}";
                 logger.Log(NLog.LogLevel.Trace, msg1);
 
+                var blockStartTime = DateTime.Now;
 
-                for (int i = 0; i < sequences.Count; i++)
+                while ((DateTime.Now - blockStartTime).TotalMilliseconds < scriptDelayTime)
                 {
-                    if (cancellationToken.IsCancellationRequested) break;
+                    var cycleStartTime = DateTime.Now;
+                    int sequenceIndex = 0;
 
-                    if (sequences[i].PortNum == 9)
+                    while ((DateTime.Now - cycleStartTime).TotalMilliseconds < cycletime)
                     {
-                        var roundtimedelay = sequences[i].Delaytime;
+                        cancellationToken.ThrowIfCancellationRequested();
 
-                        Sendorwatch.Restart();
-                        for (int j = 0; j < 3; j++)
+
+                        var elapsedTime = (DateTime.Now - cycleStartTime).TotalMilliseconds;
+                        var remainingTime = cycletime - (int)elapsedTime;
+
+                        if (sequenceIndex < sequences.Count)
                         {
-                            i++;
-                            await SendAndReceivesAsync(sequences[i], cancellationToken);
+                            if (sequences[sequenceIndex].PortNum == 9)
+                            {
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    sequenceIndex++;
+                                    if (sequenceIndex >= sequences.Count || cancellationToken.IsCancellationRequested)
+                                    {
+                                        break; // Exit the loop
+                                    }
+                                    await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
+                                }
+                            }
+                            else
+                            {
+                                await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
+                                sequenceIndex++;
+                            }
                         }
 
-                        Sendorwatch.Stop();
-                        var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
-
-                        if (remainingSpentTime > 0)
+                        if (sequenceIndex >= sequences.Count)
                         {
-                            await Task.Delay(remainingSpentTime, cancellationToken);
+                            // Check if scriptDelayTime has already expired
+                            var remainingScriptTime = scriptDelayTime - (int)(DateTime.Now - blockStartTime).TotalMilliseconds;
+                            if (remainingScriptTime <= 0)
+                            {
+                                return;
+                            }
+
+                            await Task.Delay(Math.Min(remainingTime, remainingScriptTime), cancellationToken);
                         }
                     }
-                    else
-                    {
-                        var roundtimedelay = sequences[i].Delaytime;
-                        Sendorwatch.Restart();
-                        await SendAndReceivesAsync(sequences[i], cancellationToken);
-                        Sendorwatch.Stop();
-                        var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
-
-                        if (remainingSpentTime > 0)
-                        {
-                            await Task.Delay(remainingSpentTime, cancellationToken);
-                        }
-                    }
+                    UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
+                    UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
+                    UnifiedHostCommandSet.Blockphase = Curphase.ToString();
+                    UnifiedHostCommandSet.Blockloop = blockName.ToString();
+                    cSVfile.AppendToCsv(UnifiedHostCommandSet);
+                    UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                 }
-                await Task.Delay(3000, cancellationToken);
-
-                stopwatch.Stop();
-                var remainingTime = TimeSpan.FromMilliseconds(scriptDelayTime) - stopwatch.Elapsed;
-                cancellationToken.ThrowIfCancellationRequested();
-                if (remainingTime > TimeSpan.Zero)
-                {
-                    await Task.Delay(remainingTime, cancellationToken);
-                }
-
             }
             catch (TaskCanceledException)
             {
@@ -311,23 +356,208 @@ namespace SuperCarter.ViewModel
             {
                 MessageBox.Show(ex.Message);
             }
-
-            if (WorkingBreak)
+            finally
             {
-                logger.Log(NLog.LogLevel.Trace, $"– the runtime was canceled in {Curphase}.");
-                RealtimeMsgQueue.Enqueue($"– the runtime was canceled in {Curphase}.");
-            }
-            else
-            {
-                UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
-                UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
-                UnifiedHostCommandSet.Blockphase = Curphase.ToString();
-                UnifiedHostCommandSet.Blockloop = blockName.ToString();
-                cSVfile.AppendToCsv(UnifiedHostCommandSet);
-                UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                cancellationTokenSource.Dispose();
             }
 
+            // Rest of your code...
         }
+
+
+
+
+
+
+
+
+        //private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken, int cycletime)
+        //{
+        //    cancellationToken.ThrowIfCancellationRequested();
+        //    bool WorkingBreak = false;
+
+        //    try
+        //    {
+        //        var stopwatch = new Stopwatch();
+        //        stopwatch.Start();
+        //        var msg1 = $"- Currently on {blockName} iteration: {blockName}";
+        //        logger.Log(NLog.LogLevel.Trace, msg1);
+
+        //        var blockStartTime = DateTime.Now;
+        //        int sequenceIndex = 0;
+
+        //        bool isWaiting = false;
+
+        //        // Start the block working time loop for this block
+
+        //        while ((DateTime.Now - blockStartTime).TotalMilliseconds < scriptDelayTime)
+        //        {
+
+        //            //if (cancellationToken.IsCancellationRequested || sequenceIndex >= sequences.Count)
+        //            if (cancellationToken.IsCancellationRequested )
+        //            {
+        //                break; // Exit the loop
+        //            }
+
+        //            if (sequences[sequenceIndex].SendMsgdata == "FA 57 00 02 01" || sequences[sequenceIndex].SendMsgdata == "FA 57 00 02 00")
+        //            {
+        //                isWaiting = true; // Set the flag to indicate the need to wait for this command
+        //            }
+
+        //            if (sequences[sequenceIndex].PortNum == 9)
+        //            {
+        //                for (int j = 0; j < 3; j++)
+        //                {
+        //                    sequenceIndex++;
+        //                    if (sequenceIndex >= sequences.Count || cancellationToken.IsCancellationRequested)
+        //                    {
+        //                        break; // Exit the loop
+        //                    }
+        //                    await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
+        //                sequenceIndex++;
+        //            }
+
+        //            if (isWaiting)
+        //            {
+        //                var elapsedTime = (DateTime.Now - blockStartTime).TotalMilliseconds;
+        //                if (elapsedTime < cycletime)
+        //                {
+        //                    // Calculate the time spent in the block
+        //                    var timeSpentInBlock = (int)elapsedTime;
+
+        //                    // Calculate the remaining time based on cycletime
+        //                    var remainingTime = cycletime - timeSpentInBlock;
+
+        //                    if (remainingTime > 0)
+        //                    {
+        //                        await Task.Delay(remainingTime, cancellationToken);
+        //                    }
+        //                }
+
+        //                isWaiting = false; // Reset the flag after waiting
+        //            }
+        //        }
+        //    }
+        //    catch (TaskCanceledException)
+        //    {
+        //        WorkingBreak = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+
+        //    if (WorkingBreak)
+        //    {
+        //        logger.Log(NLog.LogLevel.Trace, $"– the runtime was canceled in {Curphase}.");
+        //        RealtimeMsgQueue.Enqueue($"– the runtime was canceled in {Curphase}.");
+        //    }
+        //    else
+        //    {
+        //        UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
+        //        UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
+        //        UnifiedHostCommandSet.Blockphase = Curphase.ToString();
+        //        UnifiedHostCommandSet.Blockloop = blockName.ToString();
+        //        cSVfile.AppendToCsv(UnifiedHostCommandSet);
+        //        UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+        //    }
+        //}
+
+
+        //private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken)
+        //{
+
+        //    cancellationToken.ThrowIfCancellationRequested();
+        //    bool WorkingBreak = false;
+
+        //    try
+        //    {
+        //        var stopwatch = new Stopwatch();
+        //        stopwatch.Start();
+        //        var Sendorwatch = new Stopwatch();
+
+        //        var msg1 = $"- Currently on {blockName} iteration: {blockName}";
+        //        logger.Log(NLog.LogLevel.Trace, msg1);
+
+
+        //        for (int i = 0; i < sequences.Count; i++)
+        //        {
+        //            if (cancellationToken.IsCancellationRequested) break;
+
+        //            if (sequences[i].PortNum == 9)
+        //            {
+        //                var roundtimedelay = sequences[i].Delaytime;
+
+        //                Sendorwatch.Restart();
+        //                for (int j = 0; j < 3; j++)
+        //                {
+        //                    i++;
+        //                    await SendAndReceivesAsync(sequences[i], cancellationToken);
+        //                }
+
+        //                Sendorwatch.Stop();
+        //                var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
+
+        //                if (remainingSpentTime > 0)
+        //                {
+        //                    await Task.Delay(remainingSpentTime, cancellationToken);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                var roundtimedelay = sequences[i].Delaytime;
+        //                Sendorwatch.Restart();
+        //                await SendAndReceivesAsync(sequences[i], cancellationToken);
+        //                Sendorwatch.Stop();
+        //                var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
+
+        //                if (remainingSpentTime > 0)
+        //                {
+        //                    await Task.Delay(remainingSpentTime, cancellationToken);
+        //                }
+        //            }
+        //        }
+        //        await Task.Delay(3000, cancellationToken);
+
+        //        stopwatch.Stop();
+        //        var remainingTime = TimeSpan.FromMilliseconds(scriptDelayTime) - stopwatch.Elapsed;
+        //        cancellationToken.ThrowIfCancellationRequested();
+        //        if (remainingTime > TimeSpan.Zero)
+        //        {
+        //            await Task.Delay(remainingTime, cancellationToken);
+        //        }
+
+        //    }
+        //    catch (TaskCanceledException)
+        //    {
+        //        WorkingBreak = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+
+        //    if (WorkingBreak)
+        //    {
+        //        logger.Log(NLog.LogLevel.Trace, $"– the runtime was canceled in {Curphase}.");
+        //        RealtimeMsgQueue.Enqueue($"– the runtime was canceled in {Curphase}.");
+        //    }
+        //    else
+        //    {
+        //        UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
+        //        UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
+        //        UnifiedHostCommandSet.Blockphase = Curphase.ToString();
+        //        UnifiedHostCommandSet.Blockloop = blockName.ToString();
+        //        cSVfile.AppendToCsv(UnifiedHostCommandSet);
+        //        UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+        //    }
+
+        //}
         private string sendmsg, recmsg;
         /// <summary>
         /// 發送訊號至待測物
@@ -617,7 +847,7 @@ namespace SuperCarter.ViewModel
                     }
                     if (ite == "TestSuiteA")
                     {
-                        ExecuteBlockALoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
+                        //ExecuteBlockALoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
                         blockAscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value) + 3000;
                         blockAscriptpath = requisites.Attributes["Path"]?.Value ?? "";
                         BlockASequencesList = Temp;
@@ -626,14 +856,14 @@ namespace SuperCarter.ViewModel
                     }
                     else if (ite == "TestSuiteB")
                     {
-                        ExecuteBlockBLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
+                        //ExecuteBlockBLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
                         blockBscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value) + 3000;
                         blockBscriptpath = requisites.Attributes["Path"]?.Value ?? "";
                         BlockBSequencesList = Temp;
                     }
                     else if (ite == "TestSuiteC")
                     {
-                        ExecuteBlockCLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
+                        //ExecuteBlockCLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
                         blockCscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value) + 3000;
                         blockCscriptpath = requisites.Attributes["Path"]?.Value ?? "";
 
@@ -641,7 +871,7 @@ namespace SuperCarter.ViewModel
                     }
                     else if (ite == "TestSuiteD")
                     {
-                        ExecuteBlockDLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
+                        //ExecuteBlockDLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
                         blockDscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value) + 3000;
                         blockDscriptpath = requisites.Attributes["Path"]?.Value ?? "";
                         BlockDSequencesList = Temp;
@@ -729,10 +959,10 @@ namespace SuperCarter.ViewModel
                         break;
                 }
 
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    //serialPortViewModelBase.updateUIobj();
-                });
+                //App.Current.Dispatcher.Invoke(() =>
+                //{
+                //    serialPortViewModelBase.updateUIobj();
+                //});
             }
         }
         private void HandleBufferSend_00(byte sendByte4, SendAndReceiveDatabatchcheck bytes)
@@ -1087,47 +1317,7 @@ namespace SuperCarter.ViewModel
         #region SDM1
         public int Port0SDM1DTC { get; set; }
         public string Port0SDM1SWversion { get; set; } = "___";
-
-        private ICommand _testrun;
-        public ICommand testrun
-        {
-            get
-            {
-                _testrun = new RelayCommand(param => ExecuteScriptInterface());
-                return _testrun;
-            }
-        }
-
-        public async Task ExecuteScriptInterface()
-        {
-            await evt_test_updateUI();
-        }
-
-        public async Task evt_test_updateUI()
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                this.Port0SDM1HWversion = string.Format("1.0.{0}", i);
-                await Task.Delay(500);
-            }
-
-        }
-
-        private static readonly CustomscriptExecution _instance = new CustomscriptExecution();
-        public static CustomscriptExecution Instance => _instance;
-
-        private string _Port0SDM1HWversion = "___";
-        public  string Port0SDM1HWversion
-        {
-            get => _Port0SDM1HWversion;
-            set
-            {
-                _Port0SDM1HWversion = value;
-                OnPropertyChanged(nameof(Port0SDM1HWversion));
-
-            }
-        }
-        //public string Port0SDM1HWversion { get; set; } = "___";
+        public string Port0SDM1HWversion { get; set; } = "___";
         public string Port0SDM1Status { get; set; } = "___";
         public double Port0SDM1Voltage { get; set; } = 0.0;
         public double Port0SDM1normalCurrent { get; set; } = 0.0;
@@ -1181,4 +1371,5 @@ namespace SuperCarter.ViewModel
         private string _path;
 
     }
+
 }

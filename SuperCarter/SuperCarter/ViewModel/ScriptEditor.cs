@@ -14,6 +14,43 @@ namespace SuperCarter.ViewModel
 {
     public  class ScriptEditor :ViewModelBase
     {
+        private static object _selectedCMDItem = null;
+        public string InputText { get; set; } = "";
+
+        // This is public get-only here but you could implement a public setter which
+        // also selects the item.
+        // Also this should be moved to an instance property on a VM for the whole tree, 
+        // otherwise there will be conflicts for more than one tree.
+        public static object SelectedCMDItem
+        {
+            get { return _selectedCMDItem; }
+            private set
+            {
+                if (_selectedCMDItem != value)
+                {
+                    _selectedCMDItem = value;
+                    //OnSelectedItemChanged();
+                }
+            }
+        }
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged("IsSelected");
+                    if (_isSelected)
+                    {
+                        SelectedCMDItem = this;
+                    }
+                }
+            }
+        }
+
         public Dictionary<string, List<ScriptItemtype>> ScriptToolboxTree { get; set; } = new Dictionary<string, List<ScriptItemtype>>();
         public int script_itervalue { get; set; } = 1;
         public int SelectedScriptitem { get; set; }
@@ -88,11 +125,59 @@ namespace SuperCarter.ViewModel
                 return _SciptToolBar_Openfolder;
             }
         }
-
+        private ICommand _SelectCommand;
+        public ICommand SelectCommand
+        {
+            get
+            {
+                _SelectCommand = new RelayCommand(
+                    param => SelectedSequenceItem((ScriptItemtype)param));
+                return _SelectCommand;
+            }
+        }
 
 
         #region Scription TreeView funcions events
 
+
+        public int SelectedCMD { get; set; } = 0;
+
+        private void SelectedSequenceItem(ScriptItemtype _va)
+        {
+            //SelectedCMDItem = this;
+            if (_va is not null)
+            {
+                Scriptdatalist.Insert(SelectedCMD , new ScriptItemtype()
+                {
+                    ID = _va.ID,
+                    Nodename = _va.Nodename,
+                    MSGname = _va.MSGname,
+                    Sequence = _va.Sequence,
+                    Delaytime = _va.Delaytime,
+                    RecSequence = _va.RecSequence,
+                    HashCodevalue = _va.HashCodevalue,
+                    Loop = _va.Loop,
+                });
+            }
+        }
+        public void evt_ScriptToolBar_Sortintitem()
+        {
+            ObservableCollection<ScriptItemtype> _Scriptdatalist = new ObservableCollection<ScriptItemtype>();
+            _Scriptdatalist = Scriptdatalist;
+            if (Scriptdatalist == null)
+                return;
+            if (Scriptdatalist.Count > 0)
+            {
+                for (int id = 0; id < Scriptdatalist.Count; id++)
+                {
+                    Scriptdatalist[id].ID = id + 1;
+                }
+                Scriptdatalist = null;
+                Scriptdatalist = _Scriptdatalist;
+                //OnPropertyChangedForStatic(nameof(Scriptdatalist));
+            }
+
+        }
 
 
         public void evt_ScriptToolBar_Clear()
@@ -124,24 +209,7 @@ namespace SuperCarter.ViewModel
                 }
             }
         }
-        public void evt_ScriptToolBar_Sortintitem()
-        {
-            ObservableCollection<ScriptItemtype> _Scriptdatalist = new ObservableCollection<ScriptItemtype>();
-            _Scriptdatalist = Scriptdatalist;
-            if (Scriptdatalist == null)
-                return;
-            if (Scriptdatalist.Count > 0)
-            {
-                for (int id = 0; id < Scriptdatalist.Count; id++)
-                {
-                    Scriptdatalist[id].ID = id + 1;
-                }
-                Scriptdatalist = null;
-                Scriptdatalist = _Scriptdatalist;
-                //OnPropertyChangedForStatic(nameof(Scriptdatalist));
-            }
-
-        }
+      
         private string _Textscriptpath;
         public string Textscriptpath
         {

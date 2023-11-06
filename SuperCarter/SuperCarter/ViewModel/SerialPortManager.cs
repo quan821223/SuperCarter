@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -19,12 +21,13 @@ namespace SuperCarter.ViewModel
     public class SerialPortManager : ViewModelBase
     {
         public Thread ThreadReceiver1;
-        //public  ObservableCollection<Comporttype> PortTree { get; set; } = new ObservableCollection<Comporttype>();
+
         public ObservableCollection<Portdetectedtype> PortTree { get; set; } = new ObservableCollection<Portdetectedtype>();
         public ObservableCollection<Portdetectedtype> SerialCandidator { get; set; } = new ObservableCollection<Portdetectedtype>();
         private System.Timers.Timer AutoDetectedPortCount { get; set; }
         public int SelectSerialportIndex { get; set; }
-        public int IntrospectIntervalTimer { get; set; } = 3000;
+        public int IntrospectIntervalTimer { get; set; } = 5000;
+        public List<SerialidList> PortIDlist { get; private set; }  = new List<SerialidList> () { new SerialidList { idName = "Port 0", idValue = 0 }, new SerialidList { idName = "Port 1", idValue = 1 }, new SerialidList { idName = "Port 2", idValue = 2 } };
         public SerialPortManager()
         {
             try
@@ -45,12 +48,136 @@ namespace SuperCarter.ViewModel
                 //設置 執行一次（false）;一直執行(true)
                 AutoDetectedPortCount.Enabled = true;
                 AutoDetectedPortCount.Start();
+
+                
             }
             catch(Exception ex) {
                 MessageBox.Show(ex.StackTrace);
             }
-     
+    
         }
+        #region Communication setting interface
+
+        #region properties
+        public int SelectedCom { get; set; } = 0;
+
+        public string UpdateSystemInfo = null;
+        public bool IsHexSend { get; set; } = true;
+        public int DataReceivedCase { get; set; } = 0;
+
+        //private static object _selectedItem = null;
+        public string InputText { get; set; } = "";
+        private String OutputMsg = null;
+        #endregion
+
+        #region defines commands
+        private ICommand _WriteDatatodevice;
+        public ICommand WriteDatatodevice
+        {
+            get
+            {
+                _WriteDatatodevice = new RelayCommand(
+                      param => evnt_sendAsync(SelectedCom, InputText));
+                return _WriteDatatodevice;
+            }
+        }
+        #endregion
+
+        #region events
+        public void evnt_sendAsync(int _SelectedCom, string msg)
+        {
+            int SendCount = 0;
+            SerialPort serialPortBase = DicSerialPort[_SelectedCom];
+
+            if (!DicSerialPort[_SelectedCom].IsOpen)
+            {
+                UpdateSystemInfo = string.Format("請先打開串列埠!");
+                MessageBox.Show(UpdateSystemInfo, "Information !", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(msg))
+                {
+                    if (IsHexSend)
+                    {
+
+                        string[] _sendData = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        byte[] sendData = new byte[_sendData.Length];
+                        foreach (var tmp in _sendData)
+                        {
+
+                            sendData[SendCount++] = byte.Parse(tmp, NumberStyles.AllowHexSpecifier, CultureInfos);
+                        }
+
+                        // await serialPortBase.BaseStream.WriteAsync(sendData, 0, SendCount).ConfigureAwait(false);
+                        OutputMsg = String.Format("{0}|{1}|{2}| S |{3}",
+                                                     DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
+                                                     SerialPortModel.Instance.PortNameBinding[serialPortBase.PortName].ToString().PadLeft(2, ' '),
+                                                     DicSerialPort[_SelectedCom].PortName.PadLeft(6, ' '),
+                                                     msg.Replace(" ", ""));
+                        WritedataToViewTextAggregator.Instance.Updatemsg(SerialPortModel.Instance.PortNameBinding[serialPortBase.PortName], OutputMsg);
+                        DicSerialPort[_SelectedCom].Write(sendData, 0, SendCount);
+                    }
+                    else
+                    {
+                        OutputMsg = String.Format("{0}|{1}|{2}| S |{3}",
+                                                DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
+                                                SerialPortModel.Instance.PortNameBinding[serialPortBase.PortName],
+                                               DicSerialPort[_SelectedCom].PortName,
+                                                msg.Replace(" ", ""));
+
+                        WritedataToViewTextAggregator.Instance.Updatemsg(SerialPortModel.Instance.PortNameBinding[serialPortBase.PortName], OutputMsg);
+
+                        SendCount = serialPortBase.Encoding.GetByteCount(msg);
+                        DicSerialPort[_SelectedCom].Write(serialPortBase.Encoding.GetBytes(msg), 0, SendCount);
+                        // await serialPortBase.BaseStream.WriteAsync(serialPortBase.Encoding.GetBytes(msg), 0, SendCount).ConfigureAwait(false);
+
+                    }
+                    logger.Log(NLog.LogLevel.Trace, OutputMsg);
+
+                }
+            }
+            catch (ArgumentException e)
+            {
+                UpdateSystemInfo = e.Message.Replace("\r\n", ""); AllViewText += UpdateSystemInfo;
+            }
+            catch (IOException e)
+            {
+                UpdateSystemInfo = e.Message.Replace("\r\n", ""); AllViewText += UpdateSystemInfo;
+            }
+            catch (OutOfMemoryException e)
+            {
+                UpdateSystemInfo = e.Message.Replace("\r\n", ""); AllViewText += UpdateSystemInfo;
+            }
+            catch (FormatException e)
+            {
+                UpdateSystemInfo = e.Message.Replace("\r\n", ""); AllViewText += UpdateSystemInfo;
+            }
+            catch (OverflowException)
+            {
+                UpdateSystemInfo = string.Format(CultureInfos, "請輸入hex格式的數據格式，且用空格做為區隔，for instance A0 B1 C2 D3 E4 F5\r\n");
+                AllViewText += UpdateSystemInfo;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                UpdateSystemInfo = string.Format(CultureInfos, "出現跨執行續的問題\r\n"); AllViewText += UpdateSystemInfo;
+            }
+            catch (ObjectDisposedException)
+            {
+                UpdateSystemInfo = string.Format(CultureInfos, "針對已經釋放的物件做操作\r\n"); AllViewText += UpdateSystemInfo;
+            }
+            catch (NotFiniteNumberException e)
+            {
+                UpdateSystemInfo = e.Message.Replace("\r\n", ""); AllViewText += UpdateSystemInfo;
+            }
+
+            OnPropertyChangedForStatic(nameof(AllViewText));
+        }
+        #endregion
+        #endregion
+
         public void OpenPort(string portName)
         {
             try
@@ -219,7 +346,7 @@ namespace SuperCarter.ViewModel
         }
         private void evt_SelectedSerialport(Portdetectedtype _va)
         {
-            SelectedItem = this;
+         
             bool IsAllowAddingitem = false;
 
             if (SerialCandidator.Count < 3)
@@ -302,50 +429,56 @@ namespace SuperCarter.ViewModel
         public void UpdateSystemIntrospectionEvent(object source, System.Timers.ElapsedEventArgs e)
         {
             PortTree = new ObservableCollection<Portdetectedtype>(ConfigModel.Instance.GetComPorts());
-           
-            if (tbt__Port0)
+            try
             {
-                if (!DicSerialPort[0].IsOpen)
+                if (tbt__Port0)
                 {
-                    tbt__Port0 = false;
+                    if (!DicSerialPort[0].IsOpen)
+                    {
+                        tbt__Port0 = false;
+                    }
+                    else
+                    {
+                        var portName = DicSerialPort[0].PortName;
+                        // 使用 LINQ 查找具有指定 PortName 的項目
+                        var portdetectedtype = SerialCandidator.FirstOrDefault(item => item.PortName == portName);
+                        if (portdetectedtype != null)
+                            if (portdetectedtype.PortID != 0) tbt__Port0 = false;
+                    }
+
                 }
-                else
+                if (tbt__Port1)
                 {
-                    var portName = DicSerialPort[0].PortName;
-                    // 使用 LINQ 查找具有指定 PortName 的項目
-                    var portdetectedtype = SerialCandidator.FirstOrDefault(item => item.PortName == portName);
-                    if (portdetectedtype != null)
-                        if (portdetectedtype.PortID != 0) tbt__Port0 = false;
+                    if (!DicSerialPort[1].IsOpen)
+                        tbt__Port1 = false;
+                    else
+                    {
+                        var portName = DicSerialPort[1].PortName;
+                        // 使用 LINQ 查找具有指定 PortName 的項目
+                        var portdetectedtype = SerialCandidator.FirstOrDefault(item => item.PortName == portName);
+                        if (portdetectedtype != null)
+                            if (portdetectedtype.PortID != 1) tbt__Port1 = false;
+                    }
                 }
-                   
+                if (tbt__Port2)
+                {
+                    if (!DicSerialPort[2].IsOpen)
+                        tbt__Port2 = false;
+                    else
+                    {
+                        var portName = DicSerialPort[2].PortName;
+                        // 使用 LINQ 查找具有指定 PortName 的項目
+                        var portdetectedtype = SerialCandidator.FirstOrDefault(item => item.PortName == portName);
+                        if (portdetectedtype != null)
+                            if (portdetectedtype.PortID != 2) tbt__Port2 = false;
+                    }
+                }
+                OnPropertyChanged(nameof(PortTree));
+
+            } catch (Exception ex) {
+                MessageBox.Show(ex.StackTrace);
             }
-            if (tbt__Port1)
-            {
-                if (!DicSerialPort[1].IsOpen)
-                    tbt__Port1 = false;
-                else
-                {
-                    var portName = DicSerialPort[1].PortName;
-                    // 使用 LINQ 查找具有指定 PortName 的項目
-                    var portdetectedtype = SerialCandidator.FirstOrDefault(item => item.PortName == portName);
-                    if (portdetectedtype != null)
-                        if (portdetectedtype.PortID != 1) tbt__Port1 = false;
-                }
-            }
-            if (tbt__Port2)
-            {
-                if (!DicSerialPort[2].IsOpen)
-                    tbt__Port2 = false;
-                else
-                {
-                    var portName = DicSerialPort[2].PortName;
-                    // 使用 LINQ 查找具有指定 PortName 的項目
-                    var portdetectedtype = SerialCandidator.FirstOrDefault(item => item.PortName == portName);
-                    if (portdetectedtype != null)
-                        if (portdetectedtype.PortID != 2) tbt__Port2 = false;
-                }
-            }
-            OnPropertyChanged(nameof(PortTree));
+
         }
 
         /// <summary>
@@ -375,8 +508,6 @@ namespace SuperCarter.ViewModel
                         DicSerialPort[_id].Open();
                         logger.Log(NLog.LogLevel.Debug, "linked with " + _item[0].PortName);
 
-                        // DicSerialPort[_id].DataReceived += new SerialDataReceivedEventHandler(DataReceivedCom0);
-
                         if (_id == 0)
                         {
                             tbt__Port0 = true;
@@ -388,9 +519,8 @@ namespace SuperCarter.ViewModel
                                 NotifyType = NotificationType.Notification,
 
                             });
+                            ExecutePortReceivecase(true, _id);
                         }
-
-
                         else if (_id == 1)
                         {
                             tbt__Port1 = true;
@@ -402,9 +532,8 @@ namespace SuperCarter.ViewModel
                                 NotifyType = NotificationType.Notification,
 
                             });
-
+                            ExecutePortReceivecase(true, _id);
                         }
-
                         else if (_id == 2)
                         {
                             tbt__Port2 = true;
@@ -415,11 +544,12 @@ namespace SuperCarter.ViewModel
                                 NotifyType = NotificationType.Notification,
 
                             });
+                            ExecutePortReceivecase(true, _id);
                         }
                     }
 
-                    //
-                    SerialPortModel.Instance.PortNameBinding.Add(_item[0].PortName, _id);
+                    if (SerialPortModel.Instance.PortNameBinding.Keys.Contains(_item[0].PortName) == false)
+                        SerialPortModel.Instance.PortNameBinding.Add(_item[0].PortName, _id);
                 }
                 catch (Exception ex)
                 {
@@ -438,6 +568,7 @@ namespace SuperCarter.ViewModel
 
                     });
                     MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.StackTrace);
                 }
             }
             else
@@ -545,6 +676,20 @@ namespace SuperCarter.ViewModel
             return (portchecklist[_id]) ? true : false;
 
         }
+        /// <summary>
+        /// 判斷是否啟用埠與設定埠接收的方式
+        /// </summary>
+        /// <param name="IsOpen"></param>
+        /// <param name="_Port"></param>
+        public void ExecutePortReceivecase(bool IsOpen, int _Port)
+        {
+            if (DataReceivedCase == 0)
+            {
+                DicSerialPort[_Port].DataReceived += new SerialDataReceivedEventHandler(SerialPortModel.Instance.DataReceivedCom);
+
+            } 
+        }
+
         #endregion
 
         #region StartListening

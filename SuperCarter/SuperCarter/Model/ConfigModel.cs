@@ -302,7 +302,7 @@ namespace SuperCarter.Model
             }
         }
 
-        public void GetScriptXMLTestSuite(CTSScriptEditor _ScriptEditor)
+        public void GetScriptXMLTestSuite(CustomScriptEditor _ScriptEditor)
         {
             try
             {
@@ -398,7 +398,7 @@ namespace SuperCarter.Model
             }
 
         }
-        public void evt_SaveScriptTestSuitefile(string SavePath, CTSScriptEditor _ScriptEditor)
+        public void evt_SaveScriptTestSuitefile(string SavePath, CustomScriptEditor _ScriptEditor)
         {
             ScriptionXML = new XmlDocument();
             ScriptionXML.LoadXml("<TestSuites></TestSuites>");
@@ -622,8 +622,22 @@ namespace SuperCarter.Model
                     {
                         Temp.Add(new SendorExecuteSendType()
                         {
+                            PortNum = 9,
+                            SequenceData = new byte[0],
+                            intDataLen = 0,
+                            strDataLen = "0",
+                            Delaytime = Convert.ToInt32(Delaytime),
+                            Loop = 1,
+                            SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                      ID.PadLeft(3, ' '),
+                         9,
+                         "delay time")
+                        });
+                        Temp.Add(new SendorExecuteSendType()
+                        {
                             PortNum = 0,
                             SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
+                            strSequenceData = Sequence,
                             intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
                             strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
                             Delaytime = 0,
@@ -637,6 +651,7 @@ namespace SuperCarter.Model
                         {
                             PortNum = 1,
                             SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
+                            strSequenceData = Sequence,
                             intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
                             strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
                             Delaytime = 0,
@@ -650,6 +665,7 @@ namespace SuperCarter.Model
                         {
                             PortNum = 2,
                             SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
+                            strSequenceData = Sequence,
                             intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
                             strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
                             Delaytime = 0,
@@ -659,19 +675,7 @@ namespace SuperCarter.Model
                                                         2,
                                                         Sequence.Replace(" ", ""))
                         });
-                        Temp.Add(new SendorExecuteSendType()
-                        {
-                            PortNum = 9,
-                            SequenceData = new byte[0],
-                            intDataLen = 0,
-                            strDataLen = "0",
-                            Delaytime = Convert.ToInt32(Delaytime),
-                            Loop = 1,
-                            SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                             ID.PadLeft(3, ' '),
-                                9,
-                                "delay time")
-                        });
+                 
                     }
                     else
                     {

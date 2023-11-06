@@ -154,8 +154,8 @@
                                         <WrapPanel Orientation="Horizontal">
 
                                             <SpyderToggle:RoundToggleButton 
-                                                                IsChecked="{Binding IsEnableExecuteSDMchecklists, Mode=TwoWay}"
-                                                                Command="{Binding ExecuteSDMchecklistScript}"
+                                                                IsChecked="{Binding CustomScriptEditor.IsEnableExecuteSDMchecklists, Mode=TwoWay}"
+                                                                Command="{Binding CustomScriptEditor.ExecuteSDMchecklistScript}"
                                                                 MaxHeight="29"
                                                                 Margin="6"
                                                                 HorizontalAlignment="Right"
@@ -194,14 +194,14 @@
 
                                                     <TextBox x:Name="SDMChecklistscriptXMLPath"
                                                              FontSize="14"                                                                 
-                                                             Text="{Binding SDMChecklistscriptXMLPath}"
+                                                             Text="{Binding CustomScriptEditor.SDMChecklistscriptXMLPath}"
                                                              IsEnabled="{Binding IsUnlockScriptSetting}"
                                                              FontFamily="Champagne &amp;amp; Limousines"
                                                              TextChanged="SDMChecklistscriptXMLPath_TextChanged"
                                                                  />
 
                                                     <Button Width="300" Height="33" 
-                                                            Command="{Binding LoadSDMchecklistScript}"  
+                                                            Command="{Binding CustomScriptEditor.LoadSDMchecklistScript}"  
                                                             IsEnabled="{Binding IsUnlockScriptSetting}"
                                                             ToolTip="View the path location" 
                                                             VerticalAlignment="Center"
@@ -651,58 +651,55 @@
                                             </Expander.Header>
                                             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="White">
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <!--<Label Content="{Binding Customscript.Port0SDM1SWversion}" Style="{StaticResource DashboardLabel}"/>-->
-                                                    <TextBlock Text="{Binding initialStateConfirm.Port0SDM1HWversion}" />
-
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1SWversion}" Style="{StaticResource DashboardLabel}"/>  
                                                     <Label Content="SW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
-                                                <StackPanel Width="100" Orientation="Vertical">
-                                                   
-                                                    <Label Content="{Binding Customscript.Port0SDM1HWversion, Mode=TwoWay}" Style="{StaticResource DashboardLabel}"/>
+                                                <StackPanel Width="100" Orientation="Vertical">                                                    
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1HWversion, Mode=TwoWay}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="HW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1DTC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1DTC}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="DTC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1Voltage}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1Voltage}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Voltage" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1normalCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1normalCurrent}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Norm_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1sleepCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1sleepCurrent}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Sleep_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1Backlighbrightness}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1Backlighbrightness}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Brightness" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1PCBTemp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1PCBTemp}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="PCB Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1LED1Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1LED1Temp}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="LED1 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1LED2Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1LED2Temp}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="LED2 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1T_chamber}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1T_chamber}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="T_chamber" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1ADC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1ADC}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="ADC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM1Touchresponse}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1Touchresponse}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Touch" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                             </WrapPanel>
@@ -759,55 +756,55 @@
                                             </Expander.Header>
                                             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="White">
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2SWversion}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2SWversion}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="SW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2HWversion}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2HWversion}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="HW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2DTC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2DTC}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="DTC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2Voltage}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2Voltage}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Voltage" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2normalCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2normalCurrent}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Norm_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2sleepCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2sleepCurrent}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Sleep_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2Backlighbrightness}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2Backlighbrightness}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Brightness" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2PCBTemp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2PCBTemp}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="PCB Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2LED1Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2LED1Temp}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="LED1 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2LED2Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2LED2Temp}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="LED2 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2T_chamber}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2T_chamber}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="T_chamber" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2ADC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2ADC}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="ADC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM2Touchresponse}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM2Touchresponse}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Touch" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                             </WrapPanel>
@@ -864,55 +861,55 @@
                                             </Expander.Header>
                                             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="White">
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3SWversion}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3SWversion}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="SW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3HWversion}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3HWversion}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="HW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3DTC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3DTC}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="DTC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3Voltage}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3Voltage}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Voltage" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3normalCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3normalCurrent}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Norm_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3sleepCurrent}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3sleepCurrent}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Sleep_Current" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3Backlighbrightness}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3Backlighbrightness}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Brightness" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3PCBTemp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3PCBTemp}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="PCB Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3LED1Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3LED1Temp}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="LED1 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3LED2Temp}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3LED2Temp}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="LED2 Temp" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3T_chamber}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3T_chamber}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="T_chamber" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3ADC}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3ADC}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="ADC" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding Customscript.Port0SDM3Touchresponse}" Style="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM3Touchresponse}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="Touch" Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
                                             </WrapPanel>

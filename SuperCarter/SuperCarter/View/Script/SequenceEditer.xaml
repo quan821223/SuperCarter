@@ -118,7 +118,7 @@
                             <avalonDock:LayoutAnchorablePaneGroup DockWidth="3*" DockHeight="1*" Orientation="Vertical" >
                                 <avalonDock:LayoutAnchorablePaneGroup DockHeight="3*" Orientation="Horizontal">
                                     <!--Sequence list-->
-                                    <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequencebox" DockWidth="1*">
+                                    <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequencebox" DockWidth="1.3*">
                                         <avalonDock:LayoutAnchorable CanAutoHide="True"
                                                                      CanClose="False"
                                                                      ContentId="toolWindow_Sequencebox"
@@ -145,7 +145,7 @@
                                                         <i:Interaction.Triggers>
                                                             <!--MouseDoubleClick or SelectedItemChanged-->
                                                             <i:EventTrigger EventName="MouseDoubleClick">
-                                                                <i:InvokeCommandAction Command="{Binding SelectItemSequenceitemChangeCommand}"
+                                                                <i:InvokeCommandAction Command="{Binding scriptEditor.SelectCommand}"
                                                                                         CommandParameter="{Binding ElementName=SequenceItemtreeView,Path=SelectedItem}" />
                                                             </i:EventTrigger>
                                                         </i:Interaction.Triggers>
@@ -461,7 +461,7 @@
                                                               GridLinesVisibility="All" 
                                                               Margin="0" 
                                                               SelectedCellsChanged="SequenceScript_SelectedCellsChanged" 
-                                                              
+                                                                SelectedIndex="{Binding scriptEditor.SelectedCMD }"
                                                               >
                                                         <DataGrid.Columns>
                                                             <DataGridTextColumn Binding="{Binding ID}"
@@ -483,10 +483,11 @@
 
                                                             <DataGridTextColumn Binding="{Binding MSGname}" Header="Name" Width="175" />
                                                             <DataGridTextColumn Binding="{Binding Sequence}" Header="Sequence" Width="200" />
-                                                            <DataGridTextColumn Binding="{Binding RecSequence}" Header="Rec Sequence" Width="200" />
                                                             <DataGridTextColumn Binding="{Binding Delaytime}" Header="Delay(ms)" Width="90"/>
                                                             <DataGridTextColumn Binding="{Binding Loop}" Header="Loop" IsReadOnly="True" Width="80"/>
+                                                            <DataGridTextColumn Binding="{Binding RecSequence}" Header="Rec Sequence" Width="200" />
                                                         </DataGrid.Columns>
+                                                     
                                                     </DataGrid>
                                                     <TextBox FontSize="14" x:Name ="Textscriptpath"
                                                              Text="{Binding serialPortViewModelBase.Textscriptpath, Mode=TwoWay}"

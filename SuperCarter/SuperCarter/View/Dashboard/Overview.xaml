@@ -44,7 +44,7 @@
 
                 </Grid>
                 <Grid Grid.Row="1" >
-                    <TabControl Grid.Column="1" TabStripPlacement="Left" Margin="1">
+                    <TabControl  Grid.Column="1" TabStripPlacement="Left" Margin="1">
                         <TabItem>
                             <TabItem.Header>
                                 <StackPanel Orientation="Vertical">
@@ -58,7 +58,7 @@
                                                FontWeight="Bold" Margin="1 5"/>
                                 </StackPanel>
                             </TabItem.Header>
-                            <Viewconfig:ReliabilityAssuranceDashboard Margin="0" VerticalAlignment="Top" />
+                            <Viewconfig:UserScriptEditor Margin="0" VerticalAlignment="Top" />
                         </TabItem>
                         <TabItem>
                             <TabItem.Header>
@@ -68,7 +68,7 @@
                                                              VerticalAlignment="Stretch" 
                                                              Foreground="#FF4D4D4D" 
                                                              HorizontalAlignment="Stretch"/>
-                                    <TextBlock Text="Limits" Foreground="Black" 
+                                    <TextBlock Text="Threshold&#x000A;Setting" Foreground="Black" 
                                                 FontWeight="Bold" Margin="1 5"/>
                                 </StackPanel>
                             </TabItem.Header>

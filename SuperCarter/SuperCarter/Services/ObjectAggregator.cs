@@ -29,4 +29,27 @@ namespace SuperCarter.Services
             Propertychange -= handler;
         }
     }
+    public class WritedataToViewTextAggregator
+    {
+        private static readonly WritedataToViewTextAggregator _instance = new WritedataToViewTextAggregator();
+        public static WritedataToViewTextAggregator Instance => _instance;
+
+        public delegate void ObjectReceivedHandler(int Portid, string msg);
+        public event ObjectReceivedHandler Propertychange;
+
+        public void Updatemsg(int Portid, string msg)
+        {
+            Propertychange?.Invoke( Portid,  msg);
+        }
+
+        public void Subscribe(ObjectReceivedHandler handler)
+        {
+            Propertychange += handler;
+        }
+
+        public void Unsubscribe(ObjectReceivedHandler handler)
+        {
+            Propertychange -= handler;
+        }
+    }
 }

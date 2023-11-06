@@ -8,6 +8,8 @@ using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using SuperCarter.Services;
+
 namespace SuperCarter.Model
 {
     public class SerialPortModel : SingletonBase<SerialPortModel>
@@ -64,13 +66,12 @@ namespace SuperCarter.Model
             byte[] BytedData = new byte[_sendData.Length];
             foreach (var tmp in _sendData)
             {
-
                 BytedData[SendCount++] = byte.Parse(tmp, NumberStyles.AllowHexSpecifier, new CultureInfo(CultureInfo.CurrentUICulture.Name));
             }
             return BytedData;
         }
 
-        public Dictionary<string, int> PortNameBinding { get; set; }
+        public Dictionary<string, int> PortNameBinding { get; set; } = new Dictionary<string, int>();
 
 
         public ObservableCollection<Portdetectedtype> GetComPorts()
@@ -113,6 +114,33 @@ namespace SuperCarter.Model
             }
             return RootNode;
 
+        }
+        public void DataReceivedCom(object sender, SerialDataReceivedEventArgs e)
+        {
+            string data = "";
+            if ((SerialPort)sender == null) return;
+            SerialPort _SerialPort = (SerialPort)sender;
+
+            int _BytesToRead = _SerialPort.BytesToRead;
+            byte[] _RecvData = new byte[_BytesToRead];
+            if (_SerialPort.IsOpen)
+            {
+                _SerialPort.Read(_RecvData, 0, _BytesToRead);
+
+                data = SerialPortModel.Instance.byteToHexStr(_RecvData);
+
+                if (!String.IsNullOrWhiteSpace(data))
+                {
+                    String OutputMsg = String.Format("{0}|{1}|{2}| Rs |{3}",
+                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
+                        SerialPortModel.Instance.PortNameBinding[_SerialPort.PortName].ToString().PadLeft(2, ' '),
+                        _SerialPort.PortName.PadLeft(6, ' '),
+                        data.Replace(" ", ""));
+                    logger.Log(NLog.LogLevel.Trace, OutputMsg);
+                    WritedataToViewTextAggregator.Instance.Updatemsg(SerialPortModel.Instance.PortNameBinding[_SerialPort.PortName], OutputMsg);
+                    //OnPropertyChanged(nameof(AllViewText));
+                }
+            }
         }
     }
 }

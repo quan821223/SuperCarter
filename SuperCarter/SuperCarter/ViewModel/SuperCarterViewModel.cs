@@ -10,6 +10,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using GongSolutions.Wpf.DragDrop;
 using System.Windows;
+using System.Globalization;
+using System.IO.Ports;
+using System.IO;
 
 namespace SuperCarter.ViewModel
 {
@@ -21,13 +24,17 @@ namespace SuperCarter.ViewModel
         public InitialStateConfirm initialStateConfirm { get; set; }
         public CustomscriptExecution Customscript { get; set; }
         public int SelectSerialportIndex { get; set; }
-
+        public CustomScriptEditor CustomScriptEditor { get; set; } = new CustomScriptEditor();
         public SuperCarterViewModel() {
 
             // 允許定位該事件並且供給給其他視圖使用
             MessageAggregator.Instance.Subscribe(evt_promptlyMessageNotify);
             ConfigModel.OnRaisePopNotification += evt_promptlyMessageNotify;
             nlogMessageAggregator.Instance.Subscribe(evt_popNlogMessageNotify);
+            WritedataToViewTextAggregator.Instance.Subscribe(DisplayInfoToViewText);
+
+            CustomScriptEditor = new CustomScriptEditor();
+            CustomScriptEditor.UpdateDashboardStartThread();
 
             scriptEditor = new ScriptEditor();
             serialportmanager = new SerialPortManager();
@@ -35,7 +42,11 @@ namespace SuperCarter.ViewModel
 
             Customscript = new CustomscriptExecution();
             //Customscript.serialPortViewModelBase = serialPortViewModelBase;
-            Customscript.UpdateDashboardStartThread();
+            //Customscript.UpdateDashboardStartThread();
+
+            // 更新 View Text UI 的程序
+            var systemMissonExecute = new SystemMissonExecute();
+            systemMissonExecute.StartThread();
         }
         ~SuperCarterViewModel()
         {
@@ -43,6 +54,22 @@ namespace SuperCarter.ViewModel
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// 分類出該訊息於系統與各 port 的通訊內容 
+        /// </summary>
+        /// <param name="Portid"></param>
+        /// <param name="msg"></param>
+        public void DisplayInfoToViewText(int Portid, string msg)
+        {
+            AllViewText += msg + "\r\n";
+            if (Portid == 0)
+                TextViewPortI += msg + "\r\n";
+            else if (Portid == 1)
+                TextViewPortII += msg + "\r\n";
+            else if (Portid == 2)
+                TextViewPortIII += msg + "\r\n";
+            OnPropertyChanged(nameof(AllViewText));
+        }
         /// <summary>
         /// that is a pop notify message  
         /// </summary>
@@ -69,6 +96,10 @@ namespace SuperCarter.ViewModel
         {
             logger.Log(_popmsg.LogLevel, _popmsg.Msg);
         }
+
+
+
+      
 
     }
 }

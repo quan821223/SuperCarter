@@ -34,7 +34,7 @@ namespace SuperCarter.ViewModel
         public readonly string FOLDER_ACCESS = System.Windows.Forms.Application.StartupPath + @"access\";
         public readonly string FOLDER_RESULT = System.Windows.Forms.Application.StartupPath + @"result\";
 
-        public static Dictionary<int, SerialPort> DicSerialPort = new Dictionary<int, SerialPort>();
+        public static Dictionary<int, SerialPort> DicSerialPort { get;  set; } = new Dictionary<int, SerialPort>();
         //public static ObservableCollection<Portdetectedtype> SerialCandidator { get; set; } = new ObservableCollection<Portdetectedtype>();
         //public static string AllViewText = null;
         private string _TextViewPortI, _TextViewPortII, _TextViewPortIII, _TextViewTestJSON, _PreviewScriptiontext, _TestTextView;

@@ -259,7 +259,7 @@
                             <ColumnDefinition Width=".35*"  />
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.Column="0" 
-                                                Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}" 
+                                                Text="{Binding serialportmanager.InputText, UpdateSourceTrigger=PropertyChanged}" 
                                                 FontFamily="Consolas" FontSize="14" 
                                                 Margin="5" TextWrapping="Wrap" AcceptsReturn="True"
                                                 VerticalScrollBarVisibility="Visible"
@@ -291,8 +291,8 @@
                                                     DisplayMemberPath="idName"
                                                     SelectedValuePath="idValue"  
                                                     FontSize="12" 
-                                                    ItemsSource="{Binding Path = serialPortViewModelBase.PortIDlist}"
-                                                    SelectedValue="{Binding Path = SelectedCom, Mode=TwoWay}">
+                                                    ItemsSource="{Binding Path = serialportmanager.PortIDlist}"
+                                                    SelectedValue="{Binding Path = serialportmanager.SelectedCom, Mode=TwoWay}">
 
                                 </ComboBox>
 
@@ -300,7 +300,7 @@
                                 <CheckBox x:Name="HexSendCheckBox"
                                                     Content="IsHex"
                                                     Grid.Column="1"                                                       
-                                                    IsChecked="{Binding IsHexSend}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    IsChecked="{Binding serialportmanager.IsHexSend}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
 
                             </Grid>
@@ -314,7 +314,7 @@
                                                 Content="Send"  
                                                 Margin="2"
                                                 FontSize="16" 
-                                                Command="{Binding SendData}"  
+                                                Command="{Binding serialportmanager.WriteDatatodevice}"  
                                                 >
                                 </Button>
 

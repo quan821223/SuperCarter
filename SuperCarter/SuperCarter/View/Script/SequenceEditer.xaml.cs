@@ -33,7 +33,8 @@ namespace SuperCarter.View.Script
         }
         private void SequenceScript_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            //(this.DataContext as SMSViewModel).serialPortViewModelBase.SelectedScriptitem = SequenceScript.SelectedIndex;
+            //(this.DataContext as ScriptEditor).SelectedCMDItem = SequenceScript.SelectedIndex;
+            //ScriptEditor.Instance.SelectedCMD = SequenceScript.SelectedIndex;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -57,7 +58,7 @@ namespace SuperCarter.View.Script
             SequenceScript.CancelEdit(DataGridEditingUnit.Cell);
             SequenceScript.CancelEdit(DataGridEditingUnit.Row);
 
-            //(this.DataContext as SuperCarterViewModel).serialPortViewModelBase.evt_ScriptToolBar_Sortintitem();
+            (this.DataContext as SuperCarterViewModel).scriptEditor.evt_ScriptToolBar_Sortintitem();
 
 
             CollectionViewSource.GetDefaultView(SequenceScript.ItemsSource).Refresh();

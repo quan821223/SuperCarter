@@ -11,6 +11,11 @@ using CsvHelper.Configuration.Attributes;
 
 namespace SuperCarter.Model
 {
+    public class SerialidList
+    {
+        public int idValue { get; set; }
+        public string idName { get; set; }
+    }
     public class PortIDItems : ObservableCollection<string>
     {
         public PortIDItems()

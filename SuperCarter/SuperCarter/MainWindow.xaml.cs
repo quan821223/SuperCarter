@@ -162,6 +162,7 @@ namespace SuperCarter
                 Msg = "Auto_save_candidaters_process..."
             });
             SuperCarterVM.serialportmanager.AutoSaveStatus();
+            System.Environment.Exit(0);
         }
 
         private void PathofLogItem_Click(object sender, RoutedEventArgs e)
@@ -179,6 +180,88 @@ namespace SuperCarter
         private void CalcMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("calc.exe");
+        }
+
+
+        private void appwindow_Click(object sender, RoutedEventArgs e)
+        {
+            if (dockManager.Visibility != Visibility.Visible)
+                dockManager.Visibility = Visibility.Visible;
+
+            var Application_window = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "Application_window");
+
+            if (Application_window.IsHidden)
+                Application_window.Show();
+            else if (Application_window.IsVisible)
+                Application_window.IsActive = true;
+            else if (!Application_window.IsActive)
+                Application_window.Show();
+            else
+            {
+                Application_window.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
+                Application_window.Show();
+            }
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+        
+
+        }
+
+        private void OpenAllview_Click(object sender, RoutedEventArgs e)
+        {
+            // TextViewPortIII_Output
+            var TextViewPortIII_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "TextViewPortIII_Output");
+            if (TextViewPortIII_Output.IsHidden)
+                TextViewPortIII_Output.Show();
+            else if (TextViewPortIII_Output.IsEnabled)
+                TextViewPortIII_Output.Show();
+            else if (!TextViewPortIII_Output.IsActive)
+                TextViewPortIII_Output.Show();
+            else
+            {
+                TextViewPortIII_Output.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
+                TextViewPortIII_Output.Show();
+            }
+            // TextViewPortII_Output
+            var TextViewPortII_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "TextViewPortII_Output");
+            if (TextViewPortII_Output.IsHidden)
+                TextViewPortII_Output.Show();
+            else if (TextViewPortII_Output.IsEnabled)
+                TextViewPortII_Output.Show();
+            else if (!TextViewPortII_Output.IsActive)
+                TextViewPortII_Output.Show();
+            else
+            {
+                TextViewPortII_Output.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
+                TextViewPortII_Output.Show();
+            }
+            // TextViewPortI_Output
+            var TextViewPortI_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "TextViewPortI_Output");
+            if (TextViewPortI_Output.IsHidden)
+                TextViewPortI_Output.Show();
+            else if (TextViewPortI_Output.IsEnabled)
+                TextViewPortI_Output.Show();
+            else if (!TextViewPortI_Output.IsActive)
+                TextViewPortI_Output.Show();
+            else
+            {
+                TextViewPortI_Output.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
+                TextViewPortI_Output.Show();
+            }
+            // AllViewText_Output
+            var AllViewText_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "AllViewText_Output");
+            if (AllViewText_Output.IsHidden)
+                AllViewText_Output.Show();
+            else if (AllViewText_Output.IsEnabled)
+                AllViewText_Output.Show();
+            else if (!AllViewText_Output.IsActive)
+                AllViewText_Output.Show();
+            else
+            {
+                AllViewText_Output.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
+                AllViewText_Output.Show();
+            }
         }
     }
 }

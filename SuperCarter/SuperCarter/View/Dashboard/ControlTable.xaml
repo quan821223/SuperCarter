@@ -6,7 +6,317 @@
              xmlns:local="clr-namespace:SuperCarter.View.Dashboard"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+       <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="52"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid  Grid.Row="0" >
+                <Label Margin="0" 
+                               Content="Control Table"
+                               FontFamily="Cascadia Mono PL SemiBold"
+                               FontWeight="Bold" 
+                               FontSize="24" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" 
+                               Foreground="#FF005087"   />
+            </Grid>
+            <Grid Grid.Row="1" HorizontalAlignment="Center" 
+                  Margin="53 12" MinHeight="800">
+                <Grid.Resources>
+
+                    <Style TargetType="Label" x:Key="targetlabel">
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="Width" Value="300"/>
+                    </Style>
+                    <Style TargetType="TextBox" x:Key="parameterTextBox">
+                        <Setter Property="Height" Value="23"/>
+                        <Setter Property="Width" Value="90"/>
+                        <Setter Property="Margin" Value="7 0 7 0"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="39"/>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="600"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="0">
+
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Label Content="Category" Style="{StaticResource targetlabel}"/>
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="2">
+                        <Label Content="Normal mode" Style="{StaticResource targetlabel}"/>
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="3">
+                        <Label Content="Sleep mode" Style="{StaticResource targetlabel}"/>
+                    </Grid>
+
+
+                    <Grid Grid.Row="1" Grid.Column="0">
+
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="1">
+
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <Label Content="下限" Width="100" HorizontalAlignment="Left" />
+                        <Label Content="上限" Width="100" HorizontalAlignment="Right"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="3">
+                        <Label Content="下限" Width="100" HorizontalAlignment="Left"/>
+                        <Label Content="上限" Width="100" HorizontalAlignment="Right"/>
+                    </Grid>
+
+
+                    <Grid Grid.Row="2" Grid.Column="0">
+                        <CheckBox />
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="Brightness" Width="200"/>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="2">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="3">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="2" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock TextWrapping ="Wrap" Text="Read current FIDM brightness (%)" >
+
+                            </TextBlock>
+                        </StackPanel>
+
+                    </Grid>
+
+
+                    <Grid Grid.Row="3" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="Diagnostic" />
+                    </Grid>
+
+
+                    <Grid Grid.Row="4" Grid.Column="0">
+                        <CheckBox />
+                    </Grid>
+                    <Grid Grid.Row="4" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="Diagnostic" Margin="50 0 0 0" />
+                    </Grid>
+                    <Grid Grid.Row="4" Grid.Column="2">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="4" Grid.Column="3">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="4" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock  TextWrapping ="Wrap" Text="Read and judge diagnostic data Because disgnostic definition is by differnet project, &#x000A;(1)monitor diagnostic data and data number defined by yourself 
+                             &#x000A;(2) SuperCarrier F/W judge the disgnostic data is Normal or not and report the Pass/Fail to Host )" >
+
+                            </TextBlock>
+                        </StackPanel>
+
+                    </Grid>
+
+
+                    <Grid Grid.Row="5" Grid.Column="0">
+                        <CheckBox />
+                    </Grid>
+                    <Grid Grid.Row="5" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="Voltage" Margin="50 0 0 0" />
+                    </Grid>
+                    <Grid Grid.Row="5" Grid.Column="2">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="5" Grid.Column="3">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="5" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock  TextWrapping ="Wrap" Text="Read FIDM Input Voltage &#x000A;(unit:V, vector:0.1, offset:0) &#x000A; Example 13.8V :0x8A=138 ->138*0.1=13.8V" >
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+
+                    <Grid Grid.Row="6" Grid.Column="0">
+                        <CheckBox />
+                    </Grid>
+                    <Grid Grid.Row="6" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="PCBA　Temp" Margin="50 0 0 0" />
+                    </Grid>
+                    <Grid Grid.Row="6" Grid.Column="2">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="6" Grid.Column="3">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="6" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock  TextWrapping ="Wrap" Text="Read FIDM PCBA NTC temperature&#x000A;(unit:℃, vector:1, offset:-40)&#x000A;ExamplePCBA 35℃:0x4B=75 ->75-40=35℃" >
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+
+                    <Grid Grid.Row="7" Grid.Column="0">
+                        <CheckBox />
+                    </Grid>
+                    <Grid Grid.Row="7" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="LED1 Temp" Margin="50 0 0 0" />
+                    </Grid>
+                    <Grid Grid.Row="7" Grid.Column="2">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="7" Grid.Column="3">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="7" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock  TextWrapping ="Wrap" Text="Read FIDM LED1 NTC temperature&#x000A;(unit:℃, vector:1, offset:-40) &#x000A;Example LED1 35℃:0x4B=75 ->75-40=35℃" >
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+
+
+                    <Grid Grid.Row="8" Grid.Column="0">
+                        <CheckBox />
+                    </Grid>
+                    <Grid Grid.Row="8" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="LED2 Temp" Margin="50 0 0 0" />
+                    </Grid>
+                    <Grid Grid.Row="8" Grid.Column="2">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="8" Grid.Column="3">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="8" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock  TextWrapping ="Wrap" Text="Read LED2 NTC temperature &#x000A;(unit:℃, vector:1, offset:-40)&#x000A;Example LED2  35℃:0x4B=75 ->75-40=35℃" >
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+
+
+                    <Grid Grid.Row="9" Grid.Column="0">
+                        <CheckBox />
+                    </Grid>
+                    <Grid Grid.Row="9" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="Component Temp" Margin="50 0 0 0" />
+                    </Grid>
+                    <Grid Grid.Row="9" Grid.Column="2">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="9" Grid.Column="3">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="9" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock  TextWrapping ="Wrap" Text="Read chamber Ambient or other component temperature by SuperCarrier K line &#x000A;(unit:℃, vector:1, offset:-40) &#x000A;Example SuperCarrier K  line  35℃:0x4B=75 ->75-40=35℃" >
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+
+
+                    <Grid Grid.Row="10" Grid.Column="0" IsEnabled="False">
+                        <CheckBox />
+                    </Grid>
+                    <Grid Grid.Row="10" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="ADC Temp" Margin="50 0 0 0" />
+                    </Grid>
+                    <Grid Grid.Row="10" Grid.Column="2">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="10" Grid.Column="3">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="10" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock  TextWrapping ="Wrap" Text="Light sensor to detect display brightness status (Supercarrier ADC 12 bits)" >
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+
+                    <Grid Grid.Row="11" Grid.Column="0">
+                        <CheckBox />
+                    </Grid>
+                    <Grid Grid.Row="11" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="Current" />
+                    </Grid>
+                    <Grid Grid.Row="11" Grid.Column="2">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="11" Grid.Column="3">
+                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="11" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock  TextWrapping ="Wrap" Text="Ask SuperCarrier to request FIDM into Normal mode and change current path and response FIDM Normal mode current (max 15A) to Host (unit :A)&#x000A;&#x000A;Ask SuperCarrier to request FIDM into Sleep mode and change current path 
+and response FIDM Sleep mode current (max 300uA) to Host(unit:uA)" >
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
