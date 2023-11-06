@@ -9,7 +9,7 @@
              xmlns:xrpb="clr-namespace:XamlRadialProgressBar;assembly=XamlRadialProgressBar"   
            
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+            >
     <Grid>
         <Grid.Resources>
             <Style TargetType="Label" x:Key="DashboardLabel">
@@ -30,8 +30,13 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="390"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="390"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1" Margin="5">
+                   
+                   
+                </Grid>
                 <Grid Grid.Column="0" Margin="8">
                     <!--此網格為前端物件的項目-->
                     <Grid>
@@ -130,69 +135,48 @@
                                             2. 發送端的腳本輸出
                                                 
                                         -->
-                                    <Border  Background="White" CornerRadius="6" Margin="6">
-                                        <Border.Effect>
-                                            <DropShadowEffect Color="Black" 
-			                                                ShadowDepth = "0" 
-			                                                BlurRadius = "3" 
-			                                                Opacity = "1" 
-			                                                Direction = "0"                                 
-			                                                      />
-                                        </Border.Effect>
-                                        <Border.OpacityMask>
-                                            <VisualBrush>
-                                                <VisualBrush.Visual>
-                                                    <Border Background="Black"
-					                                            SnapsToDevicePixels="True"
-					                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
-					                                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
-					                                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
-					                                            />
-                                                </VisualBrush.Visual>
-                                            </VisualBrush>
-                                        </Border.OpacityMask>
-                                        <WrapPanel Orientation="Horizontal">
+                                    <TabControl  TabStripPlacement="Top" Margin="1" >
+                                        <TabItem>
+                                            <TabItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="Numeric1CircleOutline"
+                                                             Width="26" Height="32"
+                                                             VerticalAlignment="Stretch" 
+                                                             Foreground="#FF4D4D4D" 
+                                                             HorizontalAlignment="Stretch"
+                                                             />
+                                                    <TextBlock Text="Script" Foreground="Black" 
+                                               FontWeight="Bold" Margin="1 5"/>
+                                                </StackPanel>
+                                            </TabItem.Header>
+                                            <StackPanel Orientation="Vertical">
 
-                                            <SpyderToggle:RoundToggleButton 
-                                                                IsChecked="{Binding CustomScriptEditor.IsEnableExecuteSDMchecklists, Mode=TwoWay}"
-                                                                Command="{Binding CustomScriptEditor.ExecuteSDMchecklistScript}"
-                                                                MaxHeight="29"
-                                                                Margin="6"
-                                                                HorizontalAlignment="Right"
-                                                                 />
-                                            <TextBlock Text="快速SDM簡易狀態資料輸出"                                                      
-                                                               Margin="12 0 12 0"
-                                                           Style="{StaticResource TextBlockstyle}"                                                         
-                                                            />
 
-                                        </WrapPanel>
-                                    </Border>
-
-                                    <Expander Background="#ffd32a"  IsExpanded="False" Margin="6">
-                                        <Expander.Header>
-                                            <BulletDecorator>
-                                                <BulletDecorator.Bullet>
-                                                    <materialDesign:PackIcon Grid.Row="0" 
+                                                <Expander Background="#ffd32a"  IsExpanded="True" Margin="6">
+                                                    <Expander.Header>
+                                                        <BulletDecorator>
+                                                            <BulletDecorator.Bullet>
+                                                                <materialDesign:PackIcon Grid.Row="0" 
                                                                                 Kind="TuneVerticalVariant"
                                                                                 Width="22" Height="42"
                                                                                 VerticalAlignment="Stretch" 
                                                                                 Foreground="Black" 
                                                                                 HorizontalAlignment="Stretch"/>
-                                                </BulletDecorator.Bullet>
-                                                <TextBlock Margin="10,0,0,0" Text="運行設定 - 快速SDM簡易狀態資料輸出" 
+                                                            </BulletDecorator.Bullet>
+                                                            <TextBlock Margin="10,0,0,0" Text="運行設定 - 快速SDM簡易狀態資料輸出" 
                                                            FontFamily="Console" 
                                                            FontSize="14"
                                                            VerticalAlignment="Center" 
                                                            HorizontalAlignment="Stretch"
                                                            Foreground="Black"  />
-                                            </BulletDecorator>
-                                        </Expander.Header>
-                                        <WrapPanel  Background="White"  >
-                                            <StackPanel Orientation="Vertical" Margin ="0 0 0 0" Width="320">
-                                                <Label  Content="選取欲關注項的運行腳本 : "   Margin="0" HorizontalAlignment="Left"/>
-                                                <StackPanel  Orientation="Vertical" Margin ="0">
+                                                        </BulletDecorator>
+                                                    </Expander.Header>
+                                                    <WrapPanel  Background="White"  >
+                                                        <StackPanel Orientation="Vertical" Margin ="0 0 0 0" Width="320">
+                                                            <Label  Content="選取運行的腳本 : "   Margin="0" HorizontalAlignment="Left"/>
+                                                            <StackPanel  Orientation="Vertical" Margin ="0">
 
-                                                    <TextBox x:Name="SDMChecklistscriptXMLPath"
+                                                                <TextBox x:Name="SDMChecklistscriptXMLPath"
                                                              FontSize="14"                                                                 
                                                              Text="{Binding CustomScriptEditor.SDMChecklistscriptXMLPath}"
                                                              IsEnabled="{Binding IsUnlockScriptSetting}"
@@ -200,7 +184,7 @@
                                                              TextChanged="SDMChecklistscriptXMLPath_TextChanged"
                                                                  />
 
-                                                    <Button Width="300" Height="33" 
+                                                                <Button Width="300" Height="33" 
                                                             Command="{Binding CustomScriptEditor.LoadSDMchecklistScript}"  
                                                             IsEnabled="{Binding IsUnlockScriptSetting}"
                                                             ToolTip="View the path location" 
@@ -208,78 +192,130 @@
                                                             HorizontalAlignment="Left" 
                                                             Margin="3 3 3 0">
 
-                                                        <Button.Style>
+                                                                    <Button.Style>
 
-                                                            <Style TargetType="{x:Type Button}">
-                                                                <Setter Property="Template">
-                                                                    <Setter.Value>
-                                                                        <ControlTemplate TargetType="{x:Type Button}">
-                                                                            <ContentControl>
-                                                                                <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.5" Background="{TemplateBinding Background}" CornerRadius="4">
-                                                                                    <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
-                                                                                        <materialDesign:PackIcon Kind="OpenInNew"
+                                                                        <Style TargetType="{x:Type Button}">
+                                                                            <Setter Property="Template">
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                                                        <ContentControl>
+                                                                                            <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .9 1.0 1.1" Background="{TemplateBinding Background}" CornerRadius="4">
+                                                                                                <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
+                                                                                                    <materialDesign:PackIcon Kind="OpenInNew"
                                                                                                                         Width="23" Height="23"
                                                                                                                         VerticalAlignment="Stretch" 
                                                                                                                         Foreground="#FF4D4D4D" 
                                                                                                                         HorizontalAlignment="Stretch"/>
-                                                                                        <Label Content="選擇" VerticalAlignment="Center" Foreground="Black"/>
-                                                                                    </StackPanel>
-                                                                                </Border>
-                                                                            </ContentControl>
-                                                                            <ControlTemplate.Triggers>
-                                                                                <Trigger Property="Button.IsPressed" Value="True" >
-                                                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
-                                                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
-                                                                                </Trigger>
-                                                                            </ControlTemplate.Triggers>
-                                                                        </ControlTemplate>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </Style>
-                                                        </Button.Style>
-                                                    </Button>
-                                                </StackPanel>
+                                                                                                    <Label Content="選擇" VerticalAlignment="Center" Foreground="Black"/>
+                                                                                                </StackPanel>
+                                                                                            </Border>
+                                                                                        </ContentControl>
+                                                                                        <ControlTemplate.Triggers>
+                                                                                            <Trigger Property="Button.IsPressed" Value="True" >
+                                                                                                <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                                                                <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                                                            </Trigger>
+                                                                                        </ControlTemplate.Triggers>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Style>
+                                                                    </Button.Style>
+                                                                </Button>
+                                                            </StackPanel>
 
+                                                        </StackPanel>
+                                                    </WrapPanel>
+                                                </Expander>
+                                                <Border  Background="White" CornerRadius="6" Margin="6">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="Black" 
+			                                                ShadowDepth = "0" 
+			                                                BlurRadius = "3" 
+			                                                Opacity = "1" 
+			                                                Direction = "0"                                 
+			                                                      />
+                                                    </Border.Effect>
+                                                    <Border.OpacityMask>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border Background="Black"
+					                                            SnapsToDevicePixels="True"
+					                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+					                                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+					                                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+					                                            />
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </Border.OpacityMask>
+                                                    <WrapPanel Orientation="Horizontal">
+
+                                                        <SpyderToggle:RoundToggleButton 
+                                                                IsChecked="{Binding CustomScriptEditor.IsEnableExecuteSDMchecklists, Mode=TwoWay}"
+                                                                Command="{Binding CustomScriptEditor.ExecuteSDMchecklistScript}"
+                                                                MaxHeight="29"
+                                                                Margin="6"
+                                                                HorizontalAlignment="Right"
+                                                                 />
+                                                        <TextBlock Text="運行" 
+                                                   Margin="12 0 12 0"
+                                                   VerticalAlignment="Center"
+                                                   />
+
+                                                    </WrapPanel>
+                                                </Border>
                                             </StackPanel>
-                                        </WrapPanel>
-                                    </Expander>
-                                    <Expander Background="MediumOrchid"  IsExpanded="True" Margin="5">
-                                        <Expander.Header>
-                                            <BulletDecorator>
-                                                <BulletDecorator.Bullet>
-                                                    <materialDesign:PackIcon Grid.Row="0" 
+                                        </TabItem>
+                                        <TabItem>
+                                            <TabItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="Numeric2CircleOutline"
+                                                             Width="26" Height="32"
+                                                             VerticalAlignment="Stretch" 
+                                                             Foreground="#FF4D4D4D" 
+                                                             HorizontalAlignment="Stretch"
+                                                             />
+                                                    <TextBlock Text="Script" Foreground="Black" 
+                                               FontWeight="Bold" Margin="1 5"/>
+                                                </StackPanel>
+                                            </TabItem.Header>
+                                            <StackPanel Orientation="Vertical">
+                                                <Expander Background="MediumOrchid"  IsExpanded="True" Margin="5">
+                                                    <Expander.Header>
+                                                        <BulletDecorator>
+                                                            <BulletDecorator.Bullet>
+                                                                <materialDesign:PackIcon Grid.Row="0" 
                                                                                 Kind="TuneVerticalVariant"
                                                                                 Width="22" Height="42"
                                                                                 VerticalAlignment="Stretch" 
                                                                                 Foreground="Black" 
                                                                                 HorizontalAlignment="Stretch"/>
-                                                </BulletDecorator.Bullet>
-                                                <TextBlock Margin="10,0,0,0" Text="運行設定 - 執行腳本" 
+                                                            </BulletDecorator.Bullet>
+                                                            <TextBlock Margin="10,0,0,0" Text="運行設定 - 執行腳本" 
                                                            FontFamily="Console" 
                                                            FontSize="14"
                                                            VerticalAlignment="Center" 
                                                            HorizontalAlignment="Stretch"
                                                            Foreground="Black"  />
-                                            </BulletDecorator>
-                                        </Expander.Header>
-                                        <WrapPanel  Background="White"  >
-                                            <StackPanel Orientation="Vertical" Margin ="0 0 0 0" Width="330">
-                                                <Label  Content="選取欲執行腳本的位置 : "   Margin="12 0 12 0" HorizontalAlignment="Left"/>
-                                                <StackPanel  Orientation="Vertical" Margin ="0">
+                                                        </BulletDecorator>
+                                                    </Expander.Header>
+                                                    <WrapPanel  Background="White"  >
+                                                        <StackPanel Orientation="Vertical" Margin ="0 0 0 0" Width="330">
+                                                            <Label  Content="選取欲執行腳本的位置 : "   Margin="12 0 12 0" HorizontalAlignment="Left"/>
+                                                            <StackPanel  Orientation="Vertical" Margin ="0">
 
 
-                                                    <StackPanel  Orientation="Horizontal" Margin ="0">
-                                                        <TextBox x:Name="ScheduleScrollingScriptPath"
+                                                                <StackPanel  Orientation="Horizontal" Margin ="0">
+                                                                    <TextBox x:Name="ScheduleScrollingScriptPath"
                                                                  FontSize="14"
-                                                                 MinWidth="100"
+                                                                 MinWidth="300"
                                                                  Text="{Binding ScheduleScrollingScriptPath}"
                                                                  IsEnabled="{Binding IsUnlockScriptSetting}"
                                                                  FontFamily="Champagne &amp;amp; Limousines"
                                                                  TextChanged="ScheduleScrollingScriptPath_TextChanged"/>
 
-                                                        <Button Command="{Binding initialStateConfirm.testrun}" Width="200" Content="test"/>
-                                                    </StackPanel>
-                                                    <Button Width="310" Height="33" 
+                                                                </StackPanel>
+                                                                <Button Width="310" Height="33" 
                                                                 Command="{Binding LoadScheduleScrollingScript}"  
                                                                 IsEnabled="{Binding IsUnlockScriptSetting}"
                                                                 ToolTip="View the path location" 
@@ -287,86 +323,91 @@
                                                                 HorizontalAlignment="Left" 
                                                                 Margin="3 3 3 0">
 
-                                                        <Button.Style>
+                                                                    <Button.Style>
 
-                                                            <Style TargetType="{x:Type Button}">
-                                                                <Setter Property="Template">
-                                                                    <Setter.Value>
-                                                                        <ControlTemplate TargetType="{x:Type Button}">
-                                                                            <ContentControl>
-                                                                                <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.5" Background="{TemplateBinding Background}" CornerRadius="4">
-                                                                                    <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
-                                                                                        <materialDesign:PackIcon Kind="OpenInNew"
+                                                                        <Style TargetType="{x:Type Button}">
+                                                                            <Setter Property="Template">
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                                                        <ContentControl>
+                                                                                            <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.1" Background="{TemplateBinding Background}" CornerRadius="4">
+                                                                                                <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
+                                                                                                    <materialDesign:PackIcon Kind="OpenInNew"
                                                                                                                         Width="23" Height="23"
                                                                                                                         VerticalAlignment="Stretch" 
                                                                                                                         Foreground="#FF4D4D4D" 
                                                                                                                         HorizontalAlignment="Stretch"/>
-                                                                                        <Label Content="選擇" VerticalAlignment="Center" Foreground="Black"/>
-                                                                                    </StackPanel>
-                                                                                </Border>
-                                                                            </ContentControl>
-                                                                            <ControlTemplate.Triggers>
-                                                                                <Trigger Property="Button.IsPressed" Value="True" >
-                                                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
-                                                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
-                                                                                </Trigger>
-                                                                            </ControlTemplate.Triggers>
-                                                                        </ControlTemplate>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </Style>
-                                                        </Button.Style>
-                                                    </Button>
+                                                                                                    <Label Content="選擇" VerticalAlignment="Center" Foreground="Black"/>
+                                                                                                </StackPanel>
+                                                                                            </Border>
+                                                                                        </ContentControl>
+                                                                                        <ControlTemplate.Triggers>
+                                                                                            <Trigger Property="Button.IsPressed" Value="True" >
+                                                                                                <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                                                                <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                                                            </Trigger>
+                                                                                        </ControlTemplate.Triggers>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Style>
+                                                                    </Button.Style>
+                                                                </Button>
 
 
-                                                </StackPanel>
+                                                            </StackPanel>
 
-                                            </StackPanel>
-                                        </WrapPanel>
-                                    </Expander>
-                                    <Border  Background="White" CornerRadius="6" Margin="6">
-                                        <Border.Effect>
-                                            <DropShadowEffect Color="Black" 
+                                                        </StackPanel>
+                                                    </WrapPanel>
+                                                </Expander>
+                                                <Border  Background="White" CornerRadius="6" Margin="6">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="Black" 
 			                                                ShadowDepth = "0" 
 			                                                BlurRadius = "3" 
 			                                                Opacity = "1" 
 			                                                Direction = "0"                                 
 			                                                      />
-                                        </Border.Effect>
-                                        <Border.OpacityMask>
-                                            <VisualBrush>
-                                                <VisualBrush.Visual>
-                                                    <Border Background="Black"
+                                                    </Border.Effect>
+                                                    <Border.OpacityMask>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border Background="Black"
 					                                            SnapsToDevicePixels="True"
 					                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
 					                                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
 					                                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
 					                                            />
-                                                </VisualBrush.Visual>
-                                            </VisualBrush>
-                                        </Border.OpacityMask>
-                                        <WrapPanel Orientation="Horizontal">
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </Border.OpacityMask>
+                                                    <WrapPanel Orientation="Horizontal">
 
-                                            <SpyderToggle:RoundToggleButton IsChecked="{Binding IsEnableExecuteScheduleScrolling, Mode=TwoWay}"
+                                                        <SpyderToggle:RoundToggleButton IsChecked="{Binding IsEnableExecuteScheduleScrolling, Mode=TwoWay}"
                                                                                 Command="{Binding ExecuteScriptScroling}"
                                                                                 MaxHeight="29"
                                                                                 Margin="6"
                                                                                 HorizontalAlignment="Right"
                                                                                  />
-                                            <TextBlock Text="執行腳本"                                                        
+                                                        <TextBlock Text="執行腳本"                                                        
                                                            Margin="12 0 12 0"
-                                                           Style="{StaticResource TextBlockstyle}"                                                         
+                                                                                                                   
                                                            />
 
-                                        </WrapPanel>
-                                    </Border>
+                                                    </WrapPanel>
+                                                </Border>
+
+                                            </StackPanel>
+                                        </TabItem>
+                                    </TabControl>
+
                                 </ListBox>
                             </StackPanel>
                         </ScrollViewer>
 
                     </Grid>
                 </Grid>
-                <Grid Grid.Column="1" Margin="7" MinWidth="300" MaxWidth="400">
+                <Grid Grid.Column="2" Margin="7" MinWidth="300" MaxWidth="400">
                     <!--此網格為前端物件的項目-->
                     <Grid>
                         <Border  Background="White" CornerRadius="5">
