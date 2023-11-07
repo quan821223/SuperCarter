@@ -34,7 +34,7 @@ namespace SuperCarter.Model
 
             blockAfolderViewerlist = new ObservableCollection<IFiletype>();
             ctsScrollingcheck= new CancellationTokenSource();
-
+           
         }
 
         ~CustomScriptEditor()
@@ -44,7 +44,8 @@ namespace SuperCarter.Model
         }
 
         #region property
-        private UnifiedHostCommandSettype UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+        public CSVfile cSVfile { get; set; }
+        private UnifiedHostCommandSettypeBeta UnifiedHostCommandSet = new UnifiedHostCommandSettypeBeta();
         public ObservableCollection<IFiletype> blockAfolderViewerlist { get; set; } = new ObservableCollection<IFiletype>();
         public ObservableCollection<Foldertype> folderViewerlist { get; set; } = new ObservableCollection<Foldertype>();
         public string Viewerpath { get; set; }
@@ -445,10 +446,10 @@ namespace SuperCarter.Model
                         Sendorwatch.Stop();
                         var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
 
-                        if (remainingSpentTime > 0)
-                        {
-                            await Task.Delay(remainingSpentTime, cancellationToken);
-                        }
+                        //if (remainingSpentTime > 0)
+                        //{
+                        //    await Task.Delay(remainingSpentTime, cancellationToken);
+                        //}
                     }
                     else
                     {
@@ -488,8 +489,18 @@ namespace SuperCarter.Model
             }
         }
         public void SaveDynamicMonitorResult()
-        { 
-        
+        {
+            var functionselector =new FunctionSelector()
+            {
+                IncludeTime = false,
+                IncludeLoop = false,
+                IncludeBlockloop = false,
+                IncludeBlockphase = false
+            };
+            cSVfile.AppendToCsv2(UnifiedHostCommandSet, "FunctionB");
+            //CSVfile.Instance.AppendToCsv(UnifiedHostCommandSet, "Function2");
+            UnifiedHostCommandSet = new UnifiedHostCommandSettypeBeta();
+
         }
         #endregion
 
@@ -677,13 +688,16 @@ namespace SuperCarter.Model
                         DicSerialPort[i].DiscardOutBuffer();
                     }
                 }
-                if (string.IsNullOrEmpty(SDMChecklistscriptXMLPath) || ! (DicSerialPort[0].IsOpen && DicSerialPort[1].IsOpen &&  DicSerialPort[2].IsOpen ))
+                if (string.IsNullOrEmpty(SDMChecklistscriptXMLPath) || ! (DicSerialPort[0].IsOpen || DicSerialPort[1].IsOpen || DicSerialPort[2].IsOpen ))
                 {
                     IsEnableExecuteSDMchecklists = false;
                     OnPropertyChanged(nameof(IsEnableExecuteSDMchecklists));
                 }                      
                 else
                 {
+                    UnifiedHostCommandSet = new UnifiedHostCommandSettypeBeta();
+
+                    cSVfile = new CSVfile();
                     ctsScrollingcheck = new CancellationTokenSource();
                     StartScrollingCheck(ctsScrollingcheck.Token);
                 }
@@ -934,11 +948,36 @@ namespace SuperCarter.Model
             if (sendByte4 == 0x01)
             {
                 string msg = string.Format("{0}.{1}", bytes.byte_buffer_Receive[3].ToString(), bytes.byte_buffer_Receive[4].ToString());
+          
+                if (bytes.byte_buffer_Receive[1] == 1)
+                {
+                    UnifiedHostCommandSet.DUT1SWversion = msg;
+                }
+                else if (bytes.byte_buffer_Receive[1] == 2)
+                {
+                    UnifiedHostCommandSet.DUT2SWversion = msg;
+                }
+                else if (bytes.byte_buffer_Receive[1] == 3)
+                {
+                    UnifiedHostCommandSet.DUT3SWversion = msg;
+                }
                 evt_func_SWversion(bytes.byte_buffer_Receive[1], msg);
             }
             else if (sendByte4 == 0x02)
             {
                 string msg = string.Format("{0}.{1}", bytes.byte_buffer_Receive[3].ToString(), bytes.byte_buffer_Receive[4].ToString());
+                if (bytes.byte_buffer_Receive[1] == 1)
+                {
+                    UnifiedHostCommandSet.DUT1HWversion = msg;
+                }
+                else if (bytes.byte_buffer_Receive[1] == 2)
+                {
+                    UnifiedHostCommandSet.DUT2HWversion = msg;
+                }
+                else if (bytes.byte_buffer_Receive[1] == 3)
+                {
+                    UnifiedHostCommandSet.DUT3HWversion = msg;
+                }
                 evt_func_HWversion(bytes.byte_buffer_Receive[1], msg);
             }
         }

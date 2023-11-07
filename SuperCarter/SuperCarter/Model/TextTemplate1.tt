@@ -1,0 +1,41 @@
+﻿<#@ template language="C#" debug="false" #>
+<#@ output extension=".cs" #>
+
+public class UnifiedHostCommandSettypeBeta
+{
+    <# 
+    // 在这里列出所有需要生成配置的属性
+    var properties = new[]
+    {
+        "Time", "Loop", "Blockloop", "Blockphase", "DUT1PowerMode", "DUT1SWversion", "DUT1HWversion", "DUT1Voltage", "DUT1NormalCurrent", "DUT1SleepCurrent", "DUT1Diagnostic", "DUT1Lightsensor", "DUT1Touchfinger", "DUT1Touch_XY", "DUT1Brightness", "DUT1T_chamber", "DUT1T_LED1_2PCB", "DUT1Diagnostic_raw", "DUT2SWversion", "DUT2HWversion", "DUT2PowerMode", "DUT2Voltage", "DUT2NormalCurrent", "DUT2SleepCurrent", "DUT2Diagnostic", "DUT2Lightsensor", "DUT2Touchfinger", "DUT2Touch_XY", "DUT2Brightness", "DUT2T_chamber", "DUT2T_LED1_2PCB", "DUT2Diagnostic_raw", "DUT3SWversion", "DUT3HWversion", "DUT3PowerMode", "DUT3Voltage", "DUT3NormalCurrent", "DUT3SleepCurrent", "DUT3Diagnostic", "DUT3Lightsensor", "DUT3Touchfinger", "DUT3Touch_XY", "DUT3Brightness", "DUT3T_chamber", "DUT3T_LED1_2PCB", "DUT3Diagnostic_raw", 
+
+        // 添加其他属性...
+    };
+
+    // 循环生成属性配置
+    foreach (var property in properties)
+    {
+    #>
+    [Name("<#= property #>")]
+    public string Block<#= property #>
+    {
+        get
+        {
+            if (Selector  != null && !Selector .Include<#= property #>)
+            {
+                return null;
+            }
+            return <#= property #>;
+        }
+        set { <#= property #> = value; }
+    }
+
+    [Ignore]
+    public string <#= property #> { get; set; }
+
+
+
+    <#
+    }
+    #>
+}

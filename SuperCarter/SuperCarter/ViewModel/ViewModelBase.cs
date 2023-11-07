@@ -138,7 +138,7 @@ namespace SuperCarter.ViewModel
             if (Directory.Exists(AppPath + @"\src") == false) Directory.CreateDirectory(AppPath + @"\src");
             if (Directory.Exists(AppPath + @"\scripts") == false) Directory.CreateDirectory(AppPath + @"\scripts");
             if (Directory.Exists(AppPath + @"\scripts\macro") == false) Directory.CreateDirectory(AppPath + @"\scripts\macro");
-
+            if (Directory.Exists(AppPath + @"\result") == false) Directory.CreateDirectory(AppPath + @"\result");
             if (!DicSerialPort.ContainsKey(0))
                 DicSerialPort.Add(0, new SerialPort());
             if (!DicSerialPort.ContainsKey(1))

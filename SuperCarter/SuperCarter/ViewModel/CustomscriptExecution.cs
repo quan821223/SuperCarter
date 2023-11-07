@@ -179,8 +179,8 @@ namespace SuperCarter.Model
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            string path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-outputtestdata.csv");
-            cSVfile = new CSVfile(path); // 請替換為您希望保存文件的路徑
+           
+            cSVfile = new CSVfile(); // 請替換為您希望保存文件的路徑
 
             UnifiedHostCommandSet = new UnifiedHostCommandSettype();
 
