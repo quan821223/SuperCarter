@@ -360,7 +360,7 @@ namespace SuperCarter.Model
                         _ScriptEditor.ExecuteBlockALoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
                         _ScriptEditor.blockAscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
                         _ScriptEditor.blockAscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        _ScriptEditor.ObsColBlockASequences = Temp;
+                        _ScriptEditor.ObsColBlockA1Sequences = Temp;
                         _ScriptEditor.blockAitemcount = Temp.Count;
                     }
                     else if (ite == "TestSuiteB")
@@ -368,7 +368,7 @@ namespace SuperCarter.Model
                         _ScriptEditor.ExecuteBlockBLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
                         _ScriptEditor.blockBscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
                         _ScriptEditor.blockBscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        _ScriptEditor.ObsColBlockBSequences = Temp;
+                        _ScriptEditor.ObsColBlockA2Sequences = Temp;
                         _ScriptEditor.blockBitemcount = Temp.Count;
                     }
                     else if (ite == "TestSuiteC")
@@ -376,7 +376,7 @@ namespace SuperCarter.Model
                         _ScriptEditor.ExecuteBlockCLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
                         _ScriptEditor.blockCscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
                         _ScriptEditor.blockCscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        _ScriptEditor.ObsColBlockCSequences = Temp;
+                        _ScriptEditor.ObsColBlockB1Sequences = Temp;
                         _ScriptEditor.blockCitemcount = Temp.Count;
                     }
                     else if (ite == "TestSuiteD")
@@ -384,7 +384,7 @@ namespace SuperCarter.Model
                         _ScriptEditor.ExecuteBlockDLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
                         _ScriptEditor.blockDscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
                         _ScriptEditor.blockDscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        _ScriptEditor.ObsColBlockDSequences = Temp;
+                        _ScriptEditor.ObsColBlockB2Sequences = Temp;
                         _ScriptEditor.blockDitemcount = Temp.Count;
                     }
                 }
@@ -429,28 +429,28 @@ namespace SuperCarter.Model
 
                     if (item == "TestSuiteA")
                     {
-                        tempblockobsv = _ScriptEditor.ObsColBlockASequences;
+                        tempblockobsv = _ScriptEditor.ObsColBlockA1Sequences;
                         iteravalue = _ScriptEditor.ExecuteBlockALoop;
                         delaytime = _ScriptEditor.blockAscriptDelaytime;
                         preparation.SetAttribute("Path", _ScriptEditor.blockAscriptpath ?? "");
                     }
                     else if (item == "TestSuiteB")
                     {
-                        tempblockobsv = _ScriptEditor.ObsColBlockBSequences;
+                        tempblockobsv = _ScriptEditor.ObsColBlockA2Sequences;
                         iteravalue = _ScriptEditor.ExecuteBlockBLoop;
                         delaytime = _ScriptEditor.blockBscriptDelaytime;
                         preparation.SetAttribute("Path", _ScriptEditor.blockBscriptpath ?? "");
                     }
                     else if (item == "TestSuiteC")
                     {
-                        tempblockobsv = _ScriptEditor.ObsColBlockCSequences;
+                        tempblockobsv = _ScriptEditor.ObsColBlockB1Sequences;
                         iteravalue = _ScriptEditor.ExecuteBlockCLoop;
                         delaytime = _ScriptEditor.blockCscriptDelaytime;
                         preparation.SetAttribute("Path", _ScriptEditor.blockCscriptpath ?? "");
                     }
                     else if (item == "TestSuiteD")
                     {
-                        tempblockobsv = _ScriptEditor.ObsColBlockDSequences;
+                        tempblockobsv = _ScriptEditor.ObsColBlockB2Sequences;
                         iteravalue = _ScriptEditor.ExecuteBlockDLoop;
                         delaytime = _ScriptEditor.blockDscriptDelaytime;
                         preparation.SetAttribute("Path", _ScriptEditor.blockDscriptpath ?? "");

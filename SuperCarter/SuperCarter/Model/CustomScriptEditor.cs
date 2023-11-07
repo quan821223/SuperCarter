@@ -20,43 +20,6 @@ using System.Windows.Media.Imaging;
 
 namespace SuperCarter.Model
 {
-    
-    public class Comporttype : INode 
-    {
-        public string FriendlyName { get; set; }
-       
-        public ObservableCollection<Portdetectedtype> Children { get; set; } = new ObservableCollection<Portdetectedtype>();
-
-    }
-    public class Foldertype : INode
-    {
-        public Foldertype()
-        {
-            this.Children = new ObservableCollection<INode>();
-        }
-
-        public string FriendlyName { get; set; }
-        public BitmapSource MyIcon { get; set; }
-        public string FullPathName { get; set; }
-        public ObservableCollection<INode> Children { get; set; } = new ObservableCollection<INode>();
-        public bool IsExpanded { get; set; }
-        public bool IncludeFileChildren { get; set; }
-
-    }
-
-    public interface INode
-    {
-        string FriendlyName { get; }
-    }
-    public class IFiletype : INode
-    {
-        public string FriendlyName { get; set; }
-        public BitmapSource MyIcon { get; set; }
-        public string FullPathName { get; set; }
-        public bool IsExpanded { get; set; }
-        public bool IncludeFileChildren { get; set; }
-    }
-
     public class CustomScriptEditor : ViewModelBase
     {
      
@@ -72,24 +35,23 @@ namespace SuperCarter.Model
             blockAfolderViewerlist = new ObservableCollection<IFiletype>();
             ctsScrollingcheck= new CancellationTokenSource();
 
-
         }
+
         ~CustomScriptEditor()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-
         #region property
         private UnifiedHostCommandSettype UnifiedHostCommandSet = new UnifiedHostCommandSettype();
         public ObservableCollection<IFiletype> blockAfolderViewerlist { get; set; } = new ObservableCollection<IFiletype>();
         public ObservableCollection<Foldertype> folderViewerlist { get; set; } = new ObservableCollection<Foldertype>();
         public string Viewerpath { get; set; }
-        public ObservableCollection<ScriptItemtype> ObsColBlockASequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        public ObservableCollection<ScriptItemtype> ObsColBlockBSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        public ObservableCollection<ScriptItemtype> ObsColBlockCSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        public ObservableCollection<ScriptItemtype> ObsColBlockDSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
+        public ObservableCollection<ScriptItemtype> ObsColBlockA1Sequences { get; set; } = new ObservableCollection<ScriptItemtype>();
+        public ObservableCollection<ScriptItemtype> ObsColBlockA2Sequences { get; set; } = new ObservableCollection<ScriptItemtype>();
+        public ObservableCollection<ScriptItemtype> ObsColBlockB1Sequences { get; set; } = new ObservableCollection<ScriptItemtype>();
+        public ObservableCollection<ScriptItemtype> ObsColBlockB2Sequences { get; set; } = new ObservableCollection<ScriptItemtype>();
         public int PowerMode { get; set; }
         public int CommnadID { get; set; } = 0;
         private string sendmsg, recmsg;
@@ -99,7 +61,6 @@ namespace SuperCarter.Model
         public int blockCitemcount { get; set; } = 0;
         public int blockDitemcount { get; set; } = 0;
         public bool IsEnableExecuteSDMchecklists { get; set; }
-        public ObservableCollection<ScriptItemtype> ObsColScrollingitem { get; set; } = new ObservableCollection<ScriptItemtype>();
         public string Openblockfilepath { get; set; }
         public double Estimateruntimefullblock
         {
@@ -263,10 +224,91 @@ namespace SuperCarter.Model
                 EstimateruntimeforblockD = _blockDscriptDelaytime;
             }
         }
-        #endregion 
+        #endregion
+
+        #region 更新 
+        public void UpdateDashboardStartThread()
+        {
+            Thread lowPriorityThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    ProcessQueue();
+
+                    // Sleep for a while to prevent busy waiting
+                    Thread.Sleep(200);
+                }
+            });
+
+            lowPriorityThread.Priority = ThreadPriority.Lowest;
+            lowPriorityThread.Start();
+        }
+        private void ProcessQueue()
+        {
+
+            while (true)
+            {
+                while (SendAndReceiveDatabatchQ.TryDequeue(out SendAndReceiveDatabatchcheck bytes))
+                {
+                    if (bytes != null)
+                    {
+                        try
+                        {
+                            ProcessBytes(bytes);
+                        }
+                        catch (Exception ex)
+                        {
+
+                            System.Windows.MessageBox.Show(ex.StackTrace);
+                            System.Windows.MessageBox.Show(ex.Message);
+                        }
+                    }
+                }
+
+                // 如果你不打算持續地檢查佇列，那麼這裡可以加上一個小的延遲以避免忙碌等待。
+                Thread.Sleep(10);
+            }
+        }
+        private void ProcessBytes(SendAndReceiveDatabatchcheck bytes)
+        {
+            if (bytes.byte_buffer_Receive.Length > 4 && bytes.byte_buffer_Receive[0] == 0xFA && bytes.byte_buffer_Send[1] == 0x52)
+            {
+                byte sendByte3 = bytes.byte_buffer_Send[3];
+                byte sendByte4 = bytes.byte_buffer_Send[4];
+                byte receiveByte2 = bytes.byte_buffer_Receive[2];
+
+                // ... continue with your checks
+
+                switch (sendByte3)
+                {
+                    case 0x00:
+                        HandleBufferSend_00(sendByte4, bytes);
+                        break;
+                    case 0x01:
+                        HandleBufferSend_01(sendByte4, bytes);
+                        break;
+                    case 0x04:
+                        HandleBufferSend_04(sendByte4, bytes);
+                        break;
+                    case 0x05:
+                        HandleBufferSend_05(sendByte4, bytes);
+                        break;
+                    case 0x06:
+                        HandleBufferSend_06(sendByte4, bytes);
+                        break;
+                }
+
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    updateUIobj();      // 刷新項目
+                });
+            }
+        }
+        #endregion
 
         #region icommand event
-        private ICommand _LoadscripttoBlockA, _LoadscripttoBlockB, _LoadscripttoBlockC, _LoadscripttoBlockD, _ExecuteSDMchecklistScript;
+        private ICommand _LoadscripttoBlockA, _LoadscripttoBlockB, _LoadscripttoBlockC, _LoadscripttoBlockD, _ExecuteSDMchecklistScript, _SaveDynamicMonitorresult;
+
         public ICommand ExecuteSDMchecklistScript
         {
             get {
@@ -354,8 +396,17 @@ namespace SuperCarter.Model
         }
         #endregion
 
-        #region ScrollingCheck
+        #region DynamicMonitorCheck
         public string SDMChecklistscriptXMLPath { get; set; } = "";
+        public ICommand SaveDynamicMonitorresult
+        {
+            get
+            {
+                _SaveDynamicMonitorresult = new RelayCommand(
+                    param => SaveDynamicMonitorResult());
+                return _SaveDynamicMonitorresult;
+            }
+        }
         private ICommand _LoadSDMchecklistScript;
         public ICommand LoadSDMchecklistScript
         {
@@ -364,8 +415,6 @@ namespace SuperCarter.Model
                 _LoadSDMchecklistScript = new RelayCommand(
                       param => LoadSDMchecklistScriptXMLfile());
                 return _LoadSDMchecklistScript;
-
-
             }
         }
 
@@ -391,8 +440,7 @@ namespace SuperCarter.Model
                             {
                                 break; // Exit the loop
                             }
-                            await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
-                            
+                            await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);                             
                         }
                         Sendorwatch.Stop();
                         var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
@@ -422,6 +470,7 @@ namespace SuperCarter.Model
             }
            
         }
+        #region Event
         public void LoadSDMchecklistScriptXMLfile()
         {
             SDMChecklistscriptXMLPath = ConfigModel.Instance.GetStrScriptpath();
@@ -435,9 +484,15 @@ namespace SuperCarter.Model
             }
             else
             {
-               System.Windows.MessageBox.Show("未偵測到腳本路徑", "Information !", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("未偵測到腳本路徑", "Information !", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+        public void SaveDynamicMonitorResult()
+        { 
+        
+        }
+        #endregion
+
 
         #endregion
 
@@ -454,7 +509,6 @@ namespace SuperCarter.Model
             }
 
             var command = (SendorExecuteSendType)Sequence;
-
 
             if (!DicSerialPort[command.PortNum].IsOpen)
                 return;
@@ -491,9 +545,11 @@ namespace SuperCarter.Model
 
             // 紀錄讀取 sdm 回傳的資料
             receivedData = await ReadFromPortAsync(Sequence, cancellationToken);
+
             // update to Dashboard
             if (receivedData.Length > 0)
                 RealtimeSDMDataQueue.Enqueue(receivedData);
+
             // update to nlog file
             recmsg = SerialPortModel.Instance.byteToHexStr(receivedData);
 
@@ -607,38 +663,38 @@ namespace SuperCarter.Model
                 }
             }
         }
+
         private void evt_ExecuteSDMchecklistScript()
         {
             if (IsEnableExecuteSDMchecklists)
             {
-                if (DicSerialPort[0].IsOpen)
+                for (int i = 0; i < 3; i++)
                 {
-                    DicSerialPort[0].DataReceived -= new SerialDataReceivedEventHandler(SerialPortModel.Instance.DataReceivedCom);
-                    DicSerialPort[0].DiscardInBuffer();
-                    DicSerialPort[0].DiscardOutBuffer();
-                    //Customscript.LoadBlockScript(ScheduleScrollingScriptPath);
-
+                    if (DicSerialPort[i].IsOpen)
+                    {
+                        DicSerialPort[i].DataReceived -= new SerialDataReceivedEventHandler(SerialPortModel.Instance.DataReceivedCom);
+                        DicSerialPort[i].DiscardInBuffer();
+                        DicSerialPort[i].DiscardOutBuffer();
+                    }
                 }
-                if (DicSerialPort[1].IsOpen)
+                if (string.IsNullOrEmpty(SDMChecklistscriptXMLPath) || ! (DicSerialPort[0].IsOpen && DicSerialPort[1].IsOpen &&  DicSerialPort[2].IsOpen ))
                 {
-                    DicSerialPort[1].DataReceived -= new SerialDataReceivedEventHandler(SerialPortModel.Instance.DataReceivedCom);
-                    DicSerialPort[1].DiscardInBuffer();
-                    DicSerialPort[1].DiscardOutBuffer();
-                }
-                if (DicSerialPort[2].IsOpen)
+                    IsEnableExecuteSDMchecklists = false;
+                    OnPropertyChanged(nameof(IsEnableExecuteSDMchecklists));
+                }                      
+                else
                 {
-                    DicSerialPort[2].DataReceived -= new SerialDataReceivedEventHandler(SerialPortModel.Instance.DataReceivedCom);
-                    DicSerialPort[2].DiscardInBuffer();
-                    DicSerialPort[2].DiscardOutBuffer();
+                    ctsScrollingcheck = new CancellationTokenSource();
+                    StartScrollingCheck(ctsScrollingcheck.Token);
                 }
-                ctsScrollingcheck = new CancellationTokenSource();
-                StartScrollingCheck(ctsScrollingcheck.Token);
+       
             }
             else
             {
                 ctsScrollingcheck.Cancel();
             }
         }
+
         private void evt_SelectedScriptItem(IFiletype _va)
         {
             blockAscriptpath = _va.FullPathName;
@@ -651,83 +707,7 @@ namespace SuperCarter.Model
 
             });
         }
-        public void UpdateDashboardStartThread()
-        {
-            Thread lowPriorityThread = new Thread(() =>
-            {
-                while (true)
-                {
-                    ProcessQueue();
 
-                    // Sleep for a while to prevent busy waiting
-                    Thread.Sleep(200);
-                }
-            });
-
-            lowPriorityThread.Priority = ThreadPriority.Lowest;
-            lowPriorityThread.Start();
-        }
-        private void ProcessQueue()
-        {
-
-            while (true)
-            {
-                while (SendAndReceiveDatabatchQ.TryDequeue(out SendAndReceiveDatabatchcheck bytes))
-                {
-                    if (bytes != null)
-                    {
-                        try
-                        {
-                            ProcessBytes(bytes);
-                        }
-                        catch (Exception ex)
-                        {
-
-                           System.Windows. MessageBox.Show(ex.StackTrace);
-                            System.Windows.MessageBox.Show(ex.Message);
-                        }
-                    }
-                }
-
-                // 如果你不打算持續地檢查佇列，那麼這裡可以加上一個小的延遲以避免忙碌等待。
-                Thread.Sleep(10);
-            }
-        }
-        private void ProcessBytes(SendAndReceiveDatabatchcheck bytes)
-        {
-            if (bytes.byte_buffer_Receive.Length > 4 && bytes.byte_buffer_Receive[0] == 0xFA && bytes.byte_buffer_Send[1] == 0x52)
-            {
-                byte sendByte3 = bytes.byte_buffer_Send[3];
-                byte sendByte4 = bytes.byte_buffer_Send[4];
-                byte receiveByte2 = bytes.byte_buffer_Receive[2];
-
-                // ... continue with your checks
-
-                switch (sendByte3)
-                {
-                    case 0x00:
-                        HandleBufferSend_00(sendByte4, bytes);
-                        break;
-                    case 0x01:
-                        HandleBufferSend_01(sendByte4, bytes);
-                        break;
-                    case 0x04:
-                        HandleBufferSend_04(sendByte4, bytes);
-                        break;
-                    case 0x05:
-                        HandleBufferSend_05(sendByte4, bytes);
-                        break;
-                    case 0x06:
-                        HandleBufferSend_06(sendByte4, bytes);
-                        break;
-                }
-
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    updateUIobj();
-                });
-            }
-        }
         public void evt_selectViewpath()
         {
             string myPath = AppPath;
@@ -773,6 +753,7 @@ namespace SuperCarter.Model
                 });
             }
         }
+
         public ObservableCollection<INode> evt_addfolderNodes(string _path)
         {
             try
@@ -832,35 +813,35 @@ namespace SuperCarter.Model
             {
                 case 0:
                     blockAscriptpath = null;
-                    ObsColBlockASequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
+                    ObsColBlockA1Sequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
                     ExecuteBlockALoop = ConfigModel.Instance.GetScriptXMLSequence_itervalue(loadscriptXMLPath);         // get block execute loop
                     blockAscriptDelaytime = ConfigModel.Instance.GetScriptXMLSequence_TotalTime(loadscriptXMLPath);     // get block script total delay time
                     blockAscriptpath = loadscriptXMLPath;
-                    blockAitemcount = ObsColBlockASequences.Count;
+                    blockAitemcount = ObsColBlockA1Sequences.Count;
                     break;
                 case 1:
                     blockBscriptpath = null;
-                    ObsColBlockBSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
+                    ObsColBlockA2Sequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
                     ExecuteBlockBLoop = ConfigModel.Instance.GetScriptXMLSequence_itervalue(loadscriptXMLPath);         // get block execute loop
                     blockBscriptDelaytime = ConfigModel.Instance.GetScriptXMLSequence_TotalTime(loadscriptXMLPath);     // get block script total delay time
                     blockBscriptpath = loadscriptXMLPath;
-                    blockBitemcount = ObsColBlockBSequences.Count;
+                    blockBitemcount = ObsColBlockA2Sequences.Count;
                     break;
                 case 2:
                     blockCscriptpath = null;
-                    ObsColBlockCSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
+                    ObsColBlockB1Sequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
                     ExecuteBlockCLoop = ConfigModel.Instance.GetScriptXMLSequence_itervalue(loadscriptXMLPath);         // get block execute loop
                     blockCscriptDelaytime = ConfigModel.Instance.GetScriptXMLSequence_TotalTime(loadscriptXMLPath);     // get block script total delay time
                     blockCscriptpath = loadscriptXMLPath;
-                    blockCitemcount = ObsColBlockCSequences.Count;
+                    blockCitemcount = ObsColBlockB1Sequences.Count;
                     break;
                 case 3:
                     blockDscriptpath = null;
-                    ObsColBlockDSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
+                    ObsColBlockB2Sequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
                     ExecuteBlockDLoop = ConfigModel.Instance.GetScriptXMLSequence_itervalue(loadscriptXMLPath);         // get block execute loop
                     blockDscriptDelaytime = ConfigModel.Instance.GetScriptXMLSequence_TotalTime(loadscriptXMLPath);     // get block script total delay time
                     blockDscriptpath = loadscriptXMLPath;
-                    blockDitemcount = ObsColBlockDSequences.Count;
+                    blockDitemcount = ObsColBlockB2Sequences.Count;
                     break;
             }
             evt_ReleasetoRefresh();
@@ -902,16 +883,11 @@ namespace SuperCarter.Model
                 const string header = "Command ,Times/ Keyword#, Interval, COM PORT/Pin, Function,Sub -func., SerialPort I/O comd, AC /USB Switch, Wait, Remark";
                 saveFileDialog1.Title = "Save as ...";
                 saveFileDialog1.Filter = filter;
-
                 saveFileDialog1.DefaultExt = "xml";
                 saveFileDialog1.FileName = string.Format(@"{0}-{1}.xml", DateTime.Now.ToString("yyyy_MM_dd_HH_mm"), "NEW_Script");
 
-                //saveFileDialog1.FileName = string.Format(AppPath + @"\{0}-{1}.xml", DateTime.Now.ToString("yyyy_MM_dd_HH_mm"), "NEW_Script");
-
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-
-                    //ConfigModel.Instance.SaveScriptTestSequencefile(saveFileDialog1.FileName, Scriptdatalist);
                     ConfigModel.Instance.evt_SaveScriptTestSuitefile(saveFileDialog1.FileName, this);
                     MessageAggregator.Instance.SendMessage(new POPNotifyMsgType
                     {
@@ -1116,6 +1092,7 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(Port0SDM2DTC));
             OnPropertyChanged(nameof(Port0SDM3DTC));
         }
+
         public void evt_func_Voltage(byte _txb, double _value)
         {
             switch (_txb)
@@ -1173,7 +1150,6 @@ namespace SuperCarter.Model
             }
         }
 
-
         public void evt_func_T_chamber(byte _txb, int _value)
         {
             switch (_txb)
@@ -1195,6 +1171,7 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(Port0SDM2T_chamber));
             OnPropertyChanged(nameof(Port0SDM3T_chamber));
         }
+
         public void evt_func_ADC(byte _txb, double _value)
         {
             switch (_txb)
@@ -1248,6 +1225,7 @@ namespace SuperCarter.Model
             }
 
         }
+
         public void evt_func_sleepCurrent(byte _txb, double _value)
         {
             switch (_txb)
@@ -1301,6 +1279,7 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(Port0SDM2Backlighbrightness));
             OnPropertyChanged(nameof(Port0SDM3Backlighbrightness));
         }
+
         public void updateUIobj()
         {
             OnPropertyChanged(nameof(Port0SDM1HWversion));

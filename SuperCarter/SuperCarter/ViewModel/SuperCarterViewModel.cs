@@ -40,7 +40,7 @@ namespace SuperCarter.ViewModel
             serialportmanager = new SerialPortManager();
             initialStateConfirm = new InitialStateConfirm();
 
-            Customscript = new CustomscriptExecution();
+            //Customscript = new CustomscriptExecution();
             //Customscript.serialPortViewModelBase = serialPortViewModelBase;
             //Customscript.UpdateDashboardStartThread();
 

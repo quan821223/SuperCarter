@@ -73,7 +73,7 @@ namespace SuperCarter.Model
                 }
             }
         }
-        public void AppendToCsv(UnifiedHostCommandSettype data)
+        public void AppendToCsv(UnifiedHostCommandSettype data, string functionName)
         {
             if (!File.Exists(_path))
             {
@@ -82,7 +82,8 @@ namespace SuperCarter.Model
                 using (var writer = new StreamWriter(stream))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
-                    csv.WriteHeader<UnifiedHostCommandSettype>();
+                    var headerRecord = data.ToCsvRecord(functionName);
+                    csv.WriteRecords(headerRecord);
                     writer.WriteLine();
                 }
             }
@@ -92,7 +93,8 @@ namespace SuperCarter.Model
             using (var writer = new StreamWriter(stream))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
-                csv.WriteRecord(data);
+                var record = data.ToCsvRecord(functionName);
+                csv.WriteRecords(record);
                 writer.WriteLine(); // Write new line
             }
         }

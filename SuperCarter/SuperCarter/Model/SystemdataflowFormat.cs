@@ -8,9 +8,46 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using CsvHelper.Configuration.Attributes;
+using System.Windows.Media.Imaging;
 
 namespace SuperCarter.Model
 {
+    public class Comporttype : INode
+    {
+        public string FriendlyName { get; set; }
+
+        public ObservableCollection<Portdetectedtype> Children { get; set; } = new ObservableCollection<Portdetectedtype>();
+
+    }
+    public class Foldertype : INode
+    {
+        public Foldertype()
+        {
+            this.Children = new ObservableCollection<INode>();
+        }
+
+        public string FriendlyName { get; set; }
+        public BitmapSource MyIcon { get; set; }
+        public string FullPathName { get; set; }
+        public ObservableCollection<INode> Children { get; set; } = new ObservableCollection<INode>();
+        public bool IsExpanded { get; set; }
+        public bool IncludeFileChildren { get; set; }
+
+    }
+
+    public interface INode
+    {
+        string FriendlyName { get; }
+    }
+    public class IFiletype : INode
+    {
+        public string FriendlyName { get; set; }
+        public BitmapSource MyIcon { get; set; }
+        public string FullPathName { get; set; }
+        public bool IsExpanded { get; set; }
+        public bool IncludeFileChildren { get; set; }
+    }
+
     public class SerialidList
     {
         public int idValue { get; set; }
@@ -153,6 +190,12 @@ namespace SuperCarter.Model
 
     public class UnifiedHostCommandSettype
     {
+        [Ignore]
+        private ConcurrentQueue<double>  _DUT1Currentlist;
+        [Ignore]
+        private ConcurrentQueue<double> _DUT2Currentlist;
+        [Ignore]
+        private ConcurrentQueue<double> _DUT3Currentlist;
         // working information
         [Name("Time")]
         public string Time { get; set; }
@@ -165,7 +208,47 @@ namespace SuperCarter.Model
         public string Blockphase { get; set; }
         [Name("#1 PowerMode")]
         public string DUT1PowerMode { get; set; }
-
+        [Ignore]
+        public ConcurrentQueue<double> DUT1Currentlist
+        {
+            get => _DUT1Currentlist;
+            set { 
+                _DUT1Currentlist= value;
+                CheckoutCurlist(DUT1Currentlist);
+            }
+        }
+        [Ignore]
+        public ConcurrentQueue<double> DUT2Currentlist
+        {
+            get => _DUT2Currentlist;
+            set
+            {
+                _DUT2Currentlist = value;
+                CheckoutCurlist(DUT2Currentlist);
+            }
+        }
+        [Ignore]
+        public ConcurrentQueue<double> DUT3Currentlist
+        {
+            get => _DUT3Currentlist;
+            set
+            {
+                _DUT3Currentlist = value;
+                CheckoutCurlist(DUT3Currentlist);
+            }
+        }
+        [Ignore]
+        public string DUT1SWversion { get; set; }
+        [Ignore]
+        public string DUT2SWversion { get; set; }
+        [Ignore]
+        public string DUT3SWversion { get; set; }
+        [Ignore]
+        public string DUT1HWversion { get; set; }
+        [Ignore]
+        public string DUT2HWversion { get; set; }
+        [Ignore]
+        public string DUT3HWversion { get; set; }
         // for DUT1
         [Name("#1 InputVoltage")]
         public string DUT1Voltage { get; set; }
@@ -237,9 +320,133 @@ namespace SuperCarter.Model
         public string DUT3T_chamber { get; set; }
         [Name("#3 T_LED1, 2PCB")]
         public string DUT3T_LED1_2PCB { get; set; }
-        [Name("#3 Diagnostic_raw")]
+        [Name("#3 Diagnostic_raw")]      
         public string DUT3Diagnostic_raw { get; set; }
+        // Rest of the properties...
+        public void CheckoutCurlist(ConcurrentQueue<double> DUTCurrentlist)
+        {
+            if (DUTCurrentlist.Count > 20)
+                DUTCurrentlist.TryDequeue(out double bytes);
+                    
+        }
+
+        public string[] ToCsvRecord(string functionName)
+        {
+            switch (functionName)
+            {
+                case "Function1":
+                    return new[]
+                    {
+                    Time,
+                    Loop,
+                    Blockloop,
+                    Blockphase,
+                    DUT1PowerMode,
+                    DUT1Voltage ,
+                    DUT1NormalCurrent ,
+                    DUT1SleepCurrent ,
+                    DUT1Diagnostic ,
+                    DUT1Lightsensor ,
+                    DUT1Touchfinger ,
+                    DUT1Touch_XY ,
+                    DUT1Brightness ,
+                    DUT1T_chamber ,
+                    DUT1T_LED1_2PCB ,
+                    DUT1Diagnostic_raw ,
+                    DUT2PowerMode ,
+                    DUT2Voltage ,
+                    DUT2NormalCurrent ,
+                    DUT2SleepCurrent ,
+                    DUT2Diagnostic ,
+                    DUT2Lightsensor ,
+                    DUT2Touchfinger ,
+                    DUT2Touch_XY ,
+                    DUT2Brightness ,
+                    DUT2T_chamber ,
+                    DUT2T_LED1_2PCB ,
+                    DUT2Diagnostic_raw ,
+                    DUT3PowerMode ,
+                    DUT3Voltage ,
+                    DUT3NormalCurrent ,
+                    DUT3SleepCurrent ,
+                    DUT3Diagnostic ,
+                    DUT3Lightsensor ,
+                    DUT3Touchfinger ,
+                    DUT3Touch_XY ,
+                    DUT3Brightness ,
+                    DUT3T_chamber ,
+                    DUT3T_LED1_2PCB ,
+                    DUT3Diagnostic_raw ,
+                };
+                case "Function2":
+                    return new[]
+                    {
+                        $" #Sample 1 SWversion=({    DUT1SWversion})",
+                        $" #Sample 1 HWversion=({    DUT1HWversion})",
+                        $" #Sample 1 PowerMode=({    DUT1PowerMode})",
+                        $" #Sample 1 Voltage =({    DUT1Voltage })",
+                        $" #Sample 1 NormalCurrent =({    DUT1NormalCurrent })",
+                        $" #Sample 1 SleepCurrent =({    DUT1SleepCurrent })",
+                        $" #Sample 1 Diagnostic =({    DUT1Diagnostic })",
+                        $" #Sample 1 Lightsensor =({    DUT1Lightsensor })",
+                        $" #Sample 1 Touchfinger =({    DUT1Touchfinger })",
+                        $" #Sample 1 Touch_XY =({    DUT1Touch_XY })",
+                        $" #Sample 1 Brightness =({    DUT1Brightness })",
+                        $" #Sample 1 T_chamber =({    DUT1T_chamber })",
+                        $" #Sample 1 T_LED1_2PCB =({    DUT1T_LED1_2PCB })",
+                        $" #Sample 1 Diagnostic_raw =({    DUT1Diagnostic_raw })",
+                        $" #Sample 2 SWversion=({    DUT2SWversion})",
+                        $" #Sample 2 HWversion=({    DUT2HWversion})",
+                        $" #Sample 2 PowerMode =({    DUT2PowerMode })",
+                        $" #Sample 2 Voltage =({    DUT2Voltage })",
+                        $" #Sample 2 NormalCurrent =({    DUT2NormalCurrent })",
+                        $" #Sample 2 SleepCurrent =({    DUT2SleepCurrent })",
+                        $" #Sample 2 Diagnostic =({    DUT2Diagnostic })",
+                        $" #Sample 2 Lightsensor =({    DUT2Lightsensor })",
+                        $" #Sample 2 Touchfinger =({    DUT2Touchfinger })",
+                        $" #Sample 2 Touch_XY =({    DUT2Touch_XY })",
+                        $" #Sample 2 Brightness =({    DUT2Brightness })",
+                        $" #Sample 2 T_chamber =({    DUT2T_chamber })",
+                        $" #Sample 2 T_LED1_2PCB =({    DUT2T_LED1_2PCB })",
+                        $" #Sample 2 Diagnostic_raw =({    DUT2Diagnostic_raw })",
+                        $" #Sample 3 SWversion=({    DUT3SWversion})",
+                        $" #Sample 3 HWversion=({    DUT3HWversion})",
+                        $" #Sample 3 PowerMode =({    DUT3PowerMode })",
+                        $" #Sample 3 Voltage =({    DUT3Voltage })",
+                        $" #Sample 3 NormalCurrent =({    DUT3NormalCurrent })",
+                        $" #Sample 3 SleepCurrent =({    DUT3SleepCurrent })",
+                        $" #Sample 3 Diagnostic =({    DUT3Diagnostic })",
+                        $" #Sample 3 Lightsensor =({    DUT3Lightsensor })",
+                        $" #Sample 3 Touchfinger =({    DUT3Touchfinger })",
+                        $" #Sample 3 Touch_XY =({    DUT3Touch_XY })",
+                        $" #Sample 3 Brightness =({    DUT3Brightness })",
+                        $" #Sample 3 T_chamber =({    DUT3T_chamber })",
+                        $" #Sample 3 T_LED1_2PCB =({    DUT3T_LED1_2PCB })",
+                        $" #Sample 3 Diagnostic_raw =({    DUT3Diagnostic_raw })",
+
+                    };
+                
+                default:
+                    // Default to return all properties
+                    return GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(NameAttribute))).Select(p => p.GetValue(this)?.ToString()).ToArray();
+            }
+        }
 
     }
 
 }
+
+
+//        case "Function2":
+//            var csvRecord = new StringBuilder();
+//csvRecord.AppendLine($"swversion = ({DUT1SWversion})");
+//csvRecord.AppendLine($"hwversion = ({DUT2SWversion})");
+//csvRecord.AppendLine(DUT1NormalCurrent);
+//csvRecord.AppendLine(DUT1SleepCurrent);
+//csvRecord.AppendLine(DUT2NormalCurrent);
+//csvRecord.AppendLine(DUT2SleepCurrent);
+//csvRecord.AppendLine(DUT3NormalCurrent);
+//csvRecord.AppendLine(DUT3SleepCurrent);
+//// Add more properties vertically as desired
+
+//return new[] { csvRecord.ToString() };

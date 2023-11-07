@@ -34,8 +34,8 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1" Margin="5">
-                   
-                   
+
+
                 </Grid>
                 <Grid Grid.Column="0" Margin="8">
                     <!--此網格為前端物件的項目-->
@@ -138,21 +138,19 @@
                                     <TabControl  TabStripPlacement="Top" Margin="1" >
                                         <TabItem>
                                             <TabItem.Header>
-                                                <StackPanel Orientation="Horizontal">
+                                                <StackPanel Orientation="Horizontal" Width="156">
                                                     <materialDesign:PackIcon Kind="Numeric1CircleOutline"
                                                              Width="26" Height="32"
                                                              VerticalAlignment="Stretch" 
                                                              Foreground="#FF4D4D4D" 
                                                              HorizontalAlignment="Stretch"
                                                              />
-                                                    <TextBlock Text="Script" Foreground="Black" 
-                                               FontWeight="Bold" Margin="1 5"/>
+                                                    <TextBlock Text="Dynamic monitor" Foreground="Black" 
+                                                                FontWeight="Bold" Margin="1 5"/>
                                                 </StackPanel>
                                             </TabItem.Header>
                                             <StackPanel Orientation="Vertical">
-
-
-                                                <Expander Background="#ffd32a"  IsExpanded="True" Margin="6">
+                                                <Expander Background="#FF7EC1FF"  IsExpanded="True" Margin="5">
                                                     <Expander.Header>
                                                         <BulletDecorator>
                                                             <BulletDecorator.Bullet>
@@ -164,11 +162,11 @@
                                                                                 HorizontalAlignment="Stretch"/>
                                                             </BulletDecorator.Bullet>
                                                             <TextBlock Margin="10,0,0,0" Text="運行設定 - 快速SDM簡易狀態資料輸出" 
-                                                           FontFamily="Console" 
-                                                           FontSize="14"
-                                                           VerticalAlignment="Center" 
-                                                           HorizontalAlignment="Stretch"
-                                                           Foreground="Black"  />
+                                                                       FontFamily="Console" 
+                                                                       FontSize="14"
+                                                                       VerticalAlignment="Center" 
+                                                                       HorizontalAlignment="Stretch"
+                                                                       Foreground="Black"  />
                                                         </BulletDecorator>
                                                     </Expander.Header>
                                                     <WrapPanel  Background="White"  >
@@ -177,20 +175,22 @@
                                                             <StackPanel  Orientation="Vertical" Margin ="0">
 
                                                                 <TextBox x:Name="SDMChecklistscriptXMLPath"
-                                                             FontSize="14"                                                                 
-                                                             Text="{Binding CustomScriptEditor.SDMChecklistscriptXMLPath}"
-                                                             IsEnabled="{Binding IsUnlockScriptSetting}"
-                                                             FontFamily="Champagne &amp;amp; Limousines"
-                                                             TextChanged="SDMChecklistscriptXMLPath_TextChanged"
-                                                                 />
+                                                                         TextWrapping="Wrap"
+                                                                         FontSize="14" 
+                                                                         Height="50"
+                                                                         Text="{Binding CustomScriptEditor.SDMChecklistscriptXMLPath}"
+                                                                         IsEnabled="{Binding IsUnlockScriptSetting}"
+                                                                         FontFamily="Champagne &amp;amp; Limousines"
+                                                                         TextChanged="SDMChecklistscriptXMLPath_TextChanged"
+                                                                             />
 
                                                                 <Button Width="300" Height="33" 
-                                                            Command="{Binding CustomScriptEditor.LoadSDMchecklistScript}"  
-                                                            IsEnabled="{Binding IsUnlockScriptSetting}"
-                                                            ToolTip="View the path location" 
-                                                            VerticalAlignment="Center"
-                                                            HorizontalAlignment="Left" 
-                                                            Margin="3 3 3 0">
+                                                                        Command="{Binding CustomScriptEditor.LoadSDMchecklistScript}"  
+                                                                        IsEnabled="{Binding IsUnlockScriptSetting}"
+                                                                        ToolTip="View the path location" 
+                                                                        VerticalAlignment="Center"
+                                                                        HorizontalAlignment="Center" 
+                                                                        Margin="3">
 
                                                                     <Button.Style>
 
@@ -206,7 +206,7 @@
                                                                                                                         VerticalAlignment="Stretch" 
                                                                                                                         Foreground="#FF4D4D4D" 
                                                                                                                         HorizontalAlignment="Stretch"/>
-                                                                                                    <Label Content="選擇" VerticalAlignment="Center" Foreground="Black"/>
+                                                                                                    <Label Content="Open" VerticalAlignment="Center" Foreground="Black"/>
                                                                                                 </StackPanel>
                                                                                             </Border>
                                                                                         </ContentControl>
@@ -227,7 +227,7 @@
                                                         </StackPanel>
                                                     </WrapPanel>
                                                 </Expander>
-                                                <Border  Background="White" CornerRadius="6" Margin="6">
+                                                <Border  Background="White" CornerRadius="6" Margin="6 0">
                                                     <Border.Effect>
                                                         <DropShadowEffect Color="Black" 
 			                                                ShadowDepth = "0" 
@@ -257,30 +257,68 @@
                                                                 Margin="6"
                                                                 HorizontalAlignment="Right"
                                                                  />
-                                                        <TextBlock Text="運行" 
-                                                   Margin="12 0 12 0"
-                                                   VerticalAlignment="Center"
-                                                   />
+                                                        <TextBlock Text="運行" Margin="12 0"
+                                                                   VerticalAlignment="Center"
+                                                                   />
 
                                                     </WrapPanel>
                                                 </Border>
+                                                <Button Width="300" Height="33"
+                                                        Command="{Binding CustomScriptEditor.SaveDynamicMonitorresult}"  
+                                                        IsEnabled="{Binding IsUnlockScriptSetting}"
+                                                        ToolTip="View the path location" 
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center" 
+                                                        Margin="3 ">
+
+                                                    <Button.Style>
+
+                                                        <Style TargetType="{x:Type Button}">
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                                        <ContentControl>
+                                                                            <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .9 1.0 1.1" Background="{TemplateBinding Background}" CornerRadius="4">
+                                                                                <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
+                                                                                    <materialDesign:PackIcon Kind="ContentSave"
+                                                                                                                        Width="23" Height="23"
+                                                                                                                        VerticalAlignment="Stretch" 
+                                                                                                                        Foreground="#FF4D4D4D" 
+                                                                                                                        HorizontalAlignment="Stretch"/>
+                                                                                    <Label Content="Save" VerticalAlignment="Center" Foreground="Black"/>
+                                                                                </StackPanel>
+                                                                            </Border>
+                                                                        </ContentControl>
+                                                                        <ControlTemplate.Triggers>
+                                                                            <Trigger Property="Button.IsPressed" Value="True" >
+                                                                                <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                                                <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                                            </Trigger>
+                                                                        </ControlTemplate.Triggers>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
                                             </StackPanel>
+                                        
                                         </TabItem>
                                         <TabItem>
                                             <TabItem.Header>
-                                                <StackPanel Orientation="Horizontal">
+                                                <StackPanel Orientation="Horizontal"  Width="156">
                                                     <materialDesign:PackIcon Kind="Numeric2CircleOutline"
                                                              Width="26" Height="32"
                                                              VerticalAlignment="Stretch" 
                                                              Foreground="#FF4D4D4D" 
                                                              HorizontalAlignment="Stretch"
                                                              />
-                                                    <TextBlock Text="Script" Foreground="Black" 
-                                               FontWeight="Bold" Margin="1 5"/>
+                                                    <TextBlock Text="Scheduled Detection" Foreground="Black" 
+                                                               FontWeight="Bold" Margin="1 5"/>
                                                 </StackPanel>
                                             </TabItem.Header>
-                                            <StackPanel Orientation="Vertical">
-                                                <Expander Background="MediumOrchid"  IsExpanded="True" Margin="5">
+                                            <StackPanel Orientation="Vertical" >
+                                                <Expander  IsExpanded="True" Margin="5" Background="#FF7EFFBB">
                                                     <Expander.Header>
                                                         <BulletDecorator>
                                                             <BulletDecorator.Bullet>
@@ -301,27 +339,29 @@
                                                     </Expander.Header>
                                                     <WrapPanel  Background="White"  >
                                                         <StackPanel Orientation="Vertical" Margin ="0 0 0 0" Width="330">
-                                                            <Label  Content="選取欲執行腳本的位置 : "   Margin="12 0 12 0" HorizontalAlignment="Left"/>
+                                                            <Label  Content="選取運行的腳本 : "   Margin="0" HorizontalAlignment="Left"/>
                                                             <StackPanel  Orientation="Vertical" Margin ="0">
 
 
                                                                 <StackPanel  Orientation="Horizontal" Margin ="0">
                                                                     <TextBox x:Name="ScheduleScrollingScriptPath"
-                                                                 FontSize="14"
-                                                                 MinWidth="300"
-                                                                 Text="{Binding ScheduleScrollingScriptPath}"
-                                                                 IsEnabled="{Binding IsUnlockScriptSetting}"
-                                                                 FontFamily="Champagne &amp;amp; Limousines"
-                                                                 TextChanged="ScheduleScrollingScriptPath_TextChanged"/>
+                                                                             TextWrapping="Wrap"
+                                                                             Height="50"
+                                                                             FontSize="14"
+                                                                             MinWidth="300"
+                                                                             Text="{Binding ScheduleScrollingScriptPath}"
+                                                                             IsEnabled="{Binding IsUnlockScriptSetting}"
+                                                                             FontFamily="Champagne &amp;amp; Limousines"
+                                                                             TextChanged="ScheduleScrollingScriptPath_TextChanged"/>
 
                                                                 </StackPanel>
                                                                 <Button Width="310" Height="33" 
-                                                                Command="{Binding LoadScheduleScrollingScript}"  
-                                                                IsEnabled="{Binding IsUnlockScriptSetting}"
-                                                                ToolTip="View the path location" 
-                                                                VerticalAlignment="Center"
-                                                                HorizontalAlignment="Left" 
-                                                                Margin="3 3 3 0">
+                                                                        Command="{Binding LoadScheduleScrollingScript}"  
+                                                                        IsEnabled="{Binding IsUnlockScriptSetting}"
+                                                                        ToolTip="View the path location" 
+                                                                        VerticalAlignment="Center"
+                                                                        HorizontalAlignment="Center" 
+                                                                        Margin="3 ">
 
                                                                     <Button.Style>
 
@@ -337,7 +377,7 @@
                                                                                                                         VerticalAlignment="Stretch" 
                                                                                                                         Foreground="#FF4D4D4D" 
                                                                                                                         HorizontalAlignment="Stretch"/>
-                                                                                                    <Label Content="選擇" VerticalAlignment="Center" Foreground="Black"/>
+                                                                                                    <Label Content="Open" VerticalAlignment="Center" Foreground="Black"/>
                                                                                                 </StackPanel>
                                                                                             </Border>
                                                                                         </ContentControl>
@@ -360,7 +400,7 @@
                                                         </StackPanel>
                                                     </WrapPanel>
                                                 </Expander>
-                                                <Border  Background="White" CornerRadius="6" Margin="6">
+                                                <Border  Background="White" CornerRadius="6" Margin="6 0">
                                                     <Border.Effect>
                                                         <DropShadowEffect Color="Black" 
 			                                                ShadowDepth = "0" 
@@ -389,15 +429,16 @@
                                                                                 Margin="6"
                                                                                 HorizontalAlignment="Right"
                                                                                  />
-                                                        <TextBlock Text="執行腳本"                                                        
-                                                           Margin="12 0 12 0"
-                                                                                                                   
-                                                           />
+                                                        <TextBlock Text="運行" Margin="12 0"
+                                                                   VerticalAlignment="Center"
+                                                                   />
 
                                                     </WrapPanel>
                                                 </Border>
 
                                             </StackPanel>
+
+
                                         </TabItem>
                                     </TabControl>
 
@@ -692,10 +733,10 @@
                                             </Expander.Header>
                                             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="White">
                                                 <StackPanel Width="100" Orientation="Vertical">
-                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1SWversion}" Style="{StaticResource DashboardLabel}"/>  
+                                                    <Label Content="{Binding CustomScriptEditor.Port0SDM1SWversion}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="SW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>
-                                                <StackPanel Width="100" Orientation="Vertical">                                                    
+                                                <StackPanel Width="100" Orientation="Vertical">
                                                     <Label Content="{Binding CustomScriptEditor.Port0SDM1HWversion, Mode=TwoWay}" Style="{StaticResource DashboardLabel}"/>
                                                     <Label Content="HW Ver." Style="{StaticResource DashboardLabel}" FontWeight="Bold"/>
                                                 </StackPanel>

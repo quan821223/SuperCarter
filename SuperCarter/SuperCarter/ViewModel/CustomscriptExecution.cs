@@ -59,14 +59,8 @@ namespace SuperCarter.Model
         public static List<SendorExecuteSendType> BlockDSequencesList { get; set; } = new List<SendorExecuteSendType>();
 
         #region property
-        private int _ExecuteFullloop,
-                   _ExecuteBlockALoop,
-                   _ExecuteBlockBLoop,
-                   _ExecuteBlockCLoop,
-                   _ExecuteBlockDLoop;
-        private double _Estimateruntimefullblock,
-                        _EstimateruntimeforblockA, _EstimateruntimeforblockB,
-                        _EstimateruntimeforblockC, _EstimateruntimeforblockD;
+        private int _ExecuteFullloop, _ExecuteBlockALoop, _ExecuteBlockBLoop, _ExecuteBlockCLoop, _ExecuteBlockDLoop;
+        private double _Estimateruntimefullblock, _EstimateruntimeforblockA, _EstimateruntimeforblockB, _EstimateruntimeforblockC, _EstimateruntimeforblockD;
 
         public string blockAscriptpath { get; set; }
         public string blockBscriptpath { get; set; }
@@ -79,9 +73,7 @@ namespace SuperCarter.Model
         public int ExecuteBlockDLoop { get; set; }
 
 
-        private int _blockAscriptDelaytime, _subloop,
-                    _blockBscriptDelaytime, _blockCscriptDelaytime,
-                    _blockDscriptDelaytime;
+        private int _blockAscriptDelaytime, _subloop, _blockBscriptDelaytime, _blockCscriptDelaytime, _blockDscriptDelaytime;
         public int blockAcurloop { get; set; }
         public int blockBcurloop { get; set; }
         public int blockCcurloop { get; set; }
@@ -344,7 +336,7 @@ namespace SuperCarter.Model
                     UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
                     UnifiedHostCommandSet.Blockphase = Curphase.ToString();
                     UnifiedHostCommandSet.Blockloop = blockName.ToString();
-                    cSVfile.AppendToCsv(UnifiedHostCommandSet);
+                    cSVfile.AppendToCsv(UnifiedHostCommandSet, "Function1");
                     UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                 }
             }
