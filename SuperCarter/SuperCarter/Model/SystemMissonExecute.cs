@@ -33,13 +33,13 @@ namespace SuperCarter.Model
         {
             while (true)
             {
-                while (RealtimeMsgQueue.TryDequeue(out string strdata))
+                while (RealtimeMsgQueue.TryDequeue(out RealtimeMsgQueuetype data))
                 {
-                    if (strdata != null)
+                    if (data != null)
                     {
                         try
                         {
-                            ProcessBytes(strdata);
+                            ProcessBytes(data);
                         }
                         catch (Exception ex)
                         {
@@ -54,12 +54,12 @@ namespace SuperCarter.Model
             }
 
         }
-        private void ProcessBytes(string data)
+        private void ProcessBytes(RealtimeMsgQueuetype data)
         {      // 更新資訊的代碼
             App.Current.Dispatcher.BeginInvoke(() =>
             {
                 // 更新資訊的具體實現               
-                WritedataToViewTextAggregator.Instance.Updatemsg(SerialPortModel.Instance.PortNameBinding[DicSerialPort[0].PortName], data);
+                WritedataToViewTextAggregator.Instance.Updatemsg( data);
 
             });
         }

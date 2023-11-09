@@ -128,20 +128,14 @@ namespace SuperCarter.Model
                 using (var writer = new StreamWriter(stream))
                 using (var csv = new CsvWriter(writer, config))
                 {
-                    string DUT1cur = null, DUT2cur = null, DUT3cur = null;
-                    while (data.DUT1CurrentList.TryDequeue(out string strdata))
-                    {
-                        DUT1cur += strdata + ", ";
-                    }
+                    string DUT1cur = null, DUT2cur = null, DUT3cur = null, DUT1lightsensor = null, DUT2lightsensor = null, DUT3lightsensor = null;
+                    while (data.DUT1CurrentList.TryDequeue(out string strdata1)) DUT1cur += strdata1 + ", "; 
+                    while (data.DUT2CurrentList.TryDequeue(out string strdata2)) DUT2cur += strdata2 + ", ";                     
+                    while (data.DUT3CurrentList.TryDequeue(out string strdata3)) DUT3cur += strdata3 + ", ";
+                    while (data.DUT1LightsensorList.TryDequeue(out string strdata1)) DUT1lightsensor += strdata1 + ", ";
+                    while (data.DUT2LightsensorList.TryDequeue(out string strdata2)) DUT2lightsensor += strdata2 + ", ";
+                    while (data.DUT3LightsensorList.TryDequeue(out string strdata3)) DUT3lightsensor += strdata3 + ", ";
 
-                    while (data.DUT2CurrentList.TryDequeue(out string strdata))
-                    {
-                        DUT2cur += strdata + ", ";
-                    }
-                    while (data.DUT3CurrentList.TryDequeue(out string strdata))
-                    {
-                        DUT3cur += strdata + ", ";
-                    }
                     var writeRecords1 = new List<csvVerticaltype>
                     {
                         // for DUT1
@@ -157,9 +151,10 @@ namespace SuperCarter.Model
                         new csvVerticaltype { tital = "#1 Touch_XY", msg = data.DUT1Touch_XY },
                         new csvVerticaltype { tital = "#1 Brightness(%)", msg = data.DUT1Brightness },
                         new csvVerticaltype { tital = "#1 T_chamber", msg = data.DUT1T_chamber },
-                        new csvVerticaltype { tital = "#1 T_LED1, msg = 2PCB", msg = data.DUT1T_LED1_2PCB },
+                        new csvVerticaltype { tital = "#1 T_LED1, LED2, PCB", msg = data.DUT1T_LED1_2PCB },
                         new csvVerticaltype { tital = "#1 Diagnostic_raw", msg = data.DUT1Diagnostic_raw },
                         new csvVerticaltype { tital = "#1 CurrentList", msg = DUT1cur },
+                        new csvVerticaltype { tital = "#1 LightsensorList", msg = DUT1lightsensor },
                     };
                         var writeRecords2 = new List<csvVerticaltype>
                     {
@@ -176,9 +171,10 @@ namespace SuperCarter.Model
                         new csvVerticaltype { tital = "#2 Touch_XY", msg = data.DUT2Touch_XY },
                         new csvVerticaltype { tital = "#2 Brightness(%)", msg = data.DUT2Brightness },
                         new csvVerticaltype { tital = "#2 T_chamber", msg = data.DUT2T_chamber },
-                        new csvVerticaltype { tital = "#2 T_LED1, msg = 2PCB", msg = data.DUT2T_LED1_2PCB },
+                        new csvVerticaltype { tital = "#2 T_LED1, LED2, PCB", msg = data.DUT2T_LED1_2PCB },
                         new csvVerticaltype { tital = "#2 Diagnostic_raw", msg = data.DUT2Diagnostic_raw },
                         new csvVerticaltype { tital = "#2 CurrentList", msg = DUT2cur },
+                        new csvVerticaltype { tital = "#2 LightsensorList", msg =  DUT2lightsensor},
                     };
                         var writeRecords3 = new List<csvVerticaltype>
                     {
@@ -194,9 +190,10 @@ namespace SuperCarter.Model
                         new csvVerticaltype { tital = "#3 Touch_XY", msg = data.DUT3Touch_XY },
                         new csvVerticaltype { tital = "#3 Brightness(%)", msg = data.DUT3Brightness },
                         new csvVerticaltype { tital = "#3 T_chamber", msg = data.DUT3T_chamber },
-                        new csvVerticaltype { tital = "#3 T_LED1, msg = 2PCB", msg = data.DUT3T_LED1_2PCB },
+                        new csvVerticaltype { tital = "#3 T_LED1, LED2, PCB", msg = data.DUT3T_LED1_2PCB },
                         new csvVerticaltype { tital = "#3 Diagnostic_raw", msg = data.DUT3Diagnostic_raw },
                         new csvVerticaltype { tital = "#3 CurrentList", msg = DUT3cur },
+                        new csvVerticaltype { tital = "#3 LightsensorList", msg = DUT3lightsensor },
                     };
 
                     csv.WriteRecords(writeRecords1);

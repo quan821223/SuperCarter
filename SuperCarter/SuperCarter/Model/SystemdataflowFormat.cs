@@ -112,17 +112,16 @@ namespace SuperCarter.Model
         //QueueManager.Instance.SendAndReceiveDatabatchQ.Enqueue(...);
 
     }
-    public class SystemdataflowFormat
+    public enum Msgtype
     {
+        Message = 0,
+        FromPort = 1
+       
     }
 
     public class RealtimeMsgQueuetype
     {
-        public enum PROPERTY
-        {
-            COM,
-            MSG
-        }
+        public Msgtype msgtype;
         public int PortNum { get; set; }
         public string msg { get; set; }
     }
@@ -195,6 +194,12 @@ namespace SuperCarter.Model
         [Ignore]
         public bool IsEnableExecuteSDMcheck { get; set; }
         [Ignore]
+        public string _DUT1Lightsensor;
+        [Ignore]
+        public string _DUT2Lightsensor;
+        [Ignore]
+        public string _DUT3Lightsensor;
+        [Ignore]
         public string _DUT1NormalCurrent;
         [Ignore]
         public string _DUT2NormalCurrent;
@@ -246,7 +251,8 @@ namespace SuperCarter.Model
                 _DUT1NormalCurrent = value;
                 if (IsEnableExecuteSDMcheck)
                 {
-                    DUT1CurrentList.Enqueue(DUT1NormalCurrent);
+                    if (!string.IsNullOrWhiteSpace(DUT1NormalCurrent))
+                        DUT1CurrentList.Enqueue(DUT1NormalCurrent);
                 }
             }
         }
@@ -259,14 +265,26 @@ namespace SuperCarter.Model
                 _DUT1SleepCurrent = value;
                 if (IsEnableExecuteSDMcheck)
                 {
-                    DUT1CurrentList.Enqueue(DUT1SleepCurrent);
+                    if (!string.IsNullOrWhiteSpace(DUT1SleepCurrent))
+                        DUT1CurrentList.Enqueue(DUT1SleepCurrent);
                 }
             }
         }
         [Name("#1 Diagnostic")]
         public string DUT1Diagnostic { get; set; }
         [Name("#1 Lightsensor")]
-        public string DUT1Lightsensor { get; set; }
+        public string DUT1Lightsensor
+        {
+            get => _DUT1Lightsensor;
+            set
+            {
+                _DUT1Lightsensor = value;
+                if (IsEnableExecuteSDMcheck)
+                {
+                    DUT1LightsensorList.Enqueue(DUT1Lightsensor);
+                }
+            }
+        }
         [Name("#1 Touch_finger")]
         public string DUT1Touchfinger { get; set; }
         [Name("#1 Touch_XY")]
@@ -297,7 +315,8 @@ namespace SuperCarter.Model
                 _DUT2NormalCurrent = value;
                 if (IsEnableExecuteSDMcheck)
                 {
-                    DUT2CurrentList.Enqueue(DUT2NormalCurrent);
+                    if (!string.IsNullOrWhiteSpace(DUT2NormalCurrent))
+                        DUT2CurrentList.Enqueue(DUT2NormalCurrent);
                 }
             }
         }
@@ -310,14 +329,27 @@ namespace SuperCarter.Model
                 _DUT2SleepCurrent = value;
                 if (IsEnableExecuteSDMcheck)
                 {
-                    DUT2CurrentList.Enqueue(DUT2SleepCurrent);
+                    if (!string.IsNullOrWhiteSpace(DUT2SleepCurrent))
+                        DUT2CurrentList.Enqueue(DUT2SleepCurrent);
                 }
             }
         }
         [Name("#2 Diagnostic")]
         public string DUT2Diagnostic { get; set; }
         [Name("#2 Lightsensor")]
-        public string DUT2Lightsensor { get; set; }
+        public string DUT2Lightsensor
+        {
+            get => _DUT2Lightsensor;
+            set
+            {
+                _DUT2Lightsensor = value;
+                if (IsEnableExecuteSDMcheck)
+                {
+                    DUT2LightsensorList.Enqueue(DUT2Lightsensor);
+                }
+            }
+        }
+
         [Name("#2 Touch_finger")]
         public string DUT2Touchfinger { get; set; }
         [Name("#2 Touch_XY")]
@@ -348,7 +380,8 @@ namespace SuperCarter.Model
                 _DUT3NormalCurrent = value;
                 if (IsEnableExecuteSDMcheck)
                 {
-                    DUT3CurrentList.Enqueue(DUT3NormalCurrent);
+                    if (!string.IsNullOrWhiteSpace(DUT3NormalCurrent))
+                        DUT3CurrentList.Enqueue(DUT3NormalCurrent);
                 }
             }
         }
@@ -360,15 +393,27 @@ namespace SuperCarter.Model
             {
                 _DUT3SleepCurrent = value;
                 if (IsEnableExecuteSDMcheck)
-                {
-                    DUT3CurrentList.Enqueue(DUT3SleepCurrent);
+                {  
+                    if(!string.IsNullOrWhiteSpace(DUT3SleepCurrent))
+                        DUT3CurrentList.Enqueue(DUT3SleepCurrent);
                 }
             }
         }
         [Name("#3 Diagnostic")]
         public string DUT3Diagnostic { get; set; }
         [Name("#3 Lightsensor")]
-        public string DUT3Lightsensor { get; set; }
+        public string DUT3Lightsensor
+        {
+            get => _DUT3Lightsensor;
+            set
+            {
+                _DUT3Lightsensor = value;
+                if (IsEnableExecuteSDMcheck)
+                {
+                    DUT3LightsensorList.Enqueue(DUT3Lightsensor);
+                }
+            }
+        }
         [Name("#3 Touch_finger")]
         public string DUT3Touchfinger { get; set; }
         [Name("#3 Touch_XY")]
@@ -396,8 +441,6 @@ namespace SuperCarter.Model
             string output = string.Join(", ", currentListArray);
             return output;
         }
-
-
 
     }
     public class FunctionSelector

@@ -40,7 +40,7 @@ namespace SuperCarter.ViewModel
         private string _TextViewPortI, _TextViewPortII, _TextViewPortIII, _TextViewTestJSON, _PreviewScriptiontext, _TestTextView;
 
         public static Queue<byte[]> RealtimeSDMDataQueue = new Queue<byte[]>();
-        public static ConcurrentQueue<string> RealtimeMsgQueue = new ConcurrentQueue<string>();
+        public static ConcurrentQueue<RealtimeMsgQueuetype> RealtimeMsgQueue = new ConcurrentQueue<RealtimeMsgQueuetype>();
         //public ConcurrentQueue<SendAndReceiveDatabatchcheck> SendAndReceiveDatabatchQ = new ConcurrentQueue<SendAndReceiveDatabatchcheck>();
         public ConcurrentQueue<SendAndReceiveDatabatchcheck> SendAndReceiveDatabatchQ { get; } = new ConcurrentQueue<SendAndReceiveDatabatchcheck>();
 
@@ -115,15 +115,23 @@ namespace SuperCarter.ViewModel
         /// </summary>
         /// <param name="Portid"></param>
         /// <param name="msg"></param>
-        public void DisplayInfoToViewText(int Portid, string msg)
+        public void DisplayInfoToViewText(Msgtype datatype, int Portid, string msg)
         {
-            AllViewText += msg + "\r\n";
-            if (Portid == 0)
-                TextViewPortI += msg + "\r\n";
-            else if (Portid == 1)
-                TextViewPortII += msg + "\r\n";
-            else if (Portid == 2)
-                TextViewPortIII += msg + "\r\n";
+            if (datatype == 0)
+            {
+                AllViewText += msg + "\r\n";
+            }
+            else
+            {
+                if (Portid == 0)
+                    TextViewPortI += msg + "\r\n";
+                else if (Portid == 1)
+                    TextViewPortII += msg + "\r\n";
+                else if (Portid == 2)
+                    TextViewPortIII += msg + "\r\n";
+            }
+     
+
             OnPropertyChanged(nameof(AllViewText));
         }
 

@@ -110,13 +110,13 @@ namespace SuperCarter.ViewModel
                             sendData[SendCount++] = byte.Parse(tmp, NumberStyles.AllowHexSpecifier, CultureInfos);
                         }
 
-                        // await serialPortBase.BaseStream.WriteAsync(sendData, 0, SendCount).ConfigureAwait(false);
                         OutputMsg = String.Format("{0}|{1}|{2}| S |{3}",
                                                      DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
                                                      SerialPortModel.Instance.PortNameBinding[serialPortBase.PortName].ToString().PadLeft(2, ' '),
                                                      DicSerialPort[_SelectedCom].PortName.PadLeft(6, ' '),
                                                      msg.Replace(" ", ""));
-                        WritedataToViewTextAggregator.Instance.Updatemsg(SerialPortModel.Instance.PortNameBinding[serialPortBase.PortName], OutputMsg);
+                        
+                        WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = _SelectedCom, msg = OutputMsg });
                         DicSerialPort[_SelectedCom].Write(sendData, 0, SendCount);
                     }
                     else
@@ -126,9 +126,8 @@ namespace SuperCarter.ViewModel
                                                 SerialPortModel.Instance.PortNameBinding[serialPortBase.PortName],
                                                DicSerialPort[_SelectedCom].PortName,
                                                 msg.Replace(" ", ""));
-
-                        WritedataToViewTextAggregator.Instance.Updatemsg(SerialPortModel.Instance.PortNameBinding[serialPortBase.PortName], OutputMsg);
-
+                     
+                        WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = _SelectedCom, msg = OutputMsg });
                         SendCount = serialPortBase.Encoding.GetByteCount(msg);
                         DicSerialPort[_SelectedCom].Write(serialPortBase.Encoding.GetBytes(msg), 0, SendCount);
                         // await serialPortBase.BaseStream.WriteAsync(serialPortBase.Encoding.GetBytes(msg), 0, SendCount).ConfigureAwait(false);

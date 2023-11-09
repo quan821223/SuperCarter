@@ -13,6 +13,7 @@ using System.Windows;
 using System.Globalization;
 using System.IO.Ports;
 using System.IO;
+using System.Windows.Interop;
 
 namespace SuperCarter.ViewModel
 {
@@ -59,15 +60,24 @@ namespace SuperCarter.ViewModel
         /// </summary>
         /// <param name="Portid"></param>
         /// <param name="msg"></param>
-        public void DisplayInfoToViewText(int Portid, string msg)
+        public void DisplayInfoToViewText(RealtimeMsgQueuetype data)
         {
-            AllViewText += msg + "\r\n";
-            if (Portid == 0)
-                TextViewPortI += msg + "\r\n";
-            else if (Portid == 1)
-                TextViewPortII += msg + "\r\n";
-            else if (Portid == 2)
-                TextViewPortIII += msg + "\r\n";
+            if(data.msgtype == 0)
+            {
+                AllViewText += data.msg + "\r\n";
+            }
+            else
+            {
+                AllViewText += data.msg + "\r\n";
+                if (data.PortNum == 0)
+                    TextViewPortI += data.msg + "\r\n";
+                else if (data.PortNum == 1)
+                    TextViewPortII += data.msg + "\r\n";
+                else if (data.PortNum == 2)
+                    TextViewPortIII += data.msg + "\r\n";
+            }
+
+
             OnPropertyChanged(nameof(AllViewText));
         }
         /// <summary>

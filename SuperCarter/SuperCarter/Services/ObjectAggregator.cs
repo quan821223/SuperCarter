@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SuperCarter.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,12 +35,12 @@ namespace SuperCarter.Services
         private static readonly WritedataToViewTextAggregator _instance = new WritedataToViewTextAggregator();
         public static WritedataToViewTextAggregator Instance => _instance;
 
-        public delegate void ObjectReceivedHandler(int Portid, string msg);
+        public delegate void ObjectReceivedHandler(RealtimeMsgQueuetype data);
         public event ObjectReceivedHandler Propertychange;
 
-        public void Updatemsg(int Portid, string msg)
+        public void Updatemsg(RealtimeMsgQueuetype data)
         {
-            Propertychange?.Invoke( Portid,  msg);
+            Propertychange?.Invoke(data);
         }
 
         public void Subscribe(ObjectReceivedHandler handler)

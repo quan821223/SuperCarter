@@ -25,6 +25,7 @@ using SuperCarter.Model;
 using SuperCarter.Services;
 using SuperCarter.ViewModel;
 using SuperCarter;
+using System.Windows.Interop;
 
 namespace SuperCarter.Model
 {
@@ -171,7 +172,7 @@ namespace SuperCarter.Model
         public async Task StopAsync(CancellationToken cancellationToken)
         {
             logger.Log(NLog.LogLevel.Trace, "– Stop Custom script schedule.");
-            RealtimeMsgQueue.Enqueue("– Stop Custom script schedule.");
+            RealtimeMsgQueue.Enqueue(new RealtimeMsgQueuetype { msgtype = Msgtype.Message,  msg = "– Stop Custom script schedule." });
             await StopAsync(cancellationToken);
         }
         private UnifiedHostCommandSettype UnifiedHostCommandSet = new UnifiedHostCommandSettype();
@@ -191,12 +192,13 @@ namespace SuperCarter.Model
             CommnadID = 0;
 
             logger.Log(NLog.LogLevel.Trace, "– Start Custom script schedule.");
-            RealtimeMsgQueue.Enqueue("– Start Custom script schedule.");
+            RealtimeMsgQueue.Enqueue(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = "– Start Custom script schedule." });
             for (CurLoopValue = 0; CurLoopValue < Fullloop; CurLoopValue++) // 總迴圈
             {
                 var msg = string.Format("- Currently on iteration : {0}", CurLoopValue);
                 logger.Log(NLog.LogLevel.Trace, msg);
-                RealtimeMsgQueue.Enqueue(msg);
+          
+                RealtimeMsgQueue.Enqueue(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg });
                 // 如果token已被取消，跳出迴圈
                 if (cancellationToken.IsCancellationRequested)
                     break;
@@ -216,8 +218,7 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(PercentLoopValue));
 
             logger.Log(NLog.LogLevel.Trace, "– End Custom script schedule.");
-            RealtimeMsgQueue.Enqueue("– End Custom script schedule.");
-
+            RealtimeMsgQueue.Enqueue(new RealtimeMsgQueuetype { msgtype = Msgtype.Message,  msg = "– End Custom script schedule." });
 
         }
         private async Task BlockWorkstation(string blockName, List<SendorExecuteSendType> sequences1, List<SendorExecuteSendType> sequences2,
@@ -595,7 +596,7 @@ namespace SuperCarter.Model
                 CommnadID.ToString().PadLeft(6, ' ')
                 );
             logger.Log(NLog.LogLevel.Trace, OutputMsg);
-            RealtimeMsgQueue.Enqueue(OutputMsg);
+            RealtimeMsgQueue.Enqueue(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum , msg = OutputMsg });
 
             DicSerialPort[command.PortNum].Write(command.SequenceData, 0, command.SequenceData.Length);
 
@@ -615,7 +616,7 @@ namespace SuperCarter.Model
               CommnadID.ToString().PadLeft(6, ' ')
                 );
             logger.Log(NLog.LogLevel.Trace, OutputMsg);
-            RealtimeMsgQueue.Enqueue(OutputMsg);
+            RealtimeMsgQueue.Enqueue(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum, msg = OutputMsg });
 
             SendAndReceiveDatabatchQ.Enqueue(new SendAndReceiveDatabatchcheck()
             {

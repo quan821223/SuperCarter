@@ -161,7 +161,7 @@
                                                                                 Foreground="Black" 
                                                                                 HorizontalAlignment="Stretch"/>
                                                             </BulletDecorator.Bullet>
-                                                            <TextBlock Margin="10,0,0,0" Text="運行設定 - 快速SDM簡易狀態資料輸出" 
+                                                            <TextBlock Margin="10,0,0,0" Text="" 
                                                                        FontFamily="Console" 
                                                                        FontSize="14"
                                                                        VerticalAlignment="Center" 
@@ -227,7 +227,7 @@
                                                         </StackPanel>
                                                     </WrapPanel>
                                                 </Expander>
-                                                <Border  Background="White" CornerRadius="6" Margin="6 0">
+                                                <Border  Background="White" CornerRadius="6" Margin="6 6 6 3">
                                                     <Border.Effect>
                                                         <DropShadowEffect Color="Black" 
 			                                                ShadowDepth = "0" 
@@ -332,7 +332,7 @@
                                                                                 Foreground="Black" 
                                                                                 HorizontalAlignment="Stretch"/>
                                                             </BulletDecorator.Bullet>
-                                                            <TextBlock Margin="10,0,0,0" Text="運行設定 - 執行腳本" 
+                                                            <TextBlock Margin="10,0,0,0" Text="" 
                                                            FontFamily="Console" 
                                                            FontSize="14"
                                                            VerticalAlignment="Center" 

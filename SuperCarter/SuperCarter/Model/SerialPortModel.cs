@@ -137,8 +137,9 @@ namespace SuperCarter.Model
                         _SerialPort.PortName.PadLeft(6, ' '),
                         data.Replace(" ", ""));
                     logger.Log(NLog.LogLevel.Trace, OutputMsg);
-                    WritedataToViewTextAggregator.Instance.Updatemsg(SerialPortModel.Instance.PortNameBinding[_SerialPort.PortName], OutputMsg);
-                    //OnPropertyChanged(nameof(AllViewText));
+                    WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = SerialPortModel.Instance.PortNameBinding[_SerialPort.PortName], msg = OutputMsg });
+         
+               
                 }
             }
         }

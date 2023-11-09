@@ -600,7 +600,9 @@ namespace SuperCarter.Model
                 CommnadID.ToString().PadLeft(6, ' ')
                 );
             logger.Log(NLog.LogLevel.Trace, OutputMsg);
-            RealtimeMsgQueue.Enqueue(OutputMsg);
+            WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum, msg = OutputMsg });
+
+          
 
             DicSerialPort[command.PortNum].Write(command.SequenceData, 0, command.SequenceData.Length);
 
@@ -623,8 +625,8 @@ namespace SuperCarter.Model
                 );
             // update to nlog file
             logger.Log(NLog.LogLevel.Trace, OutputMsg);
-            RealtimeMsgQueue.Enqueue(OutputMsg);
 
+            WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum, msg = OutputMsg });
             SendAndReceiveDatabatchQ.Enqueue(new SendAndReceiveDatabatchcheck()
             {
                 CommnadID = CommnadID,
