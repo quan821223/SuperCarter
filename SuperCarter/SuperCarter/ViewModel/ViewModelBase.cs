@@ -33,7 +33,7 @@ namespace SuperCarter.ViewModel
         public readonly string FOLDER_UTIL = System.Windows.Forms.Application.StartupPath + @"util\";
         public readonly string FOLDER_ACCESS = System.Windows.Forms.Application.StartupPath + @"access\";
         public readonly string FOLDER_RESULT = System.Windows.Forms.Application.StartupPath + @"result\";
-
+        public readonly string FOLDER_DYNAMICMONITOR = System.Windows.Forms.Application.StartupPath + @"result\Dynamic\";
         public static Dictionary<int, SerialPort> DicSerialPort { get;  set; } = new Dictionary<int, SerialPort>();
         //public static ObservableCollection<Portdetectedtype> SerialCandidator { get; set; } = new ObservableCollection<Portdetectedtype>();
         //public static string AllViewText = null;
@@ -139,6 +139,7 @@ namespace SuperCarter.ViewModel
             if (Directory.Exists(AppPath + @"\scripts") == false) Directory.CreateDirectory(AppPath + @"\scripts");
             if (Directory.Exists(AppPath + @"\scripts\macro") == false) Directory.CreateDirectory(AppPath + @"\scripts\macro");
             if (Directory.Exists(AppPath + @"\result") == false) Directory.CreateDirectory(AppPath + @"\result");
+            if (Directory.Exists(AppPath + @"\result\Dynamic") == false) Directory.CreateDirectory(AppPath + @"\result\Dynamic");
             if (!DicSerialPort.ContainsKey(0))
                 DicSerialPort.Add(0, new SerialPort());
             if (!DicSerialPort.ContainsKey(1))

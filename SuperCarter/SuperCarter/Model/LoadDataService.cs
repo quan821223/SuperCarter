@@ -14,6 +14,8 @@ using System.Windows.Markup;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using CsvHelper.Configuration.Attributes;
 using System.Reflection;
+using System.Collections;
+using CsvHelper.Configuration;
 
 namespace SuperCarter.Model
 {
@@ -65,8 +67,8 @@ namespace SuperCarter.Model
 
                 if (string.IsNullOrEmpty(_path))
                 {
-                    var FOLDER_RESULT = System.Windows.Forms.Application.StartupPath + @"result\";
-                    defaultpath = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-outputtestdata.csv");
+                    var FOLDER_RESULT = System.Windows.Forms.Application.StartupPath + @"\result\Dynamic";
+                    defaultpath = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyyMMddHHmmss"), "_dataOutput.csv");
 
                 }
                 else
@@ -81,7 +83,7 @@ namespace SuperCarter.Model
                     using (var writer = new StreamWriter(stream))
                     using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                     {
-                        csv.WriteHeader<UnifiedHostCommandSettypeBeta>();
+                        //csv.WriteHeader<UnifiedHostCommandSettypeBeta>();
                         //csv.NextRecord();
                     }
                 }
@@ -108,61 +110,111 @@ namespace SuperCarter.Model
         {
             defaultpath = _path;
         }
-        public void AppendToCsv2(UnifiedHostCommandSettypeBeta data, string functionName)
+        public class csvVerticaltype {
+
+            [Index(0)]
+            public string tital { get; set; }
+            [Index(1)]
+            public string msg { get; set; }
+        }
+        public void AppendToCsv2(UnifiedHostCommandSettype data)
         {
-
-            // 根据传入的 functionName 创建不同功能的对象
-            UnifiedHostCommandSettypeBeta dataA = null;
-
-
-
-            dataA = new UnifiedHostCommandSettypeBeta
+            try
             {
-                // 设置 FunctionA 需要的属性值
-            };
+                // Now, append the record
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
 
-            // 配置 FunctionA 的属性选择器
-            data.Selector = new FunctionSelector
-            {
-                IncludeDUT1SWversion = false,
-                IncludeLoop = false,
-                IncludeBlockloop = false,
-                IncludeBlockphase = false
-            };
-
-         
-     
-
-            //if (!File.Exists(defaultpath))
-            //{
-            //    // If the file does not exist, create it and write the header
-            //    using (var stream = File.Create(defaultpath))
-            //    using (var writer = new StreamWriter(stream))
-            //    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            //    {
-            //        csv.WriteHeader(data.GetType()); // Use the specific type for the header
-            //        writer.WriteLine();
-            //    }
-            //}
-
-            // Now, append the record
-            using (var stream = File.Open(defaultpath, FileMode.Append))
-            using (var writer = new StreamWriter(stream))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            {
-                //csv.WriteRecord(data);
-                //writer.WriteLine(); // Write new line
-                var properties = data.GetType().GetProperties();
-                foreach (var property in properties)
+                using (var stream = File.Open(defaultpath, FileMode.Append))
+                using (var writer = new StreamWriter(stream))
+                using (var csv = new CsvWriter(writer, config))
                 {
-                    var customAttribute = property.GetCustomAttribute<NameAttribute>();
-                    var propertyName = customAttribute?.Names?.FirstOrDefault(name => !string.IsNullOrEmpty(name)) ?? property.Name;
+                    string DUT1cur = null, DUT2cur = null, DUT3cur = null;
+                    while (data.DUT1CurrentList.TryDequeue(out string strdata))
+                    {
+                        DUT1cur += strdata + ", ";
+                    }
 
-                    var propertyValue = property.GetValue(data)?.ToString() ?? string.Empty;
-                    writer.WriteLine($"{propertyName}, {propertyValue}");
+                    while (data.DUT2CurrentList.TryDequeue(out string strdata))
+                    {
+                        DUT2cur += strdata + ", ";
+                    }
+                    while (data.DUT3CurrentList.TryDequeue(out string strdata))
+                    {
+                        DUT3cur += strdata + ", ";
+                    }
+                    var writeRecords1 = new List<csvVerticaltype>
+                    {
+                        // for DUT1
+                        new csvVerticaltype { tital = "#1 SWversion", msg = data.DUT1SWversion },
+                        new csvVerticaltype { tital = "#1 HWversion", msg = data.DUT1HWversion },
+                        new csvVerticaltype { tital = "#1 PowerMode", msg = data.DUT2PowerMode },
+                        new csvVerticaltype { tital = "#1 InputVoltage", msg = data.DUT1Voltage },
+                        new csvVerticaltype { tital = "#1 Current(A/uA)", msg = data.DUT1NormalCurrent },
+                        new csvVerticaltype { tital = "#1 Current(uA)", msg = data.DUT1SleepCurrent },
+                        new csvVerticaltype { tital = "#1 Diagnostic", msg = data.DUT1Diagnostic },
+                        new csvVerticaltype { tital = "#1 Lightsensor", msg = data.DUT1Lightsensor },
+                        new csvVerticaltype { tital = "#1 Touch_finger", msg = data.DUT1Touchfinger },
+                        new csvVerticaltype { tital = "#1 Touch_XY", msg = data.DUT1Touch_XY },
+                        new csvVerticaltype { tital = "#1 Brightness(%)", msg = data.DUT1Brightness },
+                        new csvVerticaltype { tital = "#1 T_chamber", msg = data.DUT1T_chamber },
+                        new csvVerticaltype { tital = "#1 T_LED1, msg = 2PCB", msg = data.DUT1T_LED1_2PCB },
+                        new csvVerticaltype { tital = "#1 Diagnostic_raw", msg = data.DUT1Diagnostic_raw },
+                        new csvVerticaltype { tital = "#1 CurrentList", msg = DUT1cur },
+                    };
+                        var writeRecords2 = new List<csvVerticaltype>
+                    {
+                        // for DUT2
+                        new csvVerticaltype { tital = "#2 SWversion", msg = data.DUT2SWversion },
+                        new csvVerticaltype { tital = "#2 HWversion", msg = data.DUT2HWversion },
+                        new csvVerticaltype { tital = "#2 PowerMode", msg = data.DUT2PowerMode },
+                        new csvVerticaltype { tital = "#2 InputVoltage", msg = data.DUT2Voltage },
+                        new csvVerticaltype { tital = "#2 Current(A/uA)", msg = data.DUT2NormalCurrent },
+                        new csvVerticaltype { tital = "#2 Current(uA)", msg = data.DUT2SleepCurrent },
+                        new csvVerticaltype { tital = "#2 Diagnostic", msg = data.DUT2Diagnostic },
+                        new csvVerticaltype { tital = "#2 Lightsensor", msg = data.DUT2Lightsensor },
+                        new csvVerticaltype { tital = "#2 Touch_finger", msg = data.DUT2Touchfinger },
+                        new csvVerticaltype { tital = "#2 Touch_XY", msg = data.DUT2Touch_XY },
+                        new csvVerticaltype { tital = "#2 Brightness(%)", msg = data.DUT2Brightness },
+                        new csvVerticaltype { tital = "#2 T_chamber", msg = data.DUT2T_chamber },
+                        new csvVerticaltype { tital = "#2 T_LED1, msg = 2PCB", msg = data.DUT2T_LED1_2PCB },
+                        new csvVerticaltype { tital = "#2 Diagnostic_raw", msg = data.DUT2Diagnostic_raw },
+                        new csvVerticaltype { tital = "#2 CurrentList", msg = DUT2cur },
+                    };
+                        var writeRecords3 = new List<csvVerticaltype>
+                    {
+                        new csvVerticaltype { tital = "#3 SWversion", msg = data.DUT3SWversion },
+                        new csvVerticaltype { tital = "#3 HWversion", msg = data.DUT3HWversion },
+                        new csvVerticaltype { tital = "#3 PowerMode", msg = data.DUT3PowerMode },
+                        new csvVerticaltype { tital = "#3 InputVoltage", msg = data.DUT3Voltage },
+                        new csvVerticaltype { tital = "#3 Current(A/uA)", msg = data.DUT3NormalCurrent },
+                        new csvVerticaltype { tital = "#3 Current(uA)", msg = data.DUT3SleepCurrent },
+                        new csvVerticaltype { tital = "#3 Diagnostic", msg = data.DUT3Diagnostic },
+                        new csvVerticaltype { tital = "#3 Lightsensor", msg = data.DUT3Lightsensor },
+                        new csvVerticaltype { tital = "#3 Touch_finger", msg = data.DUT3Touchfinger },
+                        new csvVerticaltype { tital = "#3 Touch_XY", msg = data.DUT3Touch_XY },
+                        new csvVerticaltype { tital = "#3 Brightness(%)", msg = data.DUT3Brightness },
+                        new csvVerticaltype { tital = "#3 T_chamber", msg = data.DUT3T_chamber },
+                        new csvVerticaltype { tital = "#3 T_LED1, msg = 2PCB", msg = data.DUT3T_LED1_2PCB },
+                        new csvVerticaltype { tital = "#3 Diagnostic_raw", msg = data.DUT3Diagnostic_raw },
+                        new csvVerticaltype { tital = "#3 CurrentList", msg = DUT3cur },
+                    };
+
+                    csv.WriteRecords(writeRecords1);
+                    writer.WriteLine();
+                    csv.WriteRecords(writeRecords2);
+                    writer.WriteLine();
+                    csv.WriteRecords(writeRecords3);
                 }
             }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.StackTrace);
+                MessageBox.Show(ex.Message);
+            }
+
         }
+
 
         public void AppendToCsv(UnifiedHostCommandSettype data, string functionName)
         {

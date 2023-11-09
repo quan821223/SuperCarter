@@ -249,6 +249,9 @@
                                                         </VisualBrush>
                                                     </Border.OpacityMask>
                                                     <WrapPanel Orientation="Horizontal">
+                                                        <Label Name="DisplayLbl" Visibility="{Binding CustomScriptEditor.DisplaySwitch}" FontSize="19"
+                                                               HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8 0 0 0"
+                                                               Content="{Binding CustomScriptEditor.LabelText}" Foreground="{Binding CustomScriptEditor.ForeColor}" />
 
                                                         <SpyderToggle:RoundToggleButton 
                                                                 IsChecked="{Binding CustomScriptEditor.IsEnableExecuteSDMchecklists, Mode=TwoWay}"
@@ -260,7 +263,7 @@
                                                         <TextBlock Text="運行" Margin="12 0"
                                                                    VerticalAlignment="Center"
                                                                    />
-
+                                                      
                                                     </WrapPanel>
                                                 </Border>
                                                 <Button Width="300" Height="33"

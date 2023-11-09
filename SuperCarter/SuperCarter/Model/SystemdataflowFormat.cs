@@ -192,13 +192,20 @@ namespace SuperCarter.Model
 
     public class UnifiedHostCommandSettype
     {
-
         [Ignore]
-        private ConcurrentQueue<double>  _DUT1Currentlist;
+        public bool IsEnableExecuteSDMcheck { get; set; }
         [Ignore]
-        private ConcurrentQueue<double> _DUT2Currentlist;
+        public string _DUT1NormalCurrent;
         [Ignore]
-        private ConcurrentQueue<double> _DUT3Currentlist;
+        public string _DUT2NormalCurrent;
+        [Ignore]
+        public string _DUT3NormalCurrent;
+        [Ignore]
+        public string _DUT1SleepCurrent;
+        [Ignore]
+        public string _DUT2SleepCurrent;
+        [Ignore]
+        public string _DUT3SleepCurrent;
         // working information
         [Name("Time")]
         public string Time { get; set; }
@@ -212,46 +219,17 @@ namespace SuperCarter.Model
         [Name("#1 PowerMode")]
         public string DUT1PowerMode { get; set; }
         [Ignore]
-        public ConcurrentQueue<double> DUT1Currentlist
-        {
-            get => _DUT1Currentlist;
-            set { 
-                _DUT1Currentlist= value;
-                CheckoutCurlist(DUT1Currentlist);
-                if(DUT1PowerMode == "Normal")
-                    DUT1NormalCurrent = ConcurrentQueueTostring(DUT1Currentlist);
-                else
-                    DUT1SleepCurrent = ConcurrentQueueTostring(DUT1Currentlist);
-            }
-        }
+        public ConcurrentQueue<string> DUT1LightsensorList { get; set; } = new ConcurrentQueue<string>();
         [Ignore]
-        public ConcurrentQueue<double> DUT2Currentlist
-        {
-            get => _DUT2Currentlist;
-            set
-            {
-                _DUT2Currentlist = value;
-                CheckoutCurlist(DUT2Currentlist);
-                if (DUT1PowerMode == "Normal")
-                    DUT2NormalCurrent = ConcurrentQueueTostring(DUT2Currentlist);
-                else
-                    DUT2SleepCurrent = ConcurrentQueueTostring(DUT2Currentlist);
-            }
-        }
+        public ConcurrentQueue<string> DUT2LightsensorList { get; set; } = new ConcurrentQueue<string>();
         [Ignore]
-        public ConcurrentQueue<double> DUT3Currentlist
-        {
-            get => _DUT3Currentlist;
-            set
-            {
-                _DUT3Currentlist = value;
-                CheckoutCurlist(DUT3Currentlist);
-                if (DUT1PowerMode == "Normal")
-                    DUT3NormalCurrent = ConcurrentQueueTostring(DUT2Currentlist);
-                else
-                    DUT3SleepCurrent = ConcurrentQueueTostring(DUT2Currentlist);
-            }
-        }
+        public ConcurrentQueue<string> DUT3LightsensorList { get; set; } = new ConcurrentQueue<string>();
+        [Ignore]
+        public ConcurrentQueue<string> DUT1CurrentList { get; set; } = new ConcurrentQueue<string> ();
+        [Ignore]
+        public ConcurrentQueue<string> DUT2CurrentList { get; set; } = new ConcurrentQueue<string>();
+        [Ignore]
+        public ConcurrentQueue<string> DUT3CurrentList { get; set; } = new ConcurrentQueue<string>();
 
         // for DUT1
         [Name("#1 SWversion")]
@@ -261,9 +239,30 @@ namespace SuperCarter.Model
         [Name("#1 InputVoltage")]
         public string DUT1Voltage { get; set; }
         [Name("#1 Current(A/uA)")]
-        public string DUT1NormalCurrent { get; set; }
+        public string DUT1NormalCurrent 
+        {
+            get => _DUT1NormalCurrent;
+            set {
+                _DUT1NormalCurrent = value;
+                if (IsEnableExecuteSDMcheck)
+                {
+                    DUT1CurrentList.Enqueue(DUT1NormalCurrent);
+                }
+            }
+        }
         [Name("#1 Current(uA)")]
-        public string DUT1SleepCurrent { get; set; }
+        public string DUT1SleepCurrent
+        {
+            get => _DUT1SleepCurrent;
+            set
+            {
+                _DUT1SleepCurrent = value;
+                if (IsEnableExecuteSDMcheck)
+                {
+                    DUT1CurrentList.Enqueue(DUT1SleepCurrent);
+                }
+            }
+        }
         [Name("#1 Diagnostic")]
         public string DUT1Diagnostic { get; set; }
         [Name("#1 Lightsensor")]
@@ -290,9 +289,31 @@ namespace SuperCarter.Model
         [Name("#2 InputVoltage")]
         public string DUT2Voltage { get; set; }
         [Name("#2 Current(A/uA)")]
-        public string DUT2NormalCurrent { get; set; }
+        public string DUT2NormalCurrent
+        {
+            get => _DUT2NormalCurrent;
+            set
+            {
+                _DUT2NormalCurrent = value;
+                if (IsEnableExecuteSDMcheck)
+                {
+                    DUT2CurrentList.Enqueue(DUT2NormalCurrent);
+                }
+            }
+        }
         [Name("#2 Current(uA)")]
-        public string DUT2SleepCurrent { get; set; }
+        public string DUT2SleepCurrent
+        {
+            get => _DUT2SleepCurrent;
+            set
+            {
+                _DUT2SleepCurrent = value;
+                if (IsEnableExecuteSDMcheck)
+                {
+                    DUT2CurrentList.Enqueue(DUT2SleepCurrent);
+                }
+            }
+        }
         [Name("#2 Diagnostic")]
         public string DUT2Diagnostic { get; set; }
         [Name("#2 Lightsensor")]
@@ -319,9 +340,31 @@ namespace SuperCarter.Model
         [Name("#3 InputVoltage")]
         public string DUT3Voltage { get; set; }
         [Name("#3 Current(A/uA)")]
-        public string DUT3NormalCurrent { get; set; }
+        public string DUT3NormalCurrent
+        {
+            get => _DUT3NormalCurrent;
+            set
+            {
+                _DUT3NormalCurrent = value;
+                if (IsEnableExecuteSDMcheck)
+                {
+                    DUT3CurrentList.Enqueue(DUT3NormalCurrent);
+                }
+            }
+        }
         [Name("#3 Current(uA)")]
-        public string DUT3SleepCurrent { get; set; }
+        public string DUT3SleepCurrent
+        {
+            get => _DUT3SleepCurrent;
+            set
+            {
+                _DUT3SleepCurrent = value;
+                if (IsEnableExecuteSDMcheck)
+                {
+                    DUT3CurrentList.Enqueue(DUT3SleepCurrent);
+                }
+            }
+        }
         [Name("#3 Diagnostic")]
         public string DUT3Diagnostic { get; set; }
         [Name("#3 Lightsensor")]
@@ -339,13 +382,15 @@ namespace SuperCarter.Model
         [Name("#3 Diagnostic_raw")]      
         public string DUT3Diagnostic_raw { get; set; }
         // Rest of the properties...
-        public void CheckoutCurlist(ConcurrentQueue<double> DUTCurrentlist)
+       
+        public void CheckoutCurlist(ConcurrentQueue<string> DUTCurrentlist)
         {
             if (DUTCurrentlist.Count > 20)
-                DUTCurrentlist.TryDequeue(out double bytes);
+                DUTCurrentlist.TryDequeue(out string bytes);
                     
         }
-        public string ConcurrentQueueTostring(ConcurrentQueue<double> DUTCurrentlist)
+
+        public string ConcurrentQueueTostring(ConcurrentQueue<string> DUTCurrentlist)
         {
             string[] currentListArray = DUTCurrentlist.Select(d => d.ToString()).ToArray();
             string output = string.Join(", ", currentListArray);

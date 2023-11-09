@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using Notification.Wpf;
 using SuperCarter.Services;
 using SuperCarter.ViewModel;
@@ -16,7 +17,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Brush = System.Windows.Media.Brush;
 
 namespace SuperCarter.Model
 {
@@ -34,7 +37,12 @@ namespace SuperCarter.Model
 
             blockAfolderViewerlist = new ObservableCollection<IFiletype>();
             ctsScrollingcheck= new CancellationTokenSource();
-           
+
+
+            /// 燈號設定
+            DisplaySwitch = Visibility.Visible;
+            LabelText = "●";
+            ForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
         }
 
         ~CustomScriptEditor()
@@ -45,7 +53,7 @@ namespace SuperCarter.Model
 
         #region property
         public CSVfile cSVfile { get; set; }
-        private UnifiedHostCommandSettypeBeta UnifiedHostCommandSet = new UnifiedHostCommandSettypeBeta();
+        private UnifiedHostCommandSettype UnifiedHostCommandSet { get; set; } = new UnifiedHostCommandSettype();
         public ObservableCollection<IFiletype> blockAfolderViewerlist { get; set; } = new ObservableCollection<IFiletype>();
         public ObservableCollection<Foldertype> folderViewerlist { get; set; } = new ObservableCollection<Foldertype>();
         public string Viewerpath { get; set; }
@@ -61,7 +69,19 @@ namespace SuperCarter.Model
         public int blockBitemcount { get; set; } = 0;
         public int blockCitemcount { get; set; } = 0;
         public int blockDitemcount { get; set; } = 0;
-        public bool IsEnableExecuteSDMchecklists { get; set; }
+        private bool _IsEnableExecuteSDMchecklists;
+        public bool IsEnableExecuteSDMchecklists
+        {
+            get => _IsEnableExecuteSDMchecklists;
+            set {
+                _IsEnableExecuteSDMchecklists = value;
+                if(_IsEnableExecuteSDMchecklists)
+                    ForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                else
+                    ForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
+                OnPropertyChanged(nameof(IsEnableExecuteSDMchecklists));
+            }
+        }
         public string Openblockfilepath { get; set; }
         public double Estimateruntimefullblock
         {
@@ -227,7 +247,7 @@ namespace SuperCarter.Model
         }
         #endregion
 
-        #region 更新 
+        #region 參數更新的更新流程 
         public void UpdateDashboardStartThread()
         {
             Thread lowPriorityThread = new Thread(() =>
@@ -420,14 +440,44 @@ namespace SuperCarter.Model
         }
 
         public CancellationTokenSource ctsScrollingcheck;
+        #region
+        /// <summary>
+        /// 燈號控制
+        /// </summary>
+        public Visibility DisplaySwitch { get; set; } = Visibility.Hidden;
+        public string LabelText { get; set; }
+        private Brush _ForeColor;
+
+        public Brush ForeColor {
+            get => _ForeColor;
+            set
+            {
+                _ForeColor = value;
+                OnPropertyChanged(nameof(ForeColor));   
+            } 
+        }
+        #endregion
+
+        /// <summary>
+        /// 運行動態顯示
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task StartScrollingCheck(CancellationToken cancellationToken)
         {
             bool WorkingBreak = false;
             try
             {
+                CommnadID = 0;
+                UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                UnifiedHostCommandSet.IsEnableExecuteSDMcheck = true;
                 List<SendorExecuteSendType> sequences = SendorExecuteSequencesList;
                 int sequenceIndex = 0;
                 var Sendorwatch = new Stopwatch();
+
+                /// 將燈號設定成未完成狀態
+                ForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
+
                 while (IsEnableExecuteSDMchecklists)
                 {
                     if (sequences[sequenceIndex].PortNum == 9)
@@ -446,10 +496,10 @@ namespace SuperCarter.Model
                         Sendorwatch.Stop();
                         var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
 
-                        //if (remainingSpentTime > 0)
-                        //{
-                        //    await Task.Delay(remainingSpentTime, cancellationToken);
-                        //}
+                        if (remainingSpentTime > 0)
+                        {
+                            await Task.Delay(remainingSpentTime, cancellationToken);
+                        }
                     }
                     else
                     {
@@ -457,7 +507,10 @@ namespace SuperCarter.Model
                         sequenceIndex++;
                     }
                     if (sequenceIndex >= sequences.Count) 
-                    { sequenceIndex = 0; }
+                    {
+                        sequenceIndex = 0;
+                        ForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                    }
                 }
             
             }
@@ -490,16 +543,13 @@ namespace SuperCarter.Model
         }
         public void SaveDynamicMonitorResult()
         {
-            var functionselector =new FunctionSelector()
-            {
-                IncludeTime = false,
-                IncludeLoop = false,
-                IncludeBlockloop = false,
-                IncludeBlockphase = false
-            };
-            cSVfile.AppendToCsv2(UnifiedHostCommandSet, "FunctionB");
-            //CSVfile.Instance.AppendToCsv(UnifiedHostCommandSet, "Function2");
-            UnifiedHostCommandSet = new UnifiedHostCommandSettypeBeta();
+            cSVfile = new CSVfile();
+            cSVfile.AppendToCsv2(UnifiedHostCommandSet);
+            IsEnableExecuteSDMchecklists = false;
+            OnPropertyChanged(nameof(IsEnableExecuteSDMchecklists));
+            // 開啟檔案位置
+            string dataPath = AppPath + @"\result\Dynamic";
+            Process.Start(new ProcessStartInfo { FileName = dataPath, UseShellExecute = true });
 
         }
         #endregion
@@ -561,7 +611,7 @@ namespace SuperCarter.Model
             if (receivedData.Length > 0)
                 RealtimeSDMDataQueue.Enqueue(receivedData);
 
-            // update to nlog file
+            
             recmsg = SerialPortModel.Instance.byteToHexStr(receivedData);
 
             OutputMsg = String.Format("{0}|{1}|{2}| R | CommandID {4}| {3}",
@@ -571,6 +621,7 @@ namespace SuperCarter.Model
                 recmsg.Replace(" ", ""),
               CommnadID.ToString().PadLeft(6, ' ')
                 );
+            // update to nlog file
             logger.Log(NLog.LogLevel.Trace, OutputMsg);
             RealtimeMsgQueue.Enqueue(OutputMsg);
 
@@ -607,7 +658,7 @@ namespace SuperCarter.Model
                         break;
                     }
                     // 檢查是否有數據可讀
-                    if (DicSerialPort[0].BytesToRead > 0)
+                    if (DicSerialPort[command.PortNum].BytesToRead > 0)
                     {
                         var readByte = (byte)DicSerialPort[command.PortNum].ReadByte();
 
@@ -695,9 +746,10 @@ namespace SuperCarter.Model
                 }                      
                 else
                 {
-                    UnifiedHostCommandSet = new UnifiedHostCommandSettypeBeta();
+                    UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                    UnifiedHostCommandSet.IsEnableExecuteSDMcheck = true;
 
-                    cSVfile = new CSVfile();
+                  
                     ctsScrollingcheck = new CancellationTokenSource();
                     StartScrollingCheck(ctsScrollingcheck.Token);
                 }
@@ -796,7 +848,6 @@ namespace SuperCarter.Model
                     }
                     else
                     {
-                        // MessageBox.Show("2");
                         _obj.Add(new IFiletype
                         {
                             FriendlyName = foldername,
@@ -1112,6 +1163,7 @@ namespace SuperCarter.Model
 
         public void evt_func_DTC(byte _txb, int _value)
         {
+            // 0x04 0x01
             switch (_txb)
             {
                 case 0x01:
@@ -1134,6 +1186,7 @@ namespace SuperCarter.Model
 
         public void evt_func_Voltage(byte _txb, double _value)
         {
+            // 0x04 0x02
             switch (_txb)
             {
                 case 0x01:
@@ -1156,6 +1209,7 @@ namespace SuperCarter.Model
 
         public void evt_func_Temp(byte _txb, int _LED1, int _LED2, int _PCBA)
         {
+            // 0x04 0x03
             string ledAndPCBAData = $"{_LED1}, {_LED2}, {_PCBA}";
             switch (_txb)
             {
@@ -1191,6 +1245,7 @@ namespace SuperCarter.Model
 
         public void evt_func_T_chamber(byte _txb, int _value)
         {
+            // 0x04 0x04
             switch (_txb)
             {
                 case 0x01:
@@ -1210,9 +1265,10 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(Port0SDM2T_chamber));
             OnPropertyChanged(nameof(Port0SDM3T_chamber));
         }
-
+       
         public void evt_func_ADC(byte _txb, double _value)
         {
+            // 0x04 0x05
             switch (_txb)
             {
                 case 0x01:
@@ -1235,31 +1291,47 @@ namespace SuperCarter.Model
 
         public void evt_func_normalCurrent(byte _txb, double _value)
         {
+            var curvalue = Math.Round(_value, 2, MidpointRounding.AwayFromZero);
             switch (_txb)
             {
                 case 0x01:
-                    UnifiedHostCommandSet.DUT1NormalCurrent = _value.ToString();
+                    UnifiedHostCommandSet.DUT1NormalCurrent = curvalue.ToString();
                     UnifiedHostCommandSet.DUT1SleepCurrent = "";
-                    Port0SDM1normalCurrent = _value;
+                    Port0SDM1normalCurrent = curvalue;
                     Port0SDM1sleepCurrent = 0;
                     OnPropertyChanged(nameof(Port0SDM1normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM1sleepCurrent));
+                    // 清空較早的Queue
+                    if(IsEnableExecuteSDMchecklists)
+                    {
+                        UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT1CurrentList);
+                    }                    
                     break;
                 case 0x02:
-                    UnifiedHostCommandSet.DUT2NormalCurrent = _value.ToString();
+                    UnifiedHostCommandSet.DUT2NormalCurrent = curvalue.ToString();
                     UnifiedHostCommandSet.DUT2SleepCurrent = "";
-                    Port0SDM2normalCurrent = _value;
+                    Port0SDM2normalCurrent = curvalue;
                     Port0SDM2sleepCurrent = 0;
                     OnPropertyChanged(nameof(Port0SDM2normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM2sleepCurrent));
+                    // 清空較早的Queue
+                    if (IsEnableExecuteSDMchecklists)
+                    {
+                        UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT2CurrentList);
+                    }
                     break;
                 case 0x03:
-                    UnifiedHostCommandSet.DUT3NormalCurrent = _value.ToString();
+                    UnifiedHostCommandSet.DUT3NormalCurrent = curvalue.ToString();
                     UnifiedHostCommandSet.DUT3SleepCurrent = "";
-                    Port0SDM3normalCurrent = _value;
+                    Port0SDM3normalCurrent = curvalue;
                     Port0SDM3sleepCurrent = 0;
                     OnPropertyChanged(nameof(Port0SDM3normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM3sleepCurrent));
+                    // 清空較早的Queue
+                    if (IsEnableExecuteSDMchecklists)
+                    {
+                        UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT3CurrentList);
+                    }
                     break;
             }
 
@@ -1267,32 +1339,47 @@ namespace SuperCarter.Model
 
         public void evt_func_sleepCurrent(byte _txb, double _value)
         {
+            var curvalue = Math.Round(_value, 2, MidpointRounding.AwayFromZero);
             switch (_txb)
             {
                 case 0x01:
                     UnifiedHostCommandSet.DUT1NormalCurrent = "";
-                    UnifiedHostCommandSet.DUT1SleepCurrent = _value.ToString();
+                    UnifiedHostCommandSet.DUT1SleepCurrent = curvalue.ToString();
                     Port0SDM1normalCurrent = 0;
-                    Port0SDM1sleepCurrent = _value;
-
+                    Port0SDM1sleepCurrent = curvalue;
                     OnPropertyChanged(nameof(Port0SDM1normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM1sleepCurrent));
+                    // 清空較早的Queue
+                    if (IsEnableExecuteSDMchecklists)
+                    {
+                        UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT1CurrentList);
+                    }
                     break;
                 case 0x02:
                     UnifiedHostCommandSet.DUT2NormalCurrent = "";
-                    UnifiedHostCommandSet.DUT2SleepCurrent = _value.ToString();
+                    UnifiedHostCommandSet.DUT2SleepCurrent = curvalue.ToString();
                     Port0SDM2normalCurrent = 0;
-                    Port0SDM2sleepCurrent = _value;
+                    Port0SDM2sleepCurrent = curvalue;
                     OnPropertyChanged(nameof(Port0SDM2normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM2sleepCurrent));
+                    // 清空較早的Queue
+                    if (IsEnableExecuteSDMchecklists)
+                    {
+                        UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT2CurrentList);
+                    }
                     break;
                 case 0x03:
-                    UnifiedHostCommandSet.DUT3NormalCurrent = _value.ToString();
+                    UnifiedHostCommandSet.DUT3NormalCurrent = curvalue.ToString();
                     UnifiedHostCommandSet.DUT3SleepCurrent = "";
                     Port0SDM3normalCurrent = 0;
-                    Port0SDM3sleepCurrent = _value;
+                    Port0SDM3sleepCurrent = curvalue;
                     OnPropertyChanged(nameof(Port0SDM3normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM3sleepCurrent));
+                    // 清空較早的Queue
+                    if (IsEnableExecuteSDMchecklists)
+                    {
+                        UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT3CurrentList);
+                    }
                     break;
             }
         }

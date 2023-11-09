@@ -49,7 +49,6 @@ namespace SuperCarter.ViewModel
                 AutoDetectedPortCount.Enabled = true;
                 AutoDetectedPortCount.Start();
 
-                
             }
             catch(Exception ex) {
                 MessageBox.Show(ex.StackTrace);
@@ -279,7 +278,6 @@ namespace SuperCarter.ViewModel
                     else
                     {
                         StopListeningPort(0);
-
                         ThreadReceiver1?.Interrupt();
                     }
                 }
@@ -568,7 +566,7 @@ namespace SuperCarter.ViewModel
 
                     });
                     MessageBox.Show(ex.Message);
-                    MessageBox.Show(ex.StackTrace);
+                    //MessageBox.Show(ex.StackTrace);
                 }
             }
             else

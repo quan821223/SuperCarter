@@ -33,13 +33,13 @@ namespace SuperCarter.Model
         {
             while (true)
             {
-                while (RealtimeMsgQueue.TryDequeue(out string bytes))
+                while (RealtimeMsgQueue.TryDequeue(out string strdata))
                 {
-                    if (bytes != null)
+                    if (strdata != null)
                     {
                         try
                         {
-                            ProcessBytes(bytes);
+                            ProcessBytes(strdata);
                         }
                         catch (Exception ex)
                         {
