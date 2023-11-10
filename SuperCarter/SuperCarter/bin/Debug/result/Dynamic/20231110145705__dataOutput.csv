@@ -1,0 +1,50 @@
+#1 SWversion,1.2
+#1 HWversion,3.4
+#1 PowerMode,Normal
+#1 InputVoltage,13.3
+#1 Current(A/uA),1.28
+#1 Current(uA),
+#1 Diagnostic,1
+#1 Lightsensor,671088640
+#1 Touch_finger,
+#1 Touch_XY,
+#1 Brightness(%),100
+#1 T_chamber,75
+"#1 T_LED1, LED2, PCB","67, 85, 85"
+#1 Diagnostic_raw,FA 01 0A 01 01 02 03 04 05 06 07 08 0D 0A
+#1 CurrentList,"1.04, 1.8, 1.36, 1.68, 1.32, 1.64, 1.92, 5.08, 1.6, 1.16, 1.68, 1.72, 1.56, 1.4, 1.28, 1, 1, 1, 1.12, 1.28, "
+#1 LightsensorList,"73, 1504, 289406976, 2176, 20185088, 268435456, 172, 2816, 151552, 540672, 8388608, 1200, 4864, -1073741824, 56623104, 1472, 1216, 1207959552, 34, 671088640, "
+
+#2 SWversion,1.2
+#2 HWversion,3.4
+#2 PowerMode,Normal
+#2 InputVoltage,13.7
+#2 Current(A/uA),1.16
+#2 Current(uA),
+#2 Diagnostic,1
+#2 Lightsensor,1146880
+#2 Touch_finger,
+#2 Touch_XY,
+#2 Brightness(%),100
+#2 T_chamber,75
+"#2 T_LED1, LED2, PCB","89, 87, 85"
+#2 Diagnostic_raw,FA 02 0A 01 01 02 03 04 05 06 07 08 0D 0A
+#2 CurrentList,"1.44, 1.04, 1.16, 1.32, 1.56, 1.48, 1.36, 1.96, 1.72, 1.72, 1.16, 1.8, 1.28, 1.76, 1.12, 1.68, 1.96, 1.88, 1.16, 1.16, "
+#2 LightsensorList,"-939524096, -1610612736, 4915200, 9961472, 167772160, 54, 108544, -2147483648, 4718592, 884736, 416, 69632, 3145728, 24117248, 2272, 118, 51200, 78643200, 1441792, 1146880, "
+
+#3 SWversion,1.2
+#3 HWversion,3.4
+#3 PowerMode,Normal
+#3 InputVoltage,13.3
+#3 Current(A/uA),1.08
+#3 Current(uA),
+#3 Diagnostic,1
+#3 Lightsensor,1107296256
+#3 Touch_finger,
+#3 Touch_XY,
+#3 Brightness(%),100
+#3 T_chamber,75
+"#3 T_LED1, LED2, PCB","69, 87, 85"
+#3 Diagnostic_raw,FA 03 0A 01 01 02 03 04 05 06 07 08 0D 0A
+#3 CurrentList,"1.08, 1.96, 1.92, 1.24, 1.48, 1.6, 1.4, 1.56, 1.56, 1.4, 1.44, 1.4, 1.64, 1.16, 1.12, 1.76, 1.84, 1.56, 1.44, 1.08, "
+#3 LightsensorList,"-2147483648, -1912602624, 184320, 76546048, 59392, -1879048192, 1824, 216, 1073741824, 603979776, 278528, 771751936, 0, 9437184, 905969664, 536870912, 31981568, 37748736, 264241152, 1107296256, "

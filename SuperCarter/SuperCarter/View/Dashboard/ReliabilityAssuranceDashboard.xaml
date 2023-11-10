@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SuperCarter.View.Dashboard"
              xmlns:SpyderToggle="clr-namespace:Spyder.Controls.Toggle;assembly=Spyder.Controls.Toggle" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:xrpb="clr-namespace:XamlRadialProgressBar;assembly=XamlRadialProgressBar"   
+             xmlns:xrpb="clr-namespace:XamlRadialProgressBar;assembly=XamlRadialProgressBar"  
            
              mc:Ignorable="d" 
             >
@@ -150,7 +150,7 @@
                                                 </StackPanel>
                                             </TabItem.Header>
                                             <StackPanel Orientation="Vertical">
-                                                <Expander Background="#FF7EC1FF"  IsExpanded="True" Margin="5">
+                                                <Expander Background="#FFDDDDDD"  IsExpanded="True" Margin="5">
                                                     <Expander.Header>
                                                         <BulletDecorator>
                                                             <BulletDecorator.Bullet>
@@ -321,7 +321,7 @@
                                                 </StackPanel>
                                             </TabItem.Header>
                                             <StackPanel Orientation="Vertical" >
-                                                <Expander  IsExpanded="True" Margin="5" Background="#FF7EFFBB">
+                                                <Expander  IsExpanded="True" Margin="5" Background="#FFDDDDDD">
                                                     <Expander.Header>
                                                         <BulletDecorator>
                                                             <BulletDecorator.Bullet>
@@ -333,11 +333,11 @@
                                                                                 HorizontalAlignment="Stretch"/>
                                                             </BulletDecorator.Bullet>
                                                             <TextBlock Margin="10,0,0,0" Text="" 
-                                                           FontFamily="Console" 
-                                                           FontSize="14"
-                                                           VerticalAlignment="Center" 
-                                                           HorizontalAlignment="Stretch"
-                                                           Foreground="Black"  />
+                                                                       FontFamily="Console" 
+                                                                       FontSize="14"
+                                                                       VerticalAlignment="Center" 
+                                                                       HorizontalAlignment="Stretch"
+                                                                       Foreground="Black"  />
                                                         </BulletDecorator>
                                                     </Expander.Header>
                                                     <WrapPanel  Background="White"  >
@@ -451,7 +451,7 @@
 
                     </Grid>
                 </Grid>
-                <Grid Grid.Column="2" Margin="7" MinWidth="300" MaxWidth="400">
+                <Grid Grid.Column="1" Margin="7" MinWidth="300" MaxWidth="400">
                     <!--此網格為前端物件的項目-->
                     <Grid>
                         <Border  Background="White" CornerRadius="5">
