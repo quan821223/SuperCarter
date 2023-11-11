@@ -194,7 +194,7 @@ namespace SuperCarter.Model
         /// <param name="SavePath"></param>
         /// <param name="_Scriptdatalist"></param>
         /// <param name="executeloop"></param>
-        public void SaveScriptTestSequencefile(string SavePath, ObservableCollection<ScriptItemtype> _Scriptdatalist, int _iterationnumber)
+        public void SaveScriptTestSequencefile(string SavePath, ObservableCollection<ScriptItemtype> _Scriptdatalist, int _iterationnumber = 1)
         {
             ScriptionXML = new XmlDocument();
             // 建立目錄的根
@@ -491,6 +491,110 @@ namespace SuperCarter.Model
             }
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="SavePath"></param>
+        /// <returns></returns>
+        public async Task<ObservableCollection<ScriptItemtype>> GetScriptXMLSequencesAsync(string SavePath)
+        {
+            try
+            {
+                ObservableCollection<ScriptItemtype> Temp = new ObservableCollection<ScriptItemtype>();
+
+                // 使用异步方式加载 XML
+                await Task.Run(async () =>
+                {
+                    try
+                    {
+                        XmlDocument ScriptionXML = new XmlDocument();
+                        ScriptionXML.Load(SavePath);
+
+                        XmlNode root = ScriptionXML.SelectSingleNode("TestSuite/TestSequence");
+
+                        if (root == null)
+                            return;
+
+                        XmlElement element = (XmlElement)root;
+
+                        // 设置批次大小
+                        int batchSize = 30;
+
+                        // 取得節點內的欄位
+                        foreach (XmlElement node in element)
+                        {
+                            String ID = node.Attributes["ID"].Value ?? "";
+                            String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
+                            String Nodename = node.Attributes["Nodename"]?.Value ?? "";
+                            String MSGname = node.Attributes["MSGname"]?.Value ?? "";
+                            String Sequence = node.Attributes["Sequence"]?.Value ?? "";
+                            String Delaytime = node.Attributes["Delaytime"]?.Value ?? "100";
+                            String RecSequence = node.Attributes["RecSequence"]?.Value ?? "";
+                            String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
+                            String Loop = node.Attributes["Loop"]?.Value ?? "1";
+
+                            Temp.Add(new ScriptItemtype()
+                            {
+                                ID = Convert.ToInt32(ID),
+                                SelectScriptPortnum = PortNum,
+                                Nodename = Nodename,
+                                MSGname = MSGname,
+                                Sequence = Sequence,
+                                Delaytime = Convert.ToInt32(Delaytime),
+                                RecSequence = RecSequence,
+                                HashCodevalue = HashCodevalue,
+                                Loop = Convert.ToInt32(Loop),
+                            });
+
+                            // 如果达到批次大小，添加小延迟以允许 UI 响应
+                            if (Temp.Count % batchSize == 0)
+                            {
+                                await Task.Delay(1);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                });
+
+                return Temp;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return new ObservableCollection<ScriptItemtype>();
+            }
+        }
+
+        public event EventHandler<SequencesUpdatedEventArgs> SequencesUpdated;
+
+        protected virtual void OnSequencesUpdated(ObservableCollection<ScriptItemtype> sequences)
+        {
+            SequencesUpdated?.Invoke(this, new SequencesUpdatedEventArgs(sequences));
+        }
+
+        // 异步加载脚本的方法
+        public async Task LoadScriptAsync(string scriptPath)
+        {
+            try
+            {
+                // 异步加载脚本
+                ObservableCollection<ScriptItemtype> sequences = await GetScriptXMLSequencesAsync(scriptPath);
+
+                // 触发更新事件
+                OnSequencesUpdated(sequences);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+
         /// <summary>
         ///  Associate the schema with XML. Then, load the XML and validate it against the schema.
         /// </summary>

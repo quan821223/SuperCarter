@@ -1,274 +1,325 @@
-﻿using SuperCarter.ViewModel;
+﻿using Notification.Wpf;
+using SuperCarter.Model;
+using SuperCarter.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace SuperCarter.Model
+namespace SuperCarter.ViewModel
 {
-    public class ScriptEditor : ViewModelBase
+    public  class ScriptEditor :ViewModelBase
     {
-        
-        public ScriptEditor()
-        {
-            Fullloop = 1;
-            BlockA1scriptruntime = 0;
-            BlockA2scriptruntime = 0;
-            BlockB1scriptruntime = 0;
-            BlockB2scriptruntime = 0;
-        //folderViewerlist = new ObservableCollection<Foldertype>();
-        //evt_Loadscriptroot(AppPath + @"scripts");
-        //Viewerpath = AppPath + @"scripts";
-        //OnPropertyChanged(nameof(folderViewerlist));
-        //OnPropertyChanged(nameof(Viewerpath));
+        private static object _selectedCMDItem = null;
+        public string InputText { get; set; } = "";
 
-        //blockAfolderViewerlist = new ObservableCollection<IFiletype>();
-    }
-        ~ScriptEditor()
+        // This is public get-only here but you could implement a public setter which
+        // also selects the item.
+        // Also this should be moved to an instance property on a VM for the whole tree, 
+        // otherwise there will be conflicts for more than one tree.
+        public static object SelectedCMDItem
         {
+            get { return _selectedCMDItem; }
+            private set
+            {
+                if (_selectedCMDItem != value)
+                {
+                    _selectedCMDItem = value;
+                    //OnSelectedItemChanged();
+                }
+            }
+        }
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged("IsSelected");
+                    if (_isSelected)
+                    {
+                        SelectedCMDItem = this;
+                    }
+                }
+            }
+        }
+
+        public Dictionary<string, List<ScriptItemtype>> ScriptToolboxTree { get; set; } = new Dictionary<string, List<ScriptItemtype>>();
+        public int script_itervalue { get; set; } = 1;
+        public int SelectedScriptitem { get; set; }
+        public ScriptEditor() {
+            ScriptToolboxTree = new Dictionary<string, List<ScriptItemtype>>(Toolscript.Instance.GetdefaultToolScriptItem());
+            OnPropertyChanged(nameof(ScriptToolboxTree));
+        }
+        ~ScriptEditor() {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #region properties
-        public ObservableCollection<ScriptItemtype> BlockA1ObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        public ObservableCollection<ScriptItemtype> BlockA2ObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        public ObservableCollection<ScriptItemtype> BlockB1ObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        public ObservableCollection<ScriptItemtype> BlockB2ObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        public ObservableCollection<ScriptItemtype> BlockA1initObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        public ObservableCollection<ScriptItemtype> BlockA2initObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        public ObservableCollection<ScriptItemtype> BlockB1initObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        public ObservableCollection<ScriptItemtype> BlockB2initObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        private int _ExecuteFullloop = 1;
-        public int Fullloop
+
+        #region Scription TreeView funcions
+        private ICommand _ScriptToolBar_Clear,
+            _ScriptToolBar_AddScriptitem,
+            _ScriptToolBar_RemoveScriptitem,
+            _ScriptToolBar_SortScriptitem,
+            _SciptToolBar_Openfolder,
+            _SciptToolBar_Saveas;
+        public ICommand ScriptToolBar_Clear
         {
-            get => _ExecuteFullloop;
+            get
+            {
+                _ScriptToolBar_Clear = new RelayCommand(
+                      param => evt_ScriptToolBar_Clear());
+                return _ScriptToolBar_Clear;
+            }
+        }
+        public ICommand ScriptToolBar_AddScriptitem
+        {
+            get
+            {
+                _ScriptToolBar_AddScriptitem = new RelayCommand(
+                      param => evt_ScriptToolBar_Additem());
+                return _ScriptToolBar_AddScriptitem;
+            }
+        }
+        public ICommand ScriptToolBar_RemoveScriptitem
+        {
+            get
+            {
+                _ScriptToolBar_RemoveScriptitem = new RelayCommand(
+                      param => evt_ScriptToolBar_Removeitem());
+                return _ScriptToolBar_RemoveScriptitem;
+            }
+        }
+        public ICommand ScriptToolBar_SortScriptitem
+        {
+            get
+            {
+                _ScriptToolBar_SortScriptitem = new RelayCommand(
+                      param => evt_ScriptToolBar_Sortintitem());
+                return _ScriptToolBar_SortScriptitem;
+            }
+        }
+
+        public ICommand SciptToolBar_Saveas
+        {
+            get
+            {
+                _SciptToolBar_Saveas = new RelayCommand(
+                      param => evt_evt_ScriptToolBar_Saveas(script_itervalue));
+                return _SciptToolBar_Saveas;
+            }
+        }
+        public ICommand SciptToolBar_Openfolder
+        {
+            get
+            {
+                _SciptToolBar_Openfolder = new RelayCommand(
+                      param => evt_Openfile());
+                return _SciptToolBar_Openfolder;
+            }
+        }
+        private ICommand _SelectCommand;
+        public ICommand SelectCommand
+        {
+            get
+            {
+                _SelectCommand = new RelayCommand(
+                    param => SelectedSequenceItem((ScriptItemtype)param));
+                return _SelectCommand;
+            }
+        }
+
+
+        #region Scription TreeView funcions events
+
+
+        public int SelectedCMD { get; set; } = 0;
+
+        private void SelectedSequenceItem(ScriptItemtype _va)
+        {
+            //SelectedCMDItem = this;
+            if (_va is not null)
+            {
+                Scriptdatalist.Insert(SelectedCMD , new ScriptItemtype()
+                {
+                    ID = _va.ID,
+                    Nodename = _va.Nodename,
+                    MSGname = _va.MSGname,
+                    Sequence = _va.Sequence,
+                    Delaytime = _va.Delaytime,
+                    RecSequence = _va.RecSequence,
+                    HashCodevalue = _va.HashCodevalue,
+                    Loop = _va.Loop,
+                });
+            }
+        }
+        public void evt_ScriptToolBar_Sortintitem()
+        {
+            ObservableCollection<ScriptItemtype> _Scriptdatalist = new ObservableCollection<ScriptItemtype>();
+            _Scriptdatalist = Scriptdatalist;
+            if (Scriptdatalist == null)
+                return;
+            if (Scriptdatalist.Count > 0)
+            {
+                for (int id = 0; id < Scriptdatalist.Count; id++)
+                {
+                    Scriptdatalist[id].ID = id + 1;
+                }
+                Scriptdatalist = null;
+                Scriptdatalist = _Scriptdatalist;
+                //OnPropertyChangedForStatic(nameof(Scriptdatalist));
+            }
+
+        }
+
+
+        public void evt_ScriptToolBar_Clear()
+        {
+            Scriptdatalist.Clear();
+        }
+        public void evt_ScriptToolBar_Additem()
+        {
+            Scriptdatalist.Add(new ScriptItemtype()
+            {
+                ID = 0,
+                Nodename = "",
+                MSGname = "",
+                Sequence = "",
+                Delaytime = 200,
+                Loop = 1
+
+            });
+        }
+        public void evt_ScriptToolBar_Removeitem()
+        {
+            if (SelectedScriptitem == null)
+                return;
+            if (Scriptdatalist is not null)
+            {
+                if (SelectedScriptitem > -1 && SelectedScriptitem < Scriptdatalist.Count)
+                {
+                    Scriptdatalist.Remove(Scriptdatalist[SelectedScriptitem]);
+                }
+            }
+        }
+      
+        private string _Textscriptpath;
+        public string Textscriptpath
+        {
+            get { return _Textscriptpath; }
             set
             {
-                _ExecuteFullloop = value < 1 ? 1 : value;  
-                OnPropertyChanged(nameof(Fullloop));
+                _Textscriptpath = value;
+                OnPropertyChanged(nameof(TestTextView));
             }
         }
-        public string BlockA1scriptPath { get; set; }
-        public string BlockA2scriptPath { get; set; }
-        public string BlockB1scriptPath { get; set; }
-        public string BlockB2scriptPath { get; set; }
+        public void evt_Openfile()
+        {
+            using (var openFileDialog1 = new System.Windows.Forms.OpenFileDialog())
+            {
+                string myPath = AppPath + @"\script\";
+                string PATHDDSSCRIPT = null;
+                // 設定OpenFileDialog屬性
+                openFileDialog1.Title = "選擇要開啟的 XML 檔案";
+                openFileDialog1.Filter = "xml Files (.xml)|*.xml|All Files (*.*)|*.*";
+                openFileDialog1.FilterIndex = 1;
+                openFileDialog1.Multiselect = true;
+                openFileDialog1.InitialDirectory = myPath;
 
-        public int BlockA1scriptruntime { get; set; }
-        public int BlockA2scriptruntime { get; set; }
-        public int BlockB1scriptruntime { get; set; }
-        public int BlockB2scriptruntime { get; set; }
-        public int BlockA1scriptLoop { get; set; }
-        public int BlockA2scriptLoop { get; set; }
-        public int BlockB1scriptLoop { get; set; }
-        public int BlockB2scriptLoop { get; set; }
-        public string BlockA1initscriptPath { get; set; }
-        public string BlockA2initscriptPath { get; set; }
-        public string BlockB1initscriptPath { get; set; }
-        public string BlockB2initscriptPath { get; set; }
-        public int BlockAscriptLoop { get; set; }
-        public int BlockBscriptLoop { get; set; }
+                if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    PATHDDSSCRIPT = openFileDialog1.FileName; //取得檔名
+                    evt_ScriptToolBar_Openfile(PATHDDSSCRIPT);
+                }
+                else
+                { }
+            }
+        }
+        public void evt_ScriptToolBar_Openfile(string _pathscript)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(_pathscript))
+                    return;
 
-        #endregion
+                Scriptdatalist.Clear();
 
-        #region icommands
-        private ICommand _ClearPageProperties;
-        private ICommand _LoadBlockA1Script, _LoadBlockA2Script, _LoadBlockB1Script, _LoadBlockB2Script ;
-        private ICommand _LoadBlockA1initScript, _LoadBlockA2initScript, _LoadBlockB1initScript, _LoadBlockB2initScript;
-        private ICommand _ViewBlockA1Script, _ViewBlockA2Script, _ViewBlockB1Script, _ViewBlockB2Script;
-        private ICommand _ViewBlockA1initScript, _ViewBlockA2initScript, _ViewBlockB1initScript, _ViewBlockB2initScript;
-        public ICommand LoadBlockA1Script {
-            get
-            {
-                _LoadBlockA1Script = new RelayCommand(
-                    param => evt_LoadscripttoBlock(0));
-                return _LoadBlockA1Script;
+                var tempItems = ConfigModel.Instance.GetScriptXMLSequences(_pathscript);
+                script_itervalue = ConfigModel.Instance.GetScriptXMLSequence_itervalue(_pathscript);
+                Textscriptpath = _pathscript;
+
+                if (tempItems != null && tempItems.Any())
+                {
+                    // 如果ObservableCollection支持AddRange则使用，否则使用foreach
+                    foreach (var item in tempItems)
+                        Scriptdatalist.Add(item);
+
+                    var testmsg = new POPNotifyMsgType
+                    {
+                        Tital = "通知",
+                        Message = "已開啟" + _pathscript,
+                        NotifyType = NotificationType.Notification,
+                    };
+
+
+
+                    MessageAggregator.Instance.SendMessage(testmsg);
+                }
+                OnPropertyChanged(nameof(Textscriptpath));
+                OnPropertyChanged(nameof(script_itervalue));
             }
-        }             
-        public ICommand LoadBlockA2Script
-        {
-            get
+            catch (Exception ex)
             {
-                _LoadBlockA2Script = new RelayCommand(
-                    param => evt_LoadscripttoBlock(1));
-                return _LoadBlockA2Script;
-            }
-        }
-        public ICommand LoadBlockB1Script
-        {
-            get
-            {
-                _LoadBlockB1Script = new RelayCommand(
-                    param => evt_LoadscripttoBlock(2));
-                return _LoadBlockB1Script;
-            }
-        }
-        public ICommand LoadBlockB2Script
-        {
-            get
-            {
-                _LoadBlockB2Script = new RelayCommand(
-                    param => evt_LoadscripttoBlock(3));
-                return _LoadBlockB2Script;
-            }
-        }
-        //
-        public ICommand LoadBlockA1initScript
-        {
-            get
-            {
-                _LoadBlockA1initScript = new RelayCommand(
-                    param => evt_LoadscripttoBlock(4));
-                return _LoadBlockA1initScript;
-            }
-        }
-        public ICommand LoadBlockA2initScript
-        {
-            get
-            {
-                _LoadBlockA2initScript = new RelayCommand(
-                    param => evt_LoadscripttoBlock(5));
-                return _LoadBlockA2initScript;
-            }
-        }
-        public ICommand LoadBlockB1initScript
-        {
-            get
-            {
-                _LoadBlockB1initScript = new RelayCommand(
-                    param => evt_LoadscripttoBlock(6));
-                return _LoadBlockB1initScript;
-            }
-        }
-        public ICommand LoadBlockB2initScript
-        {
-            get
-            {
-                _LoadBlockB2initScript = new RelayCommand(
-                    param => evt_LoadscripttoBlock(7));
-                return _LoadBlockB2initScript;
-            }
-        }
-        public ICommand ClearPageProperties
-        {
-            get
-            {
-                _ClearPageProperties = new RelayCommand(
-                    param => evt_ClearPageProperties());
-                return _ClearPageProperties;
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
 
-        #endregion
 
-        #region Event
- 
-        public void evt_LoadscripttoBlock(int _selectedblock)
+        public void evt_evt_ScriptToolBar_Saveas(int _iterationnumber)
         {
-            var loadscriptXMLPath = ConfigModel.Instance.GetStrScriptpath();
-
-            // Check the path location; if it's an empty string, the process will be terminated. 
-            if (string.IsNullOrWhiteSpace(loadscriptXMLPath))
+            if (Scriptdatalist == null)
                 return;
-            switch (_selectedblock)
+            if (Scriptdatalist.Count > 0)
             {
-                case 0:
-                    BlockA1ObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockA1scriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockA1scriptPath));
-                    break;
-                case 1:
-                    BlockA2ObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockA2scriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockA2scriptPath));
-                    break;
-                case 2:
-                    BlockB1ObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockB1scriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockB1scriptPath));
-                    break;
-                case 3:
-                    BlockB2ObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockB2scriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockB2scriptPath));
-                    break;
-                case 4:
-                    BlockA1initObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockA1initscriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockA1initscriptPath));
-                    break;
-                case 5:
-                    BlockA2initObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockA2initscriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockA2initscriptPath));
-                    break;
-                case 6:
-                    BlockB1initObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockB1initscriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockB1initscriptPath));
-                    break;
-                case 7:
-                    BlockB2initObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockB2initscriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockB2initscriptPath));
-                    break;
-            }
-            //evt_ReleasetoRefresh();
-        }
-        public void evt_ClearPageProperties()
-        {
-            BlockA1scriptPath = null;
-            BlockA2scriptPath = null;
-            BlockB1scriptPath = null;
-            BlockB2scriptPath = null;
-            BlockA1scriptruntime = 0;
-            BlockA2scriptruntime = 0;
-            BlockB1scriptruntime = 0;
-            BlockB2scriptruntime = 0;
-            BlockA1scriptLoop = 0;
-            BlockA2scriptLoop = 0;
-            BlockB1scriptLoop = 0;
-            BlockB2scriptLoop = 0;
-            BlockA1initscriptPath = null;
-            BlockA2initscriptPath = null;
-            BlockB1initscriptPath = null;
-            BlockB2initscriptPath = null;
-            BlockAscriptLoop = 0;
-            BlockBscriptLoop = 0;
-            BlockA1ObsColSequences = new ObservableCollection<ScriptItemtype>();
-            BlockA2ObsColSequences = new ObservableCollection<ScriptItemtype>();
-            BlockB1ObsColSequences = new ObservableCollection<ScriptItemtype>();
-            BlockB2ObsColSequences = new ObservableCollection<ScriptItemtype>();
-            BlockA1initObsColSequences = new ObservableCollection<ScriptItemtype>();
-            BlockA2initObsColSequences = new ObservableCollection<ScriptItemtype>();
-            BlockB1initObsColSequences = new ObservableCollection<ScriptItemtype>();
-            BlockB2initObsColSequences = new ObservableCollection<ScriptItemtype>();
-  
-            OnPropertyChanged(nameof(BlockA1scriptPath));
-            OnPropertyChanged(nameof(BlockA2scriptPath));
-            OnPropertyChanged(nameof(BlockB1scriptPath));
-            OnPropertyChanged(nameof(BlockB2scriptPath));
-            OnPropertyChanged(nameof(BlockA1scriptruntime));
-            OnPropertyChanged(nameof(BlockA2scriptruntime));
-            OnPropertyChanged(nameof(BlockB1scriptruntime));
-            OnPropertyChanged(nameof(BlockB2scriptruntime));
-            OnPropertyChanged(nameof(BlockA1scriptLoop));
-            OnPropertyChanged(nameof(BlockA2scriptLoop));
-            OnPropertyChanged(nameof(BlockB1scriptLoop));
-            OnPropertyChanged(nameof(BlockB2scriptLoop));
-            OnPropertyChanged(nameof(BlockA1initscriptPath));
-            OnPropertyChanged(nameof(BlockA2initscriptPath));
-            OnPropertyChanged(nameof(BlockB1initscriptPath));
-            OnPropertyChanged(nameof(BlockB2initscriptPath));
-            OnPropertyChanged(nameof(BlockAscriptLoop));
-            OnPropertyChanged(nameof(BlockBscriptLoop));
+                using (var saveFileDialog1 = new System.Windows.Forms.SaveFileDialog())
+                {
+                    string filter = "xml file (*.xml)|*.xml| All Files (*.*)|*.*";
+                    const string header = "Command ,Times/ Keyword#, Interval, COM PORT/Pin, Function,Sub -func., SerialPort I/O comd, AC /USB Switch, Wait, Remark";
+                    saveFileDialog1.Title = "Save as ...";
+                    saveFileDialog1.Filter = filter;
 
-         
+                    saveFileDialog1.DefaultExt = "xml";
+                    saveFileDialog1.FileName = string.Format(@"{0}-{1}.xml", DateTime.Now.ToString("yyyy_MM_dd_HH_mm"), "NEW_Script");
+
+                    //saveFileDialog1.FileName = string.Format(AppPath + @"\{0}-{1}.xml", DateTime.Now.ToString("yyyy_MM_dd_HH_mm"), "NEW_Script");
+
+                    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        evt_ScriptToolBar_Sortintitem();
+                        ConfigModel.Instance.SaveScriptTestSequencefile(saveFileDialog1.FileName, Scriptdatalist, _iterationnumber);
+
+                        MessageAggregator.Instance.SendMessage(new POPNotifyMsgType
+                        {
+                            Tital = "通知",
+                            Message = "已儲存 " + saveFileDialog1.FileName,
+                            NotifyType = NotificationType.Notification,
+
+                        });
+                    }
+                }
+            }
         }
+
         #endregion
 
+
+        #endregion
     }
 }

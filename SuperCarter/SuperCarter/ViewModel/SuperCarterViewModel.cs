@@ -20,6 +20,7 @@ namespace SuperCarter.ViewModel
     public class SuperCarterViewModel : ViewModelBase
     {
     
+        public ScheduledScriptEditor scheduledscriptEditor { get; set; }
         public ScriptEditor scriptEditor { get; set; }
         public SerialPortManager serialportmanager{get;set;}
         public InitialStateConfirm initialStateConfirm { get; set; }
@@ -37,6 +38,7 @@ namespace SuperCarter.ViewModel
             CustomScriptEditor = new CustomScriptEditor();
             CustomScriptEditor.UpdateDashboardStartThread();
 
+            scheduledscriptEditor = new ScheduledScriptEditor();
             scriptEditor = new ScriptEditor();
             serialportmanager = new SerialPortManager();
             initialStateConfirm = new InitialStateConfirm();

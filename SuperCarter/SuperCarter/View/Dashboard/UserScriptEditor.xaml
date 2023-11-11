@@ -12,132 +12,132 @@
     <UserControl.Resources>
         <self:PortIDItems x:Key="PortIDItems"/>
     </UserControl.Resources>
-    <Grid>
-        <Grid  Margin="5" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <WrapPanel Orientation="Horizontal" Margin="0"  HorizontalAlignment="Left" >
-                    <Button Width="95" Height="33" 
-                            Command="{Binding scriptEditor.ClearPageProperties}"                                             
+    <Grid  Margin="5" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <WrapPanel Orientation="Horizontal" Margin="0"  HorizontalAlignment="Left" >
+                <Button Width="95" Height="33" 
+                            Command="{Binding scheduledscriptEditor.ClearPageProperties}"                                             
                             ToolTip="View the path location" 
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left" 
                             Margin="50 0 50 0">
 
-                        <Button.Style>
+                    <Button.Style>
 
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <ContentControl>
-                                                <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.2" Background="{TemplateBinding Background}" CornerRadius="4">
-                                                    <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
-                                                        <materialDesign:PackIcon Kind="Refresh"
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <ContentControl>
+                                            <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.2" Background="{TemplateBinding Background}" CornerRadius="4">
+                                                <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
+                                                    <materialDesign:PackIcon Kind="FormatClear"
                                                                             Width="23" Height="23"
                                                                             VerticalAlignment="Stretch" 
                                                                             Foreground="#FF4D4D4D" 
                                                                             HorizontalAlignment="Stretch"/>
-                                                        <Label Content="Clear" VerticalAlignment="Center"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </ContentControl>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="Button.IsPressed" Value="True" >
-                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
-                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                                                    <Label Content="Clear" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </ContentControl>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="Button.IsPressed" Value="True" >
+                                                <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
-                    <Button Width="95" Height="33" 
+                <Button Width="95" Height="33" 
                             Command="{Binding Loadblockscript }"                                             
                             ToolTip="View the path location" 
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left" 
                             Margin="3 0 3 0">
 
-                        <Button.Style>
+                    <Button.Style>
 
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <ContentControl>
-                                                <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.2" Background="{TemplateBinding Background}" CornerRadius="4">
-                                                    <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
-                                                        <materialDesign:PackIcon Kind="FolderOpenOutline"
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <ContentControl>
+                                            <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.2" Background="{TemplateBinding Background}" CornerRadius="4">
+                                                <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
+                                                    <materialDesign:PackIcon Kind="FolderOpenOutline"
                                                                             Width="23" Height="23"
                                                                             VerticalAlignment="Stretch" 
                                                                             Foreground="#FF4D4D4D" 
                                                                             HorizontalAlignment="Stretch"/>
-                                                        <Label Content="Load" VerticalAlignment="Center"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </ContentControl>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="Button.IsPressed" Value="True" >
-                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
-                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                    <Button Width="95" Height="33" 
-                            Command="{Binding scriptEditor.SaveBlockprocedure}"                                             
+                                                    <Label Content="Load" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </ContentControl>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="Button.IsPressed" Value="True" >
+                                                <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Width="95" Height="33" 
+                            Command="{Binding scheduledscriptEditor.SaveBlockprocedure}"                                             
                             ToolTip="View the path location" 
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left" 
                             Margin="3 0 3 0">
 
-                        <Button.Style>
+                    <Button.Style>
 
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <ContentControl>
-                                                <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.2" Background="{TemplateBinding Background}" CornerRadius="4">
-                                                    <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
-                                                        <materialDesign:PackIcon Kind="ContentSaveOutline"
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <ContentControl>
+                                            <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .7 1.0 1.2" Background="{TemplateBinding Background}" CornerRadius="4">
+                                                <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
+                                                    <materialDesign:PackIcon Kind="ContentSaveOutline"
                                                                             Width="23" Height="23"
                                                                             VerticalAlignment="Stretch" 
                                                                             Foreground="#FF4D4D4D" 
                                                                             HorizontalAlignment="Stretch"/>
-                                                        <Label Content="Save" VerticalAlignment="Center"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </ContentControl>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="Button.IsPressed" Value="True" >
-                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
-                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                                                    <Label Content="Save" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </ContentControl>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="Button.IsPressed" Value="True" >
+                                                <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
-                </WrapPanel>
+            </WrapPanel>
 
-            </Grid>
-            <Grid Grid.Row="1" >
-                <!--此網格為前端物件的項目--><!--
+        </Grid>
+        <Grid Grid.Row="1" >
+            <!--此網格為前端物件的項目-->
+            <!--
                 <Grid>
                     <Border  Background="White" CornerRadius="5">
                         <Border.Effect>
@@ -166,8 +166,12 @@
 
                     </Border>
                 </Grid>-->
-                <!--此網格為後端物件的項目-->
-                <Grid Background="White">
+            <!--此網格為後端物件的項目-->
+            
+            <Grid Background="White">
+                <ScrollViewer Name="scrollViewer" 
+                                           VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                           HorizontalScrollBarVisibility="Visible" >
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
@@ -175,286 +179,380 @@
 
                         </Grid.ColumnDefinitions>
                         <Grid >
-                            <ScrollViewer Name="scrollViewer" 
-                                           VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                                           HorizontalScrollBarVisibility="Visible" >
-                                <Grid Grid.Column="0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="31"/>
-                                        <RowDefinition Height="70"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid Grid.Row="0">
-                                        <TextBox x:Name="CurrentBlockscriptfile" Text="{Binding scriptEditor.Openblockfilepath}" IsReadOnly="True" TextChanged="CurrentBlockscriptfile_TextChanged" Margin="7" Background="LightSlateGray"/>
-                                    </Grid>
-                                    <Grid  Grid.Row="1">
-                                        <WrapPanel Orientation="Vertical"
+
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="31"/>
+                                    <RowDefinition Height="42"/>
+                                    <RowDefinition Height="32"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <TextBox x:Name="CurrentBlockscriptfile" Text="{Binding scheduledscriptEditor.Openblockfilepath}" IsReadOnly="True" TextChanged="CurrentBlockscriptfile_TextChanged" Margin="7" Background="LightSlateGray"/>
+                                </Grid>
+                                <Grid  Grid.Row="1">
+                                    <WrapPanel Orientation="Horizontal"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Margin="5 0 5 0" 
                                            >
-                                            <StackPanel Orientation="Horizontal" >
-                                                <Label Content="Time (min):" 
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Label Content="Time (min):" 
                                                 HorizontalAlignment="Center"/>
-                                                <Label Content="{Binding scriptEditor.Estimateruntimefullblock}" HorizontalAlignment="Center"/>
-                                            </StackPanel >
-                                            <Separator Margin="2"/>
+                                            <Label Content="{Binding scheduledscriptEditor.Estimateruntimefullblock}" HorizontalAlignment="Center"/>
+                                        </StackPanel >
+                                        <Separator Margin="2"/>
+
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Label Content="Loop" 
+                                               HorizontalAlignment="Center"/>
+                                            <TextBox Text="{Binding scheduledscriptEditor.Fullloop}" MinWidth="70" />
+                                        </StackPanel >
+
+                                    </WrapPanel>
+                                    <Separator Margin="12 0 12 0" VerticalAlignment="Bottom"/>
+                                </Grid>
+                                <Grid  Grid.Row="2"   >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="BlockA Loop" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockAscriptLoop, Mode=TwoWay}"
+                                                         TextWrapping="WrapWithOverflow"  
+                                                         MinWidth="100" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"
+                                                         />
+
+                                            <Label Content="Totaltime : " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                            <Label Content="{Binding scheduledscriptEditor.EstimateBlockAtotaltime}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Column="1"  VerticalAlignment="Stretch" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="BlockB Loop" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockBscriptLoop, Mode=TwoWay}"
+                                                         TextWrapping="WrapWithOverflow"  
+                                                         MinWidth="100" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"
+                                                         />
+                                            <Label Content="Totaltime : " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                            <Label Content="{Binding scheduledscriptEditor.EstimateBlockBtotaltime}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                                <Grid  Grid.Row="3" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0" Margin="1">
+                                        <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label Content="A-1" />
+                                                <Label Content="Time(ms):"   HorizontalAlignment="Center"/>
+                                            </StackPanel>
+                                            <Separator Margin="0"/>
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockA1scriptruntime}"/>
+                                            <Separator Margin="0 10"/>
+                                            <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="0" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="0" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                            </StackPanel>
+
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockA1initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"  IsReadOnly="True"/>
+                                            <Separator Margin="0 5"/>
+                                            <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
 
                                             <StackPanel Orientation="Horizontal" >
-                                                <Label Content="Loop" 
-                                               HorizontalAlignment="Center"/>
-                                                <TextBox Text="{Binding scriptEditor.Fullloop}" MinWidth="70" />
-                                            </StackPanel >
-
+                                                <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="4" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="4" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                            </StackPanel>
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockA1scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True" 
+                                                         MaxWidth="220" />
+                                            <Label Content="sequence count : "/>
+                                            <Label Content="{Binding scheduledscriptEditor.blockAitemcount}"/>
                                         </WrapPanel>
-                                        <Separator Margin="12 0 12 0" VerticalAlignment="Bottom"/>
                                     </Grid>
-                                    <Grid  Grid.Row="2"   >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
-                                            
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Center">
+                                    <Grid Grid.Column="1" Margin="1" >
+                                        <WrapPanel Orientation="Vertical" HorizontalAlignment="Center"  MaxWidth="230">
                                             <StackPanel Orientation="Horizontal">
-                                                <Label Content="BlockA Loop" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                                <TextBox Text="{Binding scriptEditor.BlockAscriptLoop, Mode=TwoWay}"
-                                                         TextWrapping="WrapWithOverflow"  
-                                                         MinWidth="100" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"
-                                                         />
-                                             
-                                                <Label Content="Totaltime : " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                                <Label Content="{Binding scriptEditor.EstimateBlockAtotaltime}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                                <Label Content="A-2" HorizontalAlignment="Center"/>
+                                                <Label Content="Time(ms):"   HorizontalAlignment="Center"/>
                                             </StackPanel>
-                                        </Grid>
-                                        <Grid Grid.Column="1"  VerticalAlignment="Stretch" HorizontalAlignment="Center">
+                                            <Separator Margin="0"/>
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockA2scriptruntime}" />
+                                            <Separator Margin="0 10"/>
+                                            <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="1" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="1" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                            </StackPanel>
+
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockA2initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"  IsReadOnly="True" />
+                                            <Separator Margin="0 5"/>
+                                            <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
+
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="5" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="5" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                            </StackPanel>
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockA2scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
+                                                         MaxWidth="220" />
+                                            <Label Content="sequence count : "/>
+                                            <Label Content="{Binding scheduledscriptEditor.blockAitemcount}"/>
+                                        </WrapPanel>
+                                    </Grid>
+                                    <Grid Grid.Column="2" Margin="1">
+                                        <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
                                             <StackPanel Orientation="Horizontal">
-                                                <Label Content="BlockB Loop" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                                <TextBox Text="{Binding scriptEditor.BlockBscriptLoop, Mode=TwoWay}"
-                                                         TextWrapping="WrapWithOverflow"  
-                                                         MinWidth="100" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"
-                                                         />
-                                                <Label Content="Totaltime : " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                                <Label Content="{Binding scriptEditor.EstimateBlockBtotaltime}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                                <Label Content="B-1" HorizontalAlignment="Center"/>
+                                                <Label Content="Time(ms):"   HorizontalAlignment="Center"/>
                                             </StackPanel>
-                                        </Grid>
+                                            <Separator Margin="0"/>
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockB1scriptruntime}" />
+                                            <Separator Margin="0 10"/>
+                                            <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
+
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="2" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/> 
+                                                <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="2" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                            </StackPanel>
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockB1initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"  IsReadOnly="True" />
+                                            <Separator Margin="0 5"/>
+                                            <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
+
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="6" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="6" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                            </StackPanel>
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockB1scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
+                                                         MaxWidth="220" />
+                                            <Label Content="sequence count : "/>
+                                            <Label Content="{Binding scheduledscriptEditor.blockAitemcount}"/>
+                                        </WrapPanel>
                                     </Grid>
-                                    <Grid  Grid.Row="3" >
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0" Margin="1">
-                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="A-1" />
-                                                    <Label Content="Time(min):"   HorizontalAlignment="Center"/>
-                                                </StackPanel>                                              
-                                                <Separator Margin="0"/>
-                                                <TextBox Text="{Binding scriptEditor.BlockA1scriptruntime}" />
-                                                <Separator Margin="0 10"/>
-                                                <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <Button Command="{Binding scriptEditor.LoadBlockA1initScript}" Width="100" Content="Load"/>
-                                                    <Button Command="{Binding scriptEditor.ViewBlockA1initScript}" Width="100" Content="View"/>
-                                                </StackPanel>
-                                               
-                                                <TextBox Text="{Binding scriptEditor.BlockA1initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"/>
-                                                <Separator Margin="0 5"/>
-                                                <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
-                                               
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <Button Command="{Binding scriptEditor.LoadBlockA1Script}" Width="100" Content="Load"/>
-                                                    <Button Command="{Binding scriptEditor.ViewBlockA1Script}" Width="100" Content="View"/>
-                                                </StackPanel>
-                                                <TextBox Text="{Binding scriptEditor.BlockA1scriptruntime, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
-                                                         MaxWidth="220" />
-                                                <Label Content="sequence count : "/>
-                                                <Label Content="{Binding scriptEditor.blockAitemcount}"/>
-                                            </WrapPanel>
-                                        </Grid>
-                                        <Grid Grid.Column="1" Margin="1" >
-                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center"  MaxWidth="230">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="A-2" HorizontalAlignment="Center"/>
-                                                    <Label Content="Time(min):"   HorizontalAlignment="Center"/>
-                                                </StackPanel>
-                                                <Separator Margin="0"/>
-                                                <TextBox Text="{Binding scriptEditor.BlockA2scriptruntime}" />
-                                                <Separator Margin="0 10"/>
-                                                <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <Button Command="{Binding scriptEditor.LoadBlockA2initScript}" Width="100" Content="Load"/>
-                                                    <Button Command="{Binding scriptEditor.ViewBlockA2initScript}" Width="100" Content="View"/>
-                                                </StackPanel>
-                                               
-                                                <TextBox Text="{Binding scriptEditor.BlockA2initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"/>
-                                                <Separator Margin="0 5"/>
-                                                <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
-                                          
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <Button Command="{Binding scriptEditor.LoadBlockA2Script}" Width="100" Content="Load"/>
-                                                    <Button Command="{Binding scriptEditor.ViewBlockA2Script}" Width="100" Content="View"/>
-                                                </StackPanel>
-                                                <TextBox Text="{Binding scriptEditor.BlockA2scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
-                                                         MaxWidth="220" />
-                                                <Label Content="sequence count : "/>
-                                                <Label Content="{Binding scriptEditor.blockAitemcount}"/>
-                                            </WrapPanel>
-                                        </Grid>
-                                        <Grid Grid.Column="2" Margin="1">
-                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="B-1" HorizontalAlignment="Center"/>
-                                                    <Label Content="Time(min):"   HorizontalAlignment="Center"/>
-                                                </StackPanel>
-                                                <Separator Margin="0"/>
-                                                <TextBox Text="{Binding scriptEditor.BlockB1scriptruntime}" />
-                                                <Separator Margin="0 10"/>
-                                                <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
-                                               
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <Button Command="{Binding scriptEditor.LoadBlockB1initScript}" Width="100" Content="Load"/>
-                                                    <Button Command="{Binding scriptEditor.ViewBlockB1initScript}" Width="100" Content="View"/>
-                                                </StackPanel>
-                                                <TextBox Text="{Binding scriptEditor.BlockB1initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"/>
-                                                <Separator Margin="0 5"/>
-                                                <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
-                                               
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <Button Command="{Binding scriptEditor.LoadBlockB1Script}" Width="100" Content="Load"/>
-                                                    <Button Command="{Binding scriptEditor.ViewBlockB1Script}" Width="100" Content="View"/>
-                                                </StackPanel>
-                                                <TextBox Text="{Binding scriptEditor.BlockB1scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
-                                                         MaxWidth="220" />
-                                                <Label Content="sequence count : "/>
-                                                <Label Content="{Binding scriptEditor.blockAitemcount}"/>
-                                            </WrapPanel>
-                                        </Grid>
-                                        <Grid Grid.Column="3" Margin="1">
-                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="B-2" HorizontalAlignment="Center"/>
-                                                    <Label Content="Time(min):"   HorizontalAlignment="Center"/>
-                                                </StackPanel>
-                                                <Separator Margin="0"/>
-                                                <TextBox Text="{Binding scriptEditor.BlockB2scriptruntime}" />
-                                                <Separator Margin="0 10"/>
-                                                <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <Button Command="{Binding scriptEditor.LoadBlockB2initScript}" Width="100" Content="Load"/>
-                                                    <Button Command="{Binding scriptEditor.ViewBlockB2initScript}" Width="100" Content="View"/>
-                                                </StackPanel>
-                                                
-                                                <TextBox Text="{Binding scriptEditor.BlockB2initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"/>
-                                                <Separator Margin="0 5"/>
-                                                <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <Button Command="{Binding scriptEditor.LoadBlockB2Script}" Width="100" Content="Load"/>
-                                                    <Button Command="{Binding scriptEditor.ViewBlockB2initScript}" Width="100" Content="View"/>
-                                                </StackPanel>
+                                    <Grid Grid.Column="3" Margin="1">
+                                        <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label Content="B-2" HorizontalAlignment="Center"/>
+                                                <Label Content="Time(ms):"   HorizontalAlignment="Center"/>
+                                            </StackPanel>
+                                            <Separator Margin="0"/>
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockB2scriptruntime}" />
+                                            <Separator Margin="0 10"/>
+                                            <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="3" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="3" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                            </StackPanel>
 
-                                                <TextBox Text="{Binding scriptEditor.BlockB2scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockB2initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow" IsReadOnly="True" />
+                                            <Separator Margin="0 5"/>
+                                            <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="7" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="7" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                            </StackPanel>
+
+                                            <TextBox Text="{Binding scheduledscriptEditor.BlockB2scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
                                                          MaxWidth="220" />
-                                                <Label Content="sequence count : "/>
-                                                <Label Content="{Binding scriptEditor.blockAitemcount}"/>
-                                            </WrapPanel>
-                                        </Grid>
-
-
+                                            <Label Content="sequence count : "/>
+                                            <Label Content="{Binding scheduledscriptEditor.blockAitemcount}"/>
+                                        </WrapPanel>
                                     </Grid>
-                                    <Grid Grid.Row="4">
-                                        <TabControl>
-                                            <TabItem>
-                                                <TabItem.Header>
-                                                    <StackPanel Orientation="Horizontal"  Width="156">
-                                                        <materialDesign:PackIcon Kind="Numeric2CircleOutline"
-                                                             Width="26" Height="32"
-                                                             VerticalAlignment="Stretch" 
-                                                             Foreground="#FF4D4D4D" 
-                                                             HorizontalAlignment="Stretch"
-                                                             />
-                                                        <TextBlock Text="Scheduled Detection" Foreground="Black" 
-                                                               FontWeight="Bold" Margin="1 5"/>
-                                                    </StackPanel>
-                                                </TabItem.Header>
-                                                <Grid>
-                                                    <DataGrid x:Name="SequenceScript" 
+
+
+                                </Grid>
+                                <Grid Grid.Row="4" Margin="5">
+                                    <GroupBox Header="sub - Script Browsing" FontWeight="Bold">
+                                        <Grid>
+                            
+                                            <TabControl Margin="5">
+                                                <TabItem>
+                                                    <TabItem.Header>
+                                                        <StackPanel Orientation="Horizontal"  Width="200">
+                                                            <Label Name="DisplayLbl" Visibility="{Binding scheduledscriptEditor.DisplaySwitch}" FontSize="12"
+                                                                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8 0 0 0"
+                                                                        Content="{Binding scheduledscriptEditor.LabelText}" Foreground="{Binding scheduledscriptEditor.ForeColor}" />
+                                                            <materialDesign:PackIcon Kind="Text"
+                                                                                         Width="16" Height="16"
+                                                                                         VerticalAlignment="Stretch" 
+                                                                                         Foreground="#FF4D4D4D" 
+                                                                                         HorizontalAlignment="Stretch"
+                                                                                         />
+
+                                                            <TextBlock x:Name="RuntimeAlertText" Text="{Binding scheduledscriptEditor.RuntimeAlertText}" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" Margin="1 5">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding scheduledscriptEditor.IsAnimationEnabled}" Value="True">
+                                                                                <DataTrigger.EnterActions>
+                                                                                    <BeginStoryboard x:Name="YourStoryboardName">
+                                                                                        <Storyboard>
+                                                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                                                                 From="0" To="1" Duration="0:0:1"
+                                                                                                                 RepeatBehavior="Forever"/>
+                                                                                        </Storyboard>
+                                                                                    </BeginStoryboard>
+                                                                                </DataTrigger.EnterActions>
+                                                                                <!-- 选择在ExitActions中停止动画 -->
+                                                                                <DataTrigger.ExitActions>
+                                                                                    <StopStoryboard BeginStoryboardName="YourStoryboardName" />
+                                                                                </DataTrigger.ExitActions>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                    </TabItem.Header>
+
+                                                    <Grid >
+                                                        <StackPanel Orientation="Vertical" >
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Button Width="95" Height="33"  
+                                                                Command="{Binding scheduledscriptEditor.ClearSubscript}"                                             
+                                                                ToolTip="View the path location" 
+                                                                VerticalAlignment="Center"
+                                                                HorizontalAlignment="Left" 
+                                                                Margin="10 0 5 3">
+
+                                                                    <Button.Style>
+
+                                                                        <Style TargetType="{x:Type Button}">
+                                                                            <Setter Property="Template">
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                                                        <ContentControl>
+                                                                                            <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .9 1.0 1.2" Background="{TemplateBinding Background}" CornerRadius="4">
+                                                                                                <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
+                                                                                                    <materialDesign:PackIcon Kind="FormatClear" 
+                                                                                                                        Width="20" Height="20"
+                                                                                                                        VerticalAlignment="Stretch" 
+                                                                                                                        Foreground="#FF4D4D4D" 
+                                                                                                                        HorizontalAlignment="Stretch"/>
+                                                                                                    <Label Content="Clear" VerticalAlignment="Center"/>
+                                                                                                </StackPanel>
+                                                                                            </Border>
+                                                                                        </ContentControl>
+                                                                                        <ControlTemplate.Triggers>
+                                                                                            <Trigger Property="Button.IsPressed" Value="True" >
+                                                                                                <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                                                                <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                                                            </Trigger>
+                                                                                        </ControlTemplate.Triggers>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Style>
+                                                                    </Button.Style>
+                                                                </Button>
+                                                                <Button Width="95" Height="33"  
+                                                                Command="{Binding scheduledscriptEditor.SaveasSubscript}"                                             
+                                                                ToolTip="View the path location" 
+                                                                VerticalAlignment="Center"
+                                                                HorizontalAlignment="Left" 
+                                                                Margin="10 0 5 3">
+
+                                                                    <Button.Style>
+
+                                                                        <Style TargetType="{x:Type Button}">
+                                                                            <Setter Property="Template">
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                                                        <ContentControl>
+                                                                                            <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .9 1.0 1.2" Background="{TemplateBinding Background}" CornerRadius="4">
+                                                                                                <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
+                                                                                                    <materialDesign:PackIcon Kind="ContentSave" 
+                                                                                                                        Width="20" Height="20"
+                                                                                                                        VerticalAlignment="Stretch" 
+                                                                                                                        Foreground="#FF4D4D4D" 
+                                                                                                                        HorizontalAlignment="Stretch"/>
+                                                                                                    <Label Content="Save as" VerticalAlignment="Center"/>
+                                                                                                </StackPanel>
+                                                                                            </Border>
+                                                                                        </ContentControl>
+                                                                                        <ControlTemplate.Triggers>
+                                                                                            <Trigger Property="Button.IsPressed" Value="True" >
+                                                                                                <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                                                                <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                                                            </Trigger>
+                                                                                        </ControlTemplate.Triggers>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Style>
+                                                                    </Button.Style>
+                                                                </Button>
+                                                            </StackPanel>
+                                                            <TextBox FontSize="14" 
+                                                             Text="{Binding scheduledscriptEditor.sub_scriptbrowsing, Mode=TwoWay}"
+                                                             Height="22"    IsReadOnly="True"   
+                                                             FontFamily="Champagne &amp;amp; Limousines"
+                                                             HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Foreground="#FFABA8A8"
+                                                                 />
+                                                            <DataGrid x:Name="SequenceScript" MaxHeight="300"
                                                               dd:DragDrop.DropScrollingMode="VerticalOnly"
                                                               dd:DragDrop.IsDragSource="True"
                                                               dd:DragDrop.IsDropTarget="True"
                                                               dd:DragDrop.DragDirectlySelectedOnly="True"
                                                               CanUserAddRows="False"
                                                               AutoGenerateColumns="False" 
-                                                              ItemsSource="{Binding Scriptdatalist}" 
+                                                              ItemsSource="{Binding scheduledscriptEditor.BlockObsColSequences}" 
                                                               CanUserSortColumns="False"  
                                                               Grid.IsSharedSizeScope="True" 
                                                               MinRowHeight="19"
-                                                              HorizontalScrollBarVisibility="Visible" 
-                                                              VerticalScrollBarVisibility="Visible"
-                                                              ScrollViewer.CanContentScroll="True"   
+                                                         
                                                               GridLinesVisibility="All" 
                                                               Margin="0" 
+                                                           
                                                                 SelectedIndex="{Binding scriptEditor.SelectedCMD }"
                                                               >
-                                                        <DataGrid.Columns>
-                                                            <DataGridTextColumn Binding="{Binding ID}"
+                                                                <DataGrid.Columns>
+                                                                    <DataGridTextColumn Binding="{Binding ID}"
                                                                                 Header="ID" 
                                                                                 Width="50" />
-                                                            <DataGridTemplateColumn Header="Send" Width="65">
-                                                                <DataGridTemplateColumn.CellTemplate>
-                                                                    <DataTemplate>
-                                                                        <Button Command="{Binding Path=DataContext.ScriptSenderExecute,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                                    <DataGridTemplateColumn Header="Send" Width="65">
+                                                                        <DataGridTemplateColumn.CellTemplate>
+                                                                            <DataTemplate>
+                                                                                <Button Command="{Binding Path=DataContext.ScriptSenderExecute,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                                                                                 CommandParameter="{Binding}"  >Send</Button>
-                                                                    </DataTemplate>
-                                                                </DataGridTemplateColumn.CellTemplate>
-                                                            </DataGridTemplateColumn >
-                                                            <DataGridComboBoxColumn x:Name="ComboBoxColumn1" 
+                                                                            </DataTemplate>
+                                                                        </DataGridTemplateColumn.CellTemplate>
+                                                                    </DataGridTemplateColumn >
+                                                                    <DataGridComboBoxColumn x:Name="ComboBoxColumn1" 
                                                                                     Header="Port No." 
                                                                                     Width="72"
                                                                                     ItemsSource="{StaticResource PortIDItems}"
                                                                                     SelectedItemBinding="{Binding SelectScriptPortnum}"/>
 
-                                                            <DataGridTextColumn Binding="{Binding MSGname}" Header="Name" Width="175" />
-                                                            <DataGridTextColumn Binding="{Binding Sequence}" Header="Sequence" Width="200" />
-                                                            <DataGridTextColumn Binding="{Binding Delaytime}" Header="Delay(ms)" Width="90"/>
-                                                            <DataGridTextColumn Binding="{Binding Loop}" Header="Loop" IsReadOnly="True" Width="80"/>
-                                                            <DataGridTextColumn Binding="{Binding RecSequence}" Header="Rec Sequence" Width="200" />
-                                                        </DataGrid.Columns>
+                                                                    <DataGridTextColumn Binding="{Binding MSGname}" Header="Name" Width="175" />
+                                                                    <DataGridTextColumn Binding="{Binding Sequence}" Header="Sequence" Width="200" />
+                                                                    <DataGridTextColumn Binding="{Binding Delaytime}" Header="Delay(ms)" Width="90"/>
+                                                                    <DataGridTextColumn Binding="{Binding Loop}" Header="Loop" IsReadOnly="True" Width="80"/>
+                                                                    <DataGridTextColumn Binding="{Binding RecSequence}" Header="Rec Sequence" Width="200" />
+                                                                </DataGrid.Columns>
 
-                                                    </DataGrid>
-                                                    <TextBox FontSize="14" 
-                                                             Text="{Binding serialPortViewModelBase.Textscriptpath, Mode=TwoWay}"
-                                                             Height="22"    IsReadOnly="True"   
-                                                             FontFamily="Champagne &amp;amp; Limousines"
-                                                             HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Foreground="#FFABA8A8"
-                                                                 />
-                                                </Grid>
-                                            </TabItem>
-                                            <TabItem>
-                                                <TabItem.Header>
-                                                    <StackPanel Orientation="Horizontal"  Width="156">
-                                                        <materialDesign:PackIcon Kind="Numeric2CircleOutline"
-                                                             Width="26" Height="32"
-                                                             VerticalAlignment="Stretch" 
-                                                             Foreground="#FF4D4D4D" 
-                                                             HorizontalAlignment="Stretch"
-                                                             />
-                                                        <TextBlock Text="Scheduled Detection" Foreground="Black" 
-                                                               FontWeight="Bold" Margin="1 5"/>
-                                                    </StackPanel>
-                                                </TabItem.Header>
-                                            </TabItem>
-                                        </TabControl>
-                                      
-                                    </Grid>
+                                                            </DataGrid>
+                                                       
+                                                        </StackPanel>
+                                                   
+                                                    </Grid>
+                                                </TabItem>
+
+                                            </TabControl>
+                                        </Grid>
+                                     
+                                    </GroupBox>
+
                                 </Grid>
-
-                            </ScrollViewer>
+                            </Grid>
                         </Grid>
 
                         <Expander ExpandDirection="Right" 
@@ -474,7 +572,7 @@
                                         <WrapPanel Orientation="Vertical">
 
                                             <Button MinWidth="280" Height="32" 
-                                                Command="{Binding scriptEditor.SettinViewPath}" 
+                                                Command="{Binding scheduledscriptEditor.SettinViewPath}" 
                                                 x:Name="menubt_reload"
                                                 ToolTip="View the path location" 
                                                 HorizontalAlignment="Left" 
@@ -509,14 +607,14 @@
                                                     </Style>
                                                 </Button.Style>
                                             </Button>
-                                            <TextBox Text="{Binding scriptEditor.Viewerpath}"
+                                            <TextBox Text="{Binding scheduledscriptEditor.Viewerpath}"
                                                  HorizontalAlignment="Center" MinWidth = "280"
                                                  IsReadOnly="True"/>
                                         </WrapPanel>
 
                                     </Grid>
                                     <Grid Grid.Column="0" Grid.Row="1">
-                                        <TreeView Name="trvFamilies" ItemsSource="{Binding scriptEditor.folderViewerlist}"
+                                        <TreeView Name="trvFamilies" ItemsSource="{Binding scheduledscriptEditor.folderViewerlist}"
                                               Grid.Row="1" Grid.ColumnSpan="2"
                                               dd:DragDrop.IsDragSource="True"
                                               dd:DragDrop.IsDropTarget="True"
@@ -555,9 +653,10 @@
                             </Grid>
                         </Expander>
                     </Grid>
-                </Grid>
+                </ScrollViewer>
+      
             </Grid>
-
         </Grid>
+
     </Grid>
 </UserControl>
