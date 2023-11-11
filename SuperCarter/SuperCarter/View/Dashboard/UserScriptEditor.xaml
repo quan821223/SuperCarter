@@ -9,6 +9,9 @@
              xmlns:self="clr-namespace:SuperCarter.Model"
              mc:Ignorable="d" 
              >
+    <UserControl.Resources>
+        <self:PortIDItems x:Key="PortIDItems"/>
+    </UserControl.Resources>
     <Grid>
         <Grid  Margin="5" >
             <Grid.RowDefinitions>
@@ -331,7 +334,91 @@
 
 
                                     </Grid>
+                                    <Grid Grid.Row="4">
+                                        <TabControl>
+                                            <TabItem>
+                                                <TabItem.Header>
+                                                    <StackPanel Orientation="Horizontal"  Width="156">
+                                                        <materialDesign:PackIcon Kind="Numeric2CircleOutline"
+                                                             Width="26" Height="32"
+                                                             VerticalAlignment="Stretch" 
+                                                             Foreground="#FF4D4D4D" 
+                                                             HorizontalAlignment="Stretch"
+                                                             />
+                                                        <TextBlock Text="Scheduled Detection" Foreground="Black" 
+                                                               FontWeight="Bold" Margin="1 5"/>
+                                                    </StackPanel>
+                                                </TabItem.Header>
+                                                <Grid>
+                                                    <DataGrid x:Name="SequenceScript" 
+                                                              dd:DragDrop.DropScrollingMode="VerticalOnly"
+                                                              dd:DragDrop.IsDragSource="True"
+                                                              dd:DragDrop.IsDropTarget="True"
+                                                              dd:DragDrop.DragDirectlySelectedOnly="True"
+                                                              CanUserAddRows="False"
+                                                              AutoGenerateColumns="False" 
+                                                              ItemsSource="{Binding Scriptdatalist}" 
+                                                              CanUserSortColumns="False"  
+                                                              Grid.IsSharedSizeScope="True" 
+                                                              MinRowHeight="19"
+                                                              HorizontalScrollBarVisibility="Visible" 
+                                                              VerticalScrollBarVisibility="Visible"
+                                                              ScrollViewer.CanContentScroll="True"   
+                                                              GridLinesVisibility="All" 
+                                                              Margin="0" 
+                                                                SelectedIndex="{Binding scriptEditor.SelectedCMD }"
+                                                              >
+                                                        <DataGrid.Columns>
+                                                            <DataGridTextColumn Binding="{Binding ID}"
+                                                                                Header="ID" 
+                                                                                Width="50" />
+                                                            <DataGridTemplateColumn Header="Send" Width="65">
+                                                                <DataGridTemplateColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <Button Command="{Binding Path=DataContext.ScriptSenderExecute,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                                                CommandParameter="{Binding}"  >Send</Button>
+                                                                    </DataTemplate>
+                                                                </DataGridTemplateColumn.CellTemplate>
+                                                            </DataGridTemplateColumn >
+                                                            <DataGridComboBoxColumn x:Name="ComboBoxColumn1" 
+                                                                                    Header="Port No." 
+                                                                                    Width="72"
+                                                                                    ItemsSource="{StaticResource PortIDItems}"
+                                                                                    SelectedItemBinding="{Binding SelectScriptPortnum}"/>
 
+                                                            <DataGridTextColumn Binding="{Binding MSGname}" Header="Name" Width="175" />
+                                                            <DataGridTextColumn Binding="{Binding Sequence}" Header="Sequence" Width="200" />
+                                                            <DataGridTextColumn Binding="{Binding Delaytime}" Header="Delay(ms)" Width="90"/>
+                                                            <DataGridTextColumn Binding="{Binding Loop}" Header="Loop" IsReadOnly="True" Width="80"/>
+                                                            <DataGridTextColumn Binding="{Binding RecSequence}" Header="Rec Sequence" Width="200" />
+                                                        </DataGrid.Columns>
+
+                                                    </DataGrid>
+                                                    <TextBox FontSize="14" 
+                                                             Text="{Binding serialPortViewModelBase.Textscriptpath, Mode=TwoWay}"
+                                                             Height="22"    IsReadOnly="True"   
+                                                             FontFamily="Champagne &amp;amp; Limousines"
+                                                             HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Foreground="#FFABA8A8"
+                                                                 />
+                                                </Grid>
+                                            </TabItem>
+                                            <TabItem>
+                                                <TabItem.Header>
+                                                    <StackPanel Orientation="Horizontal"  Width="156">
+                                                        <materialDesign:PackIcon Kind="Numeric2CircleOutline"
+                                                             Width="26" Height="32"
+                                                             VerticalAlignment="Stretch" 
+                                                             Foreground="#FF4D4D4D" 
+                                                             HorizontalAlignment="Stretch"
+                                                             />
+                                                        <TextBlock Text="Scheduled Detection" Foreground="Black" 
+                                                               FontWeight="Bold" Margin="1 5"/>
+                                                    </StackPanel>
+                                                </TabItem.Header>
+                                            </TabItem>
+                                        </TabControl>
+                                      
+                                    </Grid>
                                 </Grid>
 
                             </ScrollViewer>

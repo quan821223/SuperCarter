@@ -417,6 +417,239 @@ namespace SuperCarter.Model
         }
         #endregion
 
+        #region Scheduled script runtime 
+        #region properties
+        public static List<SendorExecuteSendType> BlockASequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockBSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockCSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockDSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        private int _CurLoopValue;
+        public int CurLoopValue
+        {
+            get => _CurLoopValue;
+            set
+            {
+                _CurLoopValue = value;
+                float temp = (CurLoopValue * 1.0f / Fullloop) * 100;
+                PercentLoopValue = Convert.ToInt32(temp);
+                strLoopValue = PercentLoopValue.ToString();
+                OnPropertyChanged(nameof(strLoopValue));
+            }
+        }
+        private string _strLoopValue;
+        public string strLoopValue
+        {
+            get { return _strLoopValue; }
+            set
+            {
+                _strLoopValue = string.Format("{0}%", PercentLoopValue);
+
+            }
+        }
+        private string _Curphase;
+        public string Curphase
+        {
+            get => _Curphase;
+            set
+            {
+                _Curphase = value;
+                OnPropertyChanged(nameof(Curphase));
+            }
+        }
+        private int _subloop;
+        public int subloop
+        {
+            get => _subloop;
+            set
+            {
+                _subloop = value;
+                OnPropertyChanged(nameof(subloop));
+            }
+        }
+        public int PercentLoopValue { get; set; }
+        #endregion
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            string path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-outputtestdata.csv");
+            cSVfile = new CSVfile(path); // 請替換為您希望保存文件的路徑
+
+            UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+
+            /***         
+            *  in  
+            * ****/
+
+            CommnadID = 0;
+
+            logger.Log(NLog.LogLevel.Trace, "– Start Custom script schedule.");
+            var Startmsg = "– Start Custom script schedule.";
+            WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message,  msg = Startmsg });
+            for (CurLoopValue = 0; CurLoopValue < Fullloop; CurLoopValue++) // 總迴圈
+            {
+                var msg = string.Format("- Currently on iteration : {0}", CurLoopValue);
+                logger.Log(NLog.LogLevel.Trace, msg);                 
+                WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg });
+
+                // 如果token已被取消，跳出迴圈
+                if (cancellationToken.IsCancellationRequested)
+                    break;
+                OnPropertyChanged(nameof(Fullloop));
+                OnPropertyChanged(nameof(CurLoopValue));
+                OnPropertyChanged(nameof(PercentLoopValue));
+                await BlockWorkstation("A", BlockASequencesList, BlockBSequencesList, ExecuteBlockALoop, blockAscriptDelaytime, blockBscriptDelaytime, cancellationToken);
+                //await BlockWorkstation("B", BlockBSequencesList, ExecuteBlockBLoop, blockBscriptDelaytime, cancellationToken);
+                await BlockWorkstation("C", BlockCSequencesList, BlockDSequencesList, ExecuteBlockCLoop, blockCscriptDelaytime, blockDscriptDelaytime, cancellationToken);
+                //await BlockWorkstation("D", BlockDSequencesList, ExecuteBlockDLoop, blockDscriptDelaytime, cancellationToken);
+
+            }
+            ObjectAggregator.Instance.UpdateObject();
+
+            OnPropertyChanged(nameof(Fullloop));
+            OnPropertyChanged(nameof(CurLoopValue));
+            OnPropertyChanged(nameof(PercentLoopValue));
+
+            logger.Log(NLog.LogLevel.Trace, "– End Custom script schedule.");
+
+            var Endmmsg = "– End Custom script schedule.";
+            WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = Endmmsg });
+        }
+        private async Task BlockWorkstation(string blockName, List<SendorExecuteSendType> sequences1, List<SendorExecuteSendType> sequences2,
+                                            int maxLoop, int scriptDelayTime1, int scriptDelayTime2, CancellationToken cancellationToken)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            logger.Log(NLog.LogLevel.Trace, $"– Enter {blockName} step.");
+            //RealtimeMsgQueue.Enqueue($"– Enter {blockName} step.");
+            cancellationToken.ThrowIfCancellationRequested();
+            Curphase = blockName;
+
+            //int blockAcycletime = 360000;
+            //int blockA1cycletime = 300000;
+            //int blockA2cycletime = 60000;
+            //int Timercycle = 3000;
+            int blockAcycletime = 180000;
+            int blockA1cycletime = 120000;
+            int blockA2cycletime = 60000;
+            int Timercycle = 3000;
+
+            for (int curLoop = 0; curLoop < maxLoop; curLoop++)
+            {
+                subloop = curLoop;
+                // 
+                var blockStartTime = DateTime.Now;
+
+                // Start the block working time loop
+                // Execute sequences1 within cycletime
+                var seq1Task = ExecuteBlockSequences($"{blockName}_{1}", sequences1, blockA1cycletime, cancellationToken, Timercycle);
+                await seq1Task; // Wait for seq1Task to complete
+
+                // Execute sequences2 within cycletime
+                var seq2Task = ExecuteBlockSequences($"{blockName}_{2}", sequences2, blockA2cycletime, cancellationToken, Timercycle);
+                await seq2Task; // Wait for seq2Task to complete
+
+                // Check if block working time is reached
+                if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockAcycletime)
+                {
+                    break; // Exit the loop
+                }
+            }
+
+            stopwatch.Stop();
+            var remainingTime = TimeSpan.FromMilliseconds((blockAcycletime) * maxLoop) - stopwatch.Elapsed;
+            cancellationToken.ThrowIfCancellationRequested();
+            if (remainingTime > TimeSpan.Zero)
+            {
+                await Task.Delay(remainingTime, cancellationToken);
+            }
+
+        }
+        private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken, int cycletime)
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            cancellationToken.Register(() => cancellationTokenSource.Cancel());
+
+            bool WorkingBreak = false;
+
+            try
+            {
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+                var msg1 = $"- Currently on {blockName} iteration: {blockName}";
+                logger.Log(NLog.LogLevel.Trace, msg1);
+
+                var blockStartTime = DateTime.Now;
+
+                while ((DateTime.Now - blockStartTime).TotalMilliseconds < scriptDelayTime)
+                {
+                    var cycleStartTime = DateTime.Now;
+                    int sequenceIndex = 0;
+
+                    while ((DateTime.Now - cycleStartTime).TotalMilliseconds < cycletime)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+
+
+                        var elapsedTime = (DateTime.Now - cycleStartTime).TotalMilliseconds;
+                        var remainingTime = cycletime - (int)elapsedTime;
+
+                        if (sequenceIndex < sequences.Count)
+                        {
+                            if (sequences[sequenceIndex].PortNum == 9)
+                            {
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    sequenceIndex++;
+                                    if (sequenceIndex >= sequences.Count || cancellationToken.IsCancellationRequested)
+                                    {
+                                        break; // Exit the loop
+                                    }
+                                    await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
+                                }
+                            }
+                            else
+                            {
+                                await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
+                                sequenceIndex++;
+                            }
+                        }
+
+                        if (sequenceIndex >= sequences.Count)
+                        {
+                            // Check if scriptDelayTime has already expired
+                            var remainingScriptTime = scriptDelayTime - (int)(DateTime.Now - blockStartTime).TotalMilliseconds;
+                            if (remainingScriptTime <= 0)
+                            {
+                                return;
+                            }
+
+                            await Task.Delay(Math.Min(remainingTime, remainingScriptTime), cancellationToken);
+                        }
+                    }
+                    UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
+                    UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
+                    UnifiedHostCommandSet.Blockphase = Curphase.ToString();
+                    UnifiedHostCommandSet.Blockloop = blockName.ToString();
+                    //cSVfile.AppendToCsv(UnifiedHostCommandSet);
+                    UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                WorkingBreak = true;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                cancellationTokenSource.Dispose();
+            }
+
+            // Rest of your code...
+        }
+        #endregion
+
         #region DynamicMonitorCheck
         public string SDMChecklistscriptXMLPath { get; set; } = "";
         public ICommand SaveDynamicMonitorresult
