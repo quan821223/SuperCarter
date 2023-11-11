@@ -21,7 +21,7 @@
             <Grid Grid.Row="0">
                 <WrapPanel Orientation="Horizontal" Margin="0"  HorizontalAlignment="Left" >
                     <Button Width="95" Height="33" 
-                            Command="{Binding scriptEditor.ReleasetoRefresh}"                                             
+                            Command="{Binding scriptEditor.ClearPageProperties}"                                             
                             ToolTip="View the path location" 
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left" 
@@ -41,7 +41,7 @@
                                                                             VerticalAlignment="Stretch" 
                                                                             Foreground="#FF4D4D4D" 
                                                                             HorizontalAlignment="Stretch"/>
-                                                        <Label Content="Refresh" VerticalAlignment="Center"/>
+                                                        <Label Content="Clear" VerticalAlignment="Center"/>
                                                     </StackPanel>
                                                 </Border>
                                             </ContentControl>
@@ -183,7 +183,7 @@
                                         <RowDefinition Height="31"/>
                                         <RowDefinition Height="70"/>
                                         <RowDefinition Height="30"/>
-                                        <RowDefinition Height="300"/>
+                                        <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Grid Grid.Row="0">
@@ -219,24 +219,25 @@
                                         </Grid.ColumnDefinitions>
                                         <Grid Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Center">
                                             <StackPanel Orientation="Horizontal">
-                                                <Label Content="Loop" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                                <TextBox Text="{Binding CustomScriptEditor.ExecuteBlockALoop, Mode=TwoWay}"
-                                                 TextWrapping="WrapWithOverflow"  
-                                                 MinWidth="100" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"
-                                                 />
-                                                <Label Content="BlockA Totaltime : " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                                <Label Content="{Binding CustomScriptEditor.EstimateBlockAtotaltime}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                                <Label Content="BlockA Loop" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                                <TextBox Text="{Binding scriptEditor.BlockAscriptLoop, Mode=TwoWay}"
+                                                         TextWrapping="WrapWithOverflow"  
+                                                         MinWidth="100" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"
+                                                         />
+                                             
+                                                <Label Content="Totaltime : " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                                <Label Content="{Binding scriptEditor.EstimateBlockAtotaltime}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
                                             </StackPanel>
                                         </Grid>
                                         <Grid Grid.Column="1"  VerticalAlignment="Stretch" HorizontalAlignment="Center">
                                             <StackPanel Orientation="Horizontal">
-                                                <Label Content="Loop" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                                <TextBox Text="{Binding CustomScriptEditor.ExecuteBlockBLoop, Mode=TwoWay}"
-                                                 TextWrapping="WrapWithOverflow"  
-                                                 MinWidth="100" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"
-                                                 />
-                                                <Label Content="BlockA Totaltime : " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                                <Label Content="{Binding CustomScriptEditor.EstimateBlockBtotaltime}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                                <Label Content="BlockB Loop" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                                <TextBox Text="{Binding scriptEditor.BlockBscriptLoop, Mode=TwoWay}"
+                                                         TextWrapping="WrapWithOverflow"  
+                                                         MinWidth="100" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"
+                                                         />
+                                                <Label Content="Totaltime : " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                                <Label Content="{Binding scriptEditor.EstimateBlockBtotaltime}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
@@ -247,85 +248,117 @@
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="1*" />
                                         </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0" Margin="3">
-                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                        <Grid Grid.Column="0" Margin="1">
+                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="A-1" />
                                                     <Label Content="Time(min):"   HorizontalAlignment="Center"/>
                                                 </StackPanel>                                              
-                                                <Separator Margin="0"/>                                                  
-                                                <TextBox Text=" " MinWidth="70"/>
+                                                <Separator Margin="0"/>
+                                                <TextBox Text="{Binding scriptEditor.BlockA1scriptruntime}" />
                                                 <Separator Margin="0 10"/>
                                                 <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
-                                                <Button Command="{Binding scriptEditor.LoadscripttoBlockA}" Height="23" Content="Load"/>
-                                                <TextBox Text="腳本init " MinWidth="70"/>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Button Command="{Binding scriptEditor.LoadBlockA1initScript}" Width="100" Content="Load"/>
+                                                    <Button Command="{Binding scriptEditor.ViewBlockA1initScript}" Width="100" Content="View"/>
+                                                </StackPanel>
+                                               
+                                                <TextBox Text="{Binding scriptEditor.BlockA1initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"/>
                                                 <Separator Margin="0 5"/>
                                                 <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
-                                                <Button Command="{Binding scriptEditor.LoadscripttoBlockA}" Height="23" Content="Load"/>
-                                                <TextBox Text="{Binding scriptEditor.blockAscriptpath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
+                                               
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Button Command="{Binding scriptEditor.LoadBlockA1Script}" Width="100" Content="Load"/>
+                                                    <Button Command="{Binding scriptEditor.ViewBlockA1Script}" Width="100" Content="View"/>
+                                                </StackPanel>
+                                                <TextBox Text="{Binding scriptEditor.BlockA1scriptruntime, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
                                                          MaxWidth="220" />
                                                 <Label Content="sequence count : "/>
                                                 <Label Content="{Binding scriptEditor.blockAitemcount}"/>
                                             </WrapPanel>
                                         </Grid>
-                                        <Grid Grid.Column="1" Margin="3" >
-                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                        <Grid Grid.Column="1" Margin="1" >
+                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center"  MaxWidth="230">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="A-2" HorizontalAlignment="Center"/>
                                                     <Label Content="Time(min):"   HorizontalAlignment="Center"/>
                                                 </StackPanel>
                                                 <Separator Margin="0"/>
-                                                <TextBox Text=" " MinWidth="70"/>
+                                                <TextBox Text="{Binding scriptEditor.BlockA2scriptruntime}" />
                                                 <Separator Margin="0 10"/>
                                                 <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
-                                                <Button Command="{Binding scriptEditor.LoadscripttoBlockA}" Height="23" Content="Load"/>
-                                                <TextBox Text="腳本init " MinWidth="70"/>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Button Command="{Binding scriptEditor.LoadBlockA2initScript}" Width="100" Content="Load"/>
+                                                    <Button Command="{Binding scriptEditor.ViewBlockA2initScript}" Width="100" Content="View"/>
+                                                </StackPanel>
+                                               
+                                                <TextBox Text="{Binding scriptEditor.BlockA2initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"/>
                                                 <Separator Margin="0 5"/>
                                                 <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
-                                                <Button Command="{Binding scriptEditor.LoadscripttoBlockA}" Height="23" Content="Load"/>
-                                                <TextBox Text="{Binding scriptEditor.blockAscriptpath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
+                                          
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Button Command="{Binding scriptEditor.LoadBlockA2Script}" Width="100" Content="Load"/>
+                                                    <Button Command="{Binding scriptEditor.ViewBlockA2Script}" Width="100" Content="View"/>
+                                                </StackPanel>
+                                                <TextBox Text="{Binding scriptEditor.BlockA2scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
                                                          MaxWidth="220" />
                                                 <Label Content="sequence count : "/>
                                                 <Label Content="{Binding scriptEditor.blockAitemcount}"/>
                                             </WrapPanel>
                                         </Grid>
-                                        <Grid Grid.Column="2" Margin="3">
-                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                        <Grid Grid.Column="2" Margin="1">
+                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="B-1" HorizontalAlignment="Center"/>
                                                     <Label Content="Time(min):"   HorizontalAlignment="Center"/>
                                                 </StackPanel>
                                                 <Separator Margin="0"/>
-                                                <TextBox Text=" " MinWidth="70"/>
+                                                <TextBox Text="{Binding scriptEditor.BlockB1scriptruntime}" />
                                                 <Separator Margin="0 10"/>
                                                 <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
-                                                <Button Command="{Binding scriptEditor.LoadscripttoBlockA}" Height="23" Content="Load"/>
-                                                <TextBox Text="腳本init " MinWidth="70"/>
+                                               
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Button Command="{Binding scriptEditor.LoadBlockB1initScript}" Width="100" Content="Load"/>
+                                                    <Button Command="{Binding scriptEditor.ViewBlockB1initScript}" Width="100" Content="View"/>
+                                                </StackPanel>
+                                                <TextBox Text="{Binding scriptEditor.BlockB1initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"/>
                                                 <Separator Margin="0 5"/>
                                                 <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
-                                                <Button Command="{Binding scriptEditor.LoadscripttoBlockA}" Height="23" Content="Load"/>
-                                                <TextBox Text="{Binding scriptEditor.blockAscriptpath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
+                                               
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Button Command="{Binding scriptEditor.LoadBlockB1Script}" Width="100" Content="Load"/>
+                                                    <Button Command="{Binding scriptEditor.ViewBlockB1Script}" Width="100" Content="View"/>
+                                                </StackPanel>
+                                                <TextBox Text="{Binding scriptEditor.BlockB1scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
                                                          MaxWidth="220" />
                                                 <Label Content="sequence count : "/>
                                                 <Label Content="{Binding scriptEditor.blockAitemcount}"/>
                                             </WrapPanel>
                                         </Grid>
-                                        <Grid Grid.Column="3" Margin="3">
-                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                        <Grid Grid.Column="3" Margin="1">
+                                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="B-2" HorizontalAlignment="Center"/>
                                                     <Label Content="Time(min):"   HorizontalAlignment="Center"/>
                                                 </StackPanel>
                                                 <Separator Margin="0"/>
-                                                <TextBox Text=" " MinWidth="70"/>
+                                                <TextBox Text="{Binding scriptEditor.BlockB2scriptruntime}" />
                                                 <Separator Margin="0 10"/>
                                                 <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
-                                                <Button Command="{Binding scriptEditor.LoadscripttoBlockA}" Height="23" Content="Load"/>
-                                                <TextBox Text="腳本init " MinWidth="70"/>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Button Command="{Binding scriptEditor.LoadBlockB2initScript}" Width="100" Content="Load"/>
+                                                    <Button Command="{Binding scriptEditor.ViewBlockB2initScript}" Width="100" Content="View"/>
+                                                </StackPanel>
+                                                
+                                                <TextBox Text="{Binding scriptEditor.BlockB2initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"/>
                                                 <Separator Margin="0 5"/>
                                                 <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
-                                                <Button Command="{Binding scriptEditor.LoadscripttoBlockA}" Height="23" Content="Load"/>
-                                                <TextBox Text="{Binding scriptEditor.blockAscriptpath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Button Command="{Binding scriptEditor.LoadBlockB2Script}" Width="100" Content="Load"/>
+                                                    <Button Command="{Binding scriptEditor.ViewBlockB2initScript}" Width="100" Content="View"/>
+                                                </StackPanel>
+
+                                                <TextBox Text="{Binding scriptEditor.BlockB2scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
                                                          MaxWidth="220" />
                                                 <Label Content="sequence count : "/>
                                                 <Label Content="{Binding scriptEditor.blockAitemcount}"/>

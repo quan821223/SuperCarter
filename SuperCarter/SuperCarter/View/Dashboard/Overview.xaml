@@ -21,78 +21,72 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
         </Grid.Resources>
-        <ScrollViewer Name="scrollViewer" Grid.Column="1" 
-                 
-                      VerticalScrollBarVisibility="Visible" 
-                    
-                      >
-            <Grid Background="White" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="42"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" >
-                    <Label Margin="0" 
+        <Grid Background="White" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="42"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" >
+                <Label Margin="0" 
                                Content="Monitoring"
                                FontFamily="Cascadia Mono PL SemiBold"
                                FontWeight="Bold" 
                                FontSize="24" 
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top" 
                                Foreground="#FF005087"   />
 
 
-                </Grid>
-                <Grid Grid.Row="1" >
-                    <TabControl  Grid.Column="1" TabStripPlacement="Left" Margin="1">
-                        <TabItem>
-                            <TabItem.Header>
-                                <StackPanel Orientation="Vertical">
-                                    <materialDesign:PackIcon Kind="ScriptTextOutline"
+            </Grid>
+            <Grid Grid.Row="1" >
+                <TabControl  Grid.Column="1" TabStripPlacement="Left" Margin="1">
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Orientation="Vertical">
+                                <materialDesign:PackIcon Kind="ScriptTextOutline"
                                                              Width="26" Height="32"
                                                              VerticalAlignment="Stretch" 
                                                              Foreground="#FF4D4D4D" 
                                                              HorizontalAlignment="Stretch"
                                                              />
-                                    <TextBlock Text="Script" Foreground="Black" 
+                                <TextBlock Text="Script" Foreground="Black" 
                                                FontWeight="Bold" Margin="1 5"/>
-                                </StackPanel>
-                            </TabItem.Header>
-                            <Viewconfig:UserScriptEditor Margin="0" VerticalAlignment="Top" />
-                        </TabItem>
-                        <TabItem>
-                            <TabItem.Header>
-                                <StackPanel Orientation="Vertical">
-                                    <materialDesign:PackIcon Kind="TuneVerticalVariant"
+                            </StackPanel>
+                        </TabItem.Header>
+                        <Viewconfig:UserScriptEditor Margin="0" VerticalAlignment="Top" />
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Orientation="Vertical">
+                                <materialDesign:PackIcon Kind="TuneVerticalVariant"
                                                              Width="26" Height="32"
                                                              VerticalAlignment="Stretch" 
                                                              Foreground="#FF4D4D4D" 
                                                              HorizontalAlignment="Stretch"/>
-                                    <TextBlock Text="Threshold&#x000A;Setting" Foreground="Black" 
+                                <TextBlock Text="Threshold&#x000A;Setting" Foreground="Black" 
                                                 FontWeight="Bold" Margin="1 5"/>
-                                </StackPanel>
-                            </TabItem.Header>
-                            <Viewconfig:ControlTable Margin="0" VerticalAlignment="Top" />
-                        </TabItem>
-                        <TabItem>
-                            <TabItem.Header>
-                                <StackPanel Orientation="Vertical">
-                                    <materialDesign:PackIcon Kind="Gauge"
+                            </StackPanel>
+                        </TabItem.Header>
+                        <Viewconfig:ControlTable Margin="0" VerticalAlignment="Top" />
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Orientation="Vertical">
+                                <materialDesign:PackIcon Kind="Gauge"
                                                              Width="26" Height="32"
                                                              VerticalAlignment="Stretch" 
                                                              Foreground="#FF4D4D4D" 
                                                              HorizontalAlignment="Stretch"/>
-                                    <TextBlock Text="Monitor" Foreground="Black"  
+                                <TextBlock Text="Monitor" Foreground="Black"  
                                                 FontWeight="Bold" Margin="1 5"/>
-                                </StackPanel>
-                            </TabItem.Header>
-                            <Viewconfig:ReliabilityAssuranceDashboard Margin="0" VerticalAlignment="Top" />
-                        </TabItem>
-                    </TabControl>
-                </Grid>
-
-
+                            </StackPanel>
+                        </TabItem.Header>
+                        <Viewconfig:ReliabilityAssuranceDashboard Margin="0" VerticalAlignment="Top" />
+                    </TabItem>
+                </TabControl>
             </Grid>
-        </ScrollViewer>
+
+
+        </Grid>
     </Grid>
 </UserControl>
