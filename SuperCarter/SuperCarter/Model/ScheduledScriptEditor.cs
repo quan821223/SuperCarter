@@ -1,4 +1,5 @@
-﻿using Notification.Wpf;
+﻿using Microsoft.Win32;
+using Notification.Wpf;
 using SuperCarter.Services;
 using SuperCarter.ViewModel;
 using System;
@@ -21,10 +22,10 @@ namespace SuperCarter.Model
         public ScheduledScriptEditor()
         {
             Fullloop = 1;
-            BlockA1scriptruntime = 0;
-            BlockA2scriptruntime = 0;
-            BlockB1scriptruntime = 0;
-            BlockB2scriptruntime = 0;
+            BlockA1Interval = 0;
+            BlockA2Interval = 0;
+            BlockB1Interval = 0;
+            BlockB2Interval = 0;
             //folderViewerlist = new ObservableCollection<Foldertype>();
             //evt_Loadscriptroot(AppPath + @"scripts");
             //Viewerpath = AppPath + @"scripts";
@@ -62,11 +63,7 @@ namespace SuperCarter.Model
                 OnPropertyChanged(nameof(ForeColor));
             }
         }
-
-
-
         public ObservableCollection<ScriptItemtype> BlockObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-
         public ObservableCollection<ScriptItemtype> BlockA1ObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
         public ObservableCollection<ScriptItemtype> BlockA2ObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
         public ObservableCollection<ScriptItemtype> BlockB1ObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
@@ -85,15 +82,16 @@ namespace SuperCarter.Model
                 OnPropertyChanged(nameof(Fullloop));
             }
         }
+        public string OpenedBlockScriptPath { get; set; }
         public int SelectedCMD { get; set; }
         public string BlockA1scriptPath { get; set; }
         public string BlockA2scriptPath { get; set; }
         public string BlockB1scriptPath { get; set; }
         public string BlockB2scriptPath { get; set; }
-        public int BlockA1scriptruntime { get; set; }
-        public int BlockA2scriptruntime { get; set; }
-        public int BlockB1scriptruntime { get; set; }
-        public int BlockB2scriptruntime { get; set; }
+        public int BlockA1Interval { get; set; }
+        public int BlockA2Interval { get; set; }
+        public int BlockB1Interval { get; set; }
+        public int BlockB2Interval { get; set; }
         public int BlockA1scriptLoop { get; set; }
         public int BlockA2scriptLoop { get; set; }
         public int BlockB1scriptLoop { get; set; }
@@ -102,8 +100,21 @@ namespace SuperCarter.Model
         public string BlockA2initscriptPath { get; set; }
         public string BlockB1initscriptPath { get; set; }
         public string BlockB2initscriptPath { get; set; }
-        public int BlockAscriptLoop { get; set; }
-        public int BlockBscriptLoop { get; set; }
+        public int BlockALoop { get; set; }
+        public int BlockBLoop { get; set; }
+     
+        public bool IsEnableDetectnormCurrent { get; set; } = false;
+        public int UpperLimitnormCurrentValue { get; set; } = 0;
+        public int LowerLimitnormCurrentValue { get; set; } = 0;
+        public bool IsEnableDetectsleepCurrent { get; set; } = false;
+        public int UpperLimitsleepCurrentValue { get; set; } = 0;
+   
+        public bool IsEnableDetectDiag { get; set; } = false;
+        public bool IsEnableDetectLightsensor { get; set; } = false;
+        public int UpperLimitLightsensorValue { get; set; } = 0;
+        public int LowerLimitLightsensorValue { get; set; } = 0;
+        public bool IsEnableTouchfinger { get; set; } = false;
+        public bool IsEnableTouchXY { get; set; } = false;
 
         private bool _isAnimationEnabled;
         public bool IsAnimationEnabled
@@ -160,17 +171,17 @@ namespace SuperCarter.Model
         #endregion
 
         #region icommands
-        private ICommand _ClearPageProperties, _SaveasSubscript, _ClearSubscript;
-        private ICommand _LoadBlockScript, _PreViewscript;
-        public ICommand LoadBlockscript
-        {
-            get
-            {
-                _LoadBlockScript = new RelayCommand(
-                    param => evt_LoadscripttoBlock(param));
-                return _LoadBlockScript;
-            }
-        }
+        private ICommand _ClearPageProperties, _SaveasSubscript, _ClearSubscript, _Saveasscript;
+        private ICommand _LoadBlockScript, _PreViewscript, _Loadscript;
+        //public ICommand LoadBlockscript
+        //{
+        //    get
+        //    {
+        //        _Loadscript = new RelayCommand(
+        //            param => ;
+        //        return _Loadscript;
+        //    }
+        //}
         public ICommand ViewBlockscript
         {
             get
@@ -208,10 +219,84 @@ namespace SuperCarter.Model
                 return _ClearSubscript;
             }
         }
+        public ICommand Saveasscript
+        {
+            get {
+                _Saveasscript = new RelayCommand(
+                        param => evt_SaveasScript());
+                return _Saveasscript;
+
+            }
+        }
+        public ICommand Loadscript
+        {
+            get
+            {
+                _Saveasscript = new RelayCommand(
+                        param => evt_SaveasScript());
+                return _Saveasscript;
+
+            }
+        }
 
         #endregion
 
         #region Event
+        private void evt_LoadBlockscript() {
+
+          
+
+            using (var openFileDialog1 = new System.Windows.Forms.OpenFileDialog())
+            {
+                string myPath = AppPath + @"\script\";
+                string strpath = null;
+                // 設定OpenFileDialog屬性
+                openFileDialog1.Title = "選擇要開啟的 XML 檔案";
+                openFileDialog1.Filter = "xml Files (.xml)|*.xml|All Files (*.*)|*.*";
+                openFileDialog1.FilterIndex = 1;
+                openFileDialog1.Multiselect = true;
+                openFileDialog1.InitialDirectory = myPath;
+
+                if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+
+                    strpath = openFileDialog1.FileName; //取得檔名
+                    OpenedBlockScriptPath = strpath;
+                    ConfigModel.Instance.GetScriptXMLTestSuite(this);
+                    evt_objfresh();
+                }
+                OnPropertyChanged(nameof(OpenedBlockScriptPath));
+                
+            }               
+
+        }
+        public void evt_OpenedBlockScriptPath() { }
+        private void evt_SaveasScript() {
+
+            using (var savefiledialog = new System.Windows.Forms.SaveFileDialog())
+            {
+                string filter = "xml file (*.xml)|*.xml| All Files (*.*)|*.*";
+                const string header = "Command ,Times/ Keyword#, Interval, COM PORT/Pin, Function,Sub -func., SerialPort I/O comd, AC /USB Switch, Wait, Remark";
+                savefiledialog.Title = "Save as ...";
+                savefiledialog.Filter = filter;
+
+                savefiledialog.DefaultExt = "xml";
+                savefiledialog.FileName = string.Format(@"{0}-{1}.xml", DateTime.Now.ToString("yyyy_MM_dd_HH_mm"), "NEW_Script");
+
+                if (savefiledialog.ShowDialog() == DialogResult.OK)
+                {
+                    ConfigModel.Instance.evt_SaveScriptTestSuitefile(savefiledialog.FileName, this);
+                    MessageAggregator.Instance.SendMessage(new POPNotifyMsgType
+                    {
+                        Tital = "通知",
+                        Message = "已儲存 " + savefiledialog.FileName,
+                        NotifyType = NotificationType.Notification,
+
+                    });
+                }
+
+            }
+        }
 
         private void OnSequencesUpdated(object sender, SequencesUpdatedEventArgs e)
         {
@@ -367,7 +452,6 @@ namespace SuperCarter.Model
 
         }
 
-
         private void evt_LoadscripttoBlock(object _selectedblock)
         {
             var loadscriptXMLPath = ConfigModel.Instance.GetStrScriptpath();
@@ -378,14 +462,12 @@ namespace SuperCarter.Model
             switch (Convert.ToInt32(_selectedblock))
             {
                 case 0:
-                    BlockA1initObsColSequences = null;
-                    //BlockA1initObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
+                    BlockA1initObsColSequences = null; 
                     BlockA1initObsColSequences = new ObservableCollection<ScriptItemtype>(ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath));
                     BlockA1initscriptPath = loadscriptXMLPath;
                     OnPropertyChanged(nameof(BlockA1initscriptPath));
                     break;
                 case 1:
-                    //BlockA2initObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
                     BlockA2initObsColSequences = new ObservableCollection<ScriptItemtype>(ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath));
                     BlockA2initscriptPath = loadscriptXMLPath;
                     OnPropertyChanged(nameof(BlockA2initscriptPath));
@@ -431,10 +513,10 @@ namespace SuperCarter.Model
             BlockA2scriptPath = null;
             BlockB1scriptPath = null;
             BlockB2scriptPath = null;
-            BlockA1scriptruntime = 0;
-            BlockA2scriptruntime = 0;
-            BlockB1scriptruntime = 0;
-            BlockB2scriptruntime = 0;
+            BlockA1Interval = 0;
+            BlockA2Interval = 0;
+            BlockB1Interval = 0;
+            BlockB2Interval = 0;
             BlockA1scriptLoop = 0;
             BlockA2scriptLoop = 0;
             BlockB1scriptLoop = 0;
@@ -443,8 +525,8 @@ namespace SuperCarter.Model
             BlockA2initscriptPath = null;
             BlockB1initscriptPath = null;
             BlockB2initscriptPath = null;
-            BlockAscriptLoop = 0;
-            BlockBscriptLoop = 0;
+            BlockALoop = 0;
+            BlockBLoop = 0;
             BlockA1ObsColSequences = new ObservableCollection<ScriptItemtype>();
             BlockA2ObsColSequences = new ObservableCollection<ScriptItemtype>();
             BlockB1ObsColSequences = new ObservableCollection<ScriptItemtype>();
@@ -454,14 +536,43 @@ namespace SuperCarter.Model
             BlockB1initObsColSequences = new ObservableCollection<ScriptItemtype>();
             BlockB2initObsColSequences = new ObservableCollection<ScriptItemtype>();
             BlockObsColSequences.Clear();
+
+            IsEnableDetectnormCurrent = false;
+            UpperLimitnormCurrentValue = 0;
+            LowerLimitnormCurrentValue = 0;
+            IsEnableDetectsleepCurrent = false;
+            UpperLimitsleepCurrentValue = 0;
+            IsEnableDetectDiag = false;
+            IsEnableDetectLightsensor = false;
+            UpperLimitLightsensorValue = 0;
+            LowerLimitLightsensorValue = 0;
+            IsEnableTouchfinger = false;
+            IsEnableTouchXY = false;
+
+            evt_objfresh();
+
+        }
+        public void evt_objfresh()
+        {
+            OnPropertyChanged(nameof(IsEnableDetectnormCurrent));
+            OnPropertyChanged(nameof(UpperLimitnormCurrentValue));
+            OnPropertyChanged(nameof(LowerLimitnormCurrentValue));
+            OnPropertyChanged(nameof(IsEnableDetectsleepCurrent));
+            OnPropertyChanged(nameof(UpperLimitsleepCurrentValue));
+            OnPropertyChanged(nameof(IsEnableDetectDiag));
+            OnPropertyChanged(nameof(IsEnableDetectLightsensor));
+            OnPropertyChanged(nameof(UpperLimitLightsensorValue));
+            OnPropertyChanged(nameof(LowerLimitLightsensorValue));
+            OnPropertyChanged(nameof(IsEnableTouchfinger));
+            OnPropertyChanged(nameof(IsEnableTouchXY));
             OnPropertyChanged(nameof(BlockA1scriptPath));
             OnPropertyChanged(nameof(BlockA2scriptPath));
             OnPropertyChanged(nameof(BlockB1scriptPath));
             OnPropertyChanged(nameof(BlockB2scriptPath));
-            OnPropertyChanged(nameof(BlockA1scriptruntime));
-            OnPropertyChanged(nameof(BlockA2scriptruntime));
-            OnPropertyChanged(nameof(BlockB1scriptruntime));
-            OnPropertyChanged(nameof(BlockB2scriptruntime));
+            OnPropertyChanged(nameof(BlockA1Interval));
+            OnPropertyChanged(nameof(BlockA2Interval));
+            OnPropertyChanged(nameof(BlockB1Interval));
+            OnPropertyChanged(nameof(BlockB2Interval));
             OnPropertyChanged(nameof(BlockA1scriptLoop));
             OnPropertyChanged(nameof(BlockA2scriptLoop));
             OnPropertyChanged(nameof(BlockB1scriptLoop));
@@ -470,10 +581,9 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(BlockA2initscriptPath));
             OnPropertyChanged(nameof(BlockB1initscriptPath));
             OnPropertyChanged(nameof(BlockB2initscriptPath));
-            OnPropertyChanged(nameof(BlockAscriptLoop));
-            OnPropertyChanged(nameof(BlockBscriptLoop));
+            OnPropertyChanged(nameof(BlockALoop));
+            OnPropertyChanged(nameof(BlockBLoop));
             OnPropertyChanged(nameof(BlockObsColSequences));
-
         }
         #endregion
 

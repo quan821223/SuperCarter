@@ -55,20 +55,7 @@
                         </TabItem.Header>
                         <Viewconfig:UserScriptEditor Margin="0" VerticalAlignment="Top" />
                     </TabItem>
-                    <TabItem>
-                        <TabItem.Header>
-                            <StackPanel Orientation="Vertical">
-                                <materialDesign:PackIcon Kind="TuneVerticalVariant"
-                                                             Width="26" Height="32"
-                                                             VerticalAlignment="Stretch" 
-                                                             Foreground="#FF4D4D4D" 
-                                                             HorizontalAlignment="Stretch"/>
-                                <TextBlock Text="Threshold&#x000A;Setting" Foreground="Black" 
-                                                FontWeight="Bold" Margin="1 5"/>
-                            </StackPanel>
-                        </TabItem.Header>
-                        <Viewconfig:ControlTable Margin="0" VerticalAlignment="Top" />
-                    </TabItem>
+                
                     <TabItem>
                         <TabItem.Header>
                             <StackPanel Orientation="Vertical">

@@ -52,6 +52,7 @@ namespace SuperCarter.Model
         }
 
         #region property
+        public string Openblockfilepath { get; set; }
         public CSVfile cSVfile { get; set; }
         private UnifiedHostCommandSettype UnifiedHostCommandSet { get; set; } = new UnifiedHostCommandSettype();
         public ObservableCollection<IFiletype> blockAfolderViewerlist { get; set; } = new ObservableCollection<IFiletype>();
@@ -82,7 +83,7 @@ namespace SuperCarter.Model
                 OnPropertyChanged(nameof(IsEnableExecuteSDMchecklists));
             }
         }
-        public string Openblockfilepath { get; set; }
+        public string Scriptpath { get; set; }
         public double Estimateruntimefullblock
         {
             get => _Estimateruntimefullblock;
@@ -405,16 +406,7 @@ namespace SuperCarter.Model
                 return _ReleasetoRefresh;
             }
         }
-        private ICommand _SaveBlockprocedure;
-        public ICommand SaveBlockprocedure
-        {
-            get
-            {
-                _SaveBlockprocedure = new RelayCommand(
-                    param => evt_SaveBlockTestSuitsToXMLfile());
-                return _SaveBlockprocedure;
-            }
-        }
+
         #endregion
 
         #region Scheduled script runtime 
@@ -1148,7 +1140,7 @@ namespace SuperCarter.Model
         }
         public void evt_ReleasetoRefresh()
         {
-            OnPropertyChanged(nameof(Openblockfilepath));
+            OnPropertyChanged(nameof(Scriptpath));
             OnPropertyChanged(nameof(Fullloop));
             OnPropertyChanged(nameof(EstimateruntimeforblockA));
             OnPropertyChanged(nameof(EstimateruntimeforblockB));
@@ -1175,31 +1167,7 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(Estimateruntimefullblock));
         }
 
-        private void evt_SaveBlockTestSuitsToXMLfile()
-        {
-            using (var saveFileDialog1 = new System.Windows.Forms.SaveFileDialog())
-            {
-                string filter = "xml file (*.xml)|*.xml| All Files (*.*)|*.*";
-                const string header = "Command ,Times/ Keyword#, Interval, COM PORT/Pin, Function,Sub -func., SerialPort I/O comd, AC /USB Switch, Wait, Remark";
-                saveFileDialog1.Title = "Save as ...";
-                saveFileDialog1.Filter = filter;
-                saveFileDialog1.DefaultExt = "xml";
-                saveFileDialog1.FileName = string.Format(@"{0}-{1}.xml", DateTime.Now.ToString("yyyy_MM_dd_HH_mm"), "NEW_Script");
 
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    ConfigModel.Instance.evt_SaveScriptTestSuitefile(saveFileDialog1.FileName, this);
-                    MessageAggregator.Instance.SendMessage(new POPNotifyMsgType
-                    {
-                        Tital = "通知",
-                        Message = "已儲存 " + saveFileDialog1.FileName,
-                        NotifyType = NotificationType.Notification,
-
-                    });
-                }
-            }
-
-        }
         public string evt_Openfile()
         {
             using (var openFileDialog1 = new System.Windows.Forms.OpenFileDialog())
@@ -1217,8 +1185,8 @@ namespace SuperCarter.Model
                 {
 
                     strpath = openFileDialog1.FileName; //取得檔名
-                    Openblockfilepath = strpath;
-                    ConfigModel.Instance.GetScriptXMLTestSuite(this);
+                    //Openblockfilepath = strpath;
+                    //ConfigModel.Instance.GetScriptXMLTestSuite(this);
                     evt_ReleasetoRefresh();
                 }
                 return strpath;

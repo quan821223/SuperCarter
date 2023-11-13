@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SuperCarter.View.Dashboard"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-       <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible">
-        <Grid>
+             >
+    <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+        <Grid Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="52"/>
                 <RowDefinition Height="1*"/>
@@ -42,10 +42,7 @@
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="3*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="3*"/>
@@ -59,7 +56,7 @@
                         <RowDefinition Height="3*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="39"/>
+                        <ColumnDefinition Width="25"/>
                         <ColumnDefinition Width="180"/>
                         <ColumnDefinition Width="200"/>
                         <ColumnDefinition Width="200"/>
@@ -97,19 +94,16 @@
 
 
                     <Grid Grid.Row="2" Grid.Column="0">
-                        <CheckBox />
+                        <CheckBox IsEnabled="False"/>
                     </Grid>
                     <Grid Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
                         <Label Content="Brightness" Width="200"/>
                     </Grid>
                     <Grid Grid.Row="2" Grid.Column="2">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Left" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
                     </Grid>
-                    <Grid Grid.Row="2" Grid.Column="3">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
-                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="3"/>
 
                     <Grid Grid.Row="2" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <StackPanel>
@@ -127,19 +121,16 @@
 
 
                     <Grid Grid.Row="4" Grid.Column="0">
-                        <CheckBox />
+                        <CheckBox IsChecked="{Binding scheduledscriptEditor.IsEnableDetectDiag}" />
                     </Grid>
                     <Grid Grid.Row="4" Grid.Column="1" VerticalAlignment="Center">
                         <Label Content="Diagnostic" Margin="50 0 0 0" />
                     </Grid>
                     <Grid Grid.Row="4" Grid.Column="2">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Left" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
                     </Grid>
-                    <Grid Grid.Row="4" Grid.Column="3">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
-                    </Grid>
+                    <Grid Grid.Row="4" Grid.Column="3"/>
                     <Grid Grid.Row="4" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <StackPanel>
                             <TextBlock  TextWrapping ="Wrap" Text="Read and judge diagnostic data Because disgnostic definition is by differnet project, &#x000A;(1)monitor diagnostic data and data number defined by yourself 
@@ -152,19 +143,16 @@
 
 
                     <Grid Grid.Row="5" Grid.Column="0">
-                        <CheckBox />
+                        <CheckBox IsEnabled="False"/>
                     </Grid>
                     <Grid Grid.Row="5" Grid.Column="1" VerticalAlignment="Center">
                         <Label Content="Voltage" Margin="50 0 0 0" />
                     </Grid>
                     <Grid Grid.Row="5" Grid.Column="2">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Left" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
                     </Grid>
-                    <Grid Grid.Row="5" Grid.Column="3">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
-                    </Grid>
+                    <Grid Grid.Row="5" Grid.Column="3"/>
                     <Grid Grid.Row="5" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <StackPanel>
                             <TextBlock  TextWrapping ="Wrap" Text="Read FIDM Input Voltage &#x000A;(unit:V, vector:0.1, offset:0) &#x000A; Example 13.8V :0x8A=138 ->138*0.1=13.8V" >
@@ -175,19 +163,16 @@
 
 
                     <Grid Grid.Row="6" Grid.Column="0">
-                        <CheckBox />
+                        <CheckBox IsEnabled="False"/>
                     </Grid>
                     <Grid Grid.Row="6" Grid.Column="1" VerticalAlignment="Center">
                         <Label Content="PCBA　Temp" Margin="50 0 0 0" />
                     </Grid>
                     <Grid Grid.Row="6" Grid.Column="2">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Left" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
                     </Grid>
-                    <Grid Grid.Row="6" Grid.Column="3">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
-                    </Grid>
+                    <Grid Grid.Row="6" Grid.Column="3"/>
                     <Grid Grid.Row="6" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <StackPanel>
                             <TextBlock  TextWrapping ="Wrap" Text="Read FIDM PCBA NTC temperature&#x000A;(unit:℃, vector:1, offset:-40)&#x000A;ExamplePCBA 35℃:0x4B=75 ->75-40=35℃" >
@@ -198,19 +183,16 @@
 
 
                     <Grid Grid.Row="7" Grid.Column="0">
-                        <CheckBox />
+                        <CheckBox IsEnabled="False"/>
                     </Grid>
                     <Grid Grid.Row="7" Grid.Column="1" VerticalAlignment="Center">
                         <Label Content="LED1 Temp" Margin="50 0 0 0" />
                     </Grid>
                     <Grid Grid.Row="7" Grid.Column="2">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Left" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
                     </Grid>
-                    <Grid Grid.Row="7" Grid.Column="3">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
-                    </Grid>
+                    <Grid Grid.Row="7" Grid.Column="3"/>
                     <Grid Grid.Row="7" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <StackPanel>
                             <TextBlock  TextWrapping ="Wrap" Text="Read FIDM LED1 NTC temperature&#x000A;(unit:℃, vector:1, offset:-40) &#x000A;Example LED1 35℃:0x4B=75 ->75-40=35℃" >
@@ -222,19 +204,16 @@
 
 
                     <Grid Grid.Row="8" Grid.Column="0">
-                        <CheckBox />
+                        <CheckBox IsEnabled="False"/>
                     </Grid>
                     <Grid Grid.Row="8" Grid.Column="1" VerticalAlignment="Center">
                         <Label Content="LED2 Temp" Margin="50 0 0 0" />
                     </Grid>
                     <Grid Grid.Row="8" Grid.Column="2">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Left" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
                     </Grid>
-                    <Grid Grid.Row="8" Grid.Column="3">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
-                    </Grid>
+                    <Grid Grid.Row="8" Grid.Column="3"/>
                     <Grid Grid.Row="8" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <StackPanel>
                             <TextBlock  TextWrapping ="Wrap" Text="Read LED2 NTC temperature &#x000A;(unit:℃, vector:1, offset:-40)&#x000A;Example LED2  35℃:0x4B=75 ->75-40=35℃" >
@@ -246,19 +225,16 @@
 
 
                     <Grid Grid.Row="9" Grid.Column="0">
-                        <CheckBox />
+                        <CheckBox IsEnabled="False"/>
                     </Grid>
                     <Grid Grid.Row="9" Grid.Column="1" VerticalAlignment="Center">
                         <Label Content="Component Temp" Margin="50 0 0 0" />
                     </Grid>
                     <Grid Grid.Row="9" Grid.Column="2">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Left" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
                     </Grid>
-                    <Grid Grid.Row="9" Grid.Column="3">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
-                    </Grid>
+                    <Grid Grid.Row="9" Grid.Column="3"/>
                     <Grid Grid.Row="9" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <StackPanel>
                             <TextBlock  TextWrapping ="Wrap" Text="Read chamber Ambient or other component temperature by SuperCarrier K line &#x000A;(unit:℃, vector:1, offset:-40) &#x000A;Example SuperCarrier K  line  35℃:0x4B=75 ->75-40=35℃" >
@@ -269,20 +245,17 @@
 
 
 
-                    <Grid Grid.Row="10" Grid.Column="0" IsEnabled="False">
-                        <CheckBox />
+                    <Grid Grid.Row="10" Grid.Column="0" >
+                        <CheckBox IsChecked="{Binding scheduledscriptEditor.IsEnableDetectLightsensor}" />
                     </Grid>
                     <Grid Grid.Row="10" Grid.Column="1" VerticalAlignment="Center">
-                        <Label Content="ADC Temp" Margin="50 0 0 0" />
+                        <Label Content="Lightsensor" Margin="50 0 0 0" />
                     </Grid>
                     <Grid Grid.Row="10" Grid.Column="2">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Left"  Text ="{Binding scheduledscriptEditor.UpperLimitLightsensorValue}" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right" Text ="{Binding scheduledscriptEditor.LowerLimitLightsensorValue}" IsEnabled="False" Style="{StaticResource parameterTextBox}"/>
                     </Grid>
-                    <Grid Grid.Row="10" Grid.Column="3">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
-                    </Grid>
+                    <Grid Grid.Row="10" Grid.Column="3"/>
                     <Grid Grid.Row="10" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <StackPanel>
                             <TextBlock  TextWrapping ="Wrap" Text="Light sensor to detect display brightness status (Supercarrier ADC 12 bits)" >
@@ -293,18 +266,17 @@
 
 
                     <Grid Grid.Row="11" Grid.Column="0">
-                        <CheckBox />
+                        <CheckBox IsChecked="{Binding scheduledscriptEditor.IsEnableDetectnormCurrent}" />
                     </Grid>
                     <Grid Grid.Row="11" Grid.Column="1" VerticalAlignment="Center">
-                        <Label Content="Current" />
+                        <Label Content="Current(normal)" />
                     </Grid>
                     <Grid Grid.Row="11" Grid.Column="2">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Left"  Text ="{Binding scheduledscriptEditor.UpperLimitnormCurrentValue}" Style="{StaticResource parameterTextBox}"/>
+                        <TextBox HorizontalAlignment="Right" Text ="{Binding scheduledscriptEditor.LowerLimitnormCurrentValue}" Style="{StaticResource parameterTextBox}"/>
                     </Grid>
                     <Grid Grid.Row="11" Grid.Column="3">
-                        <TextBox HorizontalAlignment="Left" Style="{StaticResource parameterTextBox}"/>
-                        <TextBox HorizontalAlignment="Right"  Style="{StaticResource parameterTextBox}"/>
+                       
                     </Grid>
                     <Grid Grid.Row="11" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <StackPanel>
@@ -314,6 +286,77 @@ and response FIDM Sleep mode current (max 300uA) to Host(unit:uA)" >
                             </TextBlock>
                         </StackPanel>
                     </Grid>
+
+
+
+                    <Grid Grid.Row="12" Grid.Column="0">
+                        <CheckBox IsChecked="{Binding scheduledscriptEditor.IsEnableDetectsleepCurrent}" />
+                    </Grid>
+                    <Grid Grid.Row="12" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="Current(sleep)" />
+                    </Grid>
+                    <Grid Grid.Row="12" Grid.Column="2">
+                    </Grid>
+                    <Grid Grid.Row="12" Grid.Column="3">
+                        <TextBox HorizontalAlignment="Right" Text ="{Binding scheduledscriptEditor.UpperLimitsleepCurrentValue}" Style="{StaticResource parameterTextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="12" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock  TextWrapping ="Wrap" Text="Ask SuperCarrier to request FIDM into Normal mode and change current path and response FIDM Normal mode current (max 15A) to Host (unit :A)&#x000A;&#x000A;Ask SuperCarrier to request FIDM into Sleep mode and change current path 
+and response FIDM Sleep mode current (max 300uA) to Host(unit:uA)" >
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="13" Grid.Column="0">
+                        <CheckBox IsChecked="{Binding scheduledscriptEditor.IsEnableTouchfinger}" />
+                    </Grid>
+                    <Grid Grid.Row="13" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="Touch finger" />
+                    </Grid>
+                    <Grid Grid.Row="13" Grid.Column="2">
+                    </Grid>
+                    <Grid Grid.Row="13" Grid.Column="3">
+                     
+                    </Grid>
+                    <Grid Grid.Row="13" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock  TextWrapping ="Wrap" Text="Ask SuperCarrier to request FIDM into Normal mode and change current path and response FIDM Normal mode current (max 15A) to Host (unit :A)&#x000A;&#x000A;Ask SuperCarrier to request FIDM into Sleep mode and change current path 
+and response FIDM Sleep mode current (max 300uA) to Host(unit:uA)" >
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+
+                    <Grid Grid.Row="14" Grid.Column="0">
+                        <CheckBox IsChecked="{Binding scheduledscriptEditor.IsEnableTouchXY}" />
+                    </Grid>
+                    <Grid Grid.Row="14" Grid.Column="1" VerticalAlignment="Center">
+                        <Label Content="Touch X, Y" />
+                    </Grid>
+                    <Grid Grid.Row="14" Grid.Column="2">
+                    </Grid>
+                    <Grid Grid.Row="14" Grid.Column="3">
+                
+                    </Grid>
+                    <Grid Grid.Row="14" Grid.Column="4" Margin="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock TextWrapping ="WrapWithOverflow" Text=" Place and trigger only one elctrical finger in the center of FIDM screen then receive the touch information Request and response Touch information usually co-work with  Electrical finger
+ Purpose is to monitor touch  lost or not in long-time chamber stress condition. &#x000A;&#x000A;
+STEP1: Start to trigger the electrical finger &#x000A;
+STEP2: Response the only one finger Touch X,Y position &#x000A;
+     (unit :%)(0x00=0%  ~ 0x64=100%) &#x000A;      SuperCarrier collect 100 msec Touch information and report to Host PC If finger no touch ,please response 0xFF padding to host &#x000A;
+STEP3: Stop to triger the electrical finger" >
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+
+
+
                 </Grid>
 
             </Grid>

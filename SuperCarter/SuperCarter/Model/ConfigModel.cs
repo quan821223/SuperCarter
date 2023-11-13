@@ -232,9 +232,9 @@ namespace SuperCarter.Model
                     // save the list to testitem
                     testcase.AppendChild(testitem);
                 }
-                testcase.SetAttribute("TotalTime", delaytime.ToString() ?? "0");
+                //testcase.SetAttribute("TotalTime", delaytime.ToString() ?? "0");
                 _iterationnumber = _iterationnumber > 0 ? _iterationnumber : 1;
-                testcase.SetAttribute("IterValue", _iterationnumber.ToString() ?? "1");
+                //testcase.SetAttribute("IterValue", _iterationnumber.ToString() ?? "1");
                 ScriptionXML.Save(SavePath);
             }
             catch (Exception ex)
@@ -302,7 +302,7 @@ namespace SuperCarter.Model
             }
         }
 
-        public void GetScriptXMLTestSuite(CustomScriptEditor _ScriptEditor)
+        public void GetScriptXMLTestSuite(ScheduledScriptEditor _ScriptEditor)
         {
             try
             {
@@ -311,7 +311,7 @@ namespace SuperCarter.Model
                 XmlDocument ScriptionXML = new XmlDocument();
 
 
-                ScriptionXML.Load(_ScriptEditor.Openblockfilepath);
+                ScriptionXML.Load(_ScriptEditor.OpenedBlockScriptPath);
 
                 List<string> list = new List<string>() { "TestSuiteA", "TestSuiteB", "TestSuiteC", "TestSuiteD" };
 
@@ -355,38 +355,38 @@ namespace SuperCarter.Model
                         });
 
                     }
-                    if (ite == "TestSuiteA")
-                    {
-                        _ScriptEditor.ExecuteBlockALoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
-                        _ScriptEditor.blockAscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
-                        _ScriptEditor.blockAscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        _ScriptEditor.ObsColBlockA1Sequences = Temp;
-                        _ScriptEditor.blockAitemcount = Temp.Count;
-                    }
-                    else if (ite == "TestSuiteB")
-                    {
-                        _ScriptEditor.ExecuteBlockBLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
-                        _ScriptEditor.blockBscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
-                        _ScriptEditor.blockBscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        _ScriptEditor.ObsColBlockA2Sequences = Temp;
-                        _ScriptEditor.blockBitemcount = Temp.Count;
-                    }
-                    else if (ite == "TestSuiteC")
-                    {
-                        _ScriptEditor.ExecuteBlockCLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
-                        _ScriptEditor.blockCscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
-                        _ScriptEditor.blockCscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        _ScriptEditor.ObsColBlockB1Sequences = Temp;
-                        _ScriptEditor.blockCitemcount = Temp.Count;
-                    }
-                    else if (ite == "TestSuiteD")
-                    {
-                        _ScriptEditor.ExecuteBlockDLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
-                        _ScriptEditor.blockDscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
-                        _ScriptEditor.blockDscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        _ScriptEditor.ObsColBlockB2Sequences = Temp;
-                        _ScriptEditor.blockDitemcount = Temp.Count;
-                    }
+                    //if (ite == "TestSuiteA")
+                    //{
+                    //    _ScriptEditor.ExecuteBlockALoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
+                    //    _ScriptEditor.blockAscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
+                    //    _ScriptEditor.blockAscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                    //    _ScriptEditor.ObsColBlockA1Sequences = Temp;
+                    //    _ScriptEditor.blockAitemcount = Temp.Count;
+                    //}
+                    //else if (ite == "TestSuiteB")
+                    //{
+                    //    _ScriptEditor.ExecuteBlockBLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
+                    //    _ScriptEditor.blockBscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
+                    //    _ScriptEditor.blockBscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                    //    _ScriptEditor.ObsColBlockA2Sequences = Temp;
+                    //    _ScriptEditor.blockBitemcount = Temp.Count;
+                    //}
+                    //else if (ite == "TestSuiteC")
+                    //{
+                    //    _ScriptEditor.ExecuteBlockCLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
+                    //    _ScriptEditor.blockCscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
+                    //    _ScriptEditor.blockCscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                    //    _ScriptEditor.ObsColBlockB1Sequences = Temp;
+                    //    _ScriptEditor.blockCitemcount = Temp.Count;
+                    //}
+                    //else if (ite == "TestSuiteD")
+                    //{
+                    //    _ScriptEditor.ExecuteBlockDLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
+                    //    _ScriptEditor.blockDscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
+                    //    _ScriptEditor.blockDscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                    //    _ScriptEditor.ObsColBlockB2Sequences = Temp;
+                    //    _ScriptEditor.blockDitemcount = Temp.Count;
+                    //}
                 }
 
                 //return _ScriptEditor;
@@ -398,19 +398,30 @@ namespace SuperCarter.Model
             }
 
         }
-        public void evt_SaveScriptTestSuitefile(string SavePath, CustomScriptEditor _ScriptEditor)
+        public void evt_SaveScriptTestSuitefile(string SavePath, ScheduledScriptEditor _ScriptEditor)
         {
-            ScriptionXML = new XmlDocument();
-            ScriptionXML.LoadXml("<TestSuites></TestSuites>");
-            // 取得根元素
-            XmlElement root = ScriptionXML.DocumentElement;
-
-            // 新增屬性
-            root.SetAttribute("Fullloop", _ScriptEditor.Fullloop.ToString() ?? "");
-            List<string> list = new List<string>() { "TestSuiteA", "TestSuiteB", "TestSuiteC", "TestSuiteD" };
-
             try
             {
+                ScriptionXML = new XmlDocument();
+                ScriptionXML.LoadXml("<TestSuites></TestSuites>");
+                // 取得根元素
+                XmlElement root = ScriptionXML.DocumentElement;
+
+                // 新增屬性
+                root.SetAttribute("Loop", _ScriptEditor.Fullloop.ToString() ?? "");
+                root.SetAttribute("BlockALoop", _ScriptEditor.BlockALoop.ToString() ?? "");
+                root.SetAttribute("BlockBLoop", _ScriptEditor.BlockBLoop.ToString() ?? "");
+                root.SetAttribute("BlockA1Interval", _ScriptEditor.BlockA1Interval.ToString() ?? "");
+                root.SetAttribute("BlockA2Interval", _ScriptEditor.BlockA2Interval.ToString() ?? "");
+                root.SetAttribute("BlockB1Interval", _ScriptEditor.BlockB1Interval.ToString() ?? "");
+                root.SetAttribute("BlockB2Interval", _ScriptEditor.BlockB2Interval.ToString() ?? "");
+
+                List<string> list = new List<string>() { "TestSuiteA1init", "TestSuiteA1",
+                                                         "TestSuiteA2init", "TestSuiteA2",
+                                                         "TestSuiteB1init", "TestSuiteB1", 
+                                                         "TestSuiteB2init", "TestSuiteB2",
+                                                         "ThresholdSetting" };
+
                 ObservableCollection<ScriptItemtype> tempblockobsv = new ObservableCollection<ScriptItemtype>();
                 int delaytime = 0, iteravalue = 0;
 
@@ -427,33 +438,45 @@ namespace SuperCarter.Model
                     // 建立根目錄的子節點
                     XmlElement testitem;
 
-                    if (item == "TestSuiteA")
+                    if (item == "TestSuiteA1init")
                     {
-                        tempblockobsv = _ScriptEditor.ObsColBlockA1Sequences;
-                        iteravalue = _ScriptEditor.ExecuteBlockALoop;
-                        delaytime = _ScriptEditor.blockAscriptDelaytime;
-                        preparation.SetAttribute("Path", _ScriptEditor.blockAscriptpath ?? "");
+                        tempblockobsv = _ScriptEditor.BlockA1initObsColSequences;
+                        preparation.SetAttribute("Path", _ScriptEditor.BlockA1initscriptPath ?? "");
                     }
-                    else if (item == "TestSuiteB")
+                    else if(item == "TestSuiteA1")
                     {
-                        tempblockobsv = _ScriptEditor.ObsColBlockA2Sequences;
-                        iteravalue = _ScriptEditor.ExecuteBlockBLoop;
-                        delaytime = _ScriptEditor.blockBscriptDelaytime;
-                        preparation.SetAttribute("Path", _ScriptEditor.blockBscriptpath ?? "");
+                        tempblockobsv = _ScriptEditor.BlockA1ObsColSequences;                     
+                        preparation.SetAttribute("Path", _ScriptEditor.BlockA1scriptPath ?? "");
                     }
-                    else if (item == "TestSuiteC")
+                    else if (item == "TestSuiteA2init")
                     {
-                        tempblockobsv = _ScriptEditor.ObsColBlockB1Sequences;
-                        iteravalue = _ScriptEditor.ExecuteBlockCLoop;
-                        delaytime = _ScriptEditor.blockCscriptDelaytime;
-                        preparation.SetAttribute("Path", _ScriptEditor.blockCscriptpath ?? "");
+                        tempblockobsv = _ScriptEditor.BlockA2initObsColSequences;
+                        preparation.SetAttribute("Path", _ScriptEditor.BlockA2initscriptPath ?? "");
                     }
-                    else if (item == "TestSuiteD")
+                    else if (item == "TestSuiteA2")
                     {
-                        tempblockobsv = _ScriptEditor.ObsColBlockB2Sequences;
-                        iteravalue = _ScriptEditor.ExecuteBlockDLoop;
-                        delaytime = _ScriptEditor.blockDscriptDelaytime;
-                        preparation.SetAttribute("Path", _ScriptEditor.blockDscriptpath ?? "");
+                        tempblockobsv = _ScriptEditor.BlockA2ObsColSequences;
+                        preparation.SetAttribute("Path", _ScriptEditor.BlockA2scriptPath ?? "");
+                    }
+                    else if (item == "TestSuiteB1init")
+                    {
+                        tempblockobsv = _ScriptEditor.BlockB1initObsColSequences;
+                        preparation.SetAttribute("Path", _ScriptEditor.BlockB1initscriptPath ?? "");
+                    }
+                    else if (item == "TestSuiteB1")
+                    {
+                        tempblockobsv = _ScriptEditor.BlockB1ObsColSequences;
+                        preparation.SetAttribute("Path", _ScriptEditor.BlockB1scriptPath ?? "");
+                    }
+                    else if (item == "TestSuiteB2init")
+                    {
+                        tempblockobsv = _ScriptEditor.BlockB2initObsColSequences;    
+                        preparation.SetAttribute("Path", _ScriptEditor.BlockB2initscriptPath ?? "");
+                    }
+                    else if (item == "TestSuiteB2")
+                    {
+                        tempblockobsv = _ScriptEditor.BlockB2ObsColSequences;
+                        preparation.SetAttribute("Path", _ScriptEditor.BlockB2scriptPath ?? "");
                     }
 
                     testgroup.AppendChild(preparation);
@@ -477,9 +500,39 @@ namespace SuperCarter.Model
                         // save the list to testitem
                         testcase.AppendChild(testitem);
                     }
-                    testcase.SetAttribute("TotalTime", delaytime.ToString() ?? "0");
-                    iteravalue = iteravalue > 0 ? iteravalue : 1;
-                    testcase.SetAttribute("IterValue", iteravalue.ToString() ?? "1");
+                    // testcase.SetAttribute("TotalTime", delaytime.ToString() ?? "0");
+                    // iteravalue = iteravalue > 0 ? iteravalue : 1;
+                    // testcase.SetAttribute("IterValue", iteravalue.ToString() ?? "1");
+                 
+
+                    if (item == "ThresholdSetting")
+                    {
+                        testitem = ScriptionXML.CreateElement("DetectDiag");
+                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectDiag).ToString() ?? "N");
+                        testcase.AppendChild(testitem);
+                        testitem = ScriptionXML.CreateElement("NormCurrent");
+                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectnormCurrent).ToString() ?? "N");
+                        testitem.SetAttribute("Upper", (_ScriptEditor.UpperLimitnormCurrentValue).ToString() ?? "0");
+                        testitem.SetAttribute("Lower", (_ScriptEditor.LowerLimitnormCurrentValue).ToString() ?? "0");
+                        testcase.AppendChild(testitem);
+                        testitem = ScriptionXML.CreateElement("SleepCurrent");
+                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectsleepCurrent).ToString() ?? "N");
+                        testitem.SetAttribute("Upper", (_ScriptEditor.UpperLimitsleepCurrentValue).ToString() ?? "0");
+                        testcase.AppendChild(testitem);
+                        testitem = ScriptionXML.CreateElement("Lightsensor");
+                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectLightsensor).ToString() ?? "N");
+                        testitem.SetAttribute("Upper", (_ScriptEditor.UpperLimitLightsensorValue).ToString() ?? "0");
+                        testitem.SetAttribute("Lower", (_ScriptEditor.LowerLimitLightsensorValue).ToString() ?? "0");
+                        testcase.AppendChild(testitem);
+
+                        testitem = ScriptionXML.CreateElement("Touchfinger");
+                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableTouchfinger).ToString() ?? "N");
+                        testcase.AppendChild(testitem);
+                        testitem = ScriptionXML.CreateElement("TouchXY");
+                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableTouchXY).ToString() ?? "N");
+                        testcase.AppendChild(testitem);
+
+                    }
                     ScriptionXML.Save(SavePath);
                 }
 

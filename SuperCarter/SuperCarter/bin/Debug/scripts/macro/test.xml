@@ -1,0 +1,45 @@
+<TestSuites Loop="1" BlockALoop="0" BlockBLoop="0" BlockA1Interval="0" BlockA2Interval="0" BlockB1Interval="0" BlockB2Interval="0">
+  <TestSuiteA1init>
+    <Prerequisites Path="" />
+    <TestSequence />
+  </TestSuiteA1init>
+  <TestSuiteA1>
+    <Prerequisites Path="" />
+    <TestSequence />
+  </TestSuiteA1>
+  <TestSuiteA2init>
+    <Prerequisites Path="" />
+    <TestSequence />
+  </TestSuiteA2init>
+  <TestSuiteA2>
+    <Prerequisites Path="" />
+    <TestSequence />
+  </TestSuiteA2>
+  <TestSuiteB1init>
+    <Prerequisites Path="" />
+    <TestSequence />
+  </TestSuiteB1init>
+  <TestSuiteB1>
+    <Prerequisites Path="" />
+    <TestSequence />
+  </TestSuiteB1>
+  <TestSuiteB2init>
+    <Prerequisites Path="" />
+    <TestSequence />
+  </TestSuiteB2init>
+  <TestSuiteB2>
+    <Prerequisites Path="" />
+    <TestSequence />
+  </TestSuiteB2>
+  <ThresholdSetting>
+    <Prerequisites />
+    <TestSequence>
+      <DetectDiag IsEnable="True" />
+      <NormCurrent IsEnable="True" Upper="2" Lower="3" />
+      <SleepCurrent IsEnable="True" Upper="4" />
+      <Lightsensor IsEnable="True" Upper="1" Lower="0" />
+      <Touchfinger IsEnable="True" />
+      <TouchXY IsEnable="True" />
+    </TestSequence>
+  </ThresholdSetting>
+</TestSuites>
