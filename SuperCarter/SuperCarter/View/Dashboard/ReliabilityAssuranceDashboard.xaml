@@ -252,11 +252,12 @@
                                                         <WrapPanel Orientation="Horizontal">
                                                             <Label Name="DisplayLbl" Visibility="{Binding CustomScriptEditor.DisplaySwitch}" FontSize="19"
                                                                HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8 0 0 0"
-                                                               Content="{Binding CustomScriptEditor.LabelText}" Foreground="{Binding CustomScriptEditor.ForeColor}" />
+                                                               Content="{Binding CustomScriptEditor.DynamicLabelText}" Foreground="{Binding CustomScriptEditor.DynamicForeColor}" />
+                                          
 
                                                             <SpyderToggle:RoundToggleButton 
-                                                                IsChecked="{Binding CustomScriptEditor.IsEnableExecuteSDMchecklists, Mode=TwoWay}"
-                                                                Command="{Binding CustomScriptEditor.ExecuteSDMchecklistScript}"
+                                                                IsChecked="{Binding CustomScriptEditor.IsEnableRollingmode, Mode=TwoWay}"
+                                                                Command="{Binding CustomScriptEditor.ExecuteRollingmode}"
                                                                 MaxHeight="29"
                                                                 Margin="6"
                                                                 HorizontalAlignment="Right"
@@ -426,9 +427,11 @@
                                                             </VisualBrush>
                                                         </Border.OpacityMask>
                                                         <WrapPanel Orientation="Horizontal">
-
-                                                            <SpyderToggle:RoundToggleButton IsChecked="{Binding IsEnableExecuteScheduleScrolling, Mode=TwoWay}"
-                                                                                Command="{Binding ExecuteScriptScroling}"
+                                                            <Label Visibility="{Binding CustomScriptEditor.SDdisplaySwitch}" FontSize="19"
+                                                                   HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8 0 0 0"
+                                                                   Content="{Binding CustomScriptEditor.SDLabelText}" Foreground="{Binding CustomScriptEditor.SDForeColor}" />
+                                                            <SpyderToggle:RoundToggleButton IsChecked="{Binding CustomScriptEditor.IsEnableScheduledDetectmode, Mode=TwoWay}"
+                                                                                Command="{Binding CustomScriptEditor.ExecuteRollingmode}"
                                                                                 MaxHeight="29"
                                                                                 Margin="6"
                                                                                 HorizontalAlignment="Right"

@@ -40,9 +40,13 @@ namespace SuperCarter.Model
 
 
             /// 燈號設定
-            DisplaySwitch = Visibility.Visible;
-            LabelText = "●";
-            ForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
+            DynamicdisplaySwitch = Visibility.Visible;
+            DynamicLabelText = "●";
+            DynamicForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
+            /// 燈號設定
+            SDdisplaySwitch = Visibility.Visible;                                                                                                                         
+            SDLabelText = "●";
+            SDForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
         }
 
         ~CustomScriptEditor()
@@ -70,17 +74,31 @@ namespace SuperCarter.Model
         public int blockBitemcount { get; set; } = 0;
         public int blockCitemcount { get; set; } = 0;
         public int blockDitemcount { get; set; } = 0;
-        private bool _IsEnableExecuteSDMchecklists;
-        public bool IsEnableExecuteSDMchecklists
+        private bool _IsEnableRollingmode;
+        public bool IsEnableRollingmode
         {
-            get => _IsEnableExecuteSDMchecklists;
+            get => _IsEnableRollingmode;
             set {
-                _IsEnableExecuteSDMchecklists = value;
-                if(_IsEnableExecuteSDMchecklists)
-                    ForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                _IsEnableRollingmode = value;
+                if(_IsEnableRollingmode)
+                    DynamicForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
                 else
-                    ForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
-                OnPropertyChanged(nameof(IsEnableExecuteSDMchecklists));
+                    DynamicForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
+                OnPropertyChanged(nameof(IsEnableRollingmode));
+            }
+        }
+        private bool _IsEnableScheduledDetectmode;
+        public bool IsEnableScheduledDetectmode
+        {
+            get => _IsEnableScheduledDetectmode;
+            set
+            {
+                _IsEnableScheduledDetectmode = value;
+                if (_IsEnableRollingmode)
+                    SDForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                else
+                    SDForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
+                OnPropertyChanged(nameof(IsEnableScheduledDetectmode));
             }
         }
         public string Scriptpath { get; set; }
@@ -329,16 +347,26 @@ namespace SuperCarter.Model
         #endregion
 
         #region icommand event
-        private ICommand _LoadscripttoBlockA, _LoadscripttoBlockB, _LoadscripttoBlockC, _LoadscripttoBlockD, _ExecuteSDMchecklistScript, _SaveDynamicMonitorresult;
-
-        public ICommand ExecuteSDMchecklistScript
+        private ICommand _LoadscripttoBlockA, _LoadscripttoBlockB, _LoadscripttoBlockC, _LoadscripttoBlockD, _ExecuteRollingmode, _ExecuteScheduledDetectgmode, _SaveDynamicMonitorresult;
+        // IsEnableScheduledDetectmode
+        public ICommand ExecuteRollingmode
         {
             get {
-                _ExecuteSDMchecklistScript = new RelayCommand(
-                    param => evt_ExecuteSDMchecklistScript());
-                return _ExecuteSDMchecklistScript;
+                _ExecuteRollingmode = new RelayCommand(
+                    param => evt_ExecuteRollingmode());
+                return _ExecuteRollingmode;
             }
         
+        }
+        public ICommand ExecuteScheduledDetectgmode
+        {
+            get
+            {
+                _ExecuteScheduledDetectgmode = new RelayCommand(
+                    param => evt_ExecuteRollingmode());
+                return _ExecuteScheduledDetectgmode;
+            }
+
         }
         public ICommand LoadscripttoBlockA
         {
@@ -669,17 +697,29 @@ namespace SuperCarter.Model
         /// <summary>
         /// 燈號控制
         /// </summary>
-        public Visibility DisplaySwitch { get; set; } = Visibility.Hidden;
-        public string LabelText { get; set; }
-        private Brush _ForeColor;
+        public Visibility DynamicdisplaySwitch { get; set; } = Visibility.Hidden;
+        public Visibility SDdisplaySwitch { get; set; } = Visibility.Hidden;
+        public string SDLabelText { get; set; }
+        public string DynamicLabelText { get; set; }
+        private Brush _DynamicForeColor, _SDForeColor;
 
-        public Brush ForeColor {
-            get => _ForeColor;
+        public Brush DynamicForeColor
+        {
+            get => _DynamicForeColor;
             set
             {
-                _ForeColor = value;
-                OnPropertyChanged(nameof(ForeColor));   
+                _DynamicForeColor = value;
+                OnPropertyChanged(nameof(DynamicForeColor));   
             } 
+        }
+        public Brush SDForeColor
+        {
+            get => _SDForeColor;
+            set
+            {
+                _SDForeColor = value;
+                OnPropertyChanged(nameof(SDForeColor));
+            }
         }
         #endregion
 
@@ -701,9 +741,9 @@ namespace SuperCarter.Model
                 var Sendorwatch = new Stopwatch();
 
                 /// 將燈號設定成未完成狀態
-                ForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
+                DynamicForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
 
-                while (IsEnableExecuteSDMchecklists)
+                while (IsEnableRollingmode)
                 {
                     if (sequences[sequenceIndex].PortNum == 9)
                     {
@@ -734,7 +774,7 @@ namespace SuperCarter.Model
                     if (sequenceIndex >= sequences.Count) 
                     {
                         sequenceIndex = 0;
-                        ForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                        DynamicForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
                     }
                 }
             
@@ -770,8 +810,8 @@ namespace SuperCarter.Model
         {
             cSVfile = new CSVfile();
             cSVfile.AppendToCsv2(UnifiedHostCommandSet);
-            IsEnableExecuteSDMchecklists = false;
-            OnPropertyChanged(nameof(IsEnableExecuteSDMchecklists));
+            IsEnableRollingmode = false;
+            OnPropertyChanged(nameof(IsEnableRollingmode));
             // 開啟檔案位置
             string dataPath = AppPath + @"\result\Dynamic";
             Process.Start(new ProcessStartInfo { FileName = dataPath, UseShellExecute = true });
@@ -952,10 +992,12 @@ namespace SuperCarter.Model
                 }
             }
         }
-
-        private void evt_ExecuteSDMchecklistScript()
+        /// <summary>
+        /// Rolling mode 
+        /// </summary>
+        private void evt_ExecuteRollingmode()
         {
-            if (IsEnableExecuteSDMchecklists)
+            if (IsEnableRollingmode)
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -968,26 +1010,26 @@ namespace SuperCarter.Model
                 }
                 if (string.IsNullOrEmpty(SDMChecklistscriptXMLPath) || ! (DicSerialPort[0].IsOpen || DicSerialPort[1].IsOpen || DicSerialPort[2].IsOpen ))
                 {
-                    IsEnableExecuteSDMchecklists = false;
-                    OnPropertyChanged(nameof(IsEnableExecuteSDMchecklists));
+                    IsEnableRollingmode = false;
+                    OnPropertyChanged(nameof(IsEnableRollingmode));
                 }                      
                 else
                 {
                     UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                     UnifiedHostCommandSet.IsEnableExecuteSDMcheck = true;
-
-                  
                     ctsScrollingcheck = new CancellationTokenSource();
                     StartScrollingCheck(ctsScrollingcheck.Token);
-                }
-       
+                }         
             }
             else
             {
                 ctsScrollingcheck.Cancel();
             }
         }
-
+        private void evt_ExecutedSheduleddetectmode()
+        { 
+        
+        }
         private void evt_SelectedScriptItem(IFiletype _va)
         {
             blockAscriptpath = _va.FullPathName;
@@ -1505,7 +1547,7 @@ namespace SuperCarter.Model
                     OnPropertyChanged(nameof(Port0SDM1normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM1sleepCurrent));
                     // 清空較早的Queue
-                    if(IsEnableExecuteSDMchecklists)
+                    if(IsEnableRollingmode)
                     {
                         UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT1CurrentList);
                     }                    
@@ -1518,7 +1560,7 @@ namespace SuperCarter.Model
                     OnPropertyChanged(nameof(Port0SDM2normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM2sleepCurrent));
                     // 清空較早的Queue
-                    if (IsEnableExecuteSDMchecklists)
+                    if (IsEnableRollingmode)
                     {
                         UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT2CurrentList);
                     }
@@ -1531,7 +1573,7 @@ namespace SuperCarter.Model
                     OnPropertyChanged(nameof(Port0SDM3normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM3sleepCurrent));
                     // 清空較早的Queue
-                    if (IsEnableExecuteSDMchecklists)
+                    if (IsEnableRollingmode)
                     {
                         UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT3CurrentList);
                     }
@@ -1553,7 +1595,7 @@ namespace SuperCarter.Model
                     OnPropertyChanged(nameof(Port0SDM1normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM1sleepCurrent));
                     // 清空較早的Queue
-                    if (IsEnableExecuteSDMchecklists)
+                    if (IsEnableRollingmode)
                     {
                         UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT1CurrentList);
                     }
@@ -1566,7 +1608,7 @@ namespace SuperCarter.Model
                     OnPropertyChanged(nameof(Port0SDM2normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM2sleepCurrent));
                     // 清空較早的Queue
-                    if (IsEnableExecuteSDMchecklists)
+                    if (IsEnableRollingmode)
                     {
                         UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT2CurrentList);
                     }
@@ -1579,7 +1621,7 @@ namespace SuperCarter.Model
                     OnPropertyChanged(nameof(Port0SDM3normalCurrent));
                     OnPropertyChanged(nameof(Port0SDM3sleepCurrent));
                     // 清空較早的Queue
-                    if (IsEnableExecuteSDMchecklists)
+                    if (IsEnableRollingmode)
                     {
                         UnifiedHostCommandSet.CheckoutCurlist(UnifiedHostCommandSet.DUT3CurrentList);
                     }

@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\
 SuperCarter
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\App.xaml
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\App.xaml
 11-1515410158
 1732278684
 341028804226
-2321170782310
+232-1676225160
 Assets\Brushes.xaml;Assets\Fonts.xaml;Assets\Styles.xaml;MainWindow.xaml;View\CommunicationInterface.xaml;View\Dashboard\ControlTable.xaml;View\Dashboard\Overview.xaml;View\Dashboard\ReliabilityAssuranceDashboard.xaml;View\Dashboard\UserScriptEditor.xaml;View\Script\SequenceEditer.xaml;View\Script\SequencesProtocal.xaml;
 
 True

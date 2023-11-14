@@ -1,7 +1,7 @@
 [
   {
     "PortID": 0,
-    "PortName": "COM83",
+    "PortName": "COM5",
     "BaudRateValue": 115200,
     "Reccase": 0
   }
