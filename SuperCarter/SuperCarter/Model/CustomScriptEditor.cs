@@ -1650,6 +1650,7 @@ namespace SuperCarter.Model
 
         }
         #endregion
+
         #region SDM1
         public int Port0SDM1DTC { get; set; }
         public string Port0SDM1SWversion { get; set; } = "___";

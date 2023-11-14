@@ -18,6 +18,8 @@ using SuperCarter.ViewModel;
 using Notification.Wpf;
 using SuperCarter.Services;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Controls;
 
 
 namespace SuperCarter.Model
@@ -307,18 +309,22 @@ namespace SuperCarter.Model
             try
             {
                 // Loading from a file, you can also load from a stream
-
                 XmlDocument ScriptionXML = new XmlDocument();
-
-
                 ScriptionXML.Load(_ScriptEditor.OpenedBlockScriptPath);
-
-                List<string> list = new List<string>() { "TestSuiteA", "TestSuiteB", "TestSuiteC", "TestSuiteD" };
+                List<string> list = new List<string>() {"TestSuiteA1init", "TestSuiteA1",
+                                                         "TestSuiteA2init", "TestSuiteA2",
+                                                         "TestSuiteB1init", "TestSuiteB1",
+                                                         "TestSuiteB2init", "TestSuiteB2",
+                                                        };
 
                 XmlNode root = ScriptionXML.SelectSingleNode("TestSuites");
-
                 _ScriptEditor.Fullloop = Convert.ToInt32(root.Attributes["Fullloop"]?.Value);
-
+                _ScriptEditor.BlockALoop = Convert.ToInt32(root.Attributes["BlockALoop"]?.Value);
+                _ScriptEditor.BlockBLoop = Convert.ToInt32(root.Attributes["BlockBLoop"]?.Value);
+                _ScriptEditor.BlockA1Interval = Convert.ToInt32(root.Attributes["BlockA1Interval"]?.Value);
+                _ScriptEditor.BlockA2Interval = Convert.ToInt32(root.Attributes["BlockA2Interval"]?.Value);
+                _ScriptEditor.BlockB1Interval = Convert.ToInt32(root.Attributes["BlockB1Interval"]?.Value);
+                _ScriptEditor.BlockB2Interval = Convert.ToInt32(root.Attributes["BlockB2Interval"]?.Value);
                 foreach (var ite in list)
                 {
                     string strblock = "TestSuites/" + ite + "/TestSequence";
@@ -329,6 +335,8 @@ namespace SuperCarter.Model
                     XmlElement element = (XmlElement)block;
                     ObservableCollection<ScriptItemtype> Temp = new ObservableCollection<ScriptItemtype>();
                     //取得節點內的欄位
+                    if (element is null)
+                        break;
                     foreach (XmlElement node in element)
                     {
                         String ID = node.Attributes["ID"].Value ?? "";
@@ -355,46 +363,91 @@ namespace SuperCarter.Model
                         });
 
                     }
-                    //if (ite == "TestSuiteA")
-                    //{
-                    //    _ScriptEditor.ExecuteBlockALoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
-                    //    _ScriptEditor.blockAscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
-                    //    _ScriptEditor.blockAscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                    //    _ScriptEditor.ObsColBlockA1Sequences = Temp;
-                    //    _ScriptEditor.blockAitemcount = Temp.Count;
-                    //}
-                    //else if (ite == "TestSuiteB")
-                    //{
-                    //    _ScriptEditor.ExecuteBlockBLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
-                    //    _ScriptEditor.blockBscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
-                    //    _ScriptEditor.blockBscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                    //    _ScriptEditor.ObsColBlockA2Sequences = Temp;
-                    //    _ScriptEditor.blockBitemcount = Temp.Count;
-                    //}
-                    //else if (ite == "TestSuiteC")
-                    //{
-                    //    _ScriptEditor.ExecuteBlockCLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
-                    //    _ScriptEditor.blockCscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
-                    //    _ScriptEditor.blockCscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                    //    _ScriptEditor.ObsColBlockB1Sequences = Temp;
-                    //    _ScriptEditor.blockCitemcount = Temp.Count;
-                    //}
-                    //else if (ite == "TestSuiteD")
-                    //{
-                    //    _ScriptEditor.ExecuteBlockDLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
-                    //    _ScriptEditor.blockDscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value);
-                    //    _ScriptEditor.blockDscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                    //    _ScriptEditor.ObsColBlockB2Sequences = Temp;
-                    //    _ScriptEditor.blockDitemcount = Temp.Count;
-                    //}
+                    if (ite == "TestSuiteA1init")
+                    {
+                        _ScriptEditor.BlockA1initObsColSequences = Temp;
+                        _ScriptEditor.BlockA1initscriptPath = requisites.Attributes["Path"]?.Value ?? "";
+                    }
+                    else if (ite == "TestSuiteA1")
+                    {
+                        _ScriptEditor.BlockA1ObsColSequences = Temp;
+                        _ScriptEditor.BlockA1scriptPath = requisites.Attributes["Path"]?.Value ?? "";
+                    }
+                    else if (ite == "TestSuiteA2init")
+                    {
+                        _ScriptEditor.BlockA2initObsColSequences = Temp;
+                        _ScriptEditor.BlockA2initscriptPath = requisites.Attributes["Path"]?.Value ?? "";
+                    }
+                    else if (ite == "TestSuiteA2")
+                    {
+                        _ScriptEditor.BlockA2ObsColSequences = Temp;
+                        _ScriptEditor.BlockA2scriptPath = requisites.Attributes["Path"]?.Value ?? "";                    
+                    }
+                    else if (ite == "TestSuiteB1init")
+                    {
+                        _ScriptEditor.BlockB1initObsColSequences = Temp;
+                        _ScriptEditor.BlockB1initscriptPath = requisites.Attributes["Path"]?.Value ?? "";
+                    }
+                    else if (ite == "TestSuiteB1")
+                    {
+                        _ScriptEditor.BlockB1ObsColSequences = Temp;
+                        _ScriptEditor.BlockB1scriptPath = requisites.Attributes["Path"]?.Value ?? "";
+                    }
+                    else if (ite == "TestSuiteB2init")
+                    {
+                        _ScriptEditor.BlockB2initObsColSequences = Temp;
+                        _ScriptEditor.BlockB2initscriptPath = requisites.Attributes["Path"]?.Value ?? "";
+                    }
+                    else if (ite == "TestSuiteB2")
+                    {
+                        _ScriptEditor.BlockB2ObsColSequences = Temp;
+                        _ScriptEditor.BlockB2scriptPath = requisites.Attributes["Path"]?.Value ?? "";
+                    }
                 }
-
-                //return _ScriptEditor;
+                string Thresetting = "TestSuites/ThresholdSetting";
+                XmlNode Threblock = ScriptionXML.SelectSingleNode(Thresetting);
+                XmlElement elements = (XmlElement)Threblock;
+                if (elements is null)
+                    return;
+                foreach (XmlElement node in elements)
+                {
+                    if (node.Name == "DetectDiag")
+                    {
+                        _ScriptEditor.IsEnableDetectDiag = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                    }
+                    else if (node.Name == "NormCurrent")
+                    {
+                        _ScriptEditor.IsEnableDetectnormCurrent = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                        _ScriptEditor.UpperLimitnormCurrentValue = Convert.ToInt32(node.Attributes["Upper"].Value);
+                        _ScriptEditor.LowerLimitnormCurrentValue = Convert.ToInt32(node.Attributes["Lower"].Value);
+                    }
+                    else if (node.Name == "SleepCurrent")
+                    {
+                        _ScriptEditor.IsEnableDetectsleepCurrent = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                        _ScriptEditor.UpperLimitsleepCurrentValue = Convert.ToInt32(node.Attributes["Upper"].Value);
+                    }
+                    else if (node.Name == "Lightsensor")
+                    {
+                        _ScriptEditor.IsEnableDetectLightsensor = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                        _ScriptEditor.UpperLimitLightsensorValue = Convert.ToInt32(node.Attributes["Upper"].Value);
+                        _ScriptEditor.LowerLimitLightsensorValue = Convert.ToInt32(node.Attributes["Lower"].Value);
+                    }
+                    else if (node.Name == "Touchfinger")
+                    {
+                        _ScriptEditor.IsEnableTouchfinger = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                    }
+                    else if (node.Name == "TouchXY")
+                    {
+                        _ScriptEditor.IsEnableTouchXY = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                    }
+                }
+                  
+                  
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                //return new ScriptEditor();
+                MessageBox.Show(ex.StackTrace);
             }
 
         }
@@ -402,10 +455,11 @@ namespace SuperCarter.Model
         {
             try
             {
-                ScriptionXML = new XmlDocument();
-                ScriptionXML.LoadXml("<TestSuites></TestSuites>");
-                // 取得根元素
-                XmlElement root = ScriptionXML.DocumentElement;
+                ScriptionXML = new XmlDocument();             
+                ScriptionXML.CreateXmlDeclaration("1.0", "utf-8", "yes");
+                //建立根節點
+                //ScriptionXML.LoadXml("<TestSuites></TestSuites>");
+                XmlElement root = ScriptionXML.CreateElement("TestSuites");
 
                 // 新增屬性
                 root.SetAttribute("Loop", _ScriptEditor.Fullloop.ToString() ?? "");
@@ -415,23 +469,21 @@ namespace SuperCarter.Model
                 root.SetAttribute("BlockA2Interval", _ScriptEditor.BlockA2Interval.ToString() ?? "");
                 root.SetAttribute("BlockB1Interval", _ScriptEditor.BlockB1Interval.ToString() ?? "");
                 root.SetAttribute("BlockB2Interval", _ScriptEditor.BlockB2Interval.ToString() ?? "");
-
-                List<string> list = new List<string>() { "TestSuiteA1init", "TestSuiteA1",
-                                                         "TestSuiteA2init", "TestSuiteA2",
-                                                         "TestSuiteB1init", "TestSuiteB1", 
-                                                         "TestSuiteB2init", "TestSuiteB2",
-                                                         "ThresholdSetting" };
+           
+                // Create the item element
+                ScriptionXML.AppendChild(root);
+               
+                List<string> list = new List<string>() { "TestSuiteA1init", "TestSuiteA1", "TestSuiteA2init", "TestSuiteA2",
+                    "TestSuiteB1init", "TestSuiteB1", "TestSuiteB2init", "TestSuiteB2" };
 
                 ObservableCollection<ScriptItemtype> tempblockobsv = new ObservableCollection<ScriptItemtype>();
-                int delaytime = 0, iteravalue = 0;
 
                 foreach (var item in list)
                 {
-
                     // 建立目錄的根
                     XmlElement testgroup = ScriptionXML.CreateElement(item);
-                    ScriptionXML.DocumentElement.AppendChild(testgroup); // Append to root
-                    //ScriptionXML.AppendChild(testgroup); // Add Node.
+                    root.AppendChild(testgroup); // Append to root
+
 
                     XmlElement preparation = ScriptionXML.CreateElement("Prerequisites");
 
@@ -500,42 +552,44 @@ namespace SuperCarter.Model
                         // save the list to testitem
                         testcase.AppendChild(testitem);
                     }
-                    // testcase.SetAttribute("TotalTime", delaytime.ToString() ?? "0");
-                    // iteravalue = iteravalue > 0 ? iteravalue : 1;
-                    // testcase.SetAttribute("IterValue", iteravalue.ToString() ?? "1");
-                 
-
-                    if (item == "ThresholdSetting")
-                    {
-                        testitem = ScriptionXML.CreateElement("DetectDiag");
-                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectDiag).ToString() ?? "N");
-                        testcase.AppendChild(testitem);
-                        testitem = ScriptionXML.CreateElement("NormCurrent");
-                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectnormCurrent).ToString() ?? "N");
-                        testitem.SetAttribute("Upper", (_ScriptEditor.UpperLimitnormCurrentValue).ToString() ?? "0");
-                        testitem.SetAttribute("Lower", (_ScriptEditor.LowerLimitnormCurrentValue).ToString() ?? "0");
-                        testcase.AppendChild(testitem);
-                        testitem = ScriptionXML.CreateElement("SleepCurrent");
-                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectsleepCurrent).ToString() ?? "N");
-                        testitem.SetAttribute("Upper", (_ScriptEditor.UpperLimitsleepCurrentValue).ToString() ?? "0");
-                        testcase.AppendChild(testitem);
-                        testitem = ScriptionXML.CreateElement("Lightsensor");
-                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectLightsensor).ToString() ?? "N");
-                        testitem.SetAttribute("Upper", (_ScriptEditor.UpperLimitLightsensorValue).ToString() ?? "0");
-                        testitem.SetAttribute("Lower", (_ScriptEditor.LowerLimitLightsensorValue).ToString() ?? "0");
-                        testcase.AppendChild(testitem);
-
-                        testitem = ScriptionXML.CreateElement("Touchfinger");
-                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableTouchfinger).ToString() ?? "N");
-                        testcase.AppendChild(testitem);
-                        testitem = ScriptionXML.CreateElement("TouchXY");
-                        testitem.SetAttribute("IsEnable", (_ScriptEditor.IsEnableTouchXY).ToString() ?? "N");
-                        testcase.AppendChild(testitem);
-
-                    }
-                    ScriptionXML.Save(SavePath);
+          
+           
                 }
+                // Create the threshold settings element
+                XmlElement thresholdSetting = ScriptionXML.CreateElement("ThresholdSetting");
+                                           
+                // Create the elements for the threshold settings
+                XmlElement detectDiag = ScriptionXML.CreateElement("DetectDiag");
+                detectDiag.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectDiag).ToString() ?? "N");
+                thresholdSetting.AppendChild(detectDiag);
 
+                XmlElement normCurrent = ScriptionXML.CreateElement("NormCurrent");
+                normCurrent.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectnormCurrent).ToString() ?? "N");
+                normCurrent.SetAttribute("Upper", (_ScriptEditor.UpperLimitnormCurrentValue).ToString() ?? "0");
+                normCurrent.SetAttribute("Lower", (_ScriptEditor.LowerLimitnormCurrentValue).ToString() ?? "0");
+                thresholdSetting.AppendChild(normCurrent);
+
+                XmlElement sleepCurrent = ScriptionXML.CreateElement("SleepCurrent");
+                sleepCurrent.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectsleepCurrent).ToString() ?? "N");
+                sleepCurrent.SetAttribute("Upper", (_ScriptEditor.UpperLimitsleepCurrentValue).ToString() ?? "0");
+                thresholdSetting.AppendChild(sleepCurrent);
+
+                XmlElement Lightsensor = ScriptionXML.CreateElement("Lightsensor");
+                Lightsensor.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectLightsensor).ToString() ?? "N");
+                Lightsensor.SetAttribute("Upper", (_ScriptEditor.UpperLimitLightsensorValue).ToString() ?? "0");
+                Lightsensor.SetAttribute("Lower", (_ScriptEditor.LowerLimitLightsensorValue).ToString() ?? "0");
+                thresholdSetting.AppendChild(Lightsensor);
+
+                XmlElement Touchfinger = ScriptionXML.CreateElement("Touchfinger");
+                Touchfinger.SetAttribute("IsEnable", (_ScriptEditor.IsEnableTouchfinger).ToString() ?? "N");
+                thresholdSetting.AppendChild(Touchfinger);
+
+                XmlElement TouchXY = ScriptionXML.CreateElement("TouchXY");
+                TouchXY.SetAttribute("IsEnable", (_ScriptEditor.IsEnableTouchXY).ToString() ?? "N");
+                thresholdSetting.AppendChild(TouchXY);
+
+                root.AppendChild(thresholdSetting); // Append to root
+                ScriptionXML.Save(SavePath);
             }
             catch (Exception ex)
             {

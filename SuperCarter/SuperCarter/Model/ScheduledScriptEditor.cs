@@ -172,16 +172,25 @@ namespace SuperCarter.Model
 
         #region icommands
         private ICommand _ClearPageProperties, _SaveasSubscript, _ClearSubscript, _Saveasscript;
-        private ICommand _LoadBlockScript, _PreViewscript, _Loadscript;
-        //public ICommand LoadBlockscript
-        //{
-        //    get
-        //    {
-        //        _Loadscript = new RelayCommand(
-        //            param => ;
-        //        return _Loadscript;
-        //    }
-        //}
+        private ICommand _LoadBlockScript, _LoadBlockscript, _PreViewscript, _Loadscript;
+        public ICommand LoadBlockscript
+        {
+            get
+            {
+                _LoadBlockscript = new RelayCommand(
+                    param => evt_LoadBlockscript());
+                return _LoadBlockscript;
+            }
+        }
+        public ICommand LoadsubBlockscript
+        {
+            get
+            {
+                _Loadscript = new RelayCommand(
+                    param => evt_LoadsubBlockscript(param)) ;
+                return _Loadscript;
+            }
+        }
         public ICommand ViewBlockscript
         {
             get
@@ -244,8 +253,6 @@ namespace SuperCarter.Model
         #region Event
         private void evt_LoadBlockscript() {
 
-          
-
             using (var openFileDialog1 = new System.Windows.Forms.OpenFileDialog())
             {
                 string myPath = AppPath + @"\script\";
@@ -270,7 +277,7 @@ namespace SuperCarter.Model
             }               
 
         }
-        public void evt_OpenedBlockScriptPath() { }
+        public void evt_OpenBlockScriptPath() { }
         private void evt_SaveasScript() {
 
             using (var savefiledialog = new System.Windows.Forms.SaveFileDialog())
@@ -452,58 +459,70 @@ namespace SuperCarter.Model
 
         }
 
-        private void evt_LoadscripttoBlock(object _selectedblock)
+        private void evt_LoadsubBlockscript(object _selectedblock)
         {
-            var loadscriptXMLPath = ConfigModel.Instance.GetStrScriptpath();
 
-            // Check the path location; if it's an empty string, the process will be terminated. 
-            if (string.IsNullOrWhiteSpace(loadscriptXMLPath))
-                return;
-            switch (Convert.ToInt32(_selectedblock))
+            try
             {
-                case 0:
-                    BlockA1initObsColSequences = null; 
-                    BlockA1initObsColSequences = new ObservableCollection<ScriptItemtype>(ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath));
-                    BlockA1initscriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockA1initscriptPath));
-                    break;
-                case 1:
-                    BlockA2initObsColSequences = new ObservableCollection<ScriptItemtype>(ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath));
-                    BlockA2initscriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockA2initscriptPath));
-                    break;
-                case 2:
-                    BlockB1initObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockB1initscriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockB1initscriptPath));
-                    break;
-                case 3:
-                    BlockB2initObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockB2initscriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockB2initscriptPath));
-                    break;
-                case 4:
-                    BlockA1ObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockA1scriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockA1scriptPath));
-                    break;
-                case 5:
-                    BlockA2ObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockA2scriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockA2scriptPath));
-                    break;
-                case 6:
-                    BlockB1ObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockB1scriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockB1scriptPath));
-                    break;
-                case 7:
-                    BlockB2ObsColSequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    BlockB2scriptPath = loadscriptXMLPath;
-                    OnPropertyChanged(nameof(BlockB2scriptPath));
-                    break;
+                var loadscriptXMLPath = ConfigModel.Instance.GetStrScriptpath();
+                ObservableCollection < ScriptItemtype >temp = new ObservableCollection<ScriptItemtype >(ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath));
+                if (temp.Count < 1)
+                    return;
+                // Check the path location; if it's an empty string, the process will be terminated. 
+                if (string.IsNullOrWhiteSpace(loadscriptXMLPath))
+                    return;
+                switch (Convert.ToInt32(_selectedblock))
+                {
+                    case 0:
+                        BlockA1initObsColSequences = null;
+                        BlockA1initObsColSequences = temp;
+                        BlockA1initscriptPath = loadscriptXMLPath;
+                        OnPropertyChanged(nameof(BlockA1initscriptPath));
+                        break;
+                    case 1:
+                        BlockA2initObsColSequences = temp;
+                        BlockA2initscriptPath = loadscriptXMLPath;
+                        OnPropertyChanged(nameof(BlockA2initscriptPath));
+                        break;
+                    case 2:
+                        BlockB1initObsColSequences = temp;
+                        BlockB1initscriptPath = loadscriptXMLPath;
+                        OnPropertyChanged(nameof(BlockB1initscriptPath));
+                        break;
+                    case 3:
+                        BlockB2initObsColSequences = temp;
+                        BlockB2initscriptPath = loadscriptXMLPath;
+                        OnPropertyChanged(nameof(BlockB2initscriptPath));
+                        break;
+                    case 4:
+                        BlockA1ObsColSequences = temp;
+                        BlockA1scriptPath = loadscriptXMLPath;
+                        OnPropertyChanged(nameof(BlockA1scriptPath));
+                        break;
+                    case 5:
+                        BlockA2ObsColSequences = temp;
+                        BlockA2scriptPath = loadscriptXMLPath;
+                        OnPropertyChanged(nameof(BlockA2scriptPath));
+                        break;
+                    case 6:
+                        BlockB1ObsColSequences = temp;
+                        BlockB1scriptPath = loadscriptXMLPath;
+                        OnPropertyChanged(nameof(BlockB1scriptPath));
+                        break;
+                    case 7:
+                        BlockB2ObsColSequences = temp;
+                        BlockB2scriptPath = loadscriptXMLPath;
+                        OnPropertyChanged(nameof(BlockB2scriptPath));
+                        break;
 
+                }
             }
+            catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.StackTrace);
+            }
+           
             //evt_ReleasetoRefresh();
         }
 

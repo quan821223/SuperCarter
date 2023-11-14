@@ -59,7 +59,7 @@
                 </Button>
 
                 <Button Width="95" Height="33" 
-                            Command="{Binding Loadblockscript }"                                             
+                            Command="{Binding scheduledscriptEditor.LoadBlockscript }"                                             
                             ToolTip="View the path location" 
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left" 
@@ -243,7 +243,7 @@
                                                     <Separator Margin="0 10"/>
                                                     <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
                                                     <StackPanel Orientation="Horizontal" >
-                                                        <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="0" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                        <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="0" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                         <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="0" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                     </StackPanel>
 
@@ -252,7 +252,7 @@
                                                     <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
 
                                                     <StackPanel Orientation="Horizontal" >
-                                                        <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="4" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                        <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="4" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                         <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="4" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                     </StackPanel>
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockA1scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True" 
@@ -272,7 +272,7 @@
                                                     <Separator Margin="0 10"/>
                                                     <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
                                                     <StackPanel Orientation="Horizontal" >
-                                                        <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="1" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                        <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="1" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                         <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="1" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                     </StackPanel>
 
@@ -281,7 +281,7 @@
                                                     <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
 
                                                     <StackPanel Orientation="Horizontal" >
-                                                        <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="5" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                        <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="5" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                         <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="5" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                     </StackPanel>
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockA2scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
@@ -302,7 +302,7 @@
                                                     <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
 
                                                     <StackPanel Orientation="Horizontal" >
-                                                        <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="2" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                        <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="2" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                         <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="2" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                     </StackPanel>
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockB1initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"  IsReadOnly="True" />
@@ -310,7 +310,7 @@
                                                     <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
 
                                                     <StackPanel Orientation="Horizontal" >
-                                                        <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="6" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                        <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="6" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                         <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="6" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                     </StackPanel>
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockB1scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
@@ -330,7 +330,7 @@
                                                     <Separator Margin="0 10"/>
                                                     <Label Content="Initialization Sequences"   HorizontalAlignment="Center"/>
                                                     <StackPanel Orientation="Horizontal" >
-                                                        <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="3" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                        <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="3" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                         <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="3" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                     </StackPanel>
 
@@ -338,7 +338,7 @@
                                                     <Separator Margin="0 5"/>
                                                     <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
                                                     <StackPanel Orientation="Horizontal" >
-                                                        <Button Command="{Binding scheduledscriptEditor.LoadBlockscript}" CommandParameter="7" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
+                                                        <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="7" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                         <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="7" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                     </StackPanel>
 

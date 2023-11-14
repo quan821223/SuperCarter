@@ -146,7 +146,7 @@
                                                              Foreground="#FF4D4D4D" 
                                                              HorizontalAlignment="Stretch"
                                                              />
-                                                        <TextBlock Text="Dynamic monitor" Foreground="Black" 
+                                                        <TextBlock Text="Dynamic monitor" Foreground="Black" VerticalAlignment="Center"  
                                                                 FontWeight="Bold" Margin="1 5"/>
                                                     </StackPanel>
                                                 </TabItem.Header>
@@ -317,7 +317,7 @@
                                                              Foreground="#FF4D4D4D" 
                                                              HorizontalAlignment="Stretch"
                                                              />
-                                                        <TextBlock Text="Scheduled Detection" Foreground="Black" 
+                                                        <TextBlock Text="Scheduled Detection" Foreground="Black" VerticalAlignment="Center" 
                                                                FontWeight="Bold" Margin="1 5"/>
                                                     </StackPanel>
                                                 </TabItem.Header>
@@ -360,7 +360,7 @@
 
                                                                     </StackPanel>
                                                                     <Button Width="310" Height="33" 
-                                                                        Command="{Binding LoadScheduleScrollingScript}"  
+                                                                       Command="{Binding CustomScriptEditor.LoadSDMchecklistScript}"  
                                                                         IsEnabled="{Binding IsUnlockScriptSetting}"
                                                                         ToolTip="View the path location" 
                                                                         VerticalAlignment="Center"
