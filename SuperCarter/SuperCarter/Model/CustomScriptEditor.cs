@@ -758,7 +758,7 @@ namespace SuperCarter.Model
 
 
                 // Check if block working time is reached
-                if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockcycletime)
+                if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockcycletime* maxLoop)
                 {
                     break; // Exit the loop
                 }
@@ -783,7 +783,7 @@ namespace SuperCarter.Model
                 stopwatch.Start();
                 var Sendorwatch = new Stopwatch();
 
-                var msg1 = $"- Currently on {blockName} initial iteration: ";
+                var msg1 = $"- Currently on {blockName} initial iteration : 初始化 ";
                 logger.Log(NLog.LogLevel.Trace, msg1);
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg1 });
                 // 
@@ -848,7 +848,7 @@ namespace SuperCarter.Model
             {
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                var msg1 = $"- Currently on {blockName} iteration: {blockName}";
+                var msg1 = $"- 進入偵測階段";
                 logger.Log(NLog.LogLevel.Trace, msg1);
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg1 });
                 var blockStartTime = DateTime.Now;
