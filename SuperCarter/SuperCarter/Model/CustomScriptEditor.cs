@@ -19,6 +19,8 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Xml;
+using System.Xml.Linq;
 using Brush = System.Windows.Media.Brush;
 
 namespace SuperCarter.Model
@@ -56,6 +58,18 @@ namespace SuperCarter.Model
         }
 
         #region property
+
+        public bool IsEnableDetectnormCurrent { get; set; } = false;
+        public int UpperLimitnormCurrentValue { get; set; } = 0;
+        public int LowerLimitnormCurrentValue { get; set; } = 0;
+        public bool IsEnableDetectsleepCurrent { get; set; } = false;
+        public int UpperLimitsleepCurrentValue { get; set; } = 0;
+        public bool IsEnableDetectDiag { get; set; } = false;
+        public bool IsEnableDetectLightsensor { get; set; } = false;
+        public int UpperLimitLightsensorValue { get; set; } = 0;
+        public int LowerLimitLightsensorValue { get; set; } = 0;
+        public bool IsEnableTouchfinger { get; set; } = false;
+        public bool IsEnableTouchXY { get; set; } = false;
         public string Openblockfilepath { get; set; }
         public CSVfile cSVfile { get; set; }
         private UnifiedHostCommandSettype UnifiedHostCommandSet { get; set; } = new UnifiedHostCommandSettype();
@@ -111,8 +125,6 @@ namespace SuperCarter.Model
                 _Estimateruntimefullblock = 0.0;
                 _Estimateruntimefullblock += EstimateruntimeforblockA;
                 _Estimateruntimefullblock += EstimateruntimeforblockB;
-                _Estimateruntimefullblock += EstimateruntimeforblockC;
-                _Estimateruntimefullblock += EstimateruntimeforblockD;
                 _Estimateruntimefullblock *= Fullloop;
             }
         }
@@ -126,64 +138,45 @@ namespace SuperCarter.Model
                 Estimateruntimefullblock = 0.0;
                 Estimateruntimefullblock += EstimateruntimeforblockA;
                 Estimateruntimefullblock += EstimateruntimeforblockB;
-                Estimateruntimefullblock += EstimateruntimeforblockC;
-                Estimateruntimefullblock += EstimateruntimeforblockD;
                 Estimateruntimefullblock *= _ExecuteFullloop;
                 OnPropertyChanged(nameof(Estimateruntimefullblock));
                 OnPropertyChanged(nameof(Fullloop));
             }
         }
-        public string blockAscriptpath { get; set; }
-        public string blockBscriptpath { get; set; }
-        public string blockCscriptpath { get; set; }
-        public string blockDscriptpath { get; set; }
+        public string blockA1scriptpath { get; set; }
+        public string blockA2scriptpath { get; set; }
+        public string blockB1scriptpath { get; set; }
+        public string blockB2scriptpath { get; set; }
+        public string blockA1initscriptpath { get; set; }
+        public string blockA2initscriptpath { get; set; }
+        public string blockB1initscriptpath { get; set; }
+        public string blockB2initscriptpath { get; set; }
 
-        private int _ExecuteFullloop, _ExecuteBlockALoop, _ExecuteBlockBLoop, _ExecuteBlockCLoop, _ExecuteBlockDLoop;
+        private int _ExecuteFullloop, _BlockALoop, _BlockBLoop ;
         private double _Estimateruntimefullblock, _EstimateruntimeforblockA, _EstimateruntimeforblockB, _EstimateruntimeforblockC, _EstimateruntimeforblockD;
-        public int ExecuteBlockALoop
+        public int BlockALoop
         {
-            get => _ExecuteBlockALoop;
+            get => _BlockALoop;
             set
             {
-                _ExecuteBlockALoop =  value;
-                EstimateruntimeforblockA = blockAscriptDelaytime;
+                _BlockALoop =  value;
+                EstimateruntimeforblockA = BlockA1Interval;
                 OnPropertyChanged(nameof(EstimateruntimeforblockA));
                 Fullloop = Fullloop;
             }
         }
-        public int ExecuteBlockBLoop
+        public int BlockBLoop
         {
-            get => _ExecuteBlockBLoop;
+            get => _BlockBLoop;
             set
             {
-                _ExecuteBlockBLoop = value;
-                EstimateruntimeforblockB = blockBscriptDelaytime;
+                _BlockBLoop = value;
+                EstimateruntimeforblockB = BlockA2Interval;
                 OnPropertyChanged(nameof(EstimateruntimeforblockB));
                 Fullloop = Fullloop;
             }
         }
-        public int ExecuteBlockCLoop
-        {
-            get => _ExecuteBlockCLoop;
-            set
-            {
-                _ExecuteBlockCLoop = value < 1 ? 1 : value;
-                EstimateruntimeforblockC = blockCscriptDelaytime;
-                OnPropertyChanged(nameof(EstimateruntimeforblockC));
-                Fullloop = Fullloop;
-            }
-        }
-        public int ExecuteBlockDLoop
-        {
-            get => _ExecuteBlockDLoop;
-            set
-            {
-                _ExecuteBlockDLoop = value < 1 ? 1 : value;
-                EstimateruntimeforblockD = blockDscriptDelaytime;
-                OnPropertyChanged(nameof(EstimateruntimeforblockD));
-                Fullloop = Fullloop;
-            }
-        }
+ 
         public double EstimateruntimeforblockA
         {
             get => _EstimateruntimeforblockA;
@@ -191,7 +184,7 @@ namespace SuperCarter.Model
             {
                 _EstimateruntimeforblockA = Convert.ToDouble(value);
                 _EstimateruntimeforblockA /= 60000;
-                _EstimateruntimeforblockA *= ExecuteBlockALoop;
+                _EstimateruntimeforblockA *= BlockALoop;
             }
         }
         public double EstimateruntimeforblockB
@@ -201,67 +194,46 @@ namespace SuperCarter.Model
             {
                 _EstimateruntimeforblockB = Convert.ToDouble(value);
                 _EstimateruntimeforblockB /= 60000;
-                _EstimateruntimeforblockB *= ExecuteBlockBLoop;
-            }
-        }
-        public double EstimateruntimeforblockC
-        {
-            get => _EstimateruntimeforblockC;
-            set
-            {
-                _EstimateruntimeforblockC = Convert.ToDouble(value);
-                _EstimateruntimeforblockC /= 60000;
-                _EstimateruntimeforblockC *= ExecuteBlockCLoop;
-            }
-        }
-        public double EstimateruntimeforblockD
-        {
-            get => _EstimateruntimeforblockD;
-            set
-            {
-                _EstimateruntimeforblockD = Convert.ToDouble(value);
-                _EstimateruntimeforblockD /= 60000;
-                _EstimateruntimeforblockD *= ExecuteBlockDLoop;
+                _EstimateruntimeforblockB *= BlockBLoop;
             }
         }
 
-        private int _blockAscriptDelaytime,
-        _blockBscriptDelaytime, _blockCscriptDelaytime,
-        _blockDscriptDelaytime;
-        public int blockAscriptDelaytime
+
+        private int _BlockA1Interval, _BlockA2Interval, _BlockB1Interval, _BlockB2Interval;
+        public int BlockA1Interval
         {
-            get => _blockAscriptDelaytime;
+            get => _BlockA1Interval;
             set
             {
-                _blockAscriptDelaytime = value;
-                EstimateruntimeforblockA = _blockAscriptDelaytime;
+                _BlockA1Interval = value;
+                EstimateruntimeforblockA = _BlockA1Interval;
             }
         }
-        public int blockBscriptDelaytime
+        public int BlockA2Interval
         {
-            get => _blockBscriptDelaytime;
+            get => _BlockA2Interval;
             set
             {
-                _blockBscriptDelaytime = value;
-                EstimateruntimeforblockB = _blockBscriptDelaytime;
+                _BlockA2Interval = value;
+                EstimateruntimeforblockB = _BlockA2Interval;
             }
         }
-        public int blockCscriptDelaytime
+        public int BlockB1Interval
         {
-            get => _blockCscriptDelaytime;
+            get => _BlockB1Interval;
             set
             {
-                _blockCscriptDelaytime = value;
-                EstimateruntimeforblockC = _blockCscriptDelaytime;
+                _BlockB1Interval = value;
+                EstimateruntimeforblockA = _BlockB1Interval;
             }
         }
-        public int blockDscriptDelaytime
+        public int BlockB2Interval
         {
-            get => _blockDscriptDelaytime;
+            get => _BlockB2Interval;
             set
             {
-                _blockDscriptDelaytime = value;
-                EstimateruntimeforblockD = _blockDscriptDelaytime;
+                _BlockB2Interval = value;
+                EstimateruntimeforblockB = _BlockB2Interval;
             }
         }
         #endregion
@@ -363,47 +335,12 @@ namespace SuperCarter.Model
             get
             {
                 _ExecuteScheduledDetectgmode = new RelayCommand(
-                    param => evt_ExecuteRollingmode());
+                    param => evt_ExecuteSheduleddetectmode());
                 return _ExecuteScheduledDetectgmode;
             }
 
         }
-        public ICommand LoadscripttoBlockA
-        {
-            get
-            {
-                _LoadscripttoBlockA = new RelayCommand(
-                    param => evt_LoadscripttoBlockA(0));
-                return _LoadscripttoBlockA;
-            }
-        }
-        public ICommand LoadscripttoBlockB
-        {
-            get
-            {
-                _LoadscripttoBlockB = new RelayCommand(
-                    param => evt_LoadscripttoBlockA(1));
-                return _LoadscripttoBlockB;
-            }
-        }
-        public ICommand LoadscripttoBlockC
-        {
-            get
-            {
-                _LoadscripttoBlockC = new RelayCommand(
-                    param => evt_LoadscripttoBlockA(2));
-                return _LoadscripttoBlockC;
-            }
-        }
-        public ICommand LoadscripttoBlockD
-        {
-            get
-            {
-                _LoadscripttoBlockD = new RelayCommand(
-                    param => evt_LoadscripttoBlockA(3));
-                return _LoadscripttoBlockD;
-            }
-        }
+
 
         private ICommand _SettinViewPath, _ReleasetoRefresh;
         public ICommand SettinViewPath
@@ -439,10 +376,16 @@ namespace SuperCarter.Model
 
         #region Scheduled script runtime 
         #region properties
-        public static List<SendorExecuteSendType> BlockASequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockBSequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockCSequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockDSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public string Scheduledscriptpath { get; set; }
+        public static List<SendorExecuteSendType> BlockA1SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockA2SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockB1SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockB2SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockA1initSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockA2initSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockB1initSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockB2initSequencesList { get; set; } = new List<SendorExecuteSendType>();
+
         private int _CurLoopValue;
         public int CurLoopValue
         {
@@ -488,22 +431,256 @@ namespace SuperCarter.Model
         }
         public int PercentLoopValue { get; set; }
         #endregion
+
+        #region icommand
+        private ICommand _LoadScheduledscript;
+        public ICommand LoadScheduledscript {
+            get
+            {
+                _LoadScheduledscript = new RelayCommand(
+                    param => evt_LoadScheduledscript());
+                return _LoadScheduledscript;
+            }
+        }
+        #endregion
+
+        #region event
+        private void evt_LoadScheduledscript()
+        {
+            Scheduledscriptpath = evt_Openfile();
+            ImportBlockScript(Scheduledscriptpath);
+            OnPropertyChanged(nameof(Scheduledscriptpath));
+        }
+        public void ImportBlockScript(string ScriptPath)
+        {
+            try
+            {
+                // Loading from a file, you can also load from a stream
+
+                XmlDocument ScriptionXML = new XmlDocument();
+
+                ScriptionXML.Load(ScriptPath);
+
+
+
+                XmlNode root = ScriptionXML.SelectSingleNode("TestSuites");
+
+                Fullloop = Convert.ToInt32(root.Attributes["Loop"]?.Value);
+                BlockALoop = Convert.ToInt32(root.Attributes["BlockALoop"]?.Value);
+                BlockBLoop = Convert.ToInt32(root.Attributes["BlockBLoop"]?.Value);
+                BlockA1Interval = Convert.ToInt32(root.Attributes["BlockA1Interval"]?.Value);
+                BlockA2Interval = Convert.ToInt32(root.Attributes["BlockA2Interval"]?.Value);
+                BlockB1Interval = Convert.ToInt32(root.Attributes["BlockB1Interval"]?.Value);
+                BlockB2Interval = Convert.ToInt32(root.Attributes["BlockB2Interval"]?.Value);
+
+                List<string> list = new List<string>() {"TestSuiteA1init", "TestSuiteA1", "TestSuiteA2init", "TestSuiteA2",
+                                                        "TestSuiteB1init", "TestSuiteB1", "TestSuiteB2init", "TestSuiteB2",
+                                                         };
+                string Threblock = "TestSuites/ThresholdSetting";
+                XmlNode blocknode = ScriptionXML.SelectSingleNode(Threblock);
+                foreach (XmlElement node in blocknode)
+                {
+                    if (node.Name == "DetectDiag")
+                    {
+                        IsEnableDetectDiag = Convert.ToBoolean(node.Attributes["IsEnable"].Value);
+                    }
+                    else if (node.Name == "NormCurrent")
+                    {
+                        IsEnableDetectnormCurrent = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                        UpperLimitnormCurrentValue = Convert.ToInt32(node.Attributes["Upper"].Value);
+                        LowerLimitnormCurrentValue = Convert.ToInt32(node.Attributes["Lower"].Value);
+                    }
+                    else if (node.Name == "SleepCurrent")
+                    {
+                        IsEnableDetectsleepCurrent = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                        UpperLimitsleepCurrentValue = Convert.ToInt32(node.Attributes["Upper"].Value);
+                    }
+                    else if (node.Name == "Lightsensor")
+                    {
+                        IsEnableDetectLightsensor = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                        UpperLimitLightsensorValue = Convert.ToInt32(node.Attributes["Upper"].Value);
+                        LowerLimitLightsensorValue = Convert.ToInt32(node.Attributes["Lower"].Value);
+                    }
+                    else if (node.Name == "Touchfinger")
+                    {
+                        IsEnableTouchfinger = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                    }
+                    else if (node.Name == "TouchXY")
+                    {
+                        IsEnableTouchXY = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                    }
+                }
+
+
+                foreach (var ite in list)
+                {
+
+
+                    string strblock = "TestSuites/" + ite + "/TestSequence";
+                    XmlNode block = ScriptionXML.SelectSingleNode(strblock);
+                    string strrequisites = "TestSuites/" + ite + "/Prerequisites";
+                    XmlNode requisites = ScriptionXML.SelectSingleNode(strrequisites);
+
+                    XmlElement element = (XmlElement)block;
+                    ObservableCollection<ScriptItemtype> obsTemp = new ObservableCollection<ScriptItemtype>();
+                    List<SendorExecuteSendType> Temp = new List<SendorExecuteSendType>();
+                    //取得節點內的欄位
+                    foreach (XmlElement node in element)
+                    {
+                        String ID = node.Attributes["ID"].Value ?? "";
+                        String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
+                        String Nodename = node.Attributes["Nodename"]?.Value ?? "";
+                        String MSGname = node.Attributes["MSGname"]?.Value ?? "";
+                        String Sequence = node.Attributes["Sequence"]?.Value ?? "";
+                        String Delaytime = node.Attributes["Delaytime"]?.Value ?? "200";
+                        String RecSequence = node.Attributes["RecSequence"]?.Value ?? "";
+                        String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
+                        String Loop = node.Attributes["Loop"]?.Value ?? "1";
+
+                        if (PortNum == "all")
+                        {
+                            Temp.Add(new SendorExecuteSendType()
+                            {
+                                PortNum = 9,
+                                SequenceData = new byte[0],
+                                intDataLen = 0,
+                                strDataLen = "0",
+                                Delaytime = Convert.ToInt32(Delaytime),
+                                Loop = 1,
+                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                               ID.PadLeft(3, ' '),
+                                  9,
+                                  "delay time")
+                            });
+                            Temp.Add(new SendorExecuteSendType()
+                            {
+                                PortNum = 0,
+                                SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
+                                strSequenceData = Sequence,
+                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
+                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                Delaytime = 0,
+                                Loop = Convert.ToInt32(Loop),
+                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                                                          ID.PadLeft(3, ' '),
+                                                            0,
+                                                            Sequence.Replace(" ", ""))
+                            });
+                            Temp.Add(new SendorExecuteSendType()
+                            {
+                                PortNum = 1,
+                                SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
+                                strSequenceData = Sequence,
+                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
+                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                Delaytime = 0,
+                                Loop = Convert.ToInt32(Loop),
+                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                                                        ID.PadLeft(3, ' '),
+                                                            1,
+                                                            Sequence.Replace(" ", ""))
+                            });
+                            Temp.Add(new SendorExecuteSendType()
+                            {
+                                PortNum = 2,
+                                SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
+                                strSequenceData = Sequence,
+                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
+                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                Delaytime = 0,
+                                Loop = Convert.ToInt32(Loop),
+                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                                                         ID.PadLeft(3, ' '),
+                                                            2,
+                                                            Sequence.Replace(" ", ""))
+                            });
+
+                        }
+                        else
+                        {
+                            Temp.Add(new SendorExecuteSendType()
+                            {
+                                PortNum = Convert.ToInt32(PortNum),
+                                strSequenceData = Sequence,
+                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
+                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                Delaytime = Convert.ToInt32(Delaytime),
+                                Loop = Convert.ToInt32(Loop),
+                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                                                       ID.PadLeft(3, ' '),
+                                                            PortNum,
+                                                            Sequence.Replace(" ", ""))
+                            });
+                        }
+
+                    }
+                    
+                    if (ite == "TestSuiteA1init")
+                    {
+                        blockA1initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                        BlockA1initSequencesList = Temp;
+                    }
+                    else if (ite == "TestSuiteA1")
+                    {
+                        blockA1scriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                        BlockA1SequencesList = Temp;
+                    }
+                    else if (ite == "TestSuiteA2init")
+                    {
+                        blockA2initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                        BlockA2initSequencesList = Temp;
+                    }
+                    else if (ite == "TestSuiteA2")
+                    {
+                        blockA2scriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                        BlockA2SequencesList = Temp;
+                    }
+                    else if (ite == "TestSuiteB1init")
+                    {
+                        blockB1initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                        BlockB1initSequencesList = Temp;
+                    }
+                    else if (ite == "TestSuiteB1")
+                    {
+                        blockB1scriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                        BlockB1SequencesList = Temp;
+                    }
+                    else if (ite == "TestSuiteB2init")
+                    {
+                        blockB2initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                        BlockB2initSequencesList = Temp;
+                    }
+                    else if (ite == "TestSuiteB2")
+                    {
+                        blockB2scriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                        BlockB2SequencesList = Temp;
+                    }
+                }
+
+                //return _ScriptEditor;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                //return new ScriptEditor();
+            }
+        }
+
+        #endregion
+
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             string path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-outputtestdata.csv");
-            cSVfile = new CSVfile(path); // 請替換為您希望保存文件的路徑
+            //cSVfile = new CSVfile(path); // 請替換為您希望保存文件的路徑
 
             UnifiedHostCommandSet = new UnifiedHostCommandSettype();
-
-            /***         
-            *  in  
-            * ****/
 
             CommnadID = 0;
 
             logger.Log(NLog.LogLevel.Trace, "– Start Custom script schedule.");
             var Startmsg = "– Start Custom script schedule.";
             WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message,  msg = Startmsg });
+
             for (CurLoopValue = 0; CurLoopValue < Fullloop; CurLoopValue++) // 總迴圈
             {
                 var msg = string.Format("- Currently on iteration : {0}", CurLoopValue);
@@ -516,73 +693,150 @@ namespace SuperCarter.Model
                 OnPropertyChanged(nameof(Fullloop));
                 OnPropertyChanged(nameof(CurLoopValue));
                 OnPropertyChanged(nameof(PercentLoopValue));
-                await BlockWorkstation("A", BlockASequencesList, BlockBSequencesList, ExecuteBlockALoop, blockAscriptDelaytime, blockBscriptDelaytime, cancellationToken);
-                //await BlockWorkstation("B", BlockBSequencesList, ExecuteBlockBLoop, blockBscriptDelaytime, cancellationToken);
-                await BlockWorkstation("C", BlockCSequencesList, BlockDSequencesList, ExecuteBlockCLoop, blockCscriptDelaytime, blockDscriptDelaytime, cancellationToken);
-                //await BlockWorkstation("D", BlockDSequencesList, ExecuteBlockDLoop, blockDscriptDelaytime, cancellationToken);
+                await BlockWorkstation("A", BlockA1initSequencesList, BlockA2initSequencesList, BlockA1SequencesList, BlockA2SequencesList, BlockALoop, BlockA1Interval, BlockA2Interval, cancellationToken);
+                await BlockWorkstation("B", BlockB1initSequencesList, BlockB2initSequencesList, BlockB1SequencesList, BlockB2SequencesList, BlockBLoop, BlockB1Interval, BlockB2Interval, cancellationToken);
 
             }
             ObjectAggregator.Instance.UpdateObject();
 
+            SDForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+            IsEnableRollingmode = false;
+
             OnPropertyChanged(nameof(Fullloop));
             OnPropertyChanged(nameof(CurLoopValue));
             OnPropertyChanged(nameof(PercentLoopValue));
+            OnPropertyChanged(nameof(IsEnableRollingmode));
 
             logger.Log(NLog.LogLevel.Trace, "– End Custom script schedule.");
 
             var Endmmsg = "– End Custom script schedule.";
             WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = Endmmsg });
         }
-        private async Task BlockWorkstation(string blockName, List<SendorExecuteSendType> sequences1, List<SendorExecuteSendType> sequences2,
-                                            int maxLoop, int scriptDelayTime1, int scriptDelayTime2, CancellationToken cancellationToken)
+
+        private async Task BlockWorkstation(string blockName, List<SendorExecuteSendType> initsequences1, List<SendorExecuteSendType> initsequences2,
+            List<SendorExecuteSendType> sequences1, List<SendorExecuteSendType> sequences2,
+                                             int maxLoop, int Block1Interval, int Block2Interval, CancellationToken cancellationToken)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            logger.Log(NLog.LogLevel.Trace, $"– Enter {blockName} step.");
-            //RealtimeMsgQueue.Enqueue($"– Enter {blockName} step.");
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
+
+           
             cancellationToken.ThrowIfCancellationRequested();
             Curphase = blockName;
 
-            //int blockAcycletime = 360000;
-            //int blockA1cycletime = 300000;
-            //int blockA2cycletime = 60000;
-            //int Timercycle = 3000;
-            int blockAcycletime = 180000;
-            int blockA1cycletime = 120000;
-            int blockA2cycletime = 60000;
+            int blockcycletime = Block1Interval + Block2Interval;
             int Timercycle = 3000;
 
             for (int curLoop = 0; curLoop < maxLoop; curLoop++)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 subloop = curLoop;
+
+                logger.Log(NLog.LogLevel.Trace, $"– Enter {blockName}-{curLoop} step.");
+                WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = $"– Enter {blockName}-{curLoop} step." });
                 // 
                 var blockStartTime = DateTime.Now;
 
-                // Start the block working time loop
-                // Execute sequences1 within cycletime
-                var seq1Task = ExecuteBlockSequences($"{blockName}_{1}", sequences1, blockA1cycletime, cancellationToken, Timercycle);
-                await seq1Task; // Wait for seq1Task to complete
+                if (Block1Interval > 0)
+                {
+                    await ExecuteBlockinitSequences($"{blockName}_{1}", initsequences1, cancellationToken);
+                    // Execute sequences1 within cycletime
+                    var seq1Task = ExecuteBlockSequences($"{blockName}_{1}", sequences1, Block1Interval, cancellationToken, Timercycle);
+                    await seq1Task; // Wait for seq1Task to complete
 
-                // Execute sequences2 within cycletime
-                var seq2Task = ExecuteBlockSequences($"{blockName}_{2}", sequences2, blockA2cycletime, cancellationToken, Timercycle);
-                await seq2Task; // Wait for seq2Task to complete
+                }
+
+                if (Block2Interval > 0)
+                {
+                    await ExecuteBlockinitSequences($"{blockName}_{2}", initsequences2, cancellationToken);
+                    // Execute sequences2 within cycletime
+                    var seq2Task = ExecuteBlockSequences($"{blockName}_{2}", sequences2, Block2Interval, cancellationToken, Timercycle);
+                    await seq2Task; // Wait for seq2Task to complete
+
+                }
+
+
 
                 // Check if block working time is reached
-                if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockAcycletime)
+                if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockcycletime)
                 {
                     break; // Exit the loop
                 }
             }
 
-            stopwatch.Stop();
-            var remainingTime = TimeSpan.FromMilliseconds((blockAcycletime) * maxLoop) - stopwatch.Elapsed;
-            cancellationToken.ThrowIfCancellationRequested();
-            if (remainingTime > TimeSpan.Zero)
-            {
-                await Task.Delay(remainingTime, cancellationToken);
-            }
+            //stopwatch.Stop();
+            //var remainingTime = TimeSpan.FromMilliseconds((blockcycletime) * maxLoop) - stopwatch.Elapsed;
+
+            //if (remainingTime > TimeSpan.Zero)
+            //{
+            //    await Task.Delay(remainingTime, cancellationToken);
+            //}
 
         }
+        private async Task ExecuteBlockinitSequences(string blockName, List<SendorExecuteSendType> sequences,  CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            try
+            {
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+                var Sendorwatch = new Stopwatch();
+
+                var msg1 = $"- Currently on {blockName} initial iteration: ";
+                logger.Log(NLog.LogLevel.Trace, msg1);
+                WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg1 });
+                // 
+
+                for (int i = 0; i < sequences.Count; i++)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    if (sequences[i].PortNum == 9)
+                    {
+                        var roundtimedelay = sequences[i].Delaytime;
+
+                        Sendorwatch.Restart();
+                        for (int j = 0; j < 3; j++)
+                        {
+                            i++;
+                            await SendAndReceivesAsync(sequences[i], cancellationToken);
+                        }
+
+                        Sendorwatch.Stop();
+                        var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
+
+                        if (remainingSpentTime > 0)
+                        {
+                            await Task.Delay(remainingSpentTime, cancellationToken);
+                        }
+                    }
+                    else
+                    {
+                        var roundtimedelay = sequences[i].Delaytime;
+                        Sendorwatch.Restart();
+                        await SendAndReceivesAsync(sequences[i], cancellationToken);
+                        Sendorwatch.Stop();
+                        var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
+
+                        if (remainingSpentTime > 0)
+                        {
+                            await Task.Delay(remainingSpentTime, cancellationToken);
+                        }
+                    }
+                }
+      
+            }
+            catch (TaskCanceledException)
+            {
+             
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+        }
+
         private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken, int cycletime)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
@@ -596,7 +850,7 @@ namespace SuperCarter.Model
                 stopwatch.Start();
                 var msg1 = $"- Currently on {blockName} iteration: {blockName}";
                 logger.Log(NLog.LogLevel.Trace, msg1);
-
+                WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg1 });
                 var blockStartTime = DateTime.Now;
 
                 while ((DateTime.Now - blockStartTime).TotalMilliseconds < scriptDelayTime)
@@ -693,7 +947,9 @@ namespace SuperCarter.Model
         }
 
         public CancellationTokenSource ctsScrollingcheck;
-        #region
+        public CancellationTokenSource ctsExecutecheck;
+
+        #region 燈號設置
         /// <summary>
         /// 燈號控制
         /// </summary>
@@ -723,6 +979,7 @@ namespace SuperCarter.Model
         }
         #endregion
 
+        #region 模式運行端口
         /// <summary>
         /// 運行動態顯示
         /// </summary>
@@ -756,7 +1013,7 @@ namespace SuperCarter.Model
                             {
                                 break; // Exit the loop
                             }
-                            await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);                             
+                            await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
                         }
                         Sendorwatch.Stop();
                         var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
@@ -771,13 +1028,13 @@ namespace SuperCarter.Model
                         await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
                         sequenceIndex++;
                     }
-                    if (sequenceIndex >= sequences.Count) 
+                    if (sequenceIndex >= sequences.Count)
                     {
                         sequenceIndex = 0;
                         DynamicForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
                     }
                 }
-            
+
             }
             catch (TaskCanceledException)
             {
@@ -787,8 +1044,12 @@ namespace SuperCarter.Model
             {
                 System.Windows.MessageBox.Show(ex.Message);
             }
-           
+
         }
+
+        #endregion
+
+
         #region Event
         public void LoadSDMchecklistScriptXMLfile()
         {
@@ -992,6 +1253,7 @@ namespace SuperCarter.Model
                 }
             }
         }
+
         /// <summary>
         /// Rolling mode 
         /// </summary>
@@ -1008,6 +1270,7 @@ namespace SuperCarter.Model
                         DicSerialPort[i].DiscardOutBuffer();
                     }
                 }
+
                 if (string.IsNullOrEmpty(SDMChecklistscriptXMLPath) || ! (DicSerialPort[0].IsOpen || DicSerialPort[1].IsOpen || DicSerialPort[2].IsOpen ))
                 {
                     IsEnableRollingmode = false;
@@ -1026,13 +1289,42 @@ namespace SuperCarter.Model
                 ctsScrollingcheck.Cancel();
             }
         }
-        private void evt_ExecutedSheduleddetectmode()
-        { 
-        
+
+        private void evt_ExecuteSheduleddetectmode()
+        {
+            if (IsEnableScheduledDetectmode)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (DicSerialPort[i].IsOpen)
+                    {
+                        DicSerialPort[i].DataReceived -= new SerialDataReceivedEventHandler(SerialPortModel.Instance.DataReceivedCom);
+                        DicSerialPort[i].DiscardInBuffer();
+                        DicSerialPort[i].DiscardOutBuffer();
+                    }
+                }
+
+                if (string.IsNullOrEmpty(Scheduledscriptpath) || !(DicSerialPort[0].IsOpen || DicSerialPort[1].IsOpen || DicSerialPort[2].IsOpen))
+                {
+                    IsEnableScheduledDetectmode = false;
+                    OnPropertyChanged(nameof(IsEnableRollingmode));
+                }
+                else
+                {
+                    UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                    UnifiedHostCommandSet.IsEnableExecuteSDMcheck = false;
+                    ctsExecutecheck = new CancellationTokenSource();
+                    StartAsync(ctsExecutecheck.Token);
+                }
+            }
+            else
+            {
+                ctsExecutecheck.Cancel();
+            }
         }
         private void evt_SelectedScriptItem(IFiletype _va)
         {
-            blockAscriptpath = _va.FullPathName;
+            blockA1scriptpath = _va.FullPathName;
             blockAfolderViewerlist.Add(new IFiletype
             {
                 FriendlyName = _va.FriendlyName,
@@ -1136,70 +1428,23 @@ namespace SuperCarter.Model
                 return new ObservableCollection<INode>();
             }
         }
-        public void evt_LoadscripttoBlockA(int _selectedblock)
-        {
-            var loadscriptXMLPath = ConfigModel.Instance.GetStrScriptpath();
-
-            // Check the path location; if it's an empty string, the process will be terminated. 
-            if (string.IsNullOrWhiteSpace(loadscriptXMLPath))
-                return;
-            switch (_selectedblock)
-            {
-                case 0:
-                    blockAscriptpath = null;
-                    ObsColBlockA1Sequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    ExecuteBlockALoop = ConfigModel.Instance.GetScriptXMLSequence_itervalue(loadscriptXMLPath);         // get block execute loop
-                    blockAscriptDelaytime = ConfigModel.Instance.GetScriptXMLSequence_TotalTime(loadscriptXMLPath);     // get block script total delay time
-                    blockAscriptpath = loadscriptXMLPath;
-                    blockAitemcount = ObsColBlockA1Sequences.Count;
-                    break;
-                case 1:
-                    blockBscriptpath = null;
-                    ObsColBlockA2Sequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    ExecuteBlockBLoop = ConfigModel.Instance.GetScriptXMLSequence_itervalue(loadscriptXMLPath);         // get block execute loop
-                    blockBscriptDelaytime = ConfigModel.Instance.GetScriptXMLSequence_TotalTime(loadscriptXMLPath);     // get block script total delay time
-                    blockBscriptpath = loadscriptXMLPath;
-                    blockBitemcount = ObsColBlockA2Sequences.Count;
-                    break;
-                case 2:
-                    blockCscriptpath = null;
-                    ObsColBlockB1Sequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    ExecuteBlockCLoop = ConfigModel.Instance.GetScriptXMLSequence_itervalue(loadscriptXMLPath);         // get block execute loop
-                    blockCscriptDelaytime = ConfigModel.Instance.GetScriptXMLSequence_TotalTime(loadscriptXMLPath);     // get block script total delay time
-                    blockCscriptpath = loadscriptXMLPath;
-                    blockCitemcount = ObsColBlockB1Sequences.Count;
-                    break;
-                case 3:
-                    blockDscriptpath = null;
-                    ObsColBlockB2Sequences = ConfigModel.Instance.GetScriptXMLSequences(loadscriptXMLPath);              // get xml format testsuit 
-                    ExecuteBlockDLoop = ConfigModel.Instance.GetScriptXMLSequence_itervalue(loadscriptXMLPath);         // get block execute loop
-                    blockDscriptDelaytime = ConfigModel.Instance.GetScriptXMLSequence_TotalTime(loadscriptXMLPath);     // get block script total delay time
-                    blockDscriptpath = loadscriptXMLPath;
-                    blockDitemcount = ObsColBlockB2Sequences.Count;
-                    break;
-            }
-            evt_ReleasetoRefresh();
-        }
+     
         public void evt_ReleasetoRefresh()
         {
             OnPropertyChanged(nameof(Scriptpath));
             OnPropertyChanged(nameof(Fullloop));
             OnPropertyChanged(nameof(EstimateruntimeforblockA));
             OnPropertyChanged(nameof(EstimateruntimeforblockB));
-            OnPropertyChanged(nameof(EstimateruntimeforblockC));
-            OnPropertyChanged(nameof(EstimateruntimeforblockD));
-            OnPropertyChanged(nameof(blockAscriptDelaytime));
-            OnPropertyChanged(nameof(blockBscriptDelaytime));
-            OnPropertyChanged(nameof(blockCscriptDelaytime));
-            OnPropertyChanged(nameof(blockDscriptDelaytime));
-            OnPropertyChanged(nameof(ExecuteBlockALoop));
-            OnPropertyChanged(nameof(ExecuteBlockBLoop));
-            OnPropertyChanged(nameof(ExecuteBlockCLoop));
-            OnPropertyChanged(nameof(ExecuteBlockDLoop));
-            OnPropertyChanged(nameof(blockAscriptpath));
-            OnPropertyChanged(nameof(blockBscriptpath));
-            OnPropertyChanged(nameof(blockCscriptpath));
-            OnPropertyChanged(nameof(blockDscriptpath));
+            OnPropertyChanged(nameof(BlockA1Interval));
+            OnPropertyChanged(nameof(BlockA2Interval));
+            OnPropertyChanged(nameof(BlockB1Interval));
+            OnPropertyChanged(nameof(BlockB2Interval));
+            OnPropertyChanged(nameof(BlockALoop));
+            OnPropertyChanged(nameof(BlockBLoop));
+            OnPropertyChanged(nameof(blockA1scriptpath));
+            OnPropertyChanged(nameof(blockA2scriptpath));
+            OnPropertyChanged(nameof(blockB1scriptpath));
+            OnPropertyChanged(nameof(blockB2scriptpath));
             OnPropertyChanged(nameof(blockAitemcount));
             OnPropertyChanged(nameof(blockBitemcount));
             OnPropertyChanged(nameof(blockCitemcount));
@@ -1208,7 +1453,6 @@ namespace SuperCarter.Model
             Estimateruntimefullblock = 0;
             OnPropertyChanged(nameof(Estimateruntimefullblock));
         }
-
 
         public string evt_Openfile()
         {
@@ -1234,7 +1478,6 @@ namespace SuperCarter.Model
                 return strpath;
             }
         }
-
 
         #endregion
 

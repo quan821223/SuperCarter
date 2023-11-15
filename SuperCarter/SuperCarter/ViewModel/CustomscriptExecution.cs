@@ -54,33 +54,33 @@ namespace SuperCarter.Model
             GC.SuppressFinalize(this);
         }
 
-        public static List<SendorExecuteSendType> BlockASequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockBSequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockCSequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockDSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockA1SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockA2SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockB1SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public static List<SendorExecuteSendType> BlockB2SequencesList { get; set; } = new List<SendorExecuteSendType>();
 
         #region property
-        private int _ExecuteFullloop, _ExecuteBlockALoop, _ExecuteBlockBLoop, _ExecuteBlockCLoop, _ExecuteBlockDLoop;
+        private int _ExecuteFullloop, _BlockALoop, _BlockBLoop, _ExecuteBlockCLoop, _ExecuteBlockDLoop;
         private double _Estimateruntimefullblock, _EstimateruntimeforblockA, _EstimateruntimeforblockB, _EstimateruntimeforblockC, _EstimateruntimeforblockD;
 
         public string blockAscriptpath { get; set; }
         public string blockBscriptpath { get; set; }
         public string blockCscriptpath { get; set; }
         public string blockDscriptpath { get; set; }
-        public int ExecuteBlockALoop { get; set; }
+        public int BlockALoop { get; set; }
         public int EstimateBlockAtotaltime { get; set; }
-        public int ExecuteBlockBLoop { get; set; }
+        public int BlockBLoop { get; set; }
         public int ExecuteBlockCLoop { get; set; }
         public int ExecuteBlockDLoop { get; set; }
 
 
-        private int _blockAscriptDelaytime, _subloop, _blockBscriptDelaytime, _blockCscriptDelaytime, _blockDscriptDelaytime;
+        private int _BlockA1Interval, _subloop, _BlockA2Interval, _blockCscriptDelaytime, _blockDscriptDelaytime;
         public int blockAcurloop { get; set; }
         public int blockBcurloop { get; set; }
         public int blockCcurloop { get; set; }
         public int blockDcurloop { get; set; }
-        public int blockAscriptDelaytime { get; set; }
-        public int blockBscriptDelaytime { get; set; }
+        public int BlockA1Interval { get; set; }
+        public int BlockA2Interval { get; set; }
         public int blockCscriptDelaytime { get; set; }
         public int blockDscriptDelaytime { get; set; }
         private string _Curphase;
@@ -152,12 +152,12 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(CurLoopValue));
             OnPropertyChanged(nameof(PercentLoopValue));
             OnPropertyChanged(nameof(Fullloop));
-            OnPropertyChanged(nameof(blockAscriptDelaytime));
-            OnPropertyChanged(nameof(blockBscriptDelaytime));
+            OnPropertyChanged(nameof(BlockA1Interval));
+            OnPropertyChanged(nameof(BlockA2Interval));
             OnPropertyChanged(nameof(blockCscriptDelaytime));
             OnPropertyChanged(nameof(blockDscriptDelaytime));
-            OnPropertyChanged(nameof(ExecuteBlockALoop));
-            OnPropertyChanged(nameof(ExecuteBlockBLoop));
+            OnPropertyChanged(nameof(BlockALoop));
+            OnPropertyChanged(nameof(BlockBLoop));
             OnPropertyChanged(nameof(ExecuteBlockCLoop));
             OnPropertyChanged(nameof(ExecuteBlockDLoop));
             OnPropertyChanged(nameof(blockAscriptpath));
@@ -205,10 +205,10 @@ namespace SuperCarter.Model
                 OnPropertyChanged(nameof(Fullloop));
                 OnPropertyChanged(nameof(CurLoopValue));
                 OnPropertyChanged(nameof(PercentLoopValue));
-                await BlockWorkstation("A", BlockASequencesList, BlockBSequencesList, ExecuteBlockALoop, blockAscriptDelaytime, blockBscriptDelaytime, cancellationToken);
-                //await BlockWorkstation("B", BlockBSequencesList, ExecuteBlockBLoop, blockBscriptDelaytime, cancellationToken);
-                await BlockWorkstation("C", BlockCSequencesList, BlockDSequencesList, ExecuteBlockCLoop, blockCscriptDelaytime, blockDscriptDelaytime, cancellationToken);
-                //await BlockWorkstation("D", BlockDSequencesList, ExecuteBlockDLoop, blockDscriptDelaytime, cancellationToken);
+                await BlockWorkstation("A", BlockA1SequencesList, BlockA2SequencesList, BlockALoop, BlockA1Interval, BlockA2Interval, cancellationToken);
+                //await BlockWorkstation("B", BlockA2SequencesList, BlockBLoop, BlockA2Interval, cancellationToken);
+                await BlockWorkstation("C", BlockB1SequencesList, BlockB2SequencesList, ExecuteBlockCLoop, blockCscriptDelaytime, blockDscriptDelaytime, cancellationToken);
+                //await BlockWorkstation("D", BlockB2SequencesList, ExecuteBlockDLoop, blockDscriptDelaytime, cancellationToken);
 
             }
             ObjectAggregator.Instance.UpdateObject();
@@ -840,19 +840,19 @@ namespace SuperCarter.Model
                     }
                     if (ite == "TestSuiteA")
                     {
-                        //ExecuteBlockALoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
-                        blockAscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value) + 3000;
+                        //BlockALoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
+                        BlockA1Interval = Convert.ToInt32(block.Attributes["TotalTime"]?.Value) + 3000;
                         blockAscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockASequencesList = Temp;
+                        BlockA1SequencesList = Temp;
 
 
                     }
                     else if (ite == "TestSuiteB")
                     {
-                        //ExecuteBlockBLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
-                        blockBscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value) + 3000;
+                        //BlockBLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
+                        BlockA2Interval = Convert.ToInt32(block.Attributes["TotalTime"]?.Value) + 3000;
                         blockBscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockBSequencesList = Temp;
+                        BlockA2SequencesList = Temp;
                     }
                     else if (ite == "TestSuiteC")
                     {
@@ -860,14 +860,14 @@ namespace SuperCarter.Model
                         blockCscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value) + 3000;
                         blockCscriptpath = requisites.Attributes["Path"]?.Value ?? "";
 
-                        BlockCSequencesList = Temp;
+                        BlockB1SequencesList = Temp;
                     }
                     else if (ite == "TestSuiteD")
                     {
                         //ExecuteBlockDLoop = Convert.ToInt32(block.Attributes["IterValue"]?.Value);
                         blockDscriptDelaytime = Convert.ToInt32(block.Attributes["TotalTime"]?.Value) + 3000;
                         blockDscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockDSequencesList = Temp;
+                        BlockB2SequencesList = Temp;
                     }
                 }
 

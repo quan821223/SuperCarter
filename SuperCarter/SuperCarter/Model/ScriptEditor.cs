@@ -147,6 +147,8 @@ namespace SuperCarter.ViewModel
             //SelectedCMDItem = this;
             if (_va is not null)
             {
+                if (SelectedCMD == -1)
+                    SelectedCMD = 0;
                 Scriptdatalist.Insert(SelectedCMD , new ScriptItemtype()
                 {
                     ID = _va.ID,

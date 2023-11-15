@@ -92,10 +92,6 @@ namespace SuperCarter.Model
         public int BlockA2Interval { get; set; }
         public int BlockB1Interval { get; set; }
         public int BlockB2Interval { get; set; }
-        public int BlockA1scriptLoop { get; set; }
-        public int BlockA2scriptLoop { get; set; }
-        public int BlockB1scriptLoop { get; set; }
-        public int BlockB2scriptLoop { get; set; }
         public string BlockA1initscriptPath { get; set; }
         public string BlockA2initscriptPath { get; set; }
         public string BlockB1initscriptPath { get; set; }
@@ -536,10 +532,6 @@ namespace SuperCarter.Model
             BlockA2Interval = 0;
             BlockB1Interval = 0;
             BlockB2Interval = 0;
-            BlockA1scriptLoop = 0;
-            BlockA2scriptLoop = 0;
-            BlockB1scriptLoop = 0;
-            BlockB2scriptLoop = 0;
             BlockA1initscriptPath = null;
             BlockA2initscriptPath = null;
             BlockB1initscriptPath = null;
@@ -592,10 +584,6 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(BlockA2Interval));
             OnPropertyChanged(nameof(BlockB1Interval));
             OnPropertyChanged(nameof(BlockB2Interval));
-            OnPropertyChanged(nameof(BlockA1scriptLoop));
-            OnPropertyChanged(nameof(BlockA2scriptLoop));
-            OnPropertyChanged(nameof(BlockB1scriptLoop));
-            OnPropertyChanged(nameof(BlockB2scriptLoop));
             OnPropertyChanged(nameof(BlockA1initscriptPath));
             OnPropertyChanged(nameof(BlockA2initscriptPath));
             OnPropertyChanged(nameof(BlockB1initscriptPath));

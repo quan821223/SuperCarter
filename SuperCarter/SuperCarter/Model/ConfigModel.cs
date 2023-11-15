@@ -311,11 +311,11 @@ namespace SuperCarter.Model
                 // Loading from a file, you can also load from a stream
                 XmlDocument ScriptionXML = new XmlDocument();
                 ScriptionXML.Load(_ScriptEditor.OpenedBlockScriptPath);
-                List<string> list = new List<string>() {"TestSuiteA1init", "TestSuiteA1",
-                                                         "TestSuiteA2init", "TestSuiteA2",
-                                                         "TestSuiteB1init", "TestSuiteB1",
-                                                         "TestSuiteB2init", "TestSuiteB2",
-                                                        };
+                    List<string> list = new List<string>() {"TestSuiteA1init", "TestSuiteA1",
+                                                             "TestSuiteA2init", "TestSuiteA2",
+                                                             "TestSuiteB1init", "TestSuiteB1",
+                                                             "TestSuiteB2init", "TestSuiteB2",
+                                                            };
 
                 XmlNode root = ScriptionXML.SelectSingleNode("TestSuites");
                 _ScriptEditor.Fullloop = Convert.ToInt32(root.Attributes["Fullloop"]?.Value);
