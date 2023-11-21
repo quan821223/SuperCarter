@@ -72,14 +72,26 @@ namespace SuperCarter.Model
         public ObservableCollection<ScriptItemtype> BlockA2initObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
         public ObservableCollection<ScriptItemtype> BlockB1initObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
         public ObservableCollection<ScriptItemtype> BlockB2initObsColSequences { get; set; } = new ObservableCollection<ScriptItemtype>();
-        private int _ExecuteFullloop = 1;
+        private int _Fullloop = 1;
         public int Fullloop
         {
-            get => _ExecuteFullloop;
+            get => _Fullloop;
             set
             {
-                _ExecuteFullloop = value < 1 ? 1 : value;
+                _Fullloop = value < 1 ? 1 : value;
+              
                 OnPropertyChanged(nameof(Fullloop));
+                EstimateAllblockruntime = (EstimateruntimeforblockA + EstimateruntimeforblockB) * value;
+            }
+        }
+        public double _EstimateAllblockruntime = 0;
+        public double EstimateAllblockruntime
+        {
+            get => _EstimateAllblockruntime;
+            set
+            {
+                _EstimateAllblockruntime = value;
+                OnPropertyChanged(nameof(EstimateAllblockruntime));
             }
         }
         public string OpenedBlockScriptPath { get; set; }
@@ -88,17 +100,144 @@ namespace SuperCarter.Model
         public string BlockA2scriptPath { get; set; }
         public string BlockB1scriptPath { get; set; }
         public string BlockB2scriptPath { get; set; }
-        public int BlockA1Interval { get; set; }
-        public int BlockA2Interval { get; set; }
-        public int BlockB1Interval { get; set; }
-        public int BlockB2Interval { get; set; }
+        public int BlockA1Interval {
+            get => _BlockA1Interval;
+            set
+            {
+                _BlockA1Interval = value;
+                OnPropertyChanged(nameof(BlockA1Interval));
+                EstimateruntimeforblockA = (_BlockA1Interval + BlockA2Interval) * BlockALoop;
+                OnPropertyChanged(nameof(EstimateruntimeforblockA));
+                EstimateBlockA1runtime = _BlockA1Interval;
+             
+            }
+        }
+        public int BlockA2Interval
+        {
+            get => _BlockA2Interval;
+            set
+            {
+                _BlockA2Interval = value;
+                EstimateruntimeforblockA = (BlockA1Interval + _BlockA2Interval) * BlockALoop;
+                OnPropertyChanged(nameof(EstimateruntimeforblockA));
+                EstimateBlockA2runtime = _BlockA2Interval;
+            }
+        }
+        public int BlockB1Interval
+        {
+            get => _BlockB1Interval;
+            set
+            {
+                _BlockB1Interval = value;
+                EstimateruntimeforblockB = (_BlockB1Interval + BlockB2Interval) * BlockBLoop;
+                OnPropertyChanged(nameof(EstimateruntimeforblockB));
+                EstimateBlockB1runtime = _BlockB1Interval;
+            }
+        }
+        public int BlockB2Interval
+        {
+            get => _BlockB2Interval;
+            set
+            {
+                _BlockB2Interval = value;
+                EstimateruntimeforblockB = (BlockB1Interval + _BlockB2Interval) * BlockBLoop;
+                OnPropertyChanged(nameof(EstimateruntimeforblockB));
+                EstimateBlockB2runtime = _BlockB2Interval;
+            }
+        }
         public string BlockA1initscriptPath { get; set; }
         public string BlockA2initscriptPath { get; set; }
         public string BlockB1initscriptPath { get; set; }
         public string BlockB2initscriptPath { get; set; }
-        public int BlockALoop { get; set; }
-        public int BlockBLoop { get; set; }
-     
+        private int _BlockALoop = 0, _BlockBLoop = 0, _BlockA1Interval = 0, _BlockA2Interval, _BlockB1Interval, _BlockB2Interval;
+        private double _EstimateruntimeforblockA = 0, _EstimateruntimeforblockB = 0;
+        public int BlockALoop
+        {
+            get => _BlockALoop;
+            set
+            {
+                _BlockALoop = value;
+                EstimateruntimeforblockA = (BlockA1Interval + BlockA2Interval) * _BlockALoop;
+                OnPropertyChanged(nameof(EstimateruntimeforblockA));
+                //Fullloop = Fullloop;
+            }
+        }
+        public int BlockBLoop
+        {
+            get => _BlockBLoop;
+            set
+            {
+                _BlockBLoop = value;
+                EstimateruntimeforblockB = (BlockB1Interval + BlockB2Interval) * _BlockBLoop;
+                OnPropertyChanged(nameof(EstimateruntimeforblockB));
+                //Fullloop = Fullloop;
+            }
+        }
+        public double EstimateruntimeforblockA
+        {
+            get => _EstimateruntimeforblockA;
+            set
+            {
+                _EstimateruntimeforblockA = Convert.ToDouble(value);
+                _EstimateruntimeforblockA /= 60000;
+                EstimateAllblockruntime = (_EstimateruntimeforblockA + EstimateruntimeforblockB) * Fullloop;
+            }
+        }
+        public double EstimateruntimeforblockB
+        {
+            get => _EstimateruntimeforblockB;
+            set
+            {
+                _EstimateruntimeforblockB = Convert.ToDouble(value);
+                _EstimateruntimeforblockB /= 60000;
+                EstimateAllblockruntime = (EstimateruntimeforblockA + _EstimateruntimeforblockB) * Fullloop;
+            }
+        }
+        private double _EstimateBlockA1runtime = 0;
+        private double _EstimateBlockA2runtime = 0;
+        private double _EstimateBlockB1runtime = 0;
+        private double _EstimateBlockB2runtime = 0;
+        public double EstimateBlockA1runtime
+        {
+            get => _EstimateBlockA1runtime;
+            set
+            {
+                _EstimateBlockA1runtime = Convert.ToDouble(value);
+                _EstimateBlockA1runtime /= 60000;
+                OnPropertyChanged(nameof(EstimateBlockA1runtime));
+            }
+        }
+        public double EstimateBlockA2runtime
+        {
+            get => _EstimateBlockA2runtime;
+            set
+            {
+                _EstimateBlockA2runtime = Convert.ToDouble(value);
+                _EstimateBlockA2runtime /= 60000;
+                OnPropertyChanged(nameof(EstimateBlockA2runtime));
+            }
+        }
+        public double EstimateBlockB1runtime
+        {
+            get => _EstimateBlockB1runtime;
+            set
+            {
+                _EstimateBlockB1runtime = Convert.ToDouble(value);
+                _EstimateBlockB1runtime /= 60000;
+                OnPropertyChanged(nameof(EstimateBlockB1runtime));
+            }
+        }
+        public double EstimateBlockB2runtime
+        {
+            get => _EstimateBlockB2runtime;
+            set
+            {
+                _EstimateBlockB2runtime = Convert.ToDouble(value);
+                _EstimateBlockB2runtime /= 60000;
+                OnPropertyChanged(nameof(EstimateBlockB2runtime));
+            }
+        }
+
         public bool IsEnableDetectnormCurrent { get; set; } = false;
         public int UpperLimitnormCurrentValue { get; set; } = 0;
         public int LowerLimitnormCurrentValue { get; set; } = 0;

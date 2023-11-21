@@ -508,7 +508,7 @@
                                         <ColumnDefinition Width="100"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid Grid.Column="0">
-                                        <xrpb:RadialProgressBar Value="{Binding Customscript.PercentLoopValue}"	  VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                        <xrpb:RadialProgressBar Value="{Binding CustomScriptEditor.PercentLoopValue}"	  VerticalAlignment="Center" HorizontalAlignment="Center" 
                                             Margin="0"
                                             ArcRotationDegree="270" ArcDirection="Clockwise"
                                             Foreground="#FF005087" InnerBackgroundBrush="White"
@@ -538,14 +538,14 @@
                                FontSize="27"
                                />-->
 
-                                            <TextBlock Text="{Binding Customscript.strLoopValue}" VerticalAlignment="Center"
+                                            <TextBlock Text="{Binding CustomScriptEditor.strLoopValue}" VerticalAlignment="Center"
                                    HorizontalAlignment="Center"
                                    FontFamily="Lucida Console"
                                    FontSize="36"/>
 
                                         </StackPanel>
                                     </Grid>
-                                    <Grid Grid.Column="1" HorizontalAlignment="Left">
+                                    <Grid Grid.Column="1" HorizontalAlignment="Left" Width="90">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
 
                                             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 0" Height="70">
@@ -559,13 +559,13 @@
 
                                             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 0" Height="60">
                                                 <WrapPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding Customscript.CurLoopValue}"
+                                                    <TextBlock Text="{Binding CustomScriptEditor.CurLoopValue}"
                                                                     VerticalAlignment="Center"
                                                                     HorizontalAlignment="Center"
                                                                     FontFamily="Lucida Console"  
                                                                     FontSize="14"/>
                                                     <Separator/>
-                                                    <TextBlock Text="{Binding Customscript.Fullloop , Mode=TwoWay}" 
+                                                    <TextBlock Text="{Binding CustomScriptEditor.Fullloop , Mode=TwoWay}" 
                                                                     VerticalAlignment="Center"
                                                                     HorizontalAlignment="Center"
                                                                     FontFamily="Lucida Console" 
@@ -580,20 +580,20 @@
                                                                VerticalAlignment="Bottom" HorizontalAlignment="Center" 
                                                                FontFamily="Lucida Console"
                                                                FontSize="14"/>
-                                                    <Label Content="{Binding Customscript.Curphase}" Style ="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.Curphase}" Style ="{StaticResource DashboardLabel}"/>
 
                                                 </StackPanel>
                                             </Grid>
                                             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 0" Height="60">
-                                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                                <!--<StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                                     <TextBlock Text="sub-phase:" Grid.Row="0"
                                                                Margin="0"
                                                                VerticalAlignment="Bottom" HorizontalAlignment="Center" 
                                                                FontFamily="Lucida Console"
                                                                FontSize="14"/>
-                                                    <Label Content="{Binding Customscript.subloop}" Style ="{StaticResource DashboardLabel}"/>
+                                                    <Label Content="{Binding CustomScriptEditor.subloop}" Style ="{StaticResource DashboardLabel}"/>
 
-                                                </StackPanel>
+                                                </StackPanel>-->
                                             </Grid>
                                         </StackPanel>
                                     </Grid>

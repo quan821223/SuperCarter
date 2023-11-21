@@ -117,7 +117,9 @@ namespace SuperCarter.Model
             [Index(1)]
             public string msg { get; set; }
         }
-        public void AppendToCsv2(UnifiedHostCommandSettype data)
+
+
+        public void WriteToCsv(UnifiedHostCommandSettype data)
         {
             try
             {
@@ -209,50 +211,70 @@ namespace SuperCarter.Model
                 MessageBox.Show(ex.StackTrace);
                 MessageBox.Show(ex.Message);
             }
+           
 
         }
-
-
-        public void AppendToCsv(UnifiedHostCommandSettype data, string functionName)
+        public void AppendToCsv(UnifiedHostCommandSettype data)
         {
+            if (!File.Exists(defaultpath))
+            {
+                // If the file does not exist, create it and write the header
+                using (var stream = File.Create(defaultpath))
+                using (var writer = new StreamWriter(stream))
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csv.WriteHeader<UnifiedHostCommandSettype>();
+                    writer.WriteLine();
+                }
+            }
 
-      
-          
-            //if (!File.Exists(defaultpath))
-            //{
-            //    using (var stream = File.Create(defaultpath))
-            //    using (var writer = new StreamWriter(stream))
-            //    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            //    {
-            //        csv.WriteHeader<UnifiedHostCommandSettype>();
-            //        csv.NextRecord();
-            //    }
-            //}
-
-
-
-            ////if (!File.Exists(_path))
-            ////{
-            ////    // If the file does not exist, create it and write the header
-            ////    using (var stream = File.Create(_path))
-            ////    using (var writer = new StreamWriter(stream))
-            ////    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            ////    {
-            ////        var headerRecord = data.ToCsvRecord(functionName);
-            ////        csv.WriteRecords(headerRecord);
-            ////        writer.WriteLine();
-            ////    }
-            ////}
-
-            //// Now, append the record
-            //using (var stream = File.Open(_path, FileMode.Append))
-            //using (var writer = new StreamWriter(stream))
-            //using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            //{
-            //    var record = data.ToCsvRecord("Function2");
-            //    csv.WriteRecords(record);
-            //    writer.WriteLine(); // Write new line
-            //}
+            // Now, append the record
+            using (var stream = File.Open(defaultpath, FileMode.Append))
+            using (var writer = new StreamWriter(stream))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecord(data);
+                writer.WriteLine(); // Write new line
+            }
         }
+
+        //public void AppendToCsv(UnifiedHostCommandSettype data, string functionName)
+        //{
+        //    if (!File.Exists(defaultpath))
+        //    {
+        //        using (var stream = File.Create(defaultpath))
+        //        using (var writer = new StreamWriter(stream))
+        //        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        //        {
+        //            csv.WriteHeader<UnifiedHostCommandSettype>();
+        //            csv.NextRecord();
+        //        }
+        //    }
+
+
+
+        //    //if (!File.Exists(_path))
+        //    //{
+        //    //    // If the file does not exist, create it and write the header
+        //    //    using (var stream = File.Create(_path))
+        //    //    using (var writer = new StreamWriter(stream))
+        //    //    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        //    //    {
+        //    //        var headerRecord = data.ToCsvRecord(functionName);
+        //    //        csv.WriteRecords(headerRecord);
+        //    //        writer.WriteLine();
+        //    //    }
+        //    //}
+
+        //    // Now, append the record
+        //    using (var stream = File.Open(_path, FileMode.Append))
+        //    using (var writer = new StreamWriter(stream))
+        //    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        //    {
+        //        var record = data.ToCsvRecord("Function2");
+        //        csv.WriteRecords(record);
+        //        writer.WriteLine(); // Write new line
+        //    }
+        //}
     }
 }

@@ -67,8 +67,27 @@ namespace SuperCarter.Model
         public string blockBscriptpath { get; set; }
         public string blockCscriptpath { get; set; }
         public string blockDscriptpath { get; set; }
-        public int BlockALoop { get; set; }
-        public int EstimateBlockAtotaltime { get; set; }
+      
+        public int BlockALoop 
+        {
+            get => _BlockALoop;
+            set { 
+                _BlockALoop = value;
+                OnPropertyChanged(nameof(EstimateBlockAtotaltime));
+            }
+        
+        }
+        private int _EstimateBlockAtotaltime = 0;
+        public int EstimateBlockAtotaltime 
+        { 
+            get {
+                _EstimateBlockAtotaltime = (BlockA1Interval + BlockA2Interval) * BlockALoop;
+           
+                OnPropertyChanged(nameof(EstimateBlockAtotaltime));
+                return _EstimateBlockAtotaltime;
+            }
+            
+        }
         public int BlockBLoop { get; set; }
         public int ExecuteBlockCLoop { get; set; }
         public int ExecuteBlockDLoop { get; set; }
@@ -243,16 +262,17 @@ namespace SuperCarter.Model
             for (int curLoop = 0; curLoop < maxLoop; curLoop++)
             {
                 subloop = curLoop;
+          
                 // 
                 var blockStartTime = DateTime.Now;
 
                 // Start the block working time loop
                 // Execute sequences1 within cycletime
-                var seq1Task = ExecuteBlockSequences($"{blockName}_{1}", sequences1, blockA1cycletime, cancellationToken, Timercycle);
+                var seq1Task = ExecuteBlockSequences($"{blockName}_{1}", sequences1, blockA1cycletime, curLoop, cancellationToken, Timercycle);
                 await seq1Task; // Wait for seq1Task to complete
 
                 // Execute sequences2 within cycletime
-                var seq2Task = ExecuteBlockSequences($"{blockName}_{2}", sequences2, blockA2cycletime, cancellationToken, Timercycle);
+                var seq2Task = ExecuteBlockSequences($"{blockName}_{2}", sequences2, blockA2cycletime, curLoop, cancellationToken, Timercycle);
                 await seq2Task; // Wait for seq2Task to complete
 
                 // Check if block working time is reached
@@ -271,7 +291,7 @@ namespace SuperCarter.Model
             }
 
         }
-        private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken, int cycletime)
+        private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, int curLoop, CancellationToken cancellationToken, int cycletime)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             cancellationToken.Register(() => cancellationTokenSource.Cancel());
@@ -331,14 +351,16 @@ namespace SuperCarter.Model
                             }
 
                             await Task.Delay(Math.Min(remainingTime, remainingScriptTime), cancellationToken);
+
+                            UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
+                            UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
+                            UnifiedHostCommandSet.Blockphase = Curphase.ToString();
+                            UnifiedHostCommandSet.Blockloop = curLoop.ToString();
+                            cSVfile.AppendToCsv(UnifiedHostCommandSet);
+                            UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                         }
                     }
-                    UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
-                    UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
-                    UnifiedHostCommandSet.Blockphase = Curphase.ToString();
-                    UnifiedHostCommandSet.Blockloop = blockName.ToString();
-                    cSVfile.AppendToCsv(UnifiedHostCommandSet, "Function1");
-                    UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+             
                 }
             }
             catch (TaskCanceledException)

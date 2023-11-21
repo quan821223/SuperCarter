@@ -318,7 +318,7 @@ namespace SuperCarter.Model
                                                             };
 
                 XmlNode root = ScriptionXML.SelectSingleNode("TestSuites");
-                _ScriptEditor.Fullloop = Convert.ToInt32(root.Attributes["Fullloop"]?.Value);
+                _ScriptEditor.Fullloop = Convert.ToInt32(root.Attributes["Loop"]?.Value);
                 _ScriptEditor.BlockALoop = Convert.ToInt32(root.Attributes["BlockALoop"]?.Value);
                 _ScriptEditor.BlockBLoop = Convert.ToInt32(root.Attributes["BlockBLoop"]?.Value);
                 _ScriptEditor.BlockA1Interval = Convert.ToInt32(root.Attributes["BlockA1Interval"]?.Value);

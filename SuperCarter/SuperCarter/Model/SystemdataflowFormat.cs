@@ -216,11 +216,11 @@ namespace SuperCarter.Model
         public string Time { get; set; }
         [Name("Loop")]
         public string Loop { get; set; }
+        [Name("Phase")]
+        public string Blockphase { get; set; }
 
         [Name("Blockloop")]
         public string Blockloop { get; set; }
-        [Name("Phase")]
-        public string Blockphase { get; set; }
         [Name("#1 PowerMode")]
         public string DUT1PowerMode { get; set; }
         [Ignore]

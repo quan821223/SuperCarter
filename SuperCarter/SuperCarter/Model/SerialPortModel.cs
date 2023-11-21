@@ -7,6 +7,7 @@ using System.Linq;
 using System.Management;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using NLog;
 using SuperCarter.Services;
 
@@ -14,7 +15,7 @@ namespace SuperCarter.Model
 {
     public class SerialPortModel : SingletonBase<SerialPortModel>
     {
-        public static Logger logger { get; set; }
+        // public static Logger logger { get; set; }
         public SerialPortModel()
         {
             PortNameBinding = new Dictionary<string, int>();
@@ -117,30 +118,40 @@ namespace SuperCarter.Model
         }
         public void DataReceivedCom(object sender, SerialDataReceivedEventArgs e)
         {
-            string data = "";
-            if ((SerialPort)sender == null) return;
-            SerialPort _SerialPort = (SerialPort)sender;
-
-            int _BytesToRead = _SerialPort.BytesToRead;
-            byte[] _RecvData = new byte[_BytesToRead];
-            if (_SerialPort.IsOpen)
+            try
             {
-                _SerialPort.Read(_RecvData, 0, _BytesToRead);
 
-                data = SerialPortModel.Instance.byteToHexStr(_RecvData);
+                string data = "";
+                if ((SerialPort)sender == null) return;
+                SerialPort _SerialPort = (SerialPort)sender;
 
-                if (!String.IsNullOrWhiteSpace(data))
+                int _BytesToRead = _SerialPort.BytesToRead;
+                byte[] _RecvData = new byte[_BytesToRead];
+                if (_SerialPort.IsOpen)
                 {
-                    String OutputMsg = String.Format("{0}|{1}|{2}| Rs |{3}",
-                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
-                        SerialPortModel.Instance.PortNameBinding[_SerialPort.PortName].ToString().PadLeft(2, ' '),
-                        _SerialPort.PortName.PadLeft(6, ' '),
-                        data.Replace(" ", ""));
-                    logger.Log(NLog.LogLevel.Trace, OutputMsg);
-                    WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = SerialPortModel.Instance.PortNameBinding[_SerialPort.PortName], msg = OutputMsg });
-         
-               
+                    _SerialPort.Read(_RecvData, 0, _BytesToRead);
+
+                    data = SerialPortModel.Instance.byteToHexStr(_RecvData);
+
+                    if (!String.IsNullOrWhiteSpace(data))
+                    {
+                        String OutputMsg = String.Format("{0}|{1}|{2}| Rs |{3}",
+                            DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
+                            SerialPortModel.Instance.PortNameBinding[_SerialPort.PortName].ToString().PadLeft(2, ' '),
+                            _SerialPort.PortName.PadLeft(6, ' '),
+                            data.Replace(" ", ""));
+
+                        nlogMessageAggregator.Instance.SendMessage(new nlogtype { LogLevel = NLog.LogLevel.Trace, Msg = OutputMsg });
+                        WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = SerialPortModel.Instance.PortNameBinding[_SerialPort.PortName], msg = OutputMsg });
+
+
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            
             }
         }
     }

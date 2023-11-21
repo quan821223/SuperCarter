@@ -49,6 +49,8 @@ namespace SuperCarter.Model
             SDdisplaySwitch = Visibility.Visible;                                                                                                                         
             SDLabelText = "●";
             SDForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
+
+            strLoopValue = "0";
         }
 
         ~CustomScriptEditor()
@@ -72,7 +74,7 @@ namespace SuperCarter.Model
         public bool IsEnableTouchXY { get; set; } = false;
         public string Openblockfilepath { get; set; }
         public CSVfile cSVfile { get; set; }
-        private UnifiedHostCommandSettype UnifiedHostCommandSet { get; set; } = new UnifiedHostCommandSettype();
+        private static UnifiedHostCommandSettype UnifiedHostCommandSet { get; set; } =new UnifiedHostCommandSettype();
         public ObservableCollection<IFiletype> blockAfolderViewerlist { get; set; } = new ObservableCollection<IFiletype>();
         public ObservableCollection<Foldertype> folderViewerlist { get; set; } = new ObservableCollection<Foldertype>();
         public string Viewerpath { get; set; }
@@ -160,7 +162,7 @@ namespace SuperCarter.Model
             set
             {
                 _BlockALoop =  value;
-                EstimateruntimeforblockA = BlockA1Interval;
+                EstimateruntimeforblockA = (BlockA1Interval + BlockA2Interval) * BlockALoop;
                 OnPropertyChanged(nameof(EstimateruntimeforblockA));
                 Fullloop = Fullloop;
             }
@@ -171,12 +173,30 @@ namespace SuperCarter.Model
             set
             {
                 _BlockBLoop = value;
-                EstimateruntimeforblockB = BlockA2Interval;
+                EstimateruntimeforblockB = (BlockB1Interval + BlockB2Interval) * BlockBLoop;
                 OnPropertyChanged(nameof(EstimateruntimeforblockB));
                 Fullloop = Fullloop;
             }
         }
- 
+        private int _EstimateBlockAtotaltime= 0, _EstimateBlockBtotaltime= 0;
+        public int EstimateBlockAtotaltime
+        {
+            get
+            {
+                _EstimateBlockAtotaltime = (BlockA1Interval + BlockA2Interval) * BlockALoop;
+                OnPropertyChanged(nameof(EstimateBlockAtotaltime));
+                return _EstimateBlockAtotaltime;
+            }
+        }
+        public int EstimateBlockBtotaltime
+        {
+            get
+            {
+                _EstimateBlockBtotaltime = (BlockB1Interval + BlockB2Interval) * BlockBLoop;
+                OnPropertyChanged(nameof(EstimateBlockBtotaltime));
+                return _EstimateBlockBtotaltime;
+            }
+        }
         public double EstimateruntimeforblockA
         {
             get => _EstimateruntimeforblockA;
@@ -406,7 +426,7 @@ namespace SuperCarter.Model
             set
             {
                 _strLoopValue = string.Format("{0}%", PercentLoopValue);
-
+                OnPropertyChanged(nameof(strLoopValue));
             }
         }
         private string _Curphase;
@@ -670,126 +690,133 @@ namespace SuperCarter.Model
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            string path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-outputtestdata.csv");
-            //cSVfile = new CSVfile(path); // 請替換為您希望保存文件的路徑
-
-            UnifiedHostCommandSet = new UnifiedHostCommandSettype();
-
-            CommnadID = 0;
-
-            logger.Log(NLog.LogLevel.Trace, "– Start Custom script schedule.");
-            var Startmsg = "– Start Custom script schedule.";
-            WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message,  msg = Startmsg });
-
-            for (CurLoopValue = 0; CurLoopValue < Fullloop; CurLoopValue++) // 總迴圈
+            try 
             {
-                var msg = string.Format("- Currently on iteration : {0}", CurLoopValue);
-                logger.Log(NLog.LogLevel.Trace, msg);                 
-                WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg });
+                string path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-outputtestdata.csv");
+                cSVfile = new CSVfile(); // 請替換為您希望保存文件的路徑
+                cSVfile.SetCSVfileStoragepath(path);
 
-                // 如果token已被取消，跳出迴圈
-                if (cancellationToken.IsCancellationRequested)
-                    break;
+                CommnadID = 0;
+
+                logger.Log(NLog.LogLevel.Trace, "– Start Custom script schedule.");
+                var Startmsg = "– Start Custom script schedule.";
+                WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = Startmsg });
+
+                for (CurLoopValue = 0; CurLoopValue < Fullloop; CurLoopValue++) // 總迴圈
+                {
+                    var msg = string.Format("- Currently on iteration : {0}", CurLoopValue);
+                    logger.Log(NLog.LogLevel.Trace, msg);
+                    WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg });
+
+                    // 如果token已被取消，跳出迴圈
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
+                    OnPropertyChanged(nameof(Fullloop));
+                    OnPropertyChanged(nameof(CurLoopValue));
+                    OnPropertyChanged(nameof(PercentLoopValue));
+                    await BlockWorkstation("A", BlockA1initSequencesList, BlockA2initSequencesList, BlockA1SequencesList, BlockA2SequencesList, BlockALoop, BlockA1Interval, BlockA2Interval, cancellationToken);
+                    await BlockWorkstation("B", BlockB1initSequencesList, BlockB2initSequencesList, BlockB1SequencesList, BlockB2SequencesList, BlockBLoop, BlockB1Interval, BlockB2Interval, cancellationToken);
+
+                }
+                ObjectAggregator.Instance.UpdateObject();
+
+                SDForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                IsEnableScheduledDetectmode = false;
+
                 OnPropertyChanged(nameof(Fullloop));
                 OnPropertyChanged(nameof(CurLoopValue));
                 OnPropertyChanged(nameof(PercentLoopValue));
-                await BlockWorkstation("A", BlockA1initSequencesList, BlockA2initSequencesList, BlockA1SequencesList, BlockA2SequencesList, BlockALoop, BlockA1Interval, BlockA2Interval, cancellationToken);
-                await BlockWorkstation("B", BlockB1initSequencesList, BlockB2initSequencesList, BlockB1SequencesList, BlockB2SequencesList, BlockBLoop, BlockB1Interval, BlockB2Interval, cancellationToken);
+                OnPropertyChanged(nameof(IsEnableScheduledDetectmode));
 
+                logger.Log(NLog.LogLevel.Trace, "– End Custom script schedule.");
+
+                var Endmmsg = "– End Custom script schedule.";
+                WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = Endmmsg });
             }
-            ObjectAggregator.Instance.UpdateObject();
-
-            SDForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
-            IsEnableRollingmode = false;
-
-            OnPropertyChanged(nameof(Fullloop));
-            OnPropertyChanged(nameof(CurLoopValue));
-            OnPropertyChanged(nameof(PercentLoopValue));
-            OnPropertyChanged(nameof(IsEnableRollingmode));
-
-            logger.Log(NLog.LogLevel.Trace, "– End Custom script schedule.");
-
-            var Endmmsg = "– End Custom script schedule.";
-            WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = Endmmsg });
+            catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Error");
+                System.Windows.MessageBox.Show(ex.StackTrace, "Error");
+            }
+         
         }
 
         private async Task BlockWorkstation(string blockName, List<SendorExecuteSendType> initsequences1, List<SendorExecuteSendType> initsequences2,
             List<SendorExecuteSendType> sequences1, List<SendorExecuteSendType> sequences2,
                                              int maxLoop, int Block1Interval, int Block2Interval, CancellationToken cancellationToken)
         {
-            //var stopwatch = new Stopwatch();
-            //stopwatch.Start();
-
-           
-            cancellationToken.ThrowIfCancellationRequested();
-            Curphase = blockName;
-
-            int blockcycletime = Block1Interval + Block2Interval;
-            int Timercycle = 3000;
-
-            for (int curLoop = 0; curLoop < maxLoop; curLoop++)
+            try 
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                subloop = curLoop;
+                int blockcycletime = Block1Interval + Block2Interval;
+                int Timercycle = 3000;
 
-                logger.Log(NLog.LogLevel.Trace, $"– Enter {blockName}-{curLoop} step.");
-                WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = $"– Enter {blockName}-{curLoop} step." });
-                // 
-                var blockStartTime = DateTime.Now;
-
-                if (Block1Interval > 0)
+                for (int curLoop = 0; curLoop < maxLoop; curLoop++)
                 {
-                    await ExecuteBlockinitSequences($"{blockName}_{1}", initsequences1, cancellationToken);
-                    // Execute sequences1 within cycletime
-                    var seq1Task = ExecuteBlockSequences($"{blockName}_{1}", sequences1, Block1Interval, cancellationToken, Timercycle);
-                    await seq1Task; // Wait for seq1Task to complete
+                    cancellationToken.ThrowIfCancellationRequested();
+                    subloop = curLoop;
 
-                }
+                    logger.Log(NLog.LogLevel.Trace, $"– Enter {blockName}-{curLoop} step.");
+                    WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = $"– Enter {blockName}-{curLoop} step." });
+                    // 
+                    var blockStartTime = DateTime.Now;
 
-                if (Block2Interval > 0)
-                {
-                    await ExecuteBlockinitSequences($"{blockName}_{2}", initsequences2, cancellationToken);
-                    // Execute sequences2 within cycletime
-                    var seq2Task = ExecuteBlockSequences($"{blockName}_{2}", sequences2, Block2Interval, cancellationToken, Timercycle);
-                    await seq2Task; // Wait for seq2Task to complete
+                    if (Block1Interval > 0)
+                    {
+                        var block1StartTime = DateTime.Now;
+                        await ExecuteBlockinitSequences($"{blockName}-{1} initial", initsequences1, cancellationToken);
+                        var remainingblock1SpentTime = Block1Interval - (DateTime.Now - block1StartTime).TotalMilliseconds;
+                        // Execute sequences1 within cycletime
+                        var seq1Task = ExecuteBlockSequences($"{blockName}-{1}", sequences1, (int)remainingblock1SpentTime, cancellationToken, curLoop, Timercycle);
+                        await seq1Task; // Wait for seq1Task to complete
 
-                }
+                    }
 
+                    if (Block2Interval > 0)
+                    {
+                        var block2StartTime = DateTime.Now;
+                        await ExecuteBlockinitSequences($"{blockName}-{2} initial", initsequences2, cancellationToken);
+                        var remainingblock2SpentTime = Block2Interval - (DateTime.Now - block2StartTime).TotalMilliseconds;
+                        // Execute sequences2 within cycletime
+                        var seq2Task = ExecuteBlockSequences($"{blockName}-{2}", sequences2, (int)remainingblock2SpentTime, cancellationToken, curLoop, Timercycle);
+                        await seq2Task; // Wait for seq2Task to complete
 
+                    }
 
-                // Check if block working time is reached
-                if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockcycletime* maxLoop)
-                {
-                    break; // Exit the loop
+                    // Check if block working time is reached
+                    if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockcycletime * maxLoop)
+                    {
+                        break; // Exit the loop
+                    }
                 }
             }
-
-            //stopwatch.Stop();
-            //var remainingTime = TimeSpan.FromMilliseconds((blockcycletime) * maxLoop) - stopwatch.Elapsed;
-
-            //if (remainingTime > TimeSpan.Zero)
-            //{
-            //    await Task.Delay(remainingTime, cancellationToken);
-            //}
+            catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Error");
+                System.Windows.MessageBox.Show(ex.StackTrace, "Error");
+            }
+           
 
         }
         private async Task ExecuteBlockinitSequences(string blockName, List<SendorExecuteSendType> sequences,  CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
+       
 
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
                 var Sendorwatch = new Stopwatch();
-
-                var msg1 = $"- Currently on {blockName} initial iteration : 初始化 ";
+                Curphase = blockName;
+                var msg1 = $"- {blockName}";
                 logger.Log(NLog.LogLevel.Trace, msg1);
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg1 });
                 // 
 
                 for (int i = 0; i < sequences.Count; i++)
                 {
+                   
                     cancellationToken.ThrowIfCancellationRequested();
 
                     if (sequences[i].PortNum == 9)
@@ -837,22 +864,23 @@ namespace SuperCarter.Model
             }
         }
 
-        private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken, int cycletime)
+        private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken, int curLoop, int cycletime )
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            cancellationToken.Register(() => cancellationTokenSource.Cancel());
-
             bool WorkingBreak = false;
-
             try
             {
+              
+                cancellationToken.Register(() => cancellationTokenSource.Cancel());
+
+             
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                var msg1 = $"- 進入偵測階段";
+                var msg1 = $"- {blockName} 進入偵測階段";
                 logger.Log(NLog.LogLevel.Trace, msg1);
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg1 });
                 var blockStartTime = DateTime.Now;
-
+                Curphase = blockName;
                 while ((DateTime.Now - blockStartTime).TotalMilliseconds < scriptDelayTime)
                 {
                     var cycleStartTime = DateTime.Now;
@@ -895,16 +923,16 @@ namespace SuperCarter.Model
                             {
                                 return;
                             }
-
                             await Task.Delay(Math.Min(remainingTime, remainingScriptTime), cancellationToken);
+                            UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
+                            UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
+                            UnifiedHostCommandSet.Blockphase = Curphase.ToString();
+                            UnifiedHostCommandSet.Blockloop = curLoop.ToString();
+                            cSVfile.AppendToCsv(UnifiedHostCommandSet);
+                            UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                         }
                     }
-                    UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
-                    UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
-                    UnifiedHostCommandSet.Blockphase = Curphase.ToString();
-                    UnifiedHostCommandSet.Blockloop = blockName.ToString();
-                    //cSVfile.AppendToCsv(UnifiedHostCommandSet);
-                    UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                
                 }
             }
             catch (TaskCanceledException)
@@ -1070,7 +1098,7 @@ namespace SuperCarter.Model
         public void SaveDynamicMonitorResult()
         {
             cSVfile = new CSVfile();
-            cSVfile.AppendToCsv2(UnifiedHostCommandSet);
+            cSVfile.WriteToCsv(UnifiedHostCommandSet);
             IsEnableRollingmode = false;
             OnPropertyChanged(nameof(IsEnableRollingmode));
             // 開啟檔案位置
@@ -1105,17 +1133,21 @@ namespace SuperCarter.Model
             if (command.SequenceData[0] == 0xFA && command.SequenceData[3] == 0x02 && command.SequenceData[4] == 0x01)
             {
                 PowerMode = 1;
+                UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                 UnifiedHostCommandSet.DUT1PowerMode = "Normal";
                 UnifiedHostCommandSet.DUT2PowerMode = "Normal";
                 UnifiedHostCommandSet.DUT3PowerMode = "Normal";
+             
             }
 
             else if (command.SequenceData[0] == 0xFA && command.SequenceData[3] == 0x02 && command.SequenceData[4] == 0x00)
             {
                 PowerMode = 0;
+                UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                 UnifiedHostCommandSet.DUT1PowerMode = "Sleep";
                 UnifiedHostCommandSet.DUT2PowerMode = "Sleep";
                 UnifiedHostCommandSet.DUT3PowerMode = "Sleep";
+          
             }
 
             String OutputMsg = String.Format("{0}|{1}|{2}| S | CommandID {4}| {3}",
