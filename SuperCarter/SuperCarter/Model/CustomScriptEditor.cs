@@ -738,7 +738,11 @@ namespace SuperCarter.Model
                 System.Windows.MessageBox.Show(ex.Message, "Error");
                 System.Windows.MessageBox.Show(ex.StackTrace, "Error");
             }
-         
+            finally
+            {
+     
+            }
+
         }
 
         private async Task BlockWorkstation(string blockName, List<SendorExecuteSendType> initsequences1, List<SendorExecuteSendType> initsequences2,
@@ -747,13 +751,15 @@ namespace SuperCarter.Model
         {
             try 
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                //cancellationToken.ThrowIfCancellationRequested();
                 int blockcycletime = Block1Interval + Block2Interval;
                 int Timercycle = 3000;
 
                 for (int curLoop = 0; curLoop < maxLoop; curLoop++)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
+                    //cancellationToken.ThrowIfCancellationRequested();
                     subloop = curLoop;
 
                     logger.Log(NLog.LogLevel.Trace, $"– Enter {blockName}-{curLoop} step.");
@@ -767,8 +773,11 @@ namespace SuperCarter.Model
                         await ExecuteBlockinitSequences($"{blockName}-{1} initial", initsequences1, cancellationToken);
                         var remainingblock1SpentTime = Block1Interval - (DateTime.Now - block1StartTime).TotalMilliseconds;
                         // Execute sequences1 within cycletime
-                        var seq1Task = ExecuteBlockSequences($"{blockName}-{1}", sequences1, (int)remainingblock1SpentTime, cancellationToken, curLoop, Timercycle);
-                        await seq1Task; // Wait for seq1Task to complete
+                        if (!cancellationToken.IsCancellationRequested)
+                        {
+                            var seq1Task = ExecuteBlockSequences($"{blockName}-{1}", sequences1, (int)remainingblock1SpentTime, cancellationToken, curLoop, Timercycle);
+                            await seq1Task; // Wait for seq1Task to complete
+                        }                    
 
                     }
 
@@ -778,10 +787,16 @@ namespace SuperCarter.Model
                         await ExecuteBlockinitSequences($"{blockName}-{2} initial", initsequences2, cancellationToken);
                         var remainingblock2SpentTime = Block2Interval - (DateTime.Now - block2StartTime).TotalMilliseconds;
                         // Execute sequences2 within cycletime
-                        var seq2Task = ExecuteBlockSequences($"{blockName}-{2}", sequences2, (int)remainingblock2SpentTime, cancellationToken, curLoop, Timercycle);
-                        await seq2Task; // Wait for seq2Task to complete
+                        if (!cancellationToken.IsCancellationRequested)
+                        {
+                            var seq2Task = ExecuteBlockSequences($"{blockName}-{2}", sequences2, (int)remainingblock2SpentTime, cancellationToken, curLoop, Timercycle);
+                            await seq2Task; // Wait for seq2Task to complete
+
+                        }
 
                     }
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
 
                     // Check if block working time is reached
                     if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockcycletime * maxLoop)
@@ -795,7 +810,10 @@ namespace SuperCarter.Model
                 System.Windows.MessageBox.Show(ex.Message, "Error");
                 System.Windows.MessageBox.Show(ex.StackTrace, "Error");
             }
-           
+            finally
+            {
+
+            }
 
         }
         private async Task ExecuteBlockinitSequences(string blockName, List<SendorExecuteSendType> sequences,  CancellationToken cancellationToken)
@@ -804,7 +822,7 @@ namespace SuperCarter.Model
 
             try
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                //cancellationToken.ThrowIfCancellationRequested();
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
                 var Sendorwatch = new Stopwatch();
@@ -816,8 +834,9 @@ namespace SuperCarter.Model
 
                 for (int i = 0; i < sequences.Count; i++)
                 {
-                   
-                    cancellationToken.ThrowIfCancellationRequested();
+                    //cancellationToken.ThrowIfCancellationRequested();
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
 
                     if (sequences[i].PortNum == 9)
                     {
@@ -827,6 +846,10 @@ namespace SuperCarter.Model
                         for (int j = 0; j < 3; j++)
                         {
                             i++;
+                            if (i >= sequences.Count || cancellationToken.IsCancellationRequested)
+                            {
+                                break; // Exit the loop
+                            }
                             await SendAndReceivesAsync(sequences[i], cancellationToken);
                         }
 
@@ -862,17 +885,20 @@ namespace SuperCarter.Model
             {
                 System.Windows.MessageBox.Show(ex.Message);
             }
-        }
+            finally
+            {
 
+            }
+        }
+        private SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
         private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken, int curLoop, int cycletime )
         {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            bool WorkingBreak = false;
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();          
+
             try
             {
-              
+                //await semaphoreSlim.WaitAsync(); // 等待許可
                 cancellationToken.Register(() => cancellationTokenSource.Cancel());
-
              
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
@@ -883,13 +909,17 @@ namespace SuperCarter.Model
                 Curphase = blockName;
                 while ((DateTime.Now - blockStartTime).TotalMilliseconds < scriptDelayTime)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
+
                     var cycleStartTime = DateTime.Now;
                     int sequenceIndex = 0;
 
                     while ((DateTime.Now - cycleStartTime).TotalMilliseconds < cycletime)
                     {
-                        cancellationToken.ThrowIfCancellationRequested();
-
+                        //cancellationToken.ThrowIfCancellationRequested();
+                        if (cancellationToken.IsCancellationRequested)
+                            break;
 
                         var elapsedTime = (DateTime.Now - cycleStartTime).TotalMilliseconds;
                         var remainingTime = cycletime - (int)elapsedTime;
@@ -935,20 +965,15 @@ namespace SuperCarter.Model
                 
                 }
             }
-            catch (TaskCanceledException)
-            {
-                WorkingBreak = true;
-            }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message);
             }
             finally
             {
-                cancellationTokenSource.Dispose();
+             
             }
 
-            // Rest of your code...
         }
         #endregion
 
@@ -974,8 +999,9 @@ namespace SuperCarter.Model
             }
         }
 
-        public CancellationTokenSource ctsScrollingcheck;
-        public CancellationTokenSource ctsExecutecheck;
+        public  CancellationTokenSource ctsScrollingcheck;
+        public  CancellationTokenSource ctsExecutecheck;
+        public CancellationToken ctsExecutecheckToken;
 
         #region 燈號設置
         /// <summary>
@@ -1015,36 +1041,41 @@ namespace SuperCarter.Model
         /// <returns></returns>
         public async Task StartScrollingCheck(CancellationToken cancellationToken)
         {
-            bool WorkingBreak = false;
+            bool workingBreak = false;
+        
             try
             {
                 CommnadID = 0;
-                UnifiedHostCommandSet = new UnifiedHostCommandSettype();
-                UnifiedHostCommandSet.IsEnableExecuteSDMcheck = true;
+    
                 List<SendorExecuteSendType> sequences = SendorExecuteSequencesList;
                 int sequenceIndex = 0;
                 var Sendorwatch = new Stopwatch();
 
-                /// 將燈號設定成未完成狀態
+                // 將燈號設定成未完成狀態
                 DynamicForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
 
-                while (IsEnableRollingmode)
+                while (!cancellationToken.IsCancellationRequested)
                 {
                     if (sequences[sequenceIndex].PortNum == 9)
                     {
-                        var roundtimedelay = sequences[sequenceIndex].Delaytime;
+                        var roundTimeDelay = sequences[sequenceIndex].Delaytime;
                         Sendorwatch.Restart();
+
                         for (int j = 0; j < 3; j++)
                         {
                             sequenceIndex++;
+
                             if (sequenceIndex >= sequences.Count || cancellationToken.IsCancellationRequested)
                             {
+                                workingBreak = true;
                                 break; // Exit the loop
                             }
+
                             await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
                         }
+
                         Sendorwatch.Stop();
-                        var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
+                        var remainingSpentTime = roundTimeDelay - (int)Sendorwatch.ElapsedMilliseconds;
 
                         if (remainingSpentTime > 0)
                         {
@@ -1056,24 +1087,36 @@ namespace SuperCarter.Model
                         await SendAndReceivesAsync(sequences[sequenceIndex], cancellationToken);
                         sequenceIndex++;
                     }
+
                     if (sequenceIndex >= sequences.Count)
                     {
+                   
                         sequenceIndex = 0;
+                        IsEnableRollingmode = false;                
                         DynamicForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                        break;
                     }
                 }
-
             }
             catch (TaskCanceledException)
             {
-                WorkingBreak = true;
+                workingBreak = true;
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message);
             }
-
+            finally
+            {
+                // 檢查 CancellationToken 是否已觸發取消操作
+                if (workingBreak || cancellationToken.IsCancellationRequested)
+                {
+                    System.Windows.MessageBox.Show("運行任務已被取消");
+                   
+                }
+            }
         }
+
 
         #endregion
 
@@ -1097,13 +1140,25 @@ namespace SuperCarter.Model
         }
         public void SaveDynamicMonitorResult()
         {
-            cSVfile = new CSVfile();
-            cSVfile.WriteToCsv(UnifiedHostCommandSet);
-            IsEnableRollingmode = false;
-            OnPropertyChanged(nameof(IsEnableRollingmode));
-            // 開啟檔案位置
-            string dataPath = AppPath + @"\result\Dynamic";
-            Process.Start(new ProcessStartInfo { FileName = dataPath, UseShellExecute = true });
+            try
+            {
+               
+
+                cSVfile = new CSVfile();
+                cSVfile.WriteToCsv(UnifiedHostCommandSet);
+                IsEnableRollingmode = false;
+                OnPropertyChanged(nameof(IsEnableRollingmode));
+                // 開啟檔案位置
+                string dataPath = AppPath + @"\result\Dynamic";
+                Process.Start(new ProcessStartInfo { FileName = dataPath, UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+      
+                System.Windows.MessageBox.Show(ex.StackTrace);
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+
 
         }
         #endregion
@@ -1133,7 +1188,7 @@ namespace SuperCarter.Model
             if (command.SequenceData[0] == 0xFA && command.SequenceData[3] == 0x02 && command.SequenceData[4] == 0x01)
             {
                 PowerMode = 1;
-                UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                // UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                 UnifiedHostCommandSet.DUT1PowerMode = "Normal";
                 UnifiedHostCommandSet.DUT2PowerMode = "Normal";
                 UnifiedHostCommandSet.DUT3PowerMode = "Normal";
@@ -1143,7 +1198,7 @@ namespace SuperCarter.Model
             else if (command.SequenceData[0] == 0xFA && command.SequenceData[3] == 0x02 && command.SequenceData[4] == 0x00)
             {
                 PowerMode = 0;
-                UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                // UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                 UnifiedHostCommandSet.DUT1PowerMode = "Sleep";
                 UnifiedHostCommandSet.DUT2PowerMode = "Sleep";
                 UnifiedHostCommandSet.DUT3PowerMode = "Sleep";
@@ -1318,6 +1373,9 @@ namespace SuperCarter.Model
             }
             else
             {
+                // 取消 Rolling Mode 時重置 UnifiedHostCommandSet
+                UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                UnifiedHostCommandSet.IsEnableExecuteSDMcheck = false;
                 ctsScrollingcheck.Cancel();
             }
         }
@@ -1345,13 +1403,21 @@ namespace SuperCarter.Model
                 {
                     UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                     UnifiedHostCommandSet.IsEnableExecuteSDMcheck = false;
-                    ctsExecutecheck = new CancellationTokenSource();
-                    StartAsync(ctsExecutecheck.Token);
+                 
+                    if (ctsExecutecheck == null || ctsExecutecheck.Token.IsCancellationRequested)
+                    {
+                        ctsExecutecheck = new CancellationTokenSource();
+                        ctsExecutecheckToken = ctsExecutecheck.Token;
+                    }
+                    StartAsync(ctsExecutecheckToken);
                 }
             }
             else
             {
-                ctsExecutecheck.Cancel();
+                if (ctsExecutecheck != null)
+                {
+                    ctsExecutecheck.Cancel();
+                }
             }
         }
         private void evt_SelectedScriptItem(IFiletype _va)

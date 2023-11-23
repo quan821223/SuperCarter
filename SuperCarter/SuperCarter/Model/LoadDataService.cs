@@ -210,8 +210,7 @@ namespace SuperCarter.Model
 
                 MessageBox.Show(ex.StackTrace);
                 MessageBox.Show(ex.Message);
-            }
-           
+            }            
 
         }
         public void AppendToCsv(UnifiedHostCommandSettype data)

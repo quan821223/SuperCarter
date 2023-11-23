@@ -192,7 +192,7 @@ namespace SuperCarter.Model
     public class UnifiedHostCommandSettype
     {
         [Ignore]
-        public bool IsEnableExecuteSDMcheck { get; set; }
+        public  bool IsEnableExecuteSDMcheck { get; set; }
         [Ignore]
         public string _DUT1Lightsensor;
         [Ignore]
