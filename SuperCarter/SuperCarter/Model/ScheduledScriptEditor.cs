@@ -94,6 +94,18 @@ namespace SuperCarter.Model
                 OnPropertyChanged(nameof(EstimateAllblockruntime));
             }
         }
+        private int _MonitoringIntervaltime = 300;
+        public int MonitoringIntervaltime
+        {
+            get => _MonitoringIntervaltime;
+            set
+            {
+                _MonitoringIntervaltime = value;
+                OnPropertyChanged(nameof(MonitoringIntervaltime));
+         
+
+            }
+        } 
         public string OpenedBlockScriptPath { get; set; }
         public int SelectedCMD { get; set; }
         public string BlockA1scriptPath { get; set; }
@@ -401,7 +413,6 @@ namespace SuperCarter.Model
 
                 if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-
                     strpath = openFileDialog1.FileName; //取得檔名
                     OpenedBlockScriptPath = strpath;
                     ConfigModel.Instance.GetScriptXMLTestSuite(this);

@@ -91,7 +91,7 @@ namespace SuperCarter.ViewModel
             if (!DicSerialPort[_SelectedCom].IsOpen)
             {
                 UpdateSystemInfo = string.Format("請先打開串列埠!");
-                MessageBox.Show(UpdateSystemInfo, "Information !", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(UpdateSystemInfo, "提醒 !", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -365,7 +365,7 @@ namespace SuperCarter.ViewModel
                         {
                             IsAllowAddingitem = false;
                             logger.Log(NLog.LogLevel.Debug, "catch_" + _va.PortName + " be denied");
-                            MessageBox.Show("無法新增此物件，comport 已被取用", "Information !", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MessageBox.Show("無法新增此物件，comport 已被取用", "提醒 !", MessageBoxButton.OK, MessageBoxImage.Information);
                             break;
                         }
                     }

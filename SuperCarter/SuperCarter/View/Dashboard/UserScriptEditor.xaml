@@ -163,11 +163,13 @@
                                 <Grid >
 
                                     <Grid Grid.Column="0">
+                                   
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="31"/>
                                             <RowDefinition Height="42"/>
                                             <RowDefinition Height="32"/>
                                             <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="32"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         <Grid Grid.Row="0">
@@ -212,7 +214,7 @@
                                                          MinWidth="100" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"
                                                          />
 
-                                                    <Label Content="Totaltime : " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                                    <Label Content="Time(min): " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
                                                     <Label Content="{Binding scheduledscriptEditor.EstimateruntimeforblockA}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
                                                 </StackPanel>
                                             </Grid>
@@ -223,19 +225,20 @@
                                                          TextWrapping="WrapWithOverflow" Margin="0 0 50 0" 
                                                          MinWidth="100" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"
                                                          />
-                                                    <Label Content="Totaltime : " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                                    <Label Content="Time(min): " VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
                                                     <Label Content="{Binding scheduledscriptEditor.EstimateruntimeforblockB}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
                                                 </StackPanel>
                                             </Grid>
                                         </Grid>
                                         <Grid  Grid.Row="3" >
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0" />
                                                 <ColumnDefinition Width="1*" />
                                                 <ColumnDefinition Width="1*" />
                                                 <ColumnDefinition Width="1*" />
                                                 <ColumnDefinition Width="1*" />
                                             </Grid.ColumnDefinitions>
-                                            <Grid Grid.Column="0" Margin="1">
+                                            <Grid Grid.Column="1" Margin="1">
                                                 <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="A-1" />
@@ -262,11 +265,9 @@
                                                     </StackPanel>
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockA1scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True" 
                                                          MaxWidth="220" />
-                                                    <Label Content="sequence count : "/>
-                                                    <Label Content="{Binding scheduledscriptEditor.blockAitemcount}"/>
                                                 </WrapPanel>
                                             </Grid>
-                                            <Grid Grid.Column="1" Margin="1" >
+                                            <Grid Grid.Column="2" Margin="1" >
                                                 <WrapPanel Orientation="Vertical" HorizontalAlignment="Center"  MaxWidth="230">
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="A-2" HorizontalAlignment="Center"/>
@@ -292,12 +293,10 @@
                                                         <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="5" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                     </StackPanel>
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockA2scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
-                                                         MaxWidth="220" />
-                                                    <Label Content="sequence count : "/>
-                                                    <Label Content="{Binding scheduledscriptEditor.blockAitemcount}"/>
+                                                         MaxWidth="220" />                                                      
                                                 </WrapPanel>
                                             </Grid>
-                                            <Grid Grid.Column="2" Margin="1">
+                                            <Grid Grid.Column="3" Margin="1">
                                                 <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="B-1" HorizontalAlignment="Center"/>
@@ -325,11 +324,10 @@
                                                     </StackPanel>
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockB1scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
                                                          MaxWidth="220" />
-                                                    <Label Content="sequence count : "/>
-                                                    <Label Content="{Binding scheduledscriptEditor.blockAitemcount}"/>
+                                                   
                                                 </WrapPanel>
                                             </Grid>
-                                            <Grid Grid.Column="3" Margin="1">
+                                            <Grid Grid.Column="4" Margin="1">
                                                 <WrapPanel Orientation="Vertical" HorizontalAlignment="Center" MaxWidth="230">
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="B-2" HorizontalAlignment="Center"/>
@@ -357,14 +355,22 @@
 
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockB2scriptPath, Mode=TwoWay}" TextWrapping="WrapWithOverflow"   IsReadOnly="True"
                                                          MaxWidth="220" />
-                                                    <Label Content="sequence count : "/>
-                                                    <Label Content="{Binding scheduledscriptEditor.blockAitemcount}"/>
+                                                   
                                                 </WrapPanel>
                                             </Grid>
 
 
                                         </Grid>
-                                        <Grid Grid.Row="4" Margin="5">
+                                        <Grid Grid.Row="4">
+                                            <Separator VerticalAlignment="Top"/>
+                                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                                <Label Content="Monitoring Interval time : "/>
+                                                <TextBox Text="{Binding scheduledscriptEditor.MonitoringIntervaltime}" Width="100"/>
+
+
+                                            </WrapPanel>
+                                        </Grid>
+                                        <Grid Grid.Row="5" Margin="5">
                                             <GroupBox Header="sub - Script Browsing" FontWeight="Bold">
                                                 <Grid>
 
@@ -486,29 +492,26 @@
                                                                             </Button.Style>
                                                                         </Button>
                                                                     </StackPanel>
-                                                                    <TextBox FontSize="14" 
-                                                             Text="{Binding scheduledscriptEditor.sub_scriptbrowsing, Mode=TwoWay}"
-                                                             Height="22"    IsReadOnly="True"   
-                                                             FontFamily="Champagne &amp;amp; Limousines"
-                                                             HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Foreground="#FFABA8A8"
-                                                                 />
+                                                                    <TextBox FontSize="14" Text="{Binding scheduledscriptEditor.sub_scriptbrowsing, Mode=TwoWay}"
+                                                                             Height="22"    IsReadOnly="True"   
+                                                                             FontFamily="Champagne &amp;amp; Limousines"
+                                                                             HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Foreground="#FFABA8A8"
+                                                                             />
                                                                     <DataGrid x:Name="SequenceScript" MaxHeight="300"
-                                                              dd:DragDrop.DropScrollingMode="VerticalOnly"
-                                                              dd:DragDrop.IsDragSource="True"
-                                                              dd:DragDrop.IsDropTarget="True"
-                                                              dd:DragDrop.DragDirectlySelectedOnly="True"
-                                                              CanUserAddRows="False"
-                                                              AutoGenerateColumns="False" 
-                                                              ItemsSource="{Binding scheduledscriptEditor.BlockObsColSequences}" 
-                                                              CanUserSortColumns="False"  
-                                                              Grid.IsSharedSizeScope="True" 
-                                                              MinRowHeight="19"
-                                                         
-                                                              GridLinesVisibility="All" 
-                                                              Margin="0" 
-                                                           
-                                                                SelectedIndex="{Binding scriptEditor.SelectedCMD }"
-                                                              >
+                                                                              dd:DragDrop.DropScrollingMode="VerticalOnly"
+                                                                              dd:DragDrop.IsDragSource="True"
+                                                                              dd:DragDrop.IsDropTarget="True"
+                                                                              dd:DragDrop.DragDirectlySelectedOnly="True"
+                                                                              CanUserAddRows="False"
+                                                                              AutoGenerateColumns="False" 
+                                                                              ItemsSource="{Binding scheduledscriptEditor.BlockObsColSequences}" 
+                                                                              CanUserSortColumns="False"  
+                                                                              Grid.IsSharedSizeScope="True" 
+                                                                              MinRowHeight="19"
+                                                                              GridLinesVisibility="All" 
+                                                                              Margin="0" 
+                                                                              SelectedIndex="{Binding scriptEditor.SelectedCMD }"
+                                                                               >
                                                                         <DataGrid.Columns>
                                                                             <DataGridTextColumn Binding="{Binding ID}"
                                                                                 Header="ID" 

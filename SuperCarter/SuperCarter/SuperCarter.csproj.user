@@ -13,6 +13,15 @@
     <Compile Update="View\Dashboard\ControlTable.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\Dashboard\MonitoringGuide.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Dashboard\navi_img1.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Dashboard\navi_img2.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\Dashboard\Overview.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -37,6 +46,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Dashboard\ControlTable.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Dashboard\MonitoringGuide.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Dashboard\navi_img1.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Dashboard\navi_img2.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Dashboard\Overview.xaml">

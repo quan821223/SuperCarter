@@ -53,7 +53,7 @@ namespace SuperCarter.Model
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
+        public int MonitoringIntervaltime { get; set; } = 3000;
         public static List<SendorExecuteSendType> BlockA1SequencesList { get; set; } = new List<SendorExecuteSendType>();
         public static List<SendorExecuteSendType> BlockA2SequencesList { get; set; } = new List<SendorExecuteSendType>();
         public static List<SendorExecuteSendType> BlockB1SequencesList { get; set; } = new List<SendorExecuteSendType>();
@@ -257,7 +257,7 @@ namespace SuperCarter.Model
             int blockAcycletime = 180000;
             int blockA1cycletime = 120000;
             int blockA2cycletime = 60000;
-            int Timercycle = 3000;
+        
 
             for (int curLoop = 0; curLoop < maxLoop; curLoop++)
             {
@@ -268,11 +268,11 @@ namespace SuperCarter.Model
 
                 // Start the block working time loop
                 // Execute sequences1 within cycletime
-                var seq1Task = ExecuteBlockSequences($"{blockName}_{1}", sequences1, blockA1cycletime, curLoop, cancellationToken, Timercycle);
+                var seq1Task = ExecuteBlockSequences($"{blockName}_{1}", sequences1, blockA1cycletime, curLoop, cancellationToken, MonitoringIntervaltime);
                 await seq1Task; // Wait for seq1Task to complete
 
                 // Execute sequences2 within cycletime
-                var seq2Task = ExecuteBlockSequences($"{blockName}_{2}", sequences2, blockA2cycletime, curLoop, cancellationToken, Timercycle);
+                var seq2Task = ExecuteBlockSequences($"{blockName}_{2}", sequences2, blockA2cycletime, curLoop, cancellationToken, MonitoringIntervaltime);
                 await seq2Task; // Wait for seq2Task to complete
 
                 // Check if block working time is reached
@@ -314,8 +314,19 @@ namespace SuperCarter.Model
 
                     while ((DateTime.Now - cycleStartTime).TotalMilliseconds < cycletime)
                     {
-                        cancellationToken.ThrowIfCancellationRequested();
+                        //cancellationToken.ThrowIfCancellationRequested();
+                        if ( cancellationToken.IsCancellationRequested)
+                        {
+                            UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
+                            UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
+                            UnifiedHostCommandSet.Blockphase = Curphase.ToString();
+                            UnifiedHostCommandSet.Blockloop = curLoop.ToString();
+                            cSVfile.AppendToCsv(UnifiedHostCommandSet);
+                            UnifiedHostCommandSet = new UnifiedHostCommandSettype();
 
+
+                            break; // Exit the loop
+                        }
 
                         var elapsedTime = (DateTime.Now - cycleStartTime).TotalMilliseconds;
                         var remainingTime = cycletime - (int)elapsedTime;

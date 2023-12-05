@@ -176,7 +176,11 @@ namespace SuperCarter
             string dataPath = SuperCarterVM.AppPath + @"scripts";
             Process.Start(new ProcessStartInfo { FileName = dataPath, UseShellExecute = true });
         }
-
+        private void PathofDataItem_Click(object sender, RoutedEventArgs e)
+        {
+            string dataPath = SuperCarterVM.AppPath + @"result";
+            Process.Start(new ProcessStartInfo { FileName = dataPath, UseShellExecute = true });
+        }
         private void CalcMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("calc.exe");
@@ -263,5 +267,7 @@ namespace SuperCarter
                 AllViewText_Output.Show();
             }
         }
+
+   
     }
 }

@@ -24,6 +24,19 @@ namespace SuperCarter.Model
     {
 
         public readonly string FOLDER_config = System.Windows.Forms.Application.StartupPath + @"\config\";
+
+        public void WriteMultiScheduledscript()
+        {
+            try 
+            { 
+
+            }
+            catch(Exception ex) 
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.StackTrace);
+            }
+        }
         /// <summary>
         /// 寫入 COM 資訊
         /// </summary>

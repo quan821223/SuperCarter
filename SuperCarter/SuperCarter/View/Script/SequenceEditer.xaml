@@ -490,7 +490,7 @@
                                                      
                                                     </DataGrid>
                                                     <TextBox FontSize="14" x:Name ="Textscriptpath"
-                                                             Text="{Binding serialPortViewModelBase.Textscriptpath, Mode=TwoWay}"
+                                                             Text="{Binding scriptEditor.Textscriptpath, Mode=TwoWay}"
                                                              Height="22"    IsReadOnly="True"   
                                                              FontFamily="Champagne &amp;amp; Limousines"
                                                              HorizontalAlignment="Stretch" VerticalAlignment="Bottom" TextChanged="Textscriptpath_TextChanged" Foreground="#FFABA8A8"

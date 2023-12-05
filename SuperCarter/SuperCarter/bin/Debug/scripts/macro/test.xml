@@ -1,4 +1,4 @@
-<TestSuites Loop="2" BlockALoop="2" BlockBLoop="2" BlockA1Interval="30000" BlockA2Interval="30000" BlockB1Interval="30000" BlockB2Interval="30000">
+<TestSuites Loop="2" BlockALoop="2" BlockBLoop="2" BlockA1Interval="30000" BlockA2Interval="30000" BlockB1Interval="30000" BlockB2Interval="30000" MonitoringIntervaltime="5000">
   <TestSuiteA1init>
     <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\wakeup.xml" />
     <TestSequence>
@@ -80,11 +80,11 @@
     </TestSequence>
   </TestSuiteB2>
   <ThresholdSetting>
-    <DetectDiag IsEnable="False" />
-    <NormCurrent IsEnable="False" Upper="0" Lower="0" />
-    <SleepCurrent IsEnable="False" Upper="0" />
-    <Lightsensor IsEnable="False" Upper="0" Lower="0" />
-    <Touchfinger IsEnable="False" />
-    <TouchXY IsEnable="False" />
+    <DetectDiag IsEnable="True" />
+    <NormCurrent IsEnable="True" Upper="0" Lower="0" />
+    <SleepCurrent IsEnable="True" Upper="0" />
+    <Lightsensor IsEnable="True" Upper="0" Lower="0" />
+    <Touchfinger IsEnable="True" />
+    <TouchXY IsEnable="True" />
   </ThresholdSetting>
 </TestSuites>

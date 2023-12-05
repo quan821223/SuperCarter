@@ -59,7 +59,7 @@ namespace SuperCarter.Model
        // public static CSVfile Instance => _instance;
         private string defaultpath { get; set; }
 
-        public CSVfile(string _path = null)
+        public CSVfile( string _path = null)
         {
 
             try
@@ -67,26 +67,9 @@ namespace SuperCarter.Model
 
                 if (string.IsNullOrEmpty(_path))
                 {
-                    var FOLDER_RESULT = System.Windows.Forms.Application.StartupPath + @"\result\Dynamic";
-                    defaultpath = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyyMMddHHmmss"), "_dataOutput.csv");
-
-                }
-                else
-                {
                     defaultpath = ConfigModel.Instance.GetStrScriptpath();
                 }
-
-
-                if (!File.Exists(defaultpath))
-                {
-                    using (var stream = File.Create(defaultpath))
-                    using (var writer = new StreamWriter(stream))
-                    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-                    {
-                        //csv.WriteHeader<UnifiedHostCommandSettypeBeta>();
-                        //csv.NextRecord();
-                    }
-                }
+              
 
             }
             catch (Exception ex)
@@ -123,6 +106,15 @@ namespace SuperCarter.Model
         {
             try
             {
+                if (!File.Exists(defaultpath))
+                {
+                    using (var stream = File.Create(defaultpath))
+                    using (var writer = new StreamWriter(stream))
+                    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                    {
+                     
+                    }
+                }
                 // Now, append the record
                 var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
 
@@ -215,25 +207,91 @@ namespace SuperCarter.Model
         }
         public void AppendToCsv(UnifiedHostCommandSettype data)
         {
-            if (!File.Exists(defaultpath))
-            {
-                // If the file does not exist, create it and write the header
-                using (var stream = File.Create(defaultpath))
+            try {
+
+                if (!File.Exists(defaultpath))
+                {
+                    // If the file does not exist, create it and write the header
+                    using (var stream = File.Create(defaultpath))
+                    using (var writer = new StreamWriter(stream))
+                    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                    {
+                        csv.NextRecord();
+                        csv.NextRecord();
+                        csv.WriteComment($",,,,Sample #1,,,,,,,,,,,,Sample #2,,,,,,,,,,,,,Sample #3,,,");
+                        csv.NextRecord();
+                        csv.WriteComment(",,,,Spec,,show min spec,show min spec,,show min spec,OK: 1 finger NG:other,Center X Y +/-10%,,,,,Spec,,show min spec,show min spec,,show min spec,OK: 1 finger NG:other,Center X Y +/-10%,,,,,Spec,,show min spec,show min spec,,show min spec,OK: 1 finger NG:other,Center X Y +/-10%,");
+                        csv.NextRecord();
+                        csv.WriteHeader<UnifiedHostCommandSettype>();
+
+                        csv.NextRecord();       // 進入下一段
+                    }
+                }
+
+                // Now, append the record
+                using (var stream = File.Open(defaultpath, FileMode.Append))
                 using (var writer = new StreamWriter(stream))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
-                    csv.WriteHeader<UnifiedHostCommandSettype>();
-                    writer.WriteLine();
+                    csv.WriteRecord(data);
+                    csv.NextRecord();
+                    //writer.WriteLine(); // Write new line
                 }
             }
-
-            // Now, append the record
-            using (var stream = File.Open(defaultpath, FileMode.Append))
-            using (var writer = new StreamWriter(stream))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            catch (Exception ex)
             {
-                csv.WriteRecord(data);
-                writer.WriteLine(); // Write new line
+
+                MessageBox.Show(ex.StackTrace);
+                MessageBox.Show(ex.Message);
+            }   
+          
+        }
+        public void ErrordataAppendTocsv(UnifiedHostCommandSettype data, SendAndReceiveDatabatchcheck cmd)
+        {
+            try
+            {
+                if (!File.Exists(defaultpath))
+                {
+                    // If the file does not exist, create it and write the header
+                    using (var stream = File.Create(defaultpath))
+                    using (var writer = new StreamWriter(stream))
+                    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                    {
+                        csv.WriteHeader<MonitoringErrordataOutputFormat>();
+                        csv.NextRecord();       // 進入下一段
+                    }
+                }
+                // Now, append the record
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
+
+                using (var stream = File.Open(defaultpath, FileMode.Append))
+                using (var writer = new StreamWriter(stream))
+                using (var csv = new CsvWriter(writer, config))
+                {
+                    var writeRecords1 = new List<MonitoringErrordataOutputFormat>
+                    {
+                        // for DUT1
+                        new MonitoringErrordataOutputFormat {
+                            Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
+                            Loop = data.Loop,
+                            Blockphase = data.Blockphase,
+                            Blockloop = data.Blockloop,
+                            PowerMode = "NULL",
+                            Send_command = cmd.strSequenceData_send,
+                            Receive_command = cmd.strSequenceData_Rec,
+                        },
+                      
+                    };
+                    // 寫入資料
+                    csv.WriteRecords(writeRecords1);
+              
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.StackTrace);
+                MessageBox.Show(ex.Message);
             }
         }
 

@@ -58,7 +58,7 @@ namespace SuperCarter.View.Script
             SequenceScript.CancelEdit(DataGridEditingUnit.Cell);
             SequenceScript.CancelEdit(DataGridEditingUnit.Row);
 
-            //(this.DataContext as SuperCarterViewModel).scriptEditor.evt_ScriptToolBar_Sortintitem();
+            (this.DataContext as SuperCarterViewModel).scriptEditor.evt_ScriptToolBar_Sortintitem();
 
 
             CollectionViewSource.GetDefaultView(SequenceScript.ItemsSource).Refresh();

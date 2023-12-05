@@ -1,0 +1,90 @@
+<TestSuites Loop="3" BlockALoop="3" BlockBLoop="3" BlockA1Interval="300000" BlockA2Interval="60000" BlockB1Interval="60000" BlockB2Interval="60000" MonitoringIntervaltime="3000">
+  <TestSuiteA1init>
+    <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\wakeup.xml" />
+    <TestSequence>
+      <Sequence ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Sequence="FA 57 00 02 01" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+    </TestSequence>
+  </TestSuiteA1init>
+  <TestSuiteA1>
+    <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\dynamicmonitor.xml" />
+    <TestSequence>
+      <Sequence ID="1" PortNum="all" Nodename="SWversion" MSGname="SWversion1" Sequence="FA 52 01 00 02" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="2" PortNum="all" Nodename="SWversion" MSGname="SWversion2" Sequence="FA 52 02 00 02" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="3" PortNum="all" Nodename="SWversion" MSGname="SWversion3" Sequence="FA 52 03 00 02" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="4" PortNum="all" Nodename="HWversion" MSGname="HWversion1" Sequence="FA 52 01 00 01" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="5" PortNum="all" Nodename="HWversion" MSGname="HWversion2" Sequence="FA 52 02 00 01" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="6" PortNum="all" Nodename="HWversion" MSGname="HWversion3" Sequence="FA 52 03 00 01" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="7" PortNum="all" Nodename="ReadDiagnostic" MSGname="ReadDiagnostic1" Sequence="FA 52 01 04 01" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="8" PortNum="all" Nodename="ReadDiagnostic" MSGname="ReadDiagnostic2" Sequence="FA 52 02 04 01" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="9" PortNum="all" Nodename="ReadDiagnostic" MSGname="ReadDiagnostic3" Sequence="FA 52 03 04 01" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="10" PortNum="all" Nodename="ReadBrightness" MSGname="ReadBrightness1" Sequence="FA 52 01 01 01" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="11" PortNum="all" Nodename="ReadBrightness" MSGname="ReadBrightness2" Sequence="FA 52 02 01 01" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="12" PortNum="all" Nodename="ReadBrightness" MSGname="ReadBrightness3" Sequence="FA 52 03 01 01" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="13" PortNum="all" Nodename="ReadInputVoltage" MSGname="ReadInputVoltage1" Sequence="FA 52 01 04 02" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="14" PortNum="all" Nodename="ReadInputVoltage" MSGname="ReadInputVoltage2" Sequence="FA 52 02 04 02" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="15" PortNum="all" Nodename="ReadInputVoltage" MSGname="ReadInputVoltage3" Sequence="FA 52 03 04 02" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="16" PortNum="all" Nodename="Read_temp" MSGname="Read_temp1" Sequence="FA 52 01 04 03" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="17" PortNum="all" Nodename="Read_temp" MSGname="Read_temp2" Sequence="FA 52 02 04 03" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="18" PortNum="all" Nodename="Read_temp" MSGname="Read_temp3" Sequence="FA 52 03 04 03" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="19" PortNum="all" Nodename="T_chamber_temp" MSGname="T_chamber_temp1" Sequence="FA 52 01 04 04" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="20" PortNum="all" Nodename="T_chamber_temp" MSGname="T_chamber_temp2" Sequence="FA 52 02 04 04" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="21" PortNum="all" Nodename="T_chamber_temp" MSGname="T_chamber_temp3" Sequence="FA 52 03 04 04" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="22" PortNum="all" Nodename="display_brightness_ADC" MSGname="display_brightness_ADC1" Sequence="FA 52 01 04 05" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="23" PortNum="all" Nodename="display_brightness_ADC" MSGname="display_brightness_ADC2" Sequence="FA 52 02 04 05" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="24" PortNum="all" Nodename="display_brightness_ADC" MSGname="display_brightness_ADC3" Sequence="FA 52 03 04 05" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="25" PortNum="all" Nodename="current" MSGname="TXB1send_curr1" Sequence="FA 52 01 05 01" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="26" PortNum="all" Nodename="current" MSGname="TXB1send_curr3" Sequence="FA 52 03 05 01" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="27" PortNum="all" Nodename="current" MSGname="TXB1send_curr2" Sequence="FA 52 02 05 01" Delaytime="500" RecSequence="" HashCodevalue="" Loop="1" />
+    </TestSequence>
+  </TestSuiteA1>
+  <TestSuiteA2init>
+    <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\sleep.xml" />
+    <TestSequence>
+      <Sequence ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Sequence="FA 57 00 02 00" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+    </TestSequence>
+  </TestSuiteA2init>
+  <TestSuiteA2>
+    <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\sleep_detectionitem.xml" />
+    <TestSequence>
+      <Sequence ID="1" PortNum="all" Nodename="current" MSGname="TXB1send_curr1" Sequence="FA 52 01 05 01" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="2" PortNum="all" Nodename="current" MSGname="TXB1send_curr2" Sequence="FA 52 02 05 01" Delaytime="200" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="3" PortNum="all" Nodename="current" MSGname="TXB1send_curr3" Sequence="FA 52 03 05 01" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+    </TestSequence>
+  </TestSuiteA2>
+  <TestSuiteB1init>
+    <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\sleep.xml" />
+    <TestSequence>
+      <Sequence ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Sequence="FA 57 00 02 00" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+    </TestSequence>
+  </TestSuiteB1init>
+  <TestSuiteB1>
+    <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\sleep_detectionitem.xml" />
+    <TestSequence>
+      <Sequence ID="1" PortNum="all" Nodename="current" MSGname="TXB1send_curr1" Sequence="FA 52 01 05 01" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="2" PortNum="all" Nodename="current" MSGname="TXB1send_curr2" Sequence="FA 52 02 05 01" Delaytime="200" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="3" PortNum="all" Nodename="current" MSGname="TXB1send_curr3" Sequence="FA 52 03 05 01" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+    </TestSequence>
+  </TestSuiteB1>
+  <TestSuiteB2init>
+    <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\sleep.xml" />
+    <TestSequence>
+      <Sequence ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Sequence="FA 57 00 02 00" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+    </TestSequence>
+  </TestSuiteB2init>
+  <TestSuiteB2>
+    <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\sleep_detectionitem.xml" />
+    <TestSequence>
+      <Sequence ID="1" PortNum="all" Nodename="current" MSGname="TXB1send_curr1" Sequence="FA 52 01 05 01" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="2" PortNum="all" Nodename="current" MSGname="TXB1send_curr2" Sequence="FA 52 02 05 01" Delaytime="200" RecSequence="" HashCodevalue="" Loop="1" />
+      <Sequence ID="3" PortNum="all" Nodename="current" MSGname="TXB1send_curr3" Sequence="FA 52 03 05 01" Delaytime="100" RecSequence="" HashCodevalue="" Loop="1" />
+    </TestSequence>
+  </TestSuiteB2>
+  <ThresholdSetting>
+    <DetectDiag IsEnable="True" />
+    <NormCurrent IsEnable="True" Upper="0" Lower="0" />
+    <SleepCurrent IsEnable="True" Upper="0" />
+    <Lightsensor IsEnable="True" Upper="0" Lower="0" />
+    <Touchfinger IsEnable="True" />
+    <TouchXY IsEnable="True" />
+  </ThresholdSetting>
+</TestSuites>

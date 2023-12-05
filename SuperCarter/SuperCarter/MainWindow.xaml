@@ -61,28 +61,28 @@
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
 
                 <Image Grid.Row="0"
-                   MaxWidth="100"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Bottom"
-                   Source="/Images/auo_lite.png"  />
+                       MaxWidth="100"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom"
+                       Margin="0 0 0 5"
+                       Source="/Images/auo_lite.png"  />
                 <TextBlock Grid.Row="1"
                            Text="DQA Standart FIDM test&#x000A;@ Super Carrier board" 
-                           FontWeight="Bold"                           
-                           FontSize="8"
-                           Margin="0 0 0 0"
+                           FontWeight="Bold" 
+                           FontFamily="Georgia"
+                           FontSize="11"
+                           Margin="0 0 0 2"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"
                            Foreground="#FF005087"/>
-                <TextBlock 
-                           Text="設計驗證" 
+                <TextBlock Text="設計驗證" 
                            FontWeight="Bold"                           
                            FontSize="13"
                            Margin="0 0 0 0"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"
                            Foreground="#FF005087"/>
-                <TextBlock 
-                           Text="{Binding SoftwareVersion}" 
+                <TextBlock Text="{Binding SoftwareVersion}" 
                            FontWeight="Bold"                           
                            FontSize="13"
                            Margin="0 0 0 0"
@@ -90,16 +90,15 @@
                            HorizontalAlignment="Center"
                            Foreground="#FF005087"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button 
-                        Width="110"
-                        Height="110"
-                        Margin="12"
-                        Content="ISP"
-                        Command="{Binding OpenISPtool}"
-                        Background="#19DDDDDD"
-                        VerticalAlignment="Top"
-                        >
-                        <Button.Style>
+                    <Button Width="110"
+                            Height="110"
+                            Margin="12"
+                            Content="ISP"
+                            Command="{Binding OpenISPtool}"
+                            Background="#19DDDDDD"
+                            VerticalAlignment="Top"
+                            >
+                            <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Template">
                                     <Setter.Value>
@@ -134,75 +133,63 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button 
-                        Width="110"
-                        Height="110"
-                         Margin="12"
-                        Content="ISP"
-                        Command="{Binding OpenISPtool}"
-                        Background="#19DDDDDD"
-                        VerticalAlignment="Top"
-                        >
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <ContentControl>
-                                                <Border Name="innerborder" 
-                                                    BorderBrush="#FFD4D4D4"
-                                                    BorderThickness="1,1,2,2" 
-                                                    Background="{TemplateBinding Background}" CornerRadius="5">
-                                                    <StackPanel Orientation="Vertical" 
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center">
-                                                        <Image Width="60" Height="60" 
-                                                           Source="/Images/icon.png" 
-                                                           />
-                                                        <TextBlock Text="View"
-                                                               HorizontalAlignment="Center"
-                                                               VerticalAlignment="Stretch"
+                    <Button Width="110"
+                            Height="110"
+                            Margin="12"
+                            Content="ISP"
+                            Command="{Binding OpenISPtool}"
+                            Background="#19DDDDDD"
+                            VerticalAlignment="Top"
+                            >
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <ContentControl>
+                                                    <Border Name="innerborder" 
+                                                        BorderBrush="#FFD4D4D4"
+                                                        BorderThickness="1,1,2,2" 
+                                                        Background="{TemplateBinding Background}" CornerRadius="5">
+                                                        <StackPanel Orientation="Vertical" 
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center">
+                                                            <Image Width="60" Height="60" 
+                                                               Source="/Images/icon.png" 
                                                                />
-                                                    </StackPanel>
-                                                </Border>
-                                            </ContentControl>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="Button.IsPressed" Value="True" >
-                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
-                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
+                                                            <TextBlock Text="View"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Stretch"
+                                                                   />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </ContentControl>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="Button.IsPressed" Value="True" >
+                                                        <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                        <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
                     </Button>
                 </StackPanel>
-
-
             </StackPanel>
-
-
-
         </Grid>
-
-
         <Grid   Grid.Row="0" Margin="37,30,3,3" >
             <avalonDock:DockingManager x:Name="dockManager"  
                                        Background="White"
-                                   AnchorablesSource="{Binding Tools}" 
-                                   DocumentsSource="{Binding Files}"                                           
-                                   Margin="3"     
-                                    
-                                   >
-                <avalonDock:LayoutRoot >
+                                       AnchorablesSource="{Binding Tools}" 
+                                       DocumentsSource="{Binding Files}"                                           
+                                       Margin="3" >
+                <avalonDock:LayoutRoot>
                     <avalonDock:LayoutPanel Orientation="Horizontal" >
                         <avalonDock:LayoutAnchorablePaneGroup DockWidth="3*" DockHeight="1*"
-                                                             
                                                               Orientation="Vertical" >
                             <avalonDock:LayoutAnchorablePaneGroup DockHeight="3*"
-                                                                  
                                                                   Orientation="Horizontal">
                                 <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequences" DockHeight="4*">
                                     <avalonDock:LayoutAnchorable CanAutoHide="False"
@@ -257,9 +244,9 @@
                                     </Grid>
                                 </avalonDock:LayoutAnchorable>
                                 <avalonDock:LayoutAnchorable ContentId="TextViewPortI_Output"
-                                                                 CanAutoHide="True"
-                                                            CanClose="False"
-                                                         Title="Port I">
+                                                             CanAutoHide="True"
+                                                             CanClose="False"
+                                                             Title="Port I">
                                     <Grid >
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1*"/>
@@ -268,13 +255,13 @@
                                         </Grid.RowDefinitions>
 
                                         <TextBox x:Name="TextViewPortI" Text="{Binding TextViewPortI}" 
-                                                             IsReadOnly="True" AcceptsReturn="True"
-                                                             VerticalScrollBarVisibility="Auto"  
-                                                             ScrollViewer.CanContentScroll="True" 
-                                                             FontFamily="Consolas"
-                                                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                             ScrollViewer.VerticalScrollBarVisibility="Auto"                     
-                                                             TextChanged="TextViewPortI_TextChanged"/>
+                                                 IsReadOnly="True" AcceptsReturn="True"
+                                                 VerticalScrollBarVisibility="Auto"  
+                                                 ScrollViewer.CanContentScroll="True" 
+                                                 FontFamily="Consolas"
+                                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                 ScrollViewer.VerticalScrollBarVisibility="Auto"                     
+                                                 TextChanged="TextViewPortI_TextChanged"/>
                                         <Grid Grid.Row="1">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1*"/>
@@ -297,9 +284,9 @@
                                     </Grid>
                                 </avalonDock:LayoutAnchorable>
                                 <avalonDock:LayoutAnchorable ContentId="TextViewPortII_Output"
-                                                                 CanAutoHide="True"
-                                                                 CanClose="False"
-                                                         Title="Port II">
+                                                             CanAutoHide="True"
+                                                             CanClose="False"
+                                                             Title="Port II">
                                     <Grid >
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1*"/>
@@ -346,13 +333,13 @@
                                             <RowDefinition Height="7"/>
                                         </Grid.RowDefinitions>
                                         <TextBox x:Name="TextViewPortIII" Text="{Binding TextViewPortIII}" 
-                                                             IsReadOnly="True" AcceptsReturn="True"
-                                                             VerticalScrollBarVisibility="Auto"  
-                                                             ScrollViewer.CanContentScroll="True" 
-                                                             FontFamily="Consolas"
-                                                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                             ScrollViewer.VerticalScrollBarVisibility="Auto"                     
-                                                             TextChanged="TextViewPortIII_TextChanged"/>
+                                                 IsReadOnly="True" AcceptsReturn="True"
+                                                 VerticalScrollBarVisibility="Auto"  
+                                                 ScrollViewer.CanContentScroll="True" 
+                                                 FontFamily="Consolas"
+                                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                 ScrollViewer.VerticalScrollBarVisibility="Auto"                     
+                                                 TextChanged="TextViewPortIII_TextChanged"/>
                                         <Grid Grid.Row="1">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1*"/>
@@ -448,7 +435,7 @@
                                 <MenuItem x:Name="ExitMenuItem" Header="退出(X)" 
                               InputGestureText="Alt+F4"
                               />
-                                <MenuItem x:Name="PathofDataItem" Header="data資料夾的位置" 
+                                <MenuItem x:Name="PathofDataItem" Header="data資料夾的位置" Click="PathofDataItem_Click" 
                               />
                                 <MenuItem x:Name="PathofDefaultscript" Header="script資料夾的位置" Click="PathofDefaultscript_Click"  
                               />
@@ -575,7 +562,6 @@
                                                     ToolTip="開啟 app 視窗與 所有 text view 視窗"
                                                     Margin=" 0 3 0 3" >
                                                 <Button.Style>
-
                                                     <Style TargetType="{x:Type Button}">
                                                         <Setter Property="Template">
                                                             <Setter.Value>

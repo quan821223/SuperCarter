@@ -14,15 +14,18 @@ using System.Globalization;
 using System.IO.Ports;
 using System.IO;
 using System.Windows.Interop;
+using SuperCarter.View.Dashboard;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace SuperCarter.ViewModel
 {
     public class SuperCarterViewModel : ViewModelBase
     {
-    
+
         public ScheduledScriptEditor scheduledscriptEditor { get; set; }
         public ScriptEditor scriptEditor { get; set; }
-        public SerialPortManager serialportmanager{get;set;}
+        public SerialPortManager serialportmanager { get; set; }
         public InitialStateConfirm initialStateConfirm { get; set; }
         public CustomscriptExecution Customscript { get; set; }
         public int SelectSerialportIndex { get; set; }
@@ -64,7 +67,7 @@ namespace SuperCarter.ViewModel
         /// <param name="msg"></param>
         public void DisplayInfoToViewText(RealtimeMsgQueuetype data)
         {
-            if(data.msgtype == 0)
+            if (data.msgtype == 0)
             {
                 AllViewText += data.msg + "\r\n";
             }
@@ -109,9 +112,31 @@ namespace SuperCarter.ViewModel
             logger.Log(_popmsg.LogLevel, _popmsg.Msg);
         }
 
+        private ICommand _ViewNaviIMG;
+        public ICommand ViewNaviIMG
+        {
+            get
+            {
+                _ViewNaviIMG = new RelayCommand(
+                      param => ViewIMG(param));
+                return _ViewNaviIMG;
+            }
+        }
+
+        private string _PageName = "navi_img1.xaml";
+        public string PageName 
+        {
+            get { return _PageName; }
+            set { _PageName = value; OnPropertyChanged(nameof(PageName)); }
+        }
+
+        private void ViewIMG(object obj)
+        {
+            PageName = obj.ToString();
+        }
 
 
-      
+
 
     }
 }

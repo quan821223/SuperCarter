@@ -188,7 +188,24 @@ namespace SuperCarter.Model
         public byte[] byte_buffer_Send { get; set; }
         public byte[] byte_buffer_Receive { get; set; }
     }
+    public class MonitoringErrordataOutputFormat
+    {
+        [Name("*Time")]
+        public string Time { get; set; }
+        [Name("*Loop")]
+        public string Loop { get; set; }
+        [Name("*Phase")]
+        public string Blockphase { get; set; }
 
+        [Name("*Blockloop")]
+        public string Blockloop { get; set; }
+        [Name("*PowerMode")]
+        public string PowerMode { get; set; }
+        [Name("*Send_CMD")]
+        public string Send_command { get; set; }
+        [Name("*Receive_CMD")]
+        public string Receive_command { get; set; }
+    }
     public class UnifiedHostCommandSettype
     {
         [Ignore]
@@ -237,9 +254,11 @@ namespace SuperCarter.Model
         public ConcurrentQueue<string> DUT3CurrentList { get; set; } = new ConcurrentQueue<string>();
 
         // for DUT1
-        [Name("#1 SWversion")]
+        //[Name("#1 SWversion")]
+        [Ignore]
         public string DUT1SWversion { get; set; }
-        [Name("#1 HWversion")]
+        //[Name("#1 HWversion")]
+        [Ignore]
         public string DUT1HWversion { get; set; }
         [Name("#1 InputVoltage")]
         public string DUT1Voltage { get; set; }
@@ -298,9 +317,11 @@ namespace SuperCarter.Model
         [Name("#1 Diagnostic_raw")]
         public string DUT1Diagnostic_raw { get; set; }
         // for DUT2
-        [Name("#2 SWversion")]
+        //[Name("#2 SWversion")]
+        [Ignore]
         public string DUT2SWversion { get; set; }
-        [Name("#2 HWversion")]
+        //[Name("#2 HWversion")]
+        [Ignore]
         public string DUT2HWversion { get; set; }
         [Name("#2 PowerMode")]
         public string DUT2PowerMode { get; set; }
@@ -363,9 +384,11 @@ namespace SuperCarter.Model
         [Name("#2 Diagnostic_raw")]
         public string DUT2Diagnostic_raw { get; set; }
         // DUT3
-        [Name("#3 SWversion")]
+        //[Name("#3 SWversion")]
+        [Ignore]
         public string DUT3SWversion { get; set; }
-        [Name("#3 HWversion")]
+        //[Name("#3 HWversion")]
+        [Ignore]
         public string DUT3HWversion { get; set; }
         [Name("#3 PowerMode")]
         public string DUT3PowerMode { get; set; }

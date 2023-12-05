@@ -43,13 +43,29 @@
                     <TabItem>
                         <TabItem.Header>
                             <StackPanel Orientation="Vertical">
+                                <materialDesign:PackIcon Kind="LightbulbOutline"
+                                                             Width="26" Height="32"
+                                                             VerticalAlignment="Stretch" 
+                                                             Foreground="#FF4D4D4D" 
+                                                             HorizontalAlignment="Stretch"
+                                                             />
+                                <TextBlock Text="Guide" Foreground="Black" 
+                                               FontWeight="Bold" Margin="1 5"/>
+                            </StackPanel>
+                        </TabItem.Header>
+
+                        <Viewconfig:MonitoringGuide Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel Orientation="Vertical">
                                 <materialDesign:PackIcon Kind="ScriptTextOutline"
                                                              Width="26" Height="32"
                                                              VerticalAlignment="Stretch" 
                                                              Foreground="#FF4D4D4D" 
                                                              HorizontalAlignment="Stretch"
                                                              />
-                                <TextBlock Text="Script" Foreground="Black" 
+                                <TextBlock Text="Edit" Foreground="Black" 
                                                FontWeight="Bold" Margin="1 5"/>
                             </StackPanel>
                         </TabItem.Header>

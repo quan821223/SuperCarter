@@ -311,20 +311,22 @@ namespace SuperCarter.Model
                 // Loading from a file, you can also load from a stream
                 XmlDocument ScriptionXML = new XmlDocument();
                 ScriptionXML.Load(_ScriptEditor.OpenedBlockScriptPath);
-                    List<string> list = new List<string>() {"TestSuiteA1init", "TestSuiteA1",
+                List<string> list = new List<string>() {"TestSuiteA1init", "TestSuiteA1",
                                                              "TestSuiteA2init", "TestSuiteA2",
                                                              "TestSuiteB1init", "TestSuiteB1",
                                                              "TestSuiteB2init", "TestSuiteB2",
                                                             };
 
                 XmlNode root = ScriptionXML.SelectSingleNode("TestSuites");
-                _ScriptEditor.Fullloop = Convert.ToInt32(root.Attributes["Loop"]?.Value);
+                _ScriptEditor.Fullloop = Convert.ToInt32(root.Attributes["Loop"]?.Value ?? "1");
                 _ScriptEditor.BlockALoop = Convert.ToInt32(root.Attributes["BlockALoop"]?.Value);
                 _ScriptEditor.BlockBLoop = Convert.ToInt32(root.Attributes["BlockBLoop"]?.Value);
                 _ScriptEditor.BlockA1Interval = Convert.ToInt32(root.Attributes["BlockA1Interval"]?.Value);
                 _ScriptEditor.BlockA2Interval = Convert.ToInt32(root.Attributes["BlockA2Interval"]?.Value);
                 _ScriptEditor.BlockB1Interval = Convert.ToInt32(root.Attributes["BlockB1Interval"]?.Value);
                 _ScriptEditor.BlockB2Interval = Convert.ToInt32(root.Attributes["BlockB2Interval"]?.Value);
+                _ScriptEditor.MonitoringIntervaltime = Convert.ToInt32(root.Attributes["MonitoringIntervaltime"]?.Value ?? "3000");
+
                 foreach (var ite in list)
                 {
                     string strblock = "TestSuites/" + ite + "/TestSequence";
@@ -381,7 +383,7 @@ namespace SuperCarter.Model
                     else if (ite == "TestSuiteA2")
                     {
                         _ScriptEditor.BlockA2ObsColSequences = Temp;
-                        _ScriptEditor.BlockA2scriptPath = requisites.Attributes["Path"]?.Value ?? "";                    
+                        _ScriptEditor.BlockA2scriptPath = requisites.Attributes["Path"]?.Value ?? "";
                     }
                     else if (ite == "TestSuiteB1init")
                     {
@@ -441,16 +443,18 @@ namespace SuperCarter.Model
                         _ScriptEditor.IsEnableTouchXY = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
                     }
                 }
-                  
-                  
+
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 MessageBox.Show(ex.StackTrace);
             }
+            
 
         }
+
         public void evt_SaveScriptTestSuitefile(string SavePath, ScheduledScriptEditor _ScriptEditor)
         {
             try
@@ -469,7 +473,8 @@ namespace SuperCarter.Model
                 root.SetAttribute("BlockA2Interval", _ScriptEditor.BlockA2Interval.ToString() ?? "");
                 root.SetAttribute("BlockB1Interval", _ScriptEditor.BlockB1Interval.ToString() ?? "");
                 root.SetAttribute("BlockB2Interval", _ScriptEditor.BlockB2Interval.ToString() ?? "");
-           
+                root.SetAttribute("MonitoringIntervaltime", _ScriptEditor.MonitoringIntervaltime.ToString() ?? "3000");
+                
                 // Create the item element
                 ScriptionXML.AppendChild(root);
                

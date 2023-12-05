@@ -40,7 +40,6 @@ namespace SuperCarter.Model
             blockAfolderViewerlist = new ObservableCollection<IFiletype>();
             ctsScrollingcheck= new CancellationTokenSource();
 
-
             /// 燈號設定
             DynamicdisplaySwitch = Visibility.Visible;
             DynamicLabelText = "●";
@@ -73,7 +72,8 @@ namespace SuperCarter.Model
         public bool IsEnableTouchfinger { get; set; } = false;
         public bool IsEnableTouchXY { get; set; } = false;
         public string Openblockfilepath { get; set; }
-        public CSVfile cSVfile { get; set; }
+        public CSVfile cSVfile { get; set; } 
+        public CSVfile Error_cSVfile { get; set; } 
         private static UnifiedHostCommandSettype UnifiedHostCommandSet { get; set; } =new UnifiedHostCommandSettype();
         public ObservableCollection<IFiletype> blockAfolderViewerlist { get; set; } = new ObservableCollection<IFiletype>();
         public ObservableCollection<Foldertype> folderViewerlist { get; set; } = new ObservableCollection<Foldertype>();
@@ -217,7 +217,16 @@ namespace SuperCarter.Model
                 _EstimateruntimeforblockB *= BlockBLoop;
             }
         }
-
+        private int _MonitoringIntervaltime = 3000;
+        public int MonitoringIntervaltime
+        {
+            get => _MonitoringIntervaltime;
+            set
+            {
+                _MonitoringIntervaltime = value;
+                OnPropertyChanged(nameof(MonitoringIntervaltime));
+            }
+        }
 
         private int _BlockA1Interval, _BlockA2Interval, _BlockB1Interval, _BlockB2Interval;
         public int BlockA1Interval
@@ -335,6 +344,12 @@ namespace SuperCarter.Model
                     updateUIobj();      // 刷新項目
                 });
             }
+            if(IsEnableScheduledDetectmode && bytes.byte_buffer_Send.Length > 0 && bytes.strSequenceData_Rec.Length < 1)
+            {
+                Error_cSVfile.ErrordataAppendTocsv(UnifiedHostCommandSet, bytes);
+            }
+            
+
         }
         #endregion
 
@@ -360,7 +375,6 @@ namespace SuperCarter.Model
             }
 
         }
-
 
         private ICommand _SettinViewPath, _ReleasetoRefresh;
         public ICommand SettinViewPath
@@ -480,202 +494,206 @@ namespace SuperCarter.Model
                 XmlDocument ScriptionXML = new XmlDocument();
 
                 ScriptionXML.Load(ScriptPath);
-
-
-
                 XmlNode root = ScriptionXML.SelectSingleNode("TestSuites");
 
-                Fullloop = Convert.ToInt32(root.Attributes["Loop"]?.Value);
-                BlockALoop = Convert.ToInt32(root.Attributes["BlockALoop"]?.Value);
-                BlockBLoop = Convert.ToInt32(root.Attributes["BlockBLoop"]?.Value);
-                BlockA1Interval = Convert.ToInt32(root.Attributes["BlockA1Interval"]?.Value);
-                BlockA2Interval = Convert.ToInt32(root.Attributes["BlockA2Interval"]?.Value);
-                BlockB1Interval = Convert.ToInt32(root.Attributes["BlockB1Interval"]?.Value);
-                BlockB2Interval = Convert.ToInt32(root.Attributes["BlockB2Interval"]?.Value);
-
-                List<string> list = new List<string>() {"TestSuiteA1init", "TestSuiteA1", "TestSuiteA2init", "TestSuiteA2",
+                if (root is not null)
+                {
+                    Fullloop = Convert.ToInt32(root.Attributes["Loop"]?.Value ?? "0");
+                    BlockALoop = Convert.ToInt32(root.Attributes["BlockALoop"]?.Value);
+                    BlockBLoop = Convert.ToInt32(root.Attributes["BlockBLoop"]?.Value);
+                    BlockA1Interval = Convert.ToInt32(root.Attributes["BlockA1Interval"]?.Value);
+                    BlockA2Interval = Convert.ToInt32(root.Attributes["BlockA2Interval"]?.Value);
+                    BlockB1Interval = Convert.ToInt32(root.Attributes["BlockB1Interval"]?.Value);
+                    BlockB2Interval = Convert.ToInt32(root.Attributes["BlockB2Interval"]?.Value);
+                    MonitoringIntervaltime = Convert.ToInt32(root.Attributes["MonitoringIntervaltime"]?.Value?? "3000");
+                    List<string> list = new List<string>() {"TestSuiteA1init", "TestSuiteA1", "TestSuiteA2init", "TestSuiteA2",
                                                         "TestSuiteB1init", "TestSuiteB1", "TestSuiteB2init", "TestSuiteB2",
                                                          };
-                string Threblock = "TestSuites/ThresholdSetting";
-                XmlNode blocknode = ScriptionXML.SelectSingleNode(Threblock);
-                foreach (XmlElement node in blocknode)
-                {
-                    if (node.Name == "DetectDiag")
+                    string Threblock = "TestSuites/ThresholdSetting";
+                    XmlNode blocknode = ScriptionXML.SelectSingleNode(Threblock);
+
+                    foreach (XmlElement node in blocknode)
                     {
-                        IsEnableDetectDiag = Convert.ToBoolean(node.Attributes["IsEnable"].Value);
+                        if (node.Name == "DetectDiag")
+                        {
+                            IsEnableDetectDiag = Convert.ToBoolean(node.Attributes["IsEnable"].Value);
+                        }
+                        else if (node.Name == "NormCurrent")
+                        {
+                            IsEnableDetectnormCurrent = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                            UpperLimitnormCurrentValue = Convert.ToInt32(node.Attributes["Upper"].Value);
+                            LowerLimitnormCurrentValue = Convert.ToInt32(node.Attributes["Lower"].Value);
+                        }
+                        else if (node.Name == "SleepCurrent")
+                        {
+                            IsEnableDetectsleepCurrent = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                            UpperLimitsleepCurrentValue = Convert.ToInt32(node.Attributes["Upper"].Value);
+                        }
+                        else if (node.Name == "Lightsensor")
+                        {
+                            IsEnableDetectLightsensor = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                            UpperLimitLightsensorValue = Convert.ToInt32(node.Attributes["Upper"].Value);
+                            LowerLimitLightsensorValue = Convert.ToInt32(node.Attributes["Lower"].Value);
+                        }
+                        else if (node.Name == "Touchfinger")
+                        {
+                            IsEnableTouchfinger = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                        }
+                        else if (node.Name == "TouchXY")
+                        {
+                            IsEnableTouchXY = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
+                        }
                     }
-                    else if (node.Name == "NormCurrent")
+
+
+                    foreach (var ite in list)
                     {
-                        IsEnableDetectnormCurrent = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                        UpperLimitnormCurrentValue = Convert.ToInt32(node.Attributes["Upper"].Value);
-                        LowerLimitnormCurrentValue = Convert.ToInt32(node.Attributes["Lower"].Value);
+
+
+                        string strblock = "TestSuites/" + ite + "/TestSequence";
+                        XmlNode block = ScriptionXML.SelectSingleNode(strblock);
+                        string strrequisites = "TestSuites/" + ite + "/Prerequisites";
+                        XmlNode requisites = ScriptionXML.SelectSingleNode(strrequisites);
+
+                        XmlElement element = (XmlElement)block;
+                        ObservableCollection<ScriptItemtype> obsTemp = new ObservableCollection<ScriptItemtype>();
+                        List<SendorExecuteSendType> Temp = new List<SendorExecuteSendType>();
+                        //取得節點內的欄位
+                        foreach (XmlElement node in element)
+                        {
+                            String ID = node.Attributes["ID"].Value ?? "";
+                            String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
+                            String Nodename = node.Attributes["Nodename"]?.Value ?? "";
+                            String MSGname = node.Attributes["MSGname"]?.Value ?? "";
+                            String Sequence = node.Attributes["Sequence"]?.Value ?? "";
+                            String Delaytime = node.Attributes["Delaytime"]?.Value ?? "200";
+                            String RecSequence = node.Attributes["RecSequence"]?.Value ?? "";
+                            String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
+                            String Loop = node.Attributes["Loop"]?.Value ?? "1";
+
+                            if (PortNum == "all")
+                            {
+                                Temp.Add(new SendorExecuteSendType()
+                                {
+                                    PortNum = 9,
+                                    SequenceData = new byte[0],
+                                    intDataLen = 0,
+                                    strDataLen = "0",
+                                    Delaytime = Convert.ToInt32(Delaytime),
+                                    Loop = 1,
+                                    SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                                   ID.PadLeft(3, ' '),
+                                      9,
+                                      "delay time")
+                                });
+                                Temp.Add(new SendorExecuteSendType()
+                                {
+                                    PortNum = 0,
+                                    SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
+                                    strSequenceData = Sequence,
+                                    intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
+                                    strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                    Delaytime = 0,
+                                    Loop = Convert.ToInt32(Loop),
+                                    SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                                                              ID.PadLeft(3, ' '),
+                                                                0,
+                                                                Sequence.Replace(" ", ""))
+                                });
+                                Temp.Add(new SendorExecuteSendType()
+                                {
+                                    PortNum = 1,
+                                    SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
+                                    strSequenceData = Sequence,
+                                    intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
+                                    strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                    Delaytime = 0,
+                                    Loop = Convert.ToInt32(Loop),
+                                    SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                                                            ID.PadLeft(3, ' '),
+                                                                1,
+                                                                Sequence.Replace(" ", ""))
+                                });
+                                Temp.Add(new SendorExecuteSendType()
+                                {
+                                    PortNum = 2,
+                                    SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
+                                    strSequenceData = Sequence,
+                                    intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
+                                    strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                    Delaytime = 0,
+                                    Loop = Convert.ToInt32(Loop),
+                                    SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                                                             ID.PadLeft(3, ' '),
+                                                                2,
+                                                                Sequence.Replace(" ", ""))
+                                });
+
+                            }
+                            else
+                            {
+                                Temp.Add(new SendorExecuteSendType()
+                                {
+                                    PortNum = Convert.ToInt32(PortNum),
+                                    strSequenceData = Sequence,
+                                    intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
+                                    strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                    Delaytime = Convert.ToInt32(Delaytime),
+                                    Loop = Convert.ToInt32(Loop),
+                                    SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
+                                                           ID.PadLeft(3, ' '),
+                                                                PortNum,
+                                                                Sequence.Replace(" ", ""))
+                                });
+                            }
+
+                        }
+
+                        if (ite == "TestSuiteA1init")
+                        {
+                            blockA1initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                            BlockA1initSequencesList = Temp;
+                        }
+                        else if (ite == "TestSuiteA1")
+                        {
+                            blockA1scriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                            BlockA1SequencesList = Temp;
+                        }
+                        else if (ite == "TestSuiteA2init")
+                        {
+                            blockA2initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                            BlockA2initSequencesList = Temp;
+                        }
+                        else if (ite == "TestSuiteA2")
+                        {
+                            blockA2scriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                            BlockA2SequencesList = Temp;
+                        }
+                        else if (ite == "TestSuiteB1init")
+                        {
+                            blockB1initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                            BlockB1initSequencesList = Temp;
+                        }
+                        else if (ite == "TestSuiteB1")
+                        {
+                            blockB1scriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                            BlockB1SequencesList = Temp;
+                        }
+                        else if (ite == "TestSuiteB2init")
+                        {
+                            blockB2initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                            BlockB2initSequencesList = Temp;
+                        }
+                        else if (ite == "TestSuiteB2")
+                        {
+                            blockB2scriptpath = requisites.Attributes["Path"]?.Value ?? "";
+                            BlockB2SequencesList = Temp;
+                        }
                     }
-                    else if (node.Name == "SleepCurrent")
-                    {
-                        IsEnableDetectsleepCurrent = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                        UpperLimitsleepCurrentValue = Convert.ToInt32(node.Attributes["Upper"].Value);
-                    }
-                    else if (node.Name == "Lightsensor")
-                    {
-                        IsEnableDetectLightsensor = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                        UpperLimitLightsensorValue = Convert.ToInt32(node.Attributes["Upper"].Value);
-                        LowerLimitLightsensorValue = Convert.ToInt32(node.Attributes["Lower"].Value);
-                    }
-                    else if (node.Name == "Touchfinger")
-                    {
-                        IsEnableTouchfinger = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                    }
-                    else if (node.Name == "TouchXY")
-                    {
-                        IsEnableTouchXY = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                    }
+
                 }
 
 
-                foreach (var ite in list)
-                {
-
-
-                    string strblock = "TestSuites/" + ite + "/TestSequence";
-                    XmlNode block = ScriptionXML.SelectSingleNode(strblock);
-                    string strrequisites = "TestSuites/" + ite + "/Prerequisites";
-                    XmlNode requisites = ScriptionXML.SelectSingleNode(strrequisites);
-
-                    XmlElement element = (XmlElement)block;
-                    ObservableCollection<ScriptItemtype> obsTemp = new ObservableCollection<ScriptItemtype>();
-                    List<SendorExecuteSendType> Temp = new List<SendorExecuteSendType>();
-                    //取得節點內的欄位
-                    foreach (XmlElement node in element)
-                    {
-                        String ID = node.Attributes["ID"].Value ?? "";
-                        String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
-                        String Nodename = node.Attributes["Nodename"]?.Value ?? "";
-                        String MSGname = node.Attributes["MSGname"]?.Value ?? "";
-                        String Sequence = node.Attributes["Sequence"]?.Value ?? "";
-                        String Delaytime = node.Attributes["Delaytime"]?.Value ?? "200";
-                        String RecSequence = node.Attributes["RecSequence"]?.Value ?? "";
-                        String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
-                        String Loop = node.Attributes["Loop"]?.Value ?? "1";
-
-                        if (PortNum == "all")
-                        {
-                            Temp.Add(new SendorExecuteSendType()
-                            {
-                                PortNum = 9,
-                                SequenceData = new byte[0],
-                                intDataLen = 0,
-                                strDataLen = "0",
-                                Delaytime = Convert.ToInt32(Delaytime),
-                                Loop = 1,
-                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                               ID.PadLeft(3, ' '),
-                                  9,
-                                  "delay time")
-                            });
-                            Temp.Add(new SendorExecuteSendType()
-                            {
-                                PortNum = 0,
-                                SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
-                                strSequenceData = Sequence,
-                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
-                                Delaytime = 0,
-                                Loop = Convert.ToInt32(Loop),
-                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                                                          ID.PadLeft(3, ' '),
-                                                            0,
-                                                            Sequence.Replace(" ", ""))
-                            });
-                            Temp.Add(new SendorExecuteSendType()
-                            {
-                                PortNum = 1,
-                                SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
-                                strSequenceData = Sequence,
-                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
-                                Delaytime = 0,
-                                Loop = Convert.ToInt32(Loop),
-                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                                                        ID.PadLeft(3, ' '),
-                                                            1,
-                                                            Sequence.Replace(" ", ""))
-                            });
-                            Temp.Add(new SendorExecuteSendType()
-                            {
-                                PortNum = 2,
-                                SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
-                                strSequenceData = Sequence,
-                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
-                                Delaytime = 0,
-                                Loop = Convert.ToInt32(Loop),
-                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                                                         ID.PadLeft(3, ' '),
-                                                            2,
-                                                            Sequence.Replace(" ", ""))
-                            });
-
-                        }
-                        else
-                        {
-                            Temp.Add(new SendorExecuteSendType()
-                            {
-                                PortNum = Convert.ToInt32(PortNum),
-                                strSequenceData = Sequence,
-                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
-                                Delaytime = Convert.ToInt32(Delaytime),
-                                Loop = Convert.ToInt32(Loop),
-                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                                                       ID.PadLeft(3, ' '),
-                                                            PortNum,
-                                                            Sequence.Replace(" ", ""))
-                            });
-                        }
-
-                    }
-                    
-                    if (ite == "TestSuiteA1init")
-                    {
-                        blockA1initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockA1initSequencesList = Temp;
-                    }
-                    else if (ite == "TestSuiteA1")
-                    {
-                        blockA1scriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockA1SequencesList = Temp;
-                    }
-                    else if (ite == "TestSuiteA2init")
-                    {
-                        blockA2initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockA2initSequencesList = Temp;
-                    }
-                    else if (ite == "TestSuiteA2")
-                    {
-                        blockA2scriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockA2SequencesList = Temp;
-                    }
-                    else if (ite == "TestSuiteB1init")
-                    {
-                        blockB1initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockB1initSequencesList = Temp;
-                    }
-                    else if (ite == "TestSuiteB1")
-                    {
-                        blockB1scriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockB1SequencesList = Temp;
-                    }
-                    else if (ite == "TestSuiteB2init")
-                    {
-                        blockB2initscriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockB2initSequencesList = Temp;
-                    }
-                    else if (ite == "TestSuiteB2")
-                    {
-                        blockB2scriptpath = requisites.Attributes["Path"]?.Value ?? "";
-                        BlockB2SequencesList = Temp;
-                    }
-                }
 
                 //return _ScriptEditor;
             }
@@ -692,9 +710,13 @@ namespace SuperCarter.Model
         {
             try 
             {
-                string path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-outputtestdata.csv");
-                cSVfile = new CSVfile(); // 請替換為您希望保存文件的路徑
+                string path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-outputtestdata.csv");           
+                cSVfile = new CSVfile( path); // 請替換為您希望保存文件的路徑
                 cSVfile.SetCSVfileStoragepath(path);
+
+                string error_path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-Errordata.csv");            
+                Error_cSVfile = new CSVfile( error_path);
+                Error_cSVfile.SetCSVfileStoragepath(error_path);
 
                 CommnadID = 0;
 
@@ -753,7 +775,7 @@ namespace SuperCarter.Model
             {
                 //cancellationToken.ThrowIfCancellationRequested();
                 int blockcycletime = Block1Interval + Block2Interval;
-                int Timercycle = 3000;
+          
 
                 for (int curLoop = 0; curLoop < maxLoop; curLoop++)
                 {
@@ -775,7 +797,7 @@ namespace SuperCarter.Model
                         // Execute sequences1 within cycletime
                         if (!cancellationToken.IsCancellationRequested)
                         {
-                            var seq1Task = ExecuteBlockSequences($"{blockName}-{1}", sequences1, (int)remainingblock1SpentTime, cancellationToken, curLoop, Timercycle);
+                            var seq1Task = ExecuteBlockSequences($"{blockName}-{1}", sequences1, (int)remainingblock1SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
                             await seq1Task; // Wait for seq1Task to complete
                         }                    
 
@@ -789,7 +811,7 @@ namespace SuperCarter.Model
                         // Execute sequences2 within cycletime
                         if (!cancellationToken.IsCancellationRequested)
                         {
-                            var seq2Task = ExecuteBlockSequences($"{blockName}-{2}", sequences2, (int)remainingblock2SpentTime, cancellationToken, curLoop, Timercycle);
+                            var seq2Task = ExecuteBlockSequences($"{blockName}-{2}", sequences2, (int)remainingblock2SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
                             await seq2Task; // Wait for seq2Task to complete
 
                         }
@@ -818,8 +840,6 @@ namespace SuperCarter.Model
         }
         private async Task ExecuteBlockinitSequences(string blockName, List<SendorExecuteSendType> sequences,  CancellationToken cancellationToken)
         {
-       
-
             try
             {
                 //cancellationToken.ThrowIfCancellationRequested();
@@ -918,8 +938,11 @@ namespace SuperCarter.Model
                     while ((DateTime.Now - cycleStartTime).TotalMilliseconds < cycletime)
                     {
                         //cancellationToken.ThrowIfCancellationRequested();
-                        if (cancellationToken.IsCancellationRequested)
+                        if (cancellationToken.IsCancellationRequested )
+                        {
                             break;
+                        }
+                         
 
                         var elapsedTime = (DateTime.Now - cycleStartTime).TotalMilliseconds;
                         var remainingTime = cycletime - (int)elapsedTime;
@@ -945,8 +968,15 @@ namespace SuperCarter.Model
                             }
                         }
 
-                        if (sequenceIndex >= sequences.Count)
+                        if (sequenceIndex >= sequences.Count -1)
                         {
+                            UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
+                            UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
+                            UnifiedHostCommandSet.Blockphase = Curphase.ToString();
+                            UnifiedHostCommandSet.Blockloop = curLoop.ToString();
+                            cSVfile.AppendToCsv(UnifiedHostCommandSet);
+                            UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+
                             // Check if scriptDelayTime has already expired
                             var remainingScriptTime = scriptDelayTime - (int)(DateTime.Now - blockStartTime).TotalMilliseconds;
                             if (remainingScriptTime <= 0)
@@ -954,15 +984,16 @@ namespace SuperCarter.Model
                                 return;
                             }
                             await Task.Delay(Math.Min(remainingTime, remainingScriptTime), cancellationToken);
-                            UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
-                            UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
-                            UnifiedHostCommandSet.Blockphase = Curphase.ToString();
-                            UnifiedHostCommandSet.Blockloop = curLoop.ToString();
-                            cSVfile.AppendToCsv(UnifiedHostCommandSet);
-                            UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                         }
                     }
-                
+
+                    UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
+                    UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
+                    UnifiedHostCommandSet.Blockphase = Curphase.ToString();
+                    UnifiedHostCommandSet.Blockloop = curLoop.ToString();
+                    cSVfile.AppendToCsv(UnifiedHostCommandSet);
+                    UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+
                 }
             }
             catch (Exception ex)
@@ -1116,10 +1147,7 @@ namespace SuperCarter.Model
                 }
             }
         }
-
-
         #endregion
-
 
         #region Event
         public void LoadSDMchecklistScriptXMLfile()
@@ -1135,16 +1163,18 @@ namespace SuperCarter.Model
             }
             else
             {
-                System.Windows.MessageBox.Show("未偵測到腳本路徑", "Information !", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("未偵測到腳本路徑", "提醒 !", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         public void SaveDynamicMonitorResult()
         {
             try
             {
-               
+                var FOLDER_RESULT = System.Windows.Forms.Application.StartupPath + @"\result\Dynamic";
+                string defaultpath = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyyMMddHHmmss"), "_dataOutput.csv");
 
-                cSVfile = new CSVfile();
+                cSVfile = new CSVfile(defaultpath);
+                cSVfile.SetCSVfileStoragepath(defaultpath);
                 cSVfile.WriteToCsv(UnifiedHostCommandSet);
                 IsEnableRollingmode = false;
                 OnPropertyChanged(nameof(IsEnableRollingmode));
@@ -1158,7 +1188,6 @@ namespace SuperCarter.Model
                 System.Windows.MessageBox.Show(ex.StackTrace);
                 System.Windows.MessageBox.Show(ex.Message);
             }
-
 
         }
         #endregion
@@ -1264,7 +1293,7 @@ namespace SuperCarter.Model
             byte[] buffer = new byte[bufferSize];
             int bufferIndex = 0;
             string data;
-            using (var cts = new CancellationTokenSource(100))
+            using (var cts = new CancellationTokenSource(300))
             {
                 while (!cts.Token.IsCancellationRequested)
                 {
@@ -1358,7 +1387,7 @@ namespace SuperCarter.Model
                     }
                 }
 
-                if (string.IsNullOrEmpty(SDMChecklistscriptXMLPath) || ! (DicSerialPort[0].IsOpen || DicSerialPort[1].IsOpen || DicSerialPort[2].IsOpen ))
+                if (SendorExecuteSequencesList.Count <1 || string.IsNullOrEmpty(SDMChecklistscriptXMLPath) || ! (DicSerialPort[0].IsOpen || DicSerialPort[1].IsOpen || DicSerialPort[2].IsOpen ))
                 {
                     IsEnableRollingmode = false;
                     OnPropertyChanged(nameof(IsEnableRollingmode));
@@ -1376,6 +1405,7 @@ namespace SuperCarter.Model
                 // 取消 Rolling Mode 時重置 UnifiedHostCommandSet
                 UnifiedHostCommandSet = new UnifiedHostCommandSettype();
                 UnifiedHostCommandSet.IsEnableExecuteSDMcheck = false;
+                IsEnableRollingmode = false;
                 ctsScrollingcheck.Cancel();
             }
         }
@@ -1647,6 +1677,16 @@ namespace SuperCarter.Model
                     UnifiedHostCommandSet.DUT3Diagnostic_raw = bytes.strSequenceData_Rec;
                 }
 
+                // 監控條件是否成立
+                if (IsEnableDetectDiag)
+                {
+                    if (bytes.byte_buffer_Receive[3] != 0x01)
+                    {
+                        // 將錯誤的項目輸出csv
+                        Error_cSVfile.ErrordataAppendTocsv(UnifiedHostCommandSet, bytes);
+                    }                                 
+                }
+
                 evt_func_DTC(bytes.byte_buffer_Receive[1], DTC);
             }
 
@@ -1675,9 +1715,24 @@ namespace SuperCarter.Model
             }
             else if (sendByte4 == 0x05)
             {
-                int adcvalue = bytes.byte_buffer_Receive[3] << 8 + bytes.byte_buffer_Receive[4];
-
+                //int adcvalue = bytes.byte_buffer_Receive[3] << 8 + bytes.byte_buffer_Receive[4];
+                double adcvalue = (double)(bytes.byte_buffer_Receive[3] << 8 | bytes.byte_buffer_Receive[4]);
                 evt_func_ADC(bytes.byte_buffer_Receive[1], adcvalue);
+
+                // 監控條件是否成立
+                if (IsEnableDetectLightsensor)
+                {
+                    if (adcvalue < LowerLimitLightsensorValue)
+                    {
+                        // 將錯誤的項目輸出csv
+                        Error_cSVfile.ErrordataAppendTocsv(UnifiedHostCommandSet, bytes);
+                    }
+                    else if (adcvalue > UpperLimitLightsensorValue)
+                    {
+                        // 將錯誤的項目輸出csv
+                        Error_cSVfile.ErrordataAppendTocsv(UnifiedHostCommandSet, bytes);
+                    }
+                }
             }
 
         }
@@ -1688,6 +1743,21 @@ namespace SuperCarter.Model
                 double current1 = Convert.ToDouble(Convert.ToInt32(bytes.byte_buffer_Receive[3].ToString("X2"), 16));
                 double current2 = Convert.ToDouble(Convert.ToInt32(bytes.byte_buffer_Receive[4].ToString("X2"), 16)) / 100.0;
                 evt_func_normalCurrent(bytes.byte_buffer_Receive[1], current1 + current2);
+
+                // 監控條件是否成立
+                if (IsEnableDetectnormCurrent)
+                {
+                    if (current1 + current2 > LowerLimitnormCurrentValue)
+                    {
+                        // 將錯誤的項目輸出csv
+                        Error_cSVfile.ErrordataAppendTocsv(UnifiedHostCommandSet, bytes);
+                    }
+                    else if (current1 + current2 > UpperLimitnormCurrentValue)
+                    {
+                        // 將錯誤的項目輸出csv
+                        Error_cSVfile.ErrordataAppendTocsv(UnifiedHostCommandSet, bytes);
+                    }
+                }
             }
             else if (PowerMode == 0x00)
             {
@@ -1695,6 +1765,16 @@ namespace SuperCarter.Model
                 double current1 = Convert.ToDouble(Convert.ToInt32(bytes.byte_buffer_Receive[3].ToString("X2"), 16));
                 double current2 = Convert.ToDouble(Convert.ToInt32(bytes.byte_buffer_Receive[4].ToString("X2"), 16)) / 100.0;
                 evt_func_sleepCurrent(bytes.byte_buffer_Receive[1], current1 + current2);
+
+                // 監控條件是否成立
+                if (IsEnableDetectsleepCurrent)
+                {
+                    if (current1 + current2 > UpperLimitsleepCurrentValue)
+                    {
+                        // 將錯誤的項目輸出csv
+                        Error_cSVfile.ErrordataAppendTocsv(UnifiedHostCommandSet, bytes);
+                    }
+                }
             }
 
         }

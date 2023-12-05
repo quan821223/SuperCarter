@@ -18,6 +18,8 @@
     <None Remove="Images\ezgif.com-gif-maker.gif" />
     <None Remove="Images\firmware-icon-15.jpg" />
     <None Remove="Images\icon.png" />
+    <None Remove="Images\複合式腳本運行架構a.png" />
+    <None Remove="Images\複合式腳本運行架構_case2.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +70,8 @@
     <Resource Include="Images\icon.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\複合式腳本運行架構a.png" />
+    <Resource Include="Images\複合式腳本運行架構_case2.png" />
   </ItemGroup>
 
   <ItemGroup>
