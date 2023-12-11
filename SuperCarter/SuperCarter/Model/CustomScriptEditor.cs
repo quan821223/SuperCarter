@@ -1692,7 +1692,7 @@ namespace SuperCarter.Model
 
             else if (sendByte4 == 0x02)
             {
-                bytes.strSequenceData_Rec
+                
                 double volvalue1 = (double)(bytes.byte_buffer_Receive[3] << 8 | bytes.byte_buffer_Receive[4]) / 10;
                 evt_func_Voltage(bytes.byte_buffer_Receive[1], volvalue1);
 
