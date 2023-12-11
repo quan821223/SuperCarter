@@ -1085,7 +1085,7 @@ namespace SuperCarter.Model
                 // 將燈號設定成未完成狀態
                 DynamicForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
 
-                while (!cancellationToken.IsCancellationRequested)
+                while (!cancellationToken.IsCancellationRequested && (DicSerialPort[0].IsOpen || DicSerialPort[1].IsOpen || DicSerialPort[2].IsOpen))
                 {
                     if (sequences[sequenceIndex].PortNum == 9)
                     {
@@ -1128,6 +1128,17 @@ namespace SuperCarter.Model
                         break;
                     }
                 }
+
+                for (int i = 0; i < 3; i++)
+                {
+                    if (DicSerialPort[i].IsOpen)
+                    {
+                        DicSerialPort[i].DataReceived -= new SerialDataReceivedEventHandler(SerialPortModel.Instance.DataReceivedCom);
+                        DicSerialPort[i].DiscardInBuffer();
+                        DicSerialPort[i].DiscardOutBuffer();
+                    }
+                }
+
             }
             catch (TaskCanceledException)
             {
@@ -1692,7 +1703,6 @@ namespace SuperCarter.Model
 
             else if (sendByte4 == 0x02)
             {
-                
                 double volvalue1 = (double)(bytes.byte_buffer_Receive[3] << 8 | bytes.byte_buffer_Receive[4]) / 10;
                 evt_func_Voltage(bytes.byte_buffer_Receive[1], volvalue1);
 

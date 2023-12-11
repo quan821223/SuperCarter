@@ -114,3 +114,9 @@ D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\SuperC
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\ref\SuperCarter.dll
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\MonitoringGuide.g.cs
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\MonitoringGuide.baml
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\MonitoringGuide.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img1.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img2.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\MonitoringGuide.baml
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img1.baml
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img2.baml
