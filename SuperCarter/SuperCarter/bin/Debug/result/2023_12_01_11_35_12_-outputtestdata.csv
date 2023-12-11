@@ -1,6 +1,0 @@
-
-
-#,,,,Sample #1,,,,,,,,,,,,Sample #2,,,,,,,,,,,,,Sample #3,,,
-#,,,,Spec,,show min spec,show min spec,,show min spec,OK: 1 finger NG:other,Center X Y +/-10%,,,,,Spec,,show min spec,show min spec,,show min spec,OK: 1 finger NG:other,Center X Y +/-10%,,,,,Spec,,show min spec,show min spec,,show min spec,OK: 1 finger NG:other,Center X Y +/-10%,
-Time,Loop,Phase,Blockloop,#1 PowerMode,#1 InputVoltage,#1 Current(A/uA),#1 Current(uA),#1 Diagnostic,#1 Lightsensor,#1 Touch_finger,#1 Touch_XY,#1 Brightness(%),#1 T_chamber,"#1 T_LED1, 2PCB",#1 Diagnostic_raw,#2 PowerMode,#2 InputVoltage,#2 Current(A/uA),#2 Current(uA),#2 Diagnostic,#2 Lightsensor,#2 Touch_finger,#2 Touch_XY,#2 Brightness(%),#2 T_chamber,"#2 T_LED1, 2PCB",#2 Diagnostic_raw,#3 PowerMode,#3 InputVoltage,#3 Current(A/uA),#3 Current(uA),#3 Diagnostic,#3 Lightsensor,#3 Touch_finger,#3 Touch_XY,#3 Brightness(%),#3 T_chamber,"#3 T_LED1, 2PCB",#3 Diagnostic_raw
-2023/12/01 11:35:18:3132,0,A-1,0,Normal,13.5,1.92,,1,409600,,,100,75,"65, 85, 85",FA 01 0A 01 01 02 03 04 05 06 07 08 0D 0A,Normal,13.7,,,1,-1409286144,,,100,75,"65, 89, 85",FA 02 0A 01 01 02 03 04 05 06 07 08 0D 0A,Normal,13.3,,,1,57671680,,,100,75,"65, 87, 85",FA 03 0A 01 01 02 03 04 05 06 07 08 0D 0A

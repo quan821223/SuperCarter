@@ -1,7 +1,7 @@
 <TestSuite>
   <Prerequisites />
-  <TestSequence TotalTime="22000" IterValue="1">
-    <Sequence ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Sequence="FA 57 00 02 01" Delaytime="2000" RecSequence="" HashCodevalue="" Loop="1" />
+  <TestSequence>
+    <Sequence ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Sequence="FA 57 00 02 01" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
     <Sequence ID="2" PortNum="all" Nodename="SWversion" MSGname="SWversion1" Sequence="FA 52 01 00 02" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
     <Sequence ID="3" PortNum="all" Nodename="SWversion" MSGname="SWversion2" Sequence="FA 52 02 00 02" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />
     <Sequence ID="4" PortNum="all" Nodename="SWversion" MSGname="SWversion3" Sequence="FA 52 03 00 02" Delaytime="0" RecSequence="" HashCodevalue="" Loop="1" />

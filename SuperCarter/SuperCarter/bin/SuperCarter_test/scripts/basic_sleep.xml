@@ -1,9 +1,0 @@
-<TestSuite>
-  <Prerequisites />
-  <TestSequence TotalTime="800" IterValue="1">
-    <Sequence ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Sequence="FA 57 00 02 00" Delaytime="200" RecSequence="" HashCodevalue="" Loop="1" />
-    <Sequence ID="2" PortNum="all" Nodename="current" MSGname="TXB1send_curr1" Sequence="FA 52 01 05 01" Delaytime="200" RecSequence="" HashCodevalue="" Loop="1" />
-    <Sequence ID="3" PortNum="all" Nodename="current" MSGname="TXB1send_curr2" Sequence="FA 52 02 05 01" Delaytime="200" RecSequence="" HashCodevalue="" Loop="1" />
-    <Sequence ID="4" PortNum="all" Nodename="current" MSGname="TXB1send_curr3" Sequence="FA 52 03 05 01" Delaytime="200" RecSequence="" HashCodevalue="" Loop="1" />
-  </TestSequence>
-</TestSuite>

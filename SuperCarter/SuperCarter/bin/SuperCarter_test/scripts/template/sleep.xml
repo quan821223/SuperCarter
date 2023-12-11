@@ -1,6 +1,0 @@
-<TestSuite>
-  <Prerequisites />
-  <TestSequence>
-    <Sequence ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Sequence="FA 57 00 02 00" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
-  </TestSequence>
-</TestSuite>

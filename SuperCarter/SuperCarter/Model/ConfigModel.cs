@@ -318,6 +318,10 @@ namespace SuperCarter.Model
                                                             };
 
                 XmlNode root = ScriptionXML.SelectSingleNode("TestSuites");
+
+                 if (root is null)
+                    return;
+
                 _ScriptEditor.Fullloop = Convert.ToInt32(root.Attributes["Loop"]?.Value ?? "1");
                 _ScriptEditor.BlockALoop = Convert.ToInt32(root.Attributes["BlockALoop"]?.Value);
                 _ScriptEditor.BlockBLoop = Convert.ToInt32(root.Attributes["BlockBLoop"]?.Value);

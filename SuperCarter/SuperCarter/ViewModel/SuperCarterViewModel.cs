@@ -129,12 +129,43 @@ namespace SuperCarter.ViewModel
             get { return _PageName; }
             set { _PageName = value; OnPropertyChanged(nameof(PageName)); }
         }
-
         private void ViewIMG(object obj)
         {
             PageName = obj.ToString();
         }
+        #region Single Sendor Execute function.   
+        private ICommand _ScriptSenderExecute;
+        public ICommand ScriptSenderExecute
+        {
+            get
+            {
+                if (_ScriptSenderExecute == null)
+                {
+                    _ScriptSenderExecute = new DelegateCommand(ScriptitemCanExecute, ScriptitemExecute);
+                    OnPropertyChanged(nameof(ScriptSenderExecute));
+                }
+                return _ScriptSenderExecute;
+            }
+        }
+        private bool ScriptitemCanExecute(object parameter)
+        {
+            return true;
+        }
+        private void ScriptitemExecute(object parameter)
+        {
+            int index = Scriptdatalist.IndexOf(parameter as ScriptItemtype);
+            if (Scriptdatalist[index].SelectScriptPortnum == "0" || Scriptdatalist[index].SelectScriptPortnum == "all")
+                if (DicSerialPort[0].IsOpen)
+                    serialportmanager.evnt_sendAsync(0, Scriptdatalist[index].Sequence);
+            if (Scriptdatalist[index].SelectScriptPortnum == "1" || Scriptdatalist[index].SelectScriptPortnum == "all")
+                if (DicSerialPort[1].IsOpen)
+                    serialportmanager.evnt_sendAsync(1, Scriptdatalist[index].Sequence);
+            if (Scriptdatalist[index].SelectScriptPortnum == "2" || Scriptdatalist[index].SelectScriptPortnum == "all")
+                if (DicSerialPort[2].IsOpen)
+                    serialportmanager.evnt_sendAsync(2, Scriptdatalist[index].Sequence);
 
+        }
+        #endregion Single Sendor Execute function.  
 
 
 

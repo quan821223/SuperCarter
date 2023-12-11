@@ -402,7 +402,7 @@
                                                                     </StackPanel>
                                                                 </Button>
                                                                 <Button Command="{Binding scriptEditor.SciptToolBar_Saveas}"
-                                                                    Width="68" x:Name="bt_savetestsequence" Click="bt_savetestsequence_Click">
+                                                                    Width="68" x:Name="fv" Click="bt_savetestsequence_Click">
                                                                     <StackPanel Orientation="Vertical">
                                                                         <materialDesign:PackIcon Grid.Row="0" 
                                                                                              Kind="ContentSavePlusOutline"

@@ -465,33 +465,69 @@ namespace SuperCarter.Model
             await Task.Delay(10);
             // 订阅事件
             ConfigModel.Instance.SequencesUpdated += OnSequencesUpdated;
-
+            ObservableCollection<ScriptItemtype> temp = new ObservableCollection<ScriptItemtype>();
+            string script = null;
             try
             {
                 // 异步加载脚本
-                //await ConfigModel.Instance.LoadScriptAsync(GetScriptPathForBlock(_selectedblock));
-
+                //await ConfigModel.Instance.LoadScriptAsync(GetScriptPathForBlock(_selectedblock)); 
+            
                 BlockObsColSequences.Clear();
-
-                var tempItems = ConfigModel.Instance.GetScriptXMLSequences(GetScriptPathForBlock(_selectedblock));
-          
-
-                if (tempItems != null && tempItems.Any())
+                switch (Convert.ToInt32(_selectedblock))
                 {
-                    // 如果ObservableCollection支持AddRange则使用，否则使用foreach
-                    foreach (var item in tempItems)
+                    case 0:
+                        script = BlockA1initscriptPath;
+                        temp = BlockA1initObsColSequences;
+                        break;
+                    case 1:
+                        script = BlockA2initscriptPath;
+                        temp = BlockA2initObsColSequences;
+                        break;
+                    case 2:
+                        script = BlockB1initscriptPath;
+                        temp = BlockB1initObsColSequences;
+                        break;
+                    case 3:
+                        script = BlockB2initscriptPath;
+                        temp = BlockB2initObsColSequences;
+                        break;
+                    case 4:
+                        script = BlockA1scriptPath;
+                        temp = BlockA1ObsColSequences;
+                        break;
+                    case 5:
+                        script = BlockA2scriptPath;
+                        temp = BlockA2ObsColSequences;
+                        break;
+                    case 6:
+                        script = BlockB1scriptPath;
+                        temp = BlockB1ObsColSequences;
+                        break;
+                    case 7:
+                        script = BlockB2scriptPath;
+                        temp = BlockB2ObsColSequences;
+                        break;
+                    //default:
+                    //    // 處理未知的 _selectedblock 值
+                    //    return string.Empty;
+                }
+                if (temp.Count >0)
+                {
+                    //// 如果ObservableCollection支持AddRange则使用，否则使用foreach
+                    foreach (var item in temp)
                         BlockObsColSequences.Add(item);
-
+                    //BlockObsColSequences = temp;
                     var testmsg = new POPNotifyMsgType
                     {
                         Tital = "通知",
-                        Message = "已開啟" + GetScriptPathForBlock(_selectedblock),
+                        Message = "已開啟" + script,
                         NotifyType = NotificationType.Notification,
                     };
 
                     MessageAggregator.Instance.SendMessage(testmsg);
                 }
-          
+
+
             }
             finally
             {
