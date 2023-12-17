@@ -1,0 +1,32 @@
+<TestSuite>
+  <Prerequisites />
+  <TestSequence>
+    <Command ID="1" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="ReadDiagnostic1" Command="FA 52 01 04 01" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="2" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="ReadDiagnostic2" Command="FA 52 02 04 01" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="3" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="ReadDiagnostic3" Command="FA 52 03 04 01" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="4" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="SWversion1" Command="FA 52 01 00 02" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="5" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="SWversion2" Command="FA 52 02 00 02" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="6" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="SWversion3" Command="FA 52 03 00 02" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="7" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="HWversion1" Command="FA 52 01 00 01" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="8" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="HWversion2" Command="FA 52 02 00 01" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="9" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="HWversion3" Command="FA 52 03 00 01" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="10" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="ReadBrightness1" Command="FA 52 01 01 01" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="11" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="ReadBrightness2" Command="FA 52 02 01 01" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="12" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="ReadBrightness3" Command="FA 52 03 01 01" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="13" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="ReadInputVoltage1" Command="FA 52 01 04 02" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="14" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="ReadInputVoltage2" Command="FA 52 02 04 02" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="15" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="ReadInputVoltage3" Command="FA 52 03 04 02" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="16" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="Read_temp1" Command="FA 52 01 04 03" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="17" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="Read_temp2" Command="FA 52 02 04 03" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="18" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="Read_temp3" Command="FA 52 03 04 03" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="19" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="T_chamber_temp1" Command="FA 52 01 04 04" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="20" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="T_chamber_temp2" Command="FA 52 02 04 04" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="21" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="T_chamber_temp3" Command="FA 52 03 04 04" Delaytime="0" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="22" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="display_brightness_ADC1" Command="FA 52 01 04 05" Delaytime="100" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="23" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="display_brightness_ADC2" Command="FA 52 02 04 05" Delaytime="100" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="24" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="display_brightness_ADC3" Command="FA 52 03 04 05" Delaytime="100" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="25" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="TXB1send_curr1" Command="FA 52 01 05 01" Delaytime="100" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="26" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="TXB1send_curr3" Command="FA 52 03 05 01" Delaytime="100" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="27" PortNum="all" Commandtype="UART" Commandparm1="HEX" MSGname="TXB1send_curr2" Command="FA 52 02 05 01" Delaytime="500" RecCommand="" HashCodevalue="" Loop="1" />
+  </TestSequence>
+</TestSuite>

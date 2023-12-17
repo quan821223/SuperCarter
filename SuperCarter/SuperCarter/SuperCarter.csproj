@@ -13,13 +13,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="View\Dashboard\ImgUI\UserControl1.cs" />
+    <Compile Remove="View\Dashboard\ImgUI\UserControl1.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="View\Dashboard\ImgUI\UserControl1.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\auo_lite.png" />
     <None Remove="Images\CMDprotocal.png" />
     <None Remove="Images\ezgif.com-gif-maker.gif" />
     <None Remove="Images\firmware-icon-15.jpg" />
     <None Remove="Images\icon.png" />
-    <None Remove="Images\複合式腳本運行架構a.png" />
-    <None Remove="Images\複合式腳本運行架構_case2.png" />
+    <None Remove="Images\T0確認.png" />
+    <None Remove="Images\腳本設定.png" />
+    <None Remove="Images\複合型子腳本匯入與查看.png" />
+    <None Remove="Images\複合型腳本設置.png" />
+    <None Remove="Images\運行操作.png" />
+    <None Remove="View\Dashboard\ImgUI\複合式腳本運行架構a.png" />
+    <None Remove="View\Dashboard\ImgUI\複合式腳本運行架構_case2.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,8 +84,13 @@
     <Resource Include="Images\icon.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\複合式腳本運行架構a.png" />
-    <Resource Include="Images\複合式腳本運行架構_case2.png" />
+    <Resource Include="View\Dashboard\ImgUI\T0確認.png" />
+    <Resource Include="View\Dashboard\ImgUI\腳本設定.png" />
+    <Resource Include="View\Dashboard\ImgUI\複合型子腳本匯入與查看.png" />
+    <Resource Include="View\Dashboard\ImgUI\複合型腳本設置.png" />
+    <Resource Include="View\Dashboard\ImgUI\運行操作.png" />
+    <Resource Include="View\Dashboard\ImgUI\複合式腳本運行架構a.png" />
+    <Resource Include="View\Dashboard\ImgUI\複合式腳本運行架構_case2.png" />
   </ItemGroup>
 
   <ItemGroup>

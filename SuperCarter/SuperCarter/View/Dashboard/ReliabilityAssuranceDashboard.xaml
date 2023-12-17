@@ -252,7 +252,7 @@
                                                             <Label Name="DisplayLbl" Visibility="{Binding CustomScriptEditor.DisplaySwitch}" FontSize="19"
                                                                HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8 0 0 0"
                                                                Content="{Binding CustomScriptEditor.DynamicLabelText}" Foreground="{Binding CustomScriptEditor.DynamicForeColor}" />
-                                          
+
 
                                                             <SpyderToggle:RoundToggleButton 
                                                                 IsChecked="{Binding CustomScriptEditor.IsEnableRollingmode, Mode=TwoWay}"
@@ -698,11 +698,11 @@
                                                     <VisualBrush>
                                                         <VisualBrush.Visual>
                                                             <Border Background="Black"
-                                        SnapsToDevicePixels="True"
-                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
-                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
-                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
-                                        />
+                                                                    SnapsToDevicePixels="True"
+                                                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    />
                                                         </VisualBrush.Visual>
                                                     </VisualBrush>
                                                 </Border.OpacityMask>
@@ -804,11 +804,11 @@
                                                     <VisualBrush>
                                                         <VisualBrush.Visual>
                                                             <Border Background="Black"
-                                        SnapsToDevicePixels="True"
-                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
-                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
-                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
-                                        />
+                                                                    SnapsToDevicePixels="True"
+                                                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    />
                                                         </VisualBrush.Visual>
                                                     </VisualBrush>
                                                 </Border.OpacityMask>
@@ -909,11 +909,11 @@
                                                     <VisualBrush>
                                                         <VisualBrush.Visual>
                                                             <Border Background="Black"
-                                        SnapsToDevicePixels="True"
-                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
-                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
-                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
-                                        />
+                                                                    SnapsToDevicePixels="True"
+                                                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    />
                                                         </VisualBrush.Visual>
                                                     </VisualBrush>
                                                 </Border.OpacityMask>
@@ -927,18 +927,18 @@
                                                     <BulletDecorator>
                                                         <BulletDecorator.Bullet>
                                                             <materialDesign:PackIcon Grid.Row="0" 
-                                                                                                Kind="Monitor"
-                                                                                                Width="22" Height="26"
-                                                                                                VerticalAlignment="Stretch" 
-                                                                                                Foreground="#FF4D4D4D" 
-                                                                                                HorizontalAlignment="Stretch"/>
+                                                                                     Kind="Monitor"
+                                                                                     Width="22" Height="26"
+                                                                                     VerticalAlignment="Stretch" 
+                                                                                     Foreground="#FF4D4D4D" 
+                                                                                     HorizontalAlignment="Stretch"/>
                                                         </BulletDecorator.Bullet>
                                                         <TextBlock Margin="10,0,0,0" Text="Port 0 - TX 3" 
-                                                                               FontFamily="Console" 
-                                                                               FontSize="14"
-                                                                               VerticalAlignment="Center" 
-                                                                               HorizontalAlignment="Stretch"
-                                                                               Foreground="Black"  />
+                                                                   FontFamily="Console" 
+                                                                   FontSize="14"
+                                                                   VerticalAlignment="Center" 
+                                                                   HorizontalAlignment="Stretch"
+                                                                   Foreground="Black"  />
                                                     </BulletDecorator>
                                                 </Expander.Header>
                                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="White">
@@ -1005,12 +1005,7 @@
                     </Grid>
                 </Grid>
             </Grid>
-
         </ScrollViewer>
     
-
-
-
-
     </Grid>
 </UserControl>

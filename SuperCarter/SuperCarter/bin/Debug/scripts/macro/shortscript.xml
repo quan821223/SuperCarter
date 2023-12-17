@@ -2,49 +2,49 @@
   <TestSuiteA1init>
     <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\wakeup.xml" />
     <TestSequence>
-      <Sequence ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Sequence="FA 57 00 02 01" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+      <Command ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Command="FA 57 00 02 01" Delaytime="5000" RecCommand="" HashCodevalue="" Loop="1" />
     </TestSequence>
   </TestSuiteA1init>
   <TestSuiteA1>
     <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\sleep.xml" />
     <TestSequence>
-      <Sequence ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Sequence="FA 57 00 02 00" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+      <Command ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Command="FA 57 00 02 00" Delaytime="5000" RecCommand="" HashCodevalue="" Loop="1" />
     </TestSequence>
   </TestSuiteA1>
   <TestSuiteA2init>
     <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\wakeup.xml" />
     <TestSequence>
-      <Sequence ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Sequence="FA 57 00 02 01" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+      <Command ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Command="FA 57 00 02 01" Delaytime="5000" RecCommand="" HashCodevalue="" Loop="1" />
     </TestSequence>
   </TestSuiteA2init>
   <TestSuiteA2>
     <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\sleep.xml" />
     <TestSequence>
-      <Sequence ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Sequence="FA 57 00 02 00" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+      <Command ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Command="FA 57 00 02 00" Delaytime="5000" RecCommand="" HashCodevalue="" Loop="1" />
     </TestSequence>
   </TestSuiteA2>
   <TestSuiteB1init>
     <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\wakeup.xml" />
     <TestSequence>
-      <Sequence ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Sequence="FA 57 00 02 01" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+      <Command ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Command="FA 57 00 02 01" Delaytime="5000" RecCommand="" HashCodevalue="" Loop="1" />
     </TestSequence>
   </TestSuiteB1init>
   <TestSuiteB1>
     <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\sleep.xml" />
     <TestSequence>
-      <Sequence ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Sequence="FA 57 00 02 00" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+      <Command ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Command="FA 57 00 02 00" Delaytime="5000" RecCommand="" HashCodevalue="" Loop="1" />
     </TestSequence>
   </TestSuiteB1>
   <TestSuiteB2init>
     <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\wakeup.xml" />
     <TestSequence>
-      <Sequence ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Sequence="FA 57 00 02 01" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+      <Command ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Command="FA 57 00 02 01" Delaytime="5000" RecCommand="" HashCodevalue="" Loop="1" />
     </TestSequence>
   </TestSuiteB2init>
   <TestSuiteB2>
     <Prerequisites Path="D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\scripts\template\sleep.xml" />
     <TestSequence>
-      <Sequence ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Sequence="FA 57 00 02 00" Delaytime="5000" RecSequence="" HashCodevalue="" Loop="1" />
+      <Command ID="1" PortNum="all" Nodename="Sleep" MSGname="Sleep" Command="FA 57 00 02 00" Delaytime="5000" RecCommand="" HashCodevalue="" Loop="1" />
     </TestSequence>
   </TestSuiteB2>
   <ThresholdSetting>

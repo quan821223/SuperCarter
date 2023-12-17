@@ -14,6 +14,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <model:PortIDItems x:Key="PortIDItems"/>
+        <model:CMDtypeItems x:Key="CMDtypeItems"/>
+        <model:CMDparm1Items x:Key="CMDparm1Items"/>
     </UserControl.Resources>
     <Grid >
         <Grid>
@@ -109,16 +111,16 @@
             </ToolBarTray>
             <Grid Grid.Row="1" >
                 <avalonDock:DockingManager x:Name="dockManager"  
-                                   AnchorablesSource="{Binding Tools}" 
-                                   DocumentsSource="{Binding Files}"                                           
-                                   Margin="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                          
-                                   >
+                                           AnchorablesSource="{Binding Tools}" 
+                                           DocumentsSource="{Binding Files}"                                           
+                                           Margin="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                          
+                                           >
                     <avalonDock:LayoutRoot>
                         <avalonDock:LayoutPanel Orientation="Horizontal">
-                            <avalonDock:LayoutAnchorablePaneGroup DockWidth="3*" DockHeight="1*" Orientation="Vertical" >
-                                <avalonDock:LayoutAnchorablePaneGroup DockHeight="3*" Orientation="Horizontal">
+                            <avalonDock:LayoutAnchorablePaneGroup Orientation="Vertical" >
+                                <avalonDock:LayoutAnchorablePaneGroup  Orientation="Horizontal">
                                     <!--Sequence list-->
-                                    <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequencebox" DockWidth="1.3*">
+                                    <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequencebox">
                                         <avalonDock:LayoutAnchorable CanAutoHide="True"
                                                                      CanClose="False"
                                                                      ContentId="toolWindow_Sequencebox"
@@ -137,52 +139,52 @@
                                                                         dd:DragDrop.IsDropTarget="True"
                                                                       dd:DragDrop.ShowAlwaysDropTargetAdorner="True"
                                                                       dd:DragDrop.UseDefaultEffectDataTemplate="True"-->
-                                                    <TreeView x:Name="SequenceItemtreeView" 
-                                                                  
-                                                                        Margin="0"
-                                                                        ItemsSource="{Binding scriptEditor.ScriptToolboxTree}" 
-                                                                      >
-                                                        <i:Interaction.Triggers>
-                                                            <!--MouseDoubleClick or SelectedItemChanged-->
-                                                            <i:EventTrigger EventName="MouseDoubleClick">
-                                                                <i:InvokeCommandAction Command="{Binding scriptEditor.SelectCommand}"
-                                                                                        CommandParameter="{Binding ElementName=SequenceItemtreeView,Path=SelectedItem}" />
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
-                                                        <TreeView.ItemContainerStyle>
-                                                            <Style TargetType="{x:Type TreeViewItem}">
-                                                                <Setter Property="IsSelected" Value="{Binding IsSelected}" />
-                                                                <Setter Property="IsExpanded" Value="True"/>
-                                                            </Style>
-                                                        </TreeView.ItemContainerStyle>
-                                                        <TreeView.ItemTemplate>
-                                                            <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
+                                                
+                                                        <TreeView x:Name="SequenceItemtreeView" 
+                                                                  Margin="0"
+                                                                  ItemsSource="{Binding scriptEditor.ScriptToolboxTree}" 
+                                                                  >
+                                                            <i:Interaction.Triggers>
+                                                                <!--MouseDoubleClick or SelectedItemChanged-->
+                                                                <i:EventTrigger EventName="MouseDoubleClick">
+                                                                    <i:InvokeCommandAction Command="{Binding scriptEditor.SelectCommand}"
+                                                                                           CommandParameter="{Binding ElementName=SequenceItemtreeView,Path=SelectedItem}" />
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <TreeView.ItemContainerStyle>
+                                                                <Style TargetType="{x:Type TreeViewItem}">
+                                                                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                                                                    <Setter Property="IsExpanded" Value="True"/>
+                                                                </Style>
+                                                            </TreeView.ItemContainerStyle>
+                                                            <TreeView.ItemTemplate>
+                                                                <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
 
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <materialDesign:PackIcon Grid.Row="0" 
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <materialDesign:PackIcon Grid.Row="0" 
                                                                                             Kind="Folder"
                                                                                             Width="20" Height="20"
                                                                                             VerticalAlignment="Stretch" 
                                                                                             Foreground="#FF4D4D4D" 
                                                                                             HorizontalAlignment="Stretch"/>
-                                                                    <Label Content="{Binding Key}"/>
-                                                                </StackPanel>
-                                                                <HierarchicalDataTemplate.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <StackPanel Orientation="Horizontal">
-                                                                            <materialDesign:PackIcon Grid.Row="0" 
+                                                                        <Label Content="{Binding Key}"/>
+                                                                    </StackPanel>
+                                                                    <HierarchicalDataTemplate.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <StackPanel Orientation="Horizontal">
+                                                                                <materialDesign:PackIcon Grid.Row="0" 
                                                                                                        Kind="TextShort"
                                                                                                        Width="20" Height="20"
                                                                                                        VerticalAlignment="Stretch" 
                                                                                                        Foreground="#FF4D4D4D" 
                                                                                                        HorizontalAlignment="Stretch"/>
-                                                                            <Label Content="{Binding Nodename}"/>
-                                                                        </StackPanel>
-                                                                    </DataTemplate>
-                                                                </HierarchicalDataTemplate.ItemTemplate>
-                                                            </HierarchicalDataTemplate>
-                                                        </TreeView.ItemTemplate>
-                                                    </TreeView>
+                                                                                <Label Content="{Binding Nodename}"/>
+                                                                            </StackPanel>
+                                                                        </DataTemplate>
+                                                                    </HierarchicalDataTemplate.ItemTemplate>
+                                                                </HierarchicalDataTemplate>
+                                                            </TreeView.ItemTemplate>
+                                                        </TreeView>                                                 
 
                                                 </TabItem>
                                                 <!--MacroSequence-->
@@ -244,41 +246,11 @@
 
                                                 </TabItem>
                                             </TabControl>
-                                            <!--<TreeView x:Name="treeView" 
-                                                      dd:DragDrop.IsDragSource="True"
-                                                      dd:DragDrop.IsDropTarget="True"
-                                                      dd:DragDrop.SelectDroppedItems="True"
-                                                      dd:DragDrop.UseDefaultDragAdorner="True"
-                                                      dd:DragDrop.UseDefaultEffectDataTemplate="True"
-                                                      Margin="0"
-                                                      ItemsSource="{Binding ScriptToolSequencesTree}" 
-                                                      AllowDrop="True"  >
-                                                <i:Interaction.Triggers>
-                                                    -->
-                                            <!--MouseDoubleClick or SelectedItemChanged-->
-                                            <!--
-                                                    <i:EventTrigger EventName="MouseDoubleClick">
-                                                        <i:InvokeCommandAction Command="{Binding SelectItemSequenceitemChangeCommand}"
-                                                                               CommandParameter="{Binding ElementName=treeView,Path=SelectedItem}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                                <TreeView.ItemContainerStyle>
-                                                    <Style TargetType="{x:Type TreeViewItem}">
-                                                        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
-                                                        <Setter Property="IsExpanded" Value="True"/>
-                                                    </Style>
-                                                </TreeView.ItemContainerStyle>
-                                                <TreeView.ItemTemplate>
-                                                    <HierarchicalDataTemplate ItemsSource="{Binding ChildNode}" >
-                                                        <Label Content="{Binding Nodename}"/>
-                                                    </HierarchicalDataTemplate>
-                                                </TreeView.ItemTemplate>
-                                            </TreeView>-->
                                         </avalonDock:LayoutAnchorable>
                                     </avalonDock:LayoutAnchorablePane>
 
 
-                                    <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequences" DockWidth="4*">
+                                    <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequences">
                                         <avalonDock:LayoutAnchorable CanAutoHide="True"
                                                                      CanClose="False"
                                                                      ContentId="toolWindow_Sequences"
@@ -349,8 +321,8 @@
                                                                     </StackPanel>
                                                                 </Button>
                                                                 <Button Command="{Binding scriptEditor.ScriptToolBar_RemoveScriptitem}"
-                                                                    Width="68"
-                                                                    >
+                                                                        Width="68" ToolTip="刪除欄位"
+                                                                        >
                                                                     <StackPanel Orientation="Vertical">
                                                                         <materialDesign:PackIcon Grid.Row="0" 
                                                                                              Kind="TableRowRemove"
@@ -364,7 +336,6 @@
                                                                                 />
                                                                     </StackPanel>
                                                                 </Button>
-
                                                                 <Separator/>
                                                                 <Button Command="{Binding scriptEditor.SciptToolBar_Openfolder}"
                                                                     Width="68" Click="Button_Click" ToolTip="載入腳本">
@@ -402,7 +373,8 @@
                                                                     </StackPanel>
                                                                 </Button>
                                                                 <Button Command="{Binding scriptEditor.SciptToolBar_Saveas}"
-                                                                    Width="68" x:Name="fv" Click="bt_savetestsequence_Click">
+                                                                        Width="68" ToolTip="另存新檔"
+                                                                        x:Name="fv" Click="bt_savetestsequence_Click">
                                                                     <StackPanel Orientation="Vertical">
                                                                         <materialDesign:PackIcon Grid.Row="0" 
                                                                                              Kind="ContentSavePlusOutline"
@@ -466,6 +438,7 @@
                                                         <DataGrid.Columns>
                                                             <DataGridTextColumn Binding="{Binding ID}"
                                                                                 Header="ID" 
+                                                                                IsReadOnly="True"
                                                                                 Width="50" />
                                                             <DataGridTemplateColumn Header="Send" Width="65">
                                                                 <DataGridTemplateColumn.CellTemplate>
@@ -475,17 +448,27 @@
                                                                     </DataTemplate>
                                                                 </DataGridTemplateColumn.CellTemplate>
                                                             </DataGridTemplateColumn >
-                                                            <DataGridComboBoxColumn x:Name="ComboBoxColumn1" 
+                                                            <DataGridComboBoxColumn Header="Type" 
+                                                                                    Width="42"
+                                                                                    ItemsSource="{StaticResource CMDtypeItems}"
+                                                                                    SelectedItemBinding="{Binding CMDtype}"/>
+                                                            <DataGridComboBoxColumn x:Name="CMDColumn1" 
                                                                                     Header="Port No." 
-                                                                                    Width="72"
+                                                                                    Width="42"
                                                                                     ItemsSource="{StaticResource PortIDItems}"
-                                                                                    SelectedItemBinding="{Binding SelectScriptPortnum}"/>
+                                                                                    SelectedItemBinding="{Binding Portnum}"/>
 
+                                                            <!--<DataGridTextColumn Binding="{Binding CMDtype}" Header="Type" Width="55" />-->
+
+                                                            <DataGridComboBoxColumn Header="Parm1" 
+                                                                                    Width="45"
+                                                                                    ItemsSource="{StaticResource CMDparm1Items}"
+                                                                                    SelectedItemBinding="{Binding CMDparm1}"/>
                                                             <DataGridTextColumn Binding="{Binding MSGname}" Header="Name" Width="175" />
-                                                            <DataGridTextColumn Binding="{Binding Sequence}" Header="Sequence" Width="200" />
+                                                            <DataGridTextColumn Binding="{Binding Command}" Header="Sequence" Width="200" />
                                                             <DataGridTextColumn Binding="{Binding Delaytime}" Header="Delay(ms)" Width="90"/>
                                                             <DataGridTextColumn Binding="{Binding Loop}" Header="Loop" IsReadOnly="True" Width="80"/>
-                                                            <DataGridTextColumn Binding="{Binding RecSequence}" Header="Rec Sequence" Width="200" />
+                                                            <DataGridTextColumn Binding="{Binding RecCommand}" Header="Rec Sequence" Width="200" />
                                                         </DataGrid.Columns>
                                                      
                                                     </DataGrid>
@@ -502,206 +485,10 @@
                                             <!--<RichTextBox></RichTextBox>-->
                                         </avalonDock:LayoutAnchorable>
                                     </avalonDock:LayoutAnchorablePane>
-                                </avalonDock:LayoutAnchorablePaneGroup >
-                                <!--<avalonDock:LayoutAnchorablePane Name="ToolsPane1" DockHeight="1.7*">
-                                    <avalonDock:LayoutAnchorable ContentId="toolWindow_Output"
-                                                                 CanAutoHide="True"
-                                                                 CanClose="False"
-                                                                 Title="Output">
-                                        <Grid >
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="1*"/>
-                                                <RowDefinition Height="22"/>
-                                                <RowDefinition Height="7"/>
-                                            </Grid.RowDefinitions>
-
-                                            <TextBox x:Name="AllViewText" 
-                                                    Text="{Binding AllViewText, Mode=TwoWay}" 
-                                                    IsReadOnly="True" AcceptsReturn="True"
-                                                    VerticalScrollBarVisibility="Auto"  
-                                                    ScrollViewer.CanContentScroll="True" 
-                                                    FontFamily="Consolas"
-                                                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                    ScrollViewer.VerticalScrollBarVisibility="Auto"                     
-                                                    TextChanged="AllViewText_TextChanged"/>
-                                            <Grid Grid.Row="1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Button x:Name="ClearAllViewText" Content="Clear" Grid.Column="0" Click="ClearAllViewText_Click"/>
-                                            </Grid>
-                                            <Grid Grid.Row="2">
-                                                <Grid.Background>
-                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                        <GradientStop Color="#FF61B2E1" Offset="0"/>
-                                                        <GradientStop Color="#FF0C4667" Offset="1"/>
-                                                    </LinearGradientBrush>
-                                                </Grid.Background>
-                                            </Grid>
-                                        </Grid>
-                                    </avalonDock:LayoutAnchorable>
-                                    <avalonDock:LayoutAnchorable CanAutoHide="False"
-                                                         CanClose="False"
-                                                           CanHide="False"
-                                                         Title="Port I">
-                                        <Grid >
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="1*"/>
-                                                <RowDefinition Height="22"/>
-                                                <RowDefinition Height="7"/>
-                                            </Grid.RowDefinitions>
-
-                                            <TextBox x:Name="TextViewPortI" Text="{Binding TextViewPortI}" 
-                                                             IsReadOnly="True" AcceptsReturn="True"
-                                                             VerticalScrollBarVisibility="Auto"  
-                                                             ScrollViewer.CanContentScroll="True" 
-                                                             FontFamily="Consolas"
-                                                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                             ScrollViewer.VerticalScrollBarVisibility="Auto"                     
-                                                             TextChanged="TextViewPortI_TextChanged"/>
-                                            <Grid Grid.Row="1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Button x:Name="ClearTextViewPortI" Content="Clear" Grid.Column="0" Click="ClearTextViewPortI_Click"/>
-                                            </Grid>
-                                            <Grid Grid.Row="2">
-                                                <Grid.Background>
-                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                        <GradientStop Color="#FF61B2E1" Offset="0"/>
-                                                        <GradientStop Color="#FF0C4667" Offset="1"/>
-                                                    </LinearGradientBrush>
-                                                </Grid.Background>
-                                            </Grid>
-                                        </Grid>
-                                    </avalonDock:LayoutAnchorable>
-                                    <avalonDock:LayoutAnchorable CanAutoHide="False"
-                                                         CanClose="False"                                                         
-                                                         CanHide="False"
-                                                         Title="Port II">
-                                        <Grid >
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="1*"/>
-                                                <RowDefinition Height="22"/>
-                                                <RowDefinition Height="7"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBox x:Name="TextViewPortII" Text="{Binding TextViewPortII}" 
-                                                             IsReadOnly="True" AcceptsReturn="True"
-                                                             VerticalScrollBarVisibility="Auto"  
-                                                             ScrollViewer.CanContentScroll="True" 
-                                                             FontFamily="Consolas"
-                                                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                             ScrollViewer.VerticalScrollBarVisibility="Auto"                     
-                                                             TextChanged="TextViewPortII_TextChanged"/>
-                                            <Grid Grid.Row="1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Button x:Name="ClearTextViewPortII" Content="Clear" Grid.Column="0" Click="ClearTextViewPortII_Click"/>
-                                            </Grid>
-                                            <Grid Grid.Row="2">
-                                                <Grid.Background>
-                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                        <GradientStop Color="#FF61B2E1" Offset="0"/>
-                                                        <GradientStop Color="#FF0C4667" Offset="1"/>
-                                                    </LinearGradientBrush>
-                                                </Grid.Background>
-                                            </Grid>
-                                        </Grid>
-                                    </avalonDock:LayoutAnchorable>
-                                    <avalonDock:LayoutAnchorable CanAutoHide="False"
-                                                         CanClose="False"
-                                                           CanHide="False"
-                                                         Title="Port III">
-                                        <Grid >
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="1*"/>
-                                                <RowDefinition Height="22"/>
-                                                <RowDefinition Height="7"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBox x:Name="TextViewPortIII" Text="{Binding TextViewPortIII}" 
-                                                             IsReadOnly="True" AcceptsReturn="True"
-                                                             VerticalScrollBarVisibility="Auto"  
-                                                             ScrollViewer.CanContentScroll="True" 
-                                                             FontFamily="Consolas"
-                                                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                             ScrollViewer.VerticalScrollBarVisibility="Auto"                     
-                                                             TextChanged="TextViewPortIII_TextChanged"/>
-                                            <Grid Grid.Row="1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Button x:Name="ClearTextViewPortIII" Content="Clear" Grid.Column="0" Click="ClearTextViewPortIII_Click"/>
-                                            </Grid>
-                                            <Grid Grid.Row="2">
-                                                <Grid.Background>
-                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                        <GradientStop Color="#FF61B2E1" Offset="0"/>
-                                                        <GradientStop Color="#FF0C4667" Offset="1"/>
-                                                    </LinearGradientBrush>
-                                                </Grid.Background>
-                                            </Grid>
-                                        </Grid>
-                                    </avalonDock:LayoutAnchorable>
-                                </avalonDock:LayoutAnchorablePane>-->
+                                </avalonDock:LayoutAnchorablePaneGroup >                              
                             </avalonDock:LayoutAnchorablePaneGroup>
-
-                            <!--<avalonDock:LayoutAnchorablePaneGroup DockWidth="1*" Orientation="Vertical">
-                            <avalonDock:LayoutAnchorablePane Name="_Vertical_ToolsPane1" >
-                                <avalonDock:LayoutAnchorable CanAutoHide="False" Title="Script">
-                                    <TextBox Grid.Column="0" Text="{Binding OutputText}" 
-                                                 Margin="5" IsReadOnly="True" AcceptsReturn="True"
-                                                 VerticalScrollBarVisibility="Auto"    ScrollViewer.CanContentScroll="True" 
-                                                 FontFamily="Champagne &amp;amp; Limousines"
-                                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                 ScrollViewer.VerticalScrollBarVisibility="Auto" />
-
-                                    -->
-                            <!--<RichTextBox></RichTextBox>-->
-                            <!--
-                                </avalonDock:LayoutAnchorable>
-                            </avalonDock:LayoutAnchorablePane>
-                            <avalonDock:LayoutAnchorablePane Name="_Vertical_ToolsPane2" >
-                                <avalonDock:LayoutAnchorable CanAutoHide="False" Title="Script">
-                                    <TextBox Grid.Column="0"  Text="{Binding OutputText}" 
-                                                 Margin="5" IsReadOnly="True" AcceptsReturn="True"
-                                                 VerticalScrollBarVisibility="Auto"    ScrollViewer.CanContentScroll="True" 
-                                                 FontFamily="Champagne &amp;amp; Limousines"
-                                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                                 ScrollViewer.VerticalScrollBarVisibility="Auto" />
-
-                                    -->
-                            <!--<RichTextBox></RichTextBox>-->
-                            <!--
-                                </avalonDock:LayoutAnchorable>
-                            </avalonDock:LayoutAnchorablePane>
-                        </avalonDock:LayoutAnchorablePaneGroup>-->
-
-
                         </avalonDock:LayoutPanel>
-
                     </avalonDock:LayoutRoot>
-
                 </avalonDock:DockingManager>
             </Grid>
 

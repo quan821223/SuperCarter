@@ -277,8 +277,8 @@ namespace SuperCarter.Model
                             Blockphase = data.Blockphase,
                             Blockloop = data.Blockloop,
                             PowerMode = "NULL",
-                            Send_command = cmd.strSequenceData_send,
-                            Receive_command = cmd.strSequenceData_Rec,
+                            Send_command = cmd.strCommandData_send,
+                            Receive_command = cmd.strCommandData_Rec,
                         },
                       
                     };

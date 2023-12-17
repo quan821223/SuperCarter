@@ -65,7 +65,7 @@ namespace SuperCarter.ViewModel
         public int DataReceivedCase { get; set; } = 0;
 
         //private static object _selectedItem = null;
-        public string InputText { get; set; } = "";
+        public string InputText { get; set; } 
         private String OutputMsg = null;
         #endregion
 
@@ -76,33 +76,47 @@ namespace SuperCarter.ViewModel
             get
             {
                 _WriteDatatodevice = new RelayCommand(
-                      param => evnt_sendAsync(SelectedCom, InputText));
+                      param => evnt_DebugSender(SelectedCom, InputText));
                 return _WriteDatatodevice;
             }
         }
         #endregion
 
         #region events
-        public void evnt_sendAsync(int _SelectedCom, string msg)
+        public void evnt_DebugSender(int _SelectedCom, string args) 
         {
-            int SendCount = 0;
-            SerialPort serialPortBase = DicSerialPort[_SelectedCom];
-
-            if (!DicSerialPort[_SelectedCom].IsOpen)
-            {
-                UpdateSystemInfo = string.Format("請先打開串列埠!");
-                MessageBox.Show(UpdateSystemInfo, "提醒 !", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
+            try {
+                string cmdtype = "HEX";
+                if (!IsHexSend) cmdtype = "ASCII";
+                evnt_sendAsync(SelectedCom, new ScriptItemtype() { Command = args, CMDtype = "UART", CMDparm1 = cmdtype });
             }
+            catch(Exception ex) {
+                MessageBox.Show(ex.StackTrace);
+            }
+    
+        }
+        public void evnt_sendAsync(int _SelectedCom, ScriptItemtype cmd)
+        {
+    
 
             try
             {
-                if (!string.IsNullOrWhiteSpace(msg))
+                int SendCount = 0;
+                SerialPort serialPortBase = DicSerialPort[_SelectedCom];
+
+                if (!DicSerialPort[_SelectedCom].IsOpen)
                 {
-                    if (IsHexSend)
+                    UpdateSystemInfo = string.Format("請先打開串列埠!");
+                    MessageBox.Show(UpdateSystemInfo, "提醒 !", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                if (!string.IsNullOrWhiteSpace(cmd.Command))
+                {
+                    if (cmd.CMDparm1.ToLower() == "hex")
                     {
 
-                        string[] _sendData = msg.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] _sendData = cmd.Command.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         byte[] sendData = new byte[_sendData.Length];
                         foreach (var tmp in _sendData)
                         {
@@ -114,7 +128,7 @@ namespace SuperCarter.ViewModel
                                                      DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
                                                      SerialPortModel.Instance.PortNameBinding[serialPortBase.PortName].ToString().PadLeft(2, ' '),
                                                      DicSerialPort[_SelectedCom].PortName.PadLeft(6, ' '),
-                                                     msg.Replace(" ", ""));
+                                                     cmd.Command.Replace(" ", ""));
                         
                         WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = _SelectedCom, msg = OutputMsg });
                         DicSerialPort[_SelectedCom].Write(sendData, 0, SendCount);
@@ -125,11 +139,11 @@ namespace SuperCarter.ViewModel
                                                 DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
                                                 SerialPortModel.Instance.PortNameBinding[serialPortBase.PortName],
                                                DicSerialPort[_SelectedCom].PortName,
-                                                msg.Replace(" ", ""));
+                                                cmd.Command.Replace(" ", ""));
                      
                         WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = _SelectedCom, msg = OutputMsg });
-                        SendCount = serialPortBase.Encoding.GetByteCount(msg);
-                        DicSerialPort[_SelectedCom].Write(serialPortBase.Encoding.GetBytes(msg), 0, SendCount);
+                        SendCount = serialPortBase.Encoding.GetByteCount(cmd.Command);
+                        DicSerialPort[_SelectedCom].Write(serialPortBase.Encoding.GetBytes(cmd.Command), 0, SendCount);
                         // await serialPortBase.BaseStream.WriteAsync(serialPortBase.Encoding.GetBytes(msg), 0, SendCount).ConfigureAwait(false);
 
                     }

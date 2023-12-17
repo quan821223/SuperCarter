@@ -10,7 +10,9 @@ using System.Collections.ObjectModel;
 using CsvHelper.Configuration.Attributes;
 using System.Windows.Media.Imaging;
 using CsvHelper.Configuration;
+using System.Text.Json.Serialization;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using System.Runtime.Serialization;
 
 namespace SuperCarter.Model
 {
@@ -67,6 +69,23 @@ namespace SuperCarter.Model
         public int idValue { get; set; }
 
     }
+    public class CMDtypeItems : ObservableCollection<string>
+    {   
+        public CMDtypeItems()
+        {
+            this.Add("UART");
+        }
+    }
+
+    public class CMDparm1Items : ObservableCollection<string>
+    {
+        public CMDparm1Items()
+        {
+            this.Add("HEX");
+            this.Add("ASCII");
+        }
+    }
+
     public class CsvHelper
     {
         private static object _lock = new object();
@@ -138,8 +157,8 @@ namespace SuperCarter.Model
         public int PortNum { get; set; }
         public int intDataLen { get; set; }
         public string strDataLen { get; set; }
-        public byte[] SequenceData { get; set; }
-        public string strSequenceData { get; set; }
+        public byte[] CommandData { get; set; }
+        public string strCommandData { get; set; }
         public int Delaytime { get; set; }
         public string SendMsgdata { get; set; }
         public int Loop { get; set; }
@@ -163,28 +182,43 @@ namespace SuperCarter.Model
         public int DataReceivedCasenum { get; set; }
 
     }
-
+    [DataContract]
     public class ScriptItemtype
     {
+        public ScriptItemtype()
+        {
+            this.ChildNode = new List<ScriptItemtype>();
+        }
+        [DataMember]
         public int ID { get; set; } = 0;
         //public PortIDItems lists { get; set; }
-        public string SelectScriptPortnum { get; set; } = "all";
-        public string Porttype { get; set; }
+        [DataMember]
+        public string Portnum { get; set; } = "0";
+        [DataMember]
+        public string CMDtype { get; set; } = "UART";
+        [DataMember]
+        public string CMDparm1 { get; set; } = "HEX";      
         public string Nodename { get; set; } = "";
+        [DataMember]
         public string MSGname { get; set; } = "";
-        public string Sequence { get; set; } = "";
+        [DataMember]
+        public string Command { get; set; } = "";
+        [DataMember]
         public int Delaytime { get; set; } = 200;
-        public string RecSequence { get; set; } = "";
+        [DataMember]
+        public string RecCommand { get; set; } = "";
+        [DataMember]
         public string HashCodevalue { get; set; } = "";
         public List<ScriptItemtype> ChildNode { get; set; }
+        [DataMember]
         public int Loop { get; set; } = 1;
     }
     public class SendAndReceiveDatabatchcheck
     {
         public int CommnadID { get; set; }
         public int Portnum { get; set; }
-        public string strSequenceData_send { get; set; }
-        public string strSequenceData_Rec { get; set; }
+        public string strCommandData_send { get; set; }
+        public string strCommandData_Rec { get; set; }
         public byte[] byte_buffer_Send { get; set; }
         public byte[] byte_buffer_Receive { get; set; }
     }

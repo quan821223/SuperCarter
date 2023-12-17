@@ -1,0 +1,100 @@
+{
+  "Loop": 1,
+  "BlockALoop": 0,
+  "BlockBLoop": 0,
+  "BlockA1Interval": 0,
+  "BlockA2Interval": 0,
+  "BlockB1Interval": 0,
+  "BlockB2Interval": 0,
+  "MonitoringIntervaltime": 3000,
+  "TestSuiteA1init": [
+    {
+      "ScriptPath": null,
+      "Command": []
+    }
+  ],
+  "TestSuiteA1": [
+    {
+      "ScriptPath": null,
+      "Command": []
+    }
+  ],
+  "TestSuiteA2init": [
+    {
+      "ScriptPath": null,
+      "Command": []
+    }
+  ],
+  "TestSuiteA2": [
+    {
+      "ScriptPath": null,
+      "Command": []
+    }
+  ],
+  "TestSuiteB1init": [
+    {
+      "ScriptPath": null,
+      "Command": []
+    }
+  ],
+  "TestSuiteB1": [
+    {
+      "ScriptPath": null,
+      "Command": []
+    }
+  ],
+  "TestSuiteB2init": [
+    {
+      "ScriptPath": null,
+      "Command": []
+    }
+  ],
+  "TestSuiteB2": [
+    {
+      "ScriptPath": null,
+      "Command": []
+    }
+  ],
+  "DetectDiag": [
+    {
+      "ISEnable": true,
+      "Upper": 0,
+      "Lower": 0
+    }
+  ],
+  "NormCurrent": [
+    {
+      "ISEnable": true,
+      "Upper": 22,
+      "Lower": 33
+    }
+  ],
+  "SleepCurrent": [
+    {
+      "ISEnable": true,
+      "Upper": 44,
+      "Lower": 0
+    }
+  ],
+  "Lightsensor": [
+    {
+      "ISEnable": true,
+      "Upper": 11,
+      "Lower": 0
+    }
+  ],
+  "Touchfinger": [
+    {
+      "ISEnable": true,
+      "Upper": 0,
+      "Lower": 0
+    }
+  ],
+  "TouchXY": [
+    {
+      "ISEnable": true,
+      "Upper": 0,
+      "Lower": 0
+    }
+  ]
+}

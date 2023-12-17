@@ -112,7 +112,7 @@ namespace SuperCarter.ViewModel
             get
             {
                 _SciptToolBar_Saveas = new RelayCommand(
-                      param => evt_evt_ScriptToolBar_Saveas(script_itervalue));
+                      param => evt_ScriptToolBar_Saveas(script_itervalue));
                 return _SciptToolBar_Saveas;
             }
         }
@@ -131,7 +131,7 @@ namespace SuperCarter.ViewModel
             get
             {
                 _SelectCommand = new RelayCommand(
-                    param => SelectedSequenceItem((ScriptItemtype)param));
+                    param => SelectedCommandItem((ScriptItemtype)param));
                 return _SelectCommand;
             }
         }
@@ -142,7 +142,7 @@ namespace SuperCarter.ViewModel
 
         public int SelectedCMD { get; set; } = 0;
 
-        private void SelectedSequenceItem(ScriptItemtype _va)
+        private void SelectedCommandItem(ScriptItemtype _va)
         {
             //SelectedCMDItem = this;
             if (_va is not null)
@@ -151,12 +151,13 @@ namespace SuperCarter.ViewModel
                     SelectedCMD = 0;
                 Scriptdatalist.Insert(SelectedCMD , new ScriptItemtype()
                 {
-                    ID = _va.ID,
-                    Nodename = _va.Nodename,
+                    ID = _va.ID,                   
+                    CMDtype = _va.CMDtype,
+                    CMDparm1 = _va.CMDparm1,
                     MSGname = _va.MSGname,
-                    Sequence = _va.Sequence,
+                    Command = _va.Command,
                     Delaytime = _va.Delaytime,
-                    RecSequence = _va.RecSequence,
+                    RecCommand = _va.RecCommand,
                     HashCodevalue = _va.HashCodevalue,
                     Loop = _va.Loop,
                 });
@@ -191,9 +192,11 @@ namespace SuperCarter.ViewModel
             Scriptdatalist.Add(new ScriptItemtype()
             {
                 ID = 0,
-                Nodename = "",
+                Portnum = "0",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
                 MSGname = "",
-                Sequence = "",
+                Command = "",
                 Delaytime = 200,
                 Loop = 1
 
@@ -269,9 +272,6 @@ namespace SuperCarter.ViewModel
                         Message = "已開啟" + _pathscript,
                         NotifyType = NotificationType.Notification,
                     };
-
-
-
                     MessageAggregator.Instance.SendMessage(testmsg);
                 }
                 OnPropertyChanged(nameof(Textscriptpath));
@@ -284,7 +284,7 @@ namespace SuperCarter.ViewModel
         }
 
 
-        public void evt_evt_ScriptToolBar_Saveas(int _iterationnumber)
+        public void evt_ScriptToolBar_Saveas(int _iterationnumber)
         {
             if (Scriptdatalist == null)
                 return;

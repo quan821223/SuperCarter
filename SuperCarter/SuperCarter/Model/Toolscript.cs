@@ -27,8 +27,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "HWversion",
                 MSGname = "HWversion",
-                Sequence = "FA 52 01 00 01",
-                RecSequence = "",
+                Command = "FA 52 01 00 01",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -36,8 +36,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "SWversion",
                 MSGname = "SWversion",
-                Sequence = "FA 52 01 00 02",
-                RecSequence = "",
+                Command = "FA 52 01 00 02",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -49,8 +49,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "ReadDiagnostic",
                 MSGname = "ReadDiagnostic",
-                Sequence = "FA 52 01 04 01",
-                RecSequence = "",
+                Command = "FA 52 01 04 01",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -58,8 +58,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "ReadInputVoltage",
                 MSGname = "ReadInputVoltage",
-                Sequence = "FA 52 01 04 02",
-                RecSequence = "",
+                Command = "FA 52 01 04 02",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -67,8 +67,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "Read_temp",
                 MSGname = "Read_temp",
-                Sequence = "FA 52 01 04 03",
-                RecSequence = "",
+                Command = "FA 52 01 04 03",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -76,8 +76,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "T_chamber_temp",
                 MSGname = "T_chamber_temp",
-                Sequence = "FA 52 01 04 04",
-                RecSequence = "",
+                Command = "FA 52 01 04 04",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -85,8 +85,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "display_brightness_ADC",
                 MSGname = "display_brightness_ADC",
-                Sequence = "FA 52 01 04 05",
-                RecSequence = "",
+                Command = "FA 52 01 04 05",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -98,8 +98,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "WriteBrightness",
                 MSGname = "WriteBrightness",
-                Sequence = "FA 57 01 01 00",
-                RecSequence = "",
+                Command = "FA 57 01 01 00",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -107,8 +107,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "ReadBrightness",
                 MSGname = "ReadBrightness",
-                Sequence = "FA 52 01 01 01",
-                RecSequence = "",
+                Command = "FA 52 01 01 01",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -120,8 +120,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "Sleep",
                 MSGname = "Sleep",
-                Sequence = "FA 57 00 02 00",
-                RecSequence = "",
+                Command = "FA 57 00 02 00",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -129,8 +129,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "Wakeup",
                 MSGname = "Wakeup",
-                Sequence = "FA 57 00 02 01",
-                RecSequence = "",
+                Command = "FA 57 00 02 01",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -139,8 +139,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "FIDM_Poweroff",
                 MSGname = "FIDM_Poweroff",
-                Sequence = "FA 57 00 02 04",
-                RecSequence = "",
+                Command = "FA 57 00 02 04",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -152,7 +152,7 @@ namespace SuperCarter.Model
             {
                 Nodename = "Auto_scrolling",
                 MSGname = "Pattern_Auto_scroll",
-                Sequence = "FA 57 01 03 00",
+                Command = "FA 57 01 03 00",
 
                 Delaytime = 200
             });
@@ -160,8 +160,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "White",
                 MSGname = "Pattern_White",
-                Sequence = "FA 57 01 03 01",
-                RecSequence = "",
+                Command = "FA 57 01 03 01",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -169,8 +169,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "Black",
                 MSGname = "Pattern_Black",
-                Sequence = "FA 57 01 03 02",
-                RecSequence = "",
+                Command = "FA 57 01 03 02",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -178,8 +178,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "Red",
                 MSGname = "Pattern_Red",
-                Sequence = "FA 57 01 03 03",
-                RecSequence = "",
+                Command = "FA 57 01 03 03",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -187,8 +187,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "Green",
                 MSGname = "Pattern_Green",
-                Sequence = "FA 57 01 03 04",
-                RecSequence = "",
+                Command = "FA 57 01 03 04",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -196,8 +196,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "Blue",
                 MSGname = "Pattern_Blue",
-                Sequence = "FA 57 01 03 05",
-                RecSequence = "",
+                Command = "FA 57 01 03 05",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -205,8 +205,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "Grey",
                 MSGname = "Pattern_Grey",
-                Sequence = "FA 57 01 03 06",
-                RecSequence = "",
+                Command = "FA 57 01 03 06",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -214,8 +214,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "checker",
                 MSGname = "Pattern_checker",
-                Sequence = "FA 57 01 03 07",
-                RecSequence = "",
+                Command = "FA 57 01 03 07",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -227,8 +227,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "current",
                 MSGname = "TXB1send_curr",
-                Sequence = "FA 52 01 05 01",
-                RecSequence = "",
+                Command = "FA 52 01 05 01",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -240,8 +240,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "StopsTriggeringTP",
                 MSGname = "StopsTriggeringTP",
-                Sequence = "FA 57 00 06 00",
-                RecSequence = "",
+                Command = "FA 57 00 06 00",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -249,8 +249,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "TXB1StartTriggerTP",
                 MSGname = "TXB1StartTriggerTP",
-                Sequence = "FA 57 00 06 01",
-                RecSequence = "",
+                Command = "FA 57 00 06 01",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -258,8 +258,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "ReadTouchinfo",
                 MSGname = "ReadTouchinfo",
-                Sequence = "FA 52 01 06 01",
-                RecSequence = "",
+                Command = "FA 52 01 06 01",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -271,8 +271,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "default_hex",
                 MSGname = "default_hex",
-                Sequence = "",
-                RecSequence = "",
+                Command = "",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });
@@ -280,8 +280,8 @@ namespace SuperCarter.Model
             {
                 Nodename = "default_tag",
                 MSGname = "default_tag",
-                Sequence = "",
-                RecSequence = "",
+                Command = "",
+                RecCommand = "",
                 HashCodevalue = "",
                 Delaytime = 200
             });

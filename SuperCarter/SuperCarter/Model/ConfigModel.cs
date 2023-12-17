@@ -217,14 +217,15 @@ namespace SuperCarter.Model
             {
                 for (int iD = 0; iD < _Scriptdatalist.Count; iD++)
                 {
-                    testitem = ScriptionXML.CreateElement("Sequence");
+                    testitem = ScriptionXML.CreateElement("Command");
                     testitem.SetAttribute("ID", _Scriptdatalist[iD].ID.ToString() ?? "");
-                    testitem.SetAttribute("PortNum", _Scriptdatalist[iD].SelectScriptPortnum.ToString() ?? "");
-                    testitem.SetAttribute("Nodename", _Scriptdatalist[iD].Nodename.ToString() ?? "");
+                    testitem.SetAttribute("PortNum", _Scriptdatalist[iD].Portnum.ToString() ?? "");
+                    testitem.SetAttribute("Commandtype", _Scriptdatalist[iD].CMDtype.ToString() ?? "");
+                    testitem.SetAttribute("Commandparm1", _Scriptdatalist[iD].CMDparm1.ToString() ?? "");
                     testitem.SetAttribute("MSGname", _Scriptdatalist[iD].MSGname.ToString() ?? "");
-                    testitem.SetAttribute("Sequence", _Scriptdatalist[iD].Sequence.ToString() ?? "");
+                    testitem.SetAttribute("Command", _Scriptdatalist[iD].Command.ToString() ?? "");
                     testitem.SetAttribute("Delaytime", _Scriptdatalist[iD].Delaytime.ToString() ?? "100");
-                    testitem.SetAttribute("RecSequence", _Scriptdatalist[iD].RecSequence.ToString() ?? "");
+                    testitem.SetAttribute("RecCommand", _Scriptdatalist[iD].RecCommand.ToString() ?? "");
                     testitem.SetAttribute("HashCodevalue", _Scriptdatalist[iD].HashCodevalue.ToString() ?? "");
                     testitem.SetAttribute("Loop", _Scriptdatalist[iD].Loop.ToString() ?? "");
 
@@ -349,21 +350,21 @@ namespace SuperCarter.Model
                         String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
                         String Nodename = node.Attributes["Nodename"]?.Value ?? "";
                         String MSGname = node.Attributes["MSGname"]?.Value ?? "";
-                        String Sequence = node.Attributes["Sequence"]?.Value ?? "";
+                        String Command = node.Attributes["Command"]?.Value ?? "";
                         String Delaytime = node.Attributes["Delaytime"]?.Value ?? "100";
-                        String RecSequence = node.Attributes["RecSequence"]?.Value ?? "";
+                        String RecCommand = node.Attributes["RecCommand"]?.Value ?? "";
                         String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
                         String Loop = node.Attributes["Loop"]?.Value ?? "1";
 
                         Temp.Add(new ScriptItemtype()
                         {
                             ID = Convert.ToInt32(ID),
-                            SelectScriptPortnum = PortNum,
+                            Portnum = PortNum,
                             Nodename = Nodename,
                             MSGname = MSGname,
-                            Sequence = Sequence,
+                            Command = Command,
                             Delaytime = Convert.ToInt32(Delaytime),
-                            RecSequence = RecSequence,
+                            RecCommand = RecCommand,
                             HashCodevalue = HashCodevalue,
                             Loop = Convert.ToInt32(Loop),
                         });
@@ -548,12 +549,12 @@ namespace SuperCarter.Model
                     {
                         testitem = ScriptionXML.CreateElement("Sequence");
                         testitem.SetAttribute("ID", tempblockobsv[iD].ID.ToString() ?? "");
-                        testitem.SetAttribute("PortNum", tempblockobsv[iD].SelectScriptPortnum.ToString() ?? "");
+                        testitem.SetAttribute("PortNum", tempblockobsv[iD].Portnum.ToString() ?? "");
                         testitem.SetAttribute("Nodename", tempblockobsv[iD].Nodename.ToString() ?? "");
                         testitem.SetAttribute("MSGname", tempblockobsv[iD].MSGname.ToString() ?? "");
-                        testitem.SetAttribute("Sequence", tempblockobsv[iD].Sequence.ToString() ?? "");
+                        testitem.SetAttribute("Command", tempblockobsv[iD].Command.ToString() ?? "");
                         testitem.SetAttribute("Delaytime", tempblockobsv[iD].Delaytime.ToString() ?? "");
-                        testitem.SetAttribute("RecSequence", tempblockobsv[iD].RecSequence.ToString() ?? "");
+                        testitem.SetAttribute("RecCommand", tempblockobsv[iD].RecCommand.ToString() ?? "");
                         testitem.SetAttribute("HashCodevalue", tempblockobsv[iD].HashCodevalue.ToString() ?? "");
                         testitem.SetAttribute("Loop", tempblockobsv[iD].Loop.ToString() ?? "");
 
@@ -574,19 +575,19 @@ namespace SuperCarter.Model
 
                 XmlElement normCurrent = ScriptionXML.CreateElement("NormCurrent");
                 normCurrent.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectnormCurrent).ToString() ?? "N");
-                normCurrent.SetAttribute("Upper", (_ScriptEditor.UpperLimitnormCurrentValue).ToString() ?? "0");
-                normCurrent.SetAttribute("Lower", (_ScriptEditor.LowerLimitnormCurrentValue).ToString() ?? "0");
+                normCurrent.SetAttribute("Upper", (_ScriptEditor.UpperLimitnormCurrentValue).ToString() ?? "");
+                normCurrent.SetAttribute("Lower", (_ScriptEditor.LowerLimitnormCurrentValue).ToString() ?? "");
                 thresholdSetting.AppendChild(normCurrent);
 
                 XmlElement sleepCurrent = ScriptionXML.CreateElement("SleepCurrent");
                 sleepCurrent.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectsleepCurrent).ToString() ?? "N");
-                sleepCurrent.SetAttribute("Upper", (_ScriptEditor.UpperLimitsleepCurrentValue).ToString() ?? "0");
+                sleepCurrent.SetAttribute("Upper", (_ScriptEditor.UpperLimitsleepCurrentValue).ToString() ?? "");
                 thresholdSetting.AppendChild(sleepCurrent);
 
                 XmlElement Lightsensor = ScriptionXML.CreateElement("Lightsensor");
                 Lightsensor.SetAttribute("IsEnable", (_ScriptEditor.IsEnableDetectLightsensor).ToString() ?? "N");
-                Lightsensor.SetAttribute("Upper", (_ScriptEditor.UpperLimitLightsensorValue).ToString() ?? "0");
-                Lightsensor.SetAttribute("Lower", (_ScriptEditor.LowerLimitLightsensorValue).ToString() ?? "0");
+                Lightsensor.SetAttribute("Upper", (_ScriptEditor.UpperLimitLightsensorValue).ToString() ?? "");
+                Lightsensor.SetAttribute("Lower", (_ScriptEditor.LowerLimitLightsensorValue).ToString() ?? "");
                 thresholdSetting.AppendChild(Lightsensor);
 
                 XmlElement Touchfinger = ScriptionXML.CreateElement("Touchfinger");
@@ -636,29 +637,31 @@ namespace SuperCarter.Model
 
                         // 设置批次大小
                         int batchSize = 30;
-
+                        int index = 0;
                         // 取得節點內的欄位
                         foreach (XmlElement node in element)
                         {
                             String ID = node.Attributes["ID"].Value ?? "";
                             String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
-                            String Nodename = node.Attributes["Nodename"]?.Value ?? "";
+                            String Commandtype = node.Attributes["Commandtype"]?.Value ?? "UART";
+                            String Commandparm1 = node.Attributes["Commandparm1"]?.Value ?? "HEX";
                             String MSGname = node.Attributes["MSGname"]?.Value ?? "";
-                            String Sequence = node.Attributes["Sequence"]?.Value ?? "";
+                            String Command = node.Attributes["Sequence"]?.Value ?? "";
                             String Delaytime = node.Attributes["Delaytime"]?.Value ?? "100";
-                            String RecSequence = node.Attributes["RecSequence"]?.Value ?? "";
+                            String RecCommand = node.Attributes["RecCommand"]?.Value ?? "";
                             String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
                             String Loop = node.Attributes["Loop"]?.Value ?? "1";
-
+                            index += 1;
                             Temp.Add(new ScriptItemtype()
                             {
-                                ID = Convert.ToInt32(ID),
-                                SelectScriptPortnum = PortNum,
-                                Nodename = Nodename,
+                                ID = index,
+                                Portnum = PortNum,
+                                CMDtype = Commandtype,
+                                CMDparm1 = Commandparm1,
                                 MSGname = MSGname,
-                                Sequence = Sequence,
+                                Command = Command,
                                 Delaytime = Convert.ToInt32(Delaytime),
-                                RecSequence = RecSequence,
+                                RecCommand = RecCommand,
                                 HashCodevalue = HashCodevalue,
                                 Loop = Convert.ToInt32(Loop),
                             });
@@ -737,29 +740,32 @@ namespace SuperCarter.Model
                 if (root == null)
                     return new ObservableCollection<ScriptItemtype>();
                 XmlElement element = (XmlElement)root;
-
+                int index = 0;
                 //取得節點內的欄位
                 foreach (XmlElement node in element)
                 {
                     String ID = node.Attributes["ID"].Value ?? "";
                     String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
-                    String Nodename = node.Attributes["Nodename"]?.Value ?? "";
+                    String Commandtype = node.Attributes["Commandtype"]?.Value ?? "UART";
+                    String Commandparm1 = node.Attributes["Commandparm1"]?.Value ?? "HEX";
                     String MSGname = node.Attributes["MSGname"]?.Value ?? "";
-                    String Sequence = node.Attributes["Sequence"]?.Value ?? "";
+                    String Command = node.Attributes["Command"]?.Value ?? "";
                     String Delaytime = node.Attributes["Delaytime"]?.Value ?? "100";
-                    String RecSequence = node.Attributes["RecSequence"]?.Value ?? "";
+                    String RecCommand = node.Attributes["RecCommand"]?.Value ?? "";
                     String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
                     String Loop = node.Attributes["Loop"]?.Value ?? "1";
-
+                    index += 1;
                     Temp.Add(new ScriptItemtype()
                     {
-                        ID = Convert.ToInt32(ID),
-                        SelectScriptPortnum = PortNum,
-                        Nodename = Nodename,
+                       
+                        ID = index,
+                        Portnum = PortNum,
+                        CMDtype = Commandtype,
+                        CMDparm1 = Commandparm1,
                         MSGname = MSGname,
-                        Sequence = Sequence,
+                        Command = Command,
                         Delaytime = Convert.ToInt32(Delaytime),
-                        RecSequence = RecSequence,
+                        RecCommand = RecCommand,
                         HashCodevalue = HashCodevalue,
                         Loop = Convert.ToInt32(Loop),
                     });
@@ -830,11 +836,12 @@ namespace SuperCarter.Model
                 {
                     String ID = node.Attributes["ID"]?.Value ?? "";
                     String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
-                    String Nodename = node.Attributes["Nodename"]?.Value ?? "";
+                    String Commandtype = node.Attributes["Commandtype"]?.Value ?? "UART";
+                    String Commandparm1 = node.Attributes["Commandparm1"]?.Value ?? "HEX";
                     String MSGname = node.Attributes["MSGname"]?.Value ?? "";
-                    String Sequence = node.Attributes["Sequence"]?.Value ?? "";
+                    String Command = node.Attributes["Command"]?.Value ?? "";
                     String Delaytime = node.Attributes["Delaytime"]?.Value ?? "100";
-                    String RecSequence = node.Attributes["RecSequence"]?.Value ?? "";
+                    String RecCommand = node.Attributes["RecCommand"]?.Value ?? "";
                     String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
                     String Loop = node.Attributes["Loop"]?.Value ?? "1";
 
@@ -843,7 +850,7 @@ namespace SuperCarter.Model
                         Temp.Add(new SendorExecuteSendType()
                         {
                             PortNum = 9,
-                            SequenceData = new byte[0],
+                            CommandData = new byte[0],
                             intDataLen = 0,
                             strDataLen = "0",
                             Delaytime = Convert.ToInt32(Delaytime),
@@ -856,44 +863,44 @@ namespace SuperCarter.Model
                         Temp.Add(new SendorExecuteSendType()
                         {
                             PortNum = 0,
-                            SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
-                            strSequenceData = Sequence,
-                            intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                            strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                            CommandData = SerialPortModel.Instance.HexStrToByte(Command),
+                            strCommandData = Command,
+                            intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
+                            strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
                             Delaytime = 0,
                             Loop = Convert.ToInt32(Loop),
                             SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
                                                       ID.PadLeft(3, ' '),
                                                         0,
-                                                        Sequence.Replace(" ", ""))
+                                                        Command.Replace(" ", ""))
                         });
                         Temp.Add(new SendorExecuteSendType()
                         {
                             PortNum = 1,
-                            SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
-                            strSequenceData = Sequence,
-                            intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                            strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                            CommandData = SerialPortModel.Instance.HexStrToByte(Command),
+                            strCommandData = Command,
+                            intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
+                            strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
                             Delaytime = 0,
                             Loop = Convert.ToInt32(Loop),
                             SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
                                                     ID.PadLeft(3, ' '),
                                                         1,
-                                                        Sequence.Replace(" ", ""))
+                                                        Command.Replace(" ", ""))
                         });
                         Temp.Add(new SendorExecuteSendType()
                         {
                             PortNum = 2,
-                            SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
-                            strSequenceData = Sequence,
-                            intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                            strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                            CommandData = SerialPortModel.Instance.HexStrToByte(Command),
+                            strCommandData = Command,
+                            intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
+                            strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
                             Delaytime = 0,
                             Loop = Convert.ToInt32(Loop),
                             SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
                                                      ID.PadLeft(3, ' '),
                                                         2,
-                                                        Sequence.Replace(" ", ""))
+                                                        Command.Replace(" ", ""))
                         });
                  
                     }
@@ -902,14 +909,14 @@ namespace SuperCarter.Model
                         Temp.Add(new SendorExecuteSendType()
                         {
                             PortNum = Convert.ToInt32(PortNum),
-                            intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                            strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                            intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
+                            strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
                             Delaytime = Convert.ToInt32(Delaytime),
                             Loop = Convert.ToInt32(Loop),
                             SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
                                                    ID.PadLeft(3, ' '),
                                                         PortNum,
-                                                        Sequence.Replace(" ", ""))
+                                                        Command.Replace(" ", ""))
                         });
                     }
                 }

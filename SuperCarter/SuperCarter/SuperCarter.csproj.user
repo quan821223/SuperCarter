@@ -13,13 +13,16 @@
     <Compile Update="View\Dashboard\ControlTable.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\Dashboard\MonitoringGuide.xaml.cs">
+    <Compile Update="View\Dashboard\ImgUI\MonitoringGuide.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\Dashboard\navi_img1.xaml.cs">
+    <Compile Update="View\Dashboard\ImgUI\navi_img0.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\Dashboard\navi_img2.xaml.cs">
+    <Compile Update="View\Dashboard\ImgUI\navi_img1.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Dashboard\ImgUI\navi_img2.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\Dashboard\Overview.xaml.cs">
@@ -48,13 +51,16 @@
     <Page Update="View\Dashboard\ControlTable.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Dashboard\MonitoringGuide.xaml">
+    <Page Update="View\Dashboard\ImgUI\MonitoringGuide.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Dashboard\navi_img1.xaml">
+    <Page Update="View\Dashboard\ImgUI\navi_img0.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Dashboard\navi_img2.xaml">
+    <Page Update="View\Dashboard\ImgUI\navi_img1.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Dashboard\ImgUI\navi_img2.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\Dashboard\Overview.xaml">

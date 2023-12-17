@@ -75,8 +75,6 @@ D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\Assets
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\MainWindow.g.cs
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\CommunicationInterface.g.cs
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ControlTable.g.cs
-D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img1.g.cs
-D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img2.g.cs
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\Overview.g.cs
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ReliabilityAssuranceDashboard.g.cs
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\UserScriptEditor.g.cs
@@ -92,8 +90,6 @@ D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\Assets
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\MainWindow.baml
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\CommunicationInterface.baml
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ControlTable.baml
-D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img1.baml
-D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img2.baml
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\Overview.baml
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ReliabilityAssuranceDashboard.baml
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\UserScriptEditor.baml
@@ -112,11 +108,17 @@ D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\SuperC
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\SuperCarter.genruntimeconfig.cache
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\SuperCarter.pdb
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\ref\SuperCarter.dll
-D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\MonitoringGuide.g.cs
-D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\MonitoringGuide.baml
 D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\MonitoringGuide.g.cs
 D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img1.g.cs
 D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img2.g.cs
 D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\MonitoringGuide.baml
 D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img1.baml
 D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img2.baml
+D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\MonitoringGuide.g.cs
+D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img1.g.cs
+D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img2.g.cs
+D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\MonitoringGuide.baml
+D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img1.baml
+D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img2.baml
+D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img0.g.cs
+D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img0.baml

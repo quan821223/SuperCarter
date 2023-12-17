@@ -94,15 +94,14 @@ namespace SuperCarter.Model
                 OnPropertyChanged(nameof(EstimateAllblockruntime));
             }
         }
-        private int _MonitoringIntervaltime = 300;
+        private int _MonitoringIntervaltime = 3000;
         public int MonitoringIntervaltime
         {
             get => _MonitoringIntervaltime;
             set
             {
                 _MonitoringIntervaltime = value;
-                OnPropertyChanged(nameof(MonitoringIntervaltime));
-         
+                OnPropertyChanged(nameof(MonitoringIntervaltime));         
 
             }
         } 
@@ -251,7 +250,7 @@ namespace SuperCarter.Model
         }
 
         public bool IsEnableDetectnormCurrent { get; set; } = false;
-        public int UpperLimitnormCurrentValue { get; set; } = 0;
+        public int UpperLimitnormCurrentValue { get; set; } 
         public int LowerLimitnormCurrentValue { get; set; } = 0;
         public bool IsEnableDetectsleepCurrent { get; set; } = false;
         public int UpperLimitsleepCurrentValue { get; set; } = 0;
@@ -318,24 +317,24 @@ namespace SuperCarter.Model
         #endregion
 
         #region icommands
-        private ICommand _ClearPageProperties, _SaveasSubscript, _ClearSubscript, _Saveasscript;
-        private ICommand _LoadBlockScript, _LoadBlockscript, _PreViewscript, _Loadscript;
+        private ICommand _ClearPageProperties, _SaveasSubscript, _ClearSubscript, _SaveMonitoringmodescriptasJSON;
+        private ICommand _LoadBlockScript, _subLoadBlockscript, _PreViewscript, _Loadscript;
         public ICommand LoadBlockscript
         {
             get
             {
-                _LoadBlockscript = new RelayCommand(
+                _LoadBlockScript = new RelayCommand(
                     param => evt_LoadBlockscript());
-                return _LoadBlockscript;
+                return _LoadBlockScript;
             }
         }
         public ICommand LoadsubBlockscript
         {
             get
             {
-                _Loadscript = new RelayCommand(
+                _subLoadBlockscript = new RelayCommand(
                     param => evt_LoadsubBlockscript(param)) ;
-                return _Loadscript;
+                return _subLoadBlockscript;
             }
         }
         public ICommand ViewBlockscript
@@ -375,12 +374,14 @@ namespace SuperCarter.Model
                 return _ClearSubscript;
             }
         }
-        public ICommand Saveasscript
+        
+        public ICommand SaveMonitoringmodescriptasJSON
         {
-            get {
-                _Saveasscript = new RelayCommand(
-                        param => evt_SaveasScript());
-                return _Saveasscript;
+            get
+            {
+                _SaveMonitoringmodescriptasJSON = new RelayCommand(
+                        param => evt_SaveMonitoringmodeScriptasJSON());
+                return _SaveMonitoringmodescriptasJSON;
 
             }
         }
@@ -388,9 +389,9 @@ namespace SuperCarter.Model
         {
             get
             {
-                _Saveasscript = new RelayCommand(
-                        param => evt_SaveasScript());
-                return _Saveasscript;
+                _Loadscript = new RelayCommand(
+                        param => evt_SaveMonitoringmodeScriptasXML());
+                return _Loadscript;
 
             }
         }
@@ -402,11 +403,13 @@ namespace SuperCarter.Model
 
             using (var openFileDialog1 = new System.Windows.Forms.OpenFileDialog())
             {
-                string myPath = AppPath + @"\script\";
+                string myPath = AppPath + @"\script\macro";
                 string strpath = null;
                 // 設定OpenFileDialog屬性
-                openFileDialog1.Title = "選擇要開啟的 XML 檔案";
-                openFileDialog1.Filter = "xml Files (.xml)|*.xml|All Files (*.*)|*.*";
+                //openFileDialog1.Title = "選擇要開啟的 XML 檔案";
+                //openFileDialog1.Filter = "xml Files (.xml)|*.xml|All Files (*.*)|*.*";
+                openFileDialog1.Title = "選擇要開啟的 JSON 檔案";
+                openFileDialog1.Filter = "json Files (.json)|*.json|All Files (*.*)|*.*";
                 openFileDialog1.FilterIndex = 1;
                 openFileDialog1.Multiselect = true;
                 openFileDialog1.InitialDirectory = myPath;
@@ -415,7 +418,8 @@ namespace SuperCarter.Model
                 {
                     strpath = openFileDialog1.FileName; //取得檔名
                     OpenedBlockScriptPath = strpath;
-                    ConfigModel.Instance.GetScriptXMLTestSuite(this);
+                    // ConfigModel.Instance.GetScriptXMLTestSuite(this);
+                    ConfigbyJSON.Instance.ReadMonitoringmodeScriptfromJson(this);
                     evt_objfresh();
                 }
                 OnPropertyChanged(nameof(OpenedBlockScriptPath));
@@ -423,8 +427,33 @@ namespace SuperCarter.Model
             }               
 
         }
-        public void evt_OpenBlockScriptPath() { }
-        private void evt_SaveasScript() {
+        public void evt_SaveMonitoringmodeScriptasJSON() {
+            using (var savefiledialog = new System.Windows.Forms.SaveFileDialog())
+            {
+                string filter = "json file (*.json)|*.json| All Files (*.*)|*.*";
+                const string header = "Command ,Times/ Keyword#, Interval, COM PORT/Pin, Function,Sub -func., SerialPort I/O comd, AC /USB Switch, Wait, Remark";
+                savefiledialog.Title = "Save as ...";
+                savefiledialog.Filter = filter;
+
+                savefiledialog.DefaultExt = "json";
+                savefiledialog.FileName = string.Format(@"{0}-{1}.json", DateTime.Now.ToString("yyyy_MM_dd_HH_mm"), "NEW_Script");
+
+                if (savefiledialog.ShowDialog() == DialogResult.OK)
+                {
+                    // ConfigModel.Instance.evt_SaveScriptTestSuitefile(savefiledialog.FileName, this);
+                    ConfigbyJSON.Instance.WriteMonitoringmodeScripttoJSON(savefiledialog.FileName, this);
+                    MessageAggregator.Instance.SendMessage(new POPNotifyMsgType
+                    {
+                        Tital = "通知",
+                        Message = "已儲存 " + savefiledialog.FileName,
+                        NotifyType = NotificationType.Notification,
+
+                    });
+                }
+
+            }
+        }
+        private void evt_SaveMonitoringmodeScriptasXML() {
 
             using (var savefiledialog = new System.Windows.Forms.SaveFileDialog())
             {

@@ -29,8 +29,6 @@ using System.Windows.Interop;
 
 namespace SuperCarter.Model
 {
-
-
     public class CustomscriptExecution : ViewModelBase
     {
         public ObservableCollection<Foldertype> folderViewerlist { get; set; } = new ObservableCollection<Foldertype>();
@@ -45,7 +43,6 @@ namespace SuperCarter.Model
         public int PowerMode { get; set; }
         public CustomscriptExecution()
         {
-
 
         }
         ~CustomscriptExecution()
@@ -598,7 +595,7 @@ namespace SuperCarter.Model
 
             byte[] receivedData = new byte[0];
 
-            if (command.SequenceData[0] == 0xFA && command.SequenceData[3] == 0x02 && command.SequenceData[4] == 0x01)
+            if (command.CommandData[0] == 0xFA && command.CommandData[3] == 0x02 && command.CommandData[4] == 0x01)
             {
                 PowerMode = 1;
                 UnifiedHostCommandSet.DUT1PowerMode = "Normal";
@@ -606,7 +603,7 @@ namespace SuperCarter.Model
                 UnifiedHostCommandSet.DUT3PowerMode = "Normal";
             }
 
-            else if (command.SequenceData[0] == 0xFA && command.SequenceData[3] == 0x02 && command.SequenceData[4] == 0x00)
+            else if (command.CommandData[0] == 0xFA && command.CommandData[3] == 0x02 && command.CommandData[4] == 0x00)
             {
                 PowerMode = 0;
                 UnifiedHostCommandSet.DUT1PowerMode = "Sleep";
@@ -618,13 +615,13 @@ namespace SuperCarter.Model
                 DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
                 SerialPortModel.Instance.PortNameBinding[DicSerialPort[command.PortNum].PortName].ToString().PadLeft(2, ' '),
                 DicSerialPort[command.PortNum].PortName.PadLeft(6, ' '),
-                command.strSequenceData.Replace(" ", ""),
+                command.strCommandData.Replace(" ", ""),
                 CommnadID.ToString().PadLeft(6, ' ')
                 );
             logger.Log(NLog.LogLevel.Trace, OutputMsg);
             RealtimeMsgQueue.Enqueue(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum , msg = OutputMsg });
 
-            DicSerialPort[command.PortNum].Write(command.SequenceData, 0, command.SequenceData.Length);
+            DicSerialPort[command.PortNum].Write(command.CommandData, 0, command.CommandData.Length);
 
             // 紀錄讀取 sdm 回傳的資料
             receivedData = await ReadFromPortAsync6(Sequence, cancellationToken);
@@ -648,9 +645,9 @@ namespace SuperCarter.Model
             {
                 CommnadID = CommnadID,
                 Portnum = command.PortNum,
-                strSequenceData_send = command.strSequenceData,
-                strSequenceData_Rec = recmsg,
-                byte_buffer_Send = command.SequenceData,
+                strCommandData_send = command.strCommandData,
+                strCommandData_Rec = recmsg,
+                byte_buffer_Send = command.CommandData,
                 byte_buffer_Receive = receivedData,
             });
 
@@ -781,9 +778,9 @@ namespace SuperCarter.Model
                         String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
                         String Nodename = node.Attributes["Nodename"]?.Value ?? "";
                         String MSGname = node.Attributes["MSGname"]?.Value ?? "";
-                        String Sequence = node.Attributes["Sequence"]?.Value ?? "";
+                        String Command = node.Attributes["Command"]?.Value ?? "";
                         String Delaytime = node.Attributes["Delaytime"]?.Value ?? "200";
-                        String RecSequence = node.Attributes["RecSequence"]?.Value ?? "";
+                        String RecCommand = node.Attributes["RecCommand"]?.Value ?? "";
                         String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
                         String Loop = node.Attributes["Loop"]?.Value ?? "1";
 
@@ -792,7 +789,7 @@ namespace SuperCarter.Model
                             Temp.Add(new SendorExecuteSendType()
                             {
                                 PortNum = 9,
-                                SequenceData = new byte[0],
+                                CommandData = new byte[0],
                                 intDataLen = 0,
                                 strDataLen = "0",
                                 Delaytime = Convert.ToInt32(Delaytime),
@@ -805,44 +802,44 @@ namespace SuperCarter.Model
                             Temp.Add(new SendorExecuteSendType()
                             {
                                 PortNum = 0,
-                                SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
-                                strSequenceData = Sequence,
-                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                CommandData = SerialPortModel.Instance.HexStrToByte(Command),
+                                strCommandData = Command,
+                                intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
+                                strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
                                 Delaytime = 0,
                                 Loop = Convert.ToInt32(Loop),
                                 SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
                                                           ID.PadLeft(3, ' '),
                                                             0,
-                                                            Sequence.Replace(" ", ""))
+                                                            Command.Replace(" ", ""))
                             });
                             Temp.Add(new SendorExecuteSendType()
                             {
                                 PortNum = 1,
-                                SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
-                                strSequenceData = Sequence,
-                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                CommandData = SerialPortModel.Instance.HexStrToByte(Command),
+                                strCommandData = Command,
+                                intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
+                                strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
                                 Delaytime = 0,
                                 Loop = Convert.ToInt32(Loop),
                                 SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
                                                         ID.PadLeft(3, ' '),
                                                             1,
-                                                            Sequence.Replace(" ", ""))
+                                                            Command.Replace(" ", ""))
                             });
                             Temp.Add(new SendorExecuteSendType()
                             {
                                 PortNum = 2,
-                                SequenceData = SerialPortModel.Instance.HexStrToByte(Sequence),
-                                strSequenceData = Sequence,
-                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                CommandData = SerialPortModel.Instance.HexStrToByte(Command),
+                                strCommandData = Command,
+                                intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
+                                strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
                                 Delaytime = 0,
                                 Loop = Convert.ToInt32(Loop),
                                 SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
                                                          ID.PadLeft(3, ' '),
                                                             2,
-                                                            Sequence.Replace(" ", ""))
+                                                            Command.Replace(" ", ""))
                             });
 
                         }
@@ -851,15 +848,15 @@ namespace SuperCarter.Model
                             Temp.Add(new SendorExecuteSendType()
                             {
                                 PortNum = Convert.ToInt32(PortNum),
-                                strSequenceData = Sequence,
-                                intDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length,
-                                strDataLen = SerialPortModel.Instance.HexStrToByte(Sequence).Length.ToString(),
+                                strCommandData = Command,
+                                intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
+                                strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
                                 Delaytime = Convert.ToInt32(Delaytime),
                                 Loop = Convert.ToInt32(Loop),
                                 SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
                                                        ID.PadLeft(3, ' '),
                                                             PortNum,
-                                                            Sequence.Replace(" ", ""))
+                                                            Command.Replace(" ", ""))
                             });
                         }
 
@@ -1015,15 +1012,15 @@ namespace SuperCarter.Model
 
                 if (bytes.byte_buffer_Receive[1] == 1)
                 {
-                    UnifiedHostCommandSet.DUT1Diagnostic_raw = bytes.strSequenceData_Rec;
+                    UnifiedHostCommandSet.DUT1Diagnostic_raw = bytes.strCommandData_Rec;
                 }
                 else if (bytes.byte_buffer_Receive[1] == 2)
                 {
-                    UnifiedHostCommandSet.DUT2Diagnostic_raw = bytes.strSequenceData_Rec;
+                    UnifiedHostCommandSet.DUT2Diagnostic_raw = bytes.strCommandData_Rec;
                 }
                 else if (bytes.byte_buffer_Receive[1] == 3)
                 {
-                    UnifiedHostCommandSet.DUT3Diagnostic_raw = bytes.strSequenceData_Rec;
+                    UnifiedHostCommandSet.DUT3Diagnostic_raw = bytes.strCommandData_Rec;
                 }
 
                 evt_func_DTC(bytes.byte_buffer_Receive[1], DTC);
@@ -1081,7 +1078,7 @@ namespace SuperCarter.Model
         {
             if (sendByte4 == 0x01)
             {
-                //UnifiedHostCommandSet.TouchPoint = bytes.strSequenceData_Rec;
+                //UnifiedHostCommandSet.TouchPoint = bytes.strCommandData_Rec;
             }
 
 

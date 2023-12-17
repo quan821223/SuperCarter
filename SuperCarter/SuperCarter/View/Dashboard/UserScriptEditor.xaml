@@ -12,6 +12,8 @@
              >
     <UserControl.Resources>
         <self:PortIDItems x:Key="PortIDItems"/>
+        <self:CMDtypeItems x:Key="CMDtypeItems"/>
+        <self:CMDparm1Items x:Key="CMDparm1Items"/>
     </UserControl.Resources>
     <Grid  Margin="5" >
         <Grid.RowDefinitions>
@@ -95,8 +97,10 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                
+    
                 <Button Width="95" Height="33" 
-                            Command="{Binding scheduledscriptEditor.Saveasscript}"                                             
+                            Command="{Binding scheduledscriptEditor.SaveMonitoringmodescriptasJSON}"                                             
                             ToolTip="View the path location" 
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left" 
@@ -257,7 +261,7 @@
 
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockA1initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"  IsReadOnly="True"/>
                                                     <Separator Margin="0 5"/>
-                                                    <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
+                                                    <Label Content="Monitoring Sequences"   HorizontalAlignment="Center"/>
 
                                                     <StackPanel Orientation="Horizontal" >
                                                         <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="4" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
@@ -286,7 +290,7 @@
 
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockA2initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"  IsReadOnly="True" />
                                                     <Separator Margin="0 5"/>
-                                                    <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
+                                                    <Label Content="Monitoring Sequences"   HorizontalAlignment="Center"/>
 
                                                     <StackPanel Orientation="Horizontal" >
                                                         <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="5" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
@@ -316,7 +320,7 @@
                                                     </StackPanel>
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockB1initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow"  IsReadOnly="True" />
                                                     <Separator Margin="0 5"/>
-                                                    <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
+                                                    <Label Content="Monitoring Sequences"   HorizontalAlignment="Center"/>
 
                                                     <StackPanel Orientation="Horizontal" >
                                                         <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="6" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
@@ -347,7 +351,7 @@
 
                                                     <TextBox Text="{Binding scheduledscriptEditor.BlockB2initscriptPath}" MinWidth="70" TextWrapping="WrapWithOverflow" IsReadOnly="True" />
                                                     <Separator Margin="0 5"/>
-                                                    <Label Content="Scheduled Detection Commands"   HorizontalAlignment="Center"/>
+                                                    <Label Content="Monitoring Sequences"   HorizontalAlignment="Center"/>
                                                     <StackPanel Orientation="Horizontal" >
                                                         <Button Command="{Binding scheduledscriptEditor.LoadsubBlockscript}" CommandParameter="7" Width="100" Content="Load" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
                                                         <Button Command="{Binding scheduledscriptEditor.ViewBlockscript}" CommandParameter="7" Width="100" Content="View" IsEnabled="{Binding scheduledscriptEditor.IsunlockScheduledScriptSetting}"/>
@@ -371,22 +375,23 @@
                                             </WrapPanel>
                                         </Grid>
                                         <Grid Grid.Row="5" Margin="5">
-                                            <GroupBox Header="sub - Script Browsing" FontWeight="Bold">
+                                            <GroupBox Header="subScript browser" FontWeight="Bold">
                                                 <Grid>
 
                                                     <TabControl Margin="5">
                                                         <TabItem>
                                                             <TabItem.Header>
-                                                                <StackPanel Orientation="Horizontal"  Width="200">
+                                                                <StackPanel Orientation="Horizontal"  Width="100">
                                                                     <Label Name="DisplayLbl" Visibility="{Binding scheduledscriptEditor.DisplaySwitch}" FontSize="12"
-                                                                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8 0 0 0"
-                                                                        Content="{Binding scheduledscriptEditor.LabelText}" Foreground="{Binding scheduledscriptEditor.ForeColor}" />
+                                                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8 0 0 0"
+                                                                           Content="{Binding scheduledscriptEditor.LabelText}"
+                                                                           Foreground="{Binding scheduledscriptEditor.ForeColor}" />
                                                                     <materialDesign:PackIcon Kind="Text"
-                                                                                         Width="16" Height="16"
-                                                                                         VerticalAlignment="Stretch" 
-                                                                                         Foreground="#FF4D4D4D" 
-                                                                                         HorizontalAlignment="Stretch"
-                                                                                         />
+                                                                                             Width="16" Height="16"
+                                                                                             VerticalAlignment="Stretch" 
+                                                                                             Foreground="#FF4D4D4D" 
+                                                                                             HorizontalAlignment="Stretch"
+                                                                                             />
 
                                                                     <TextBlock x:Name="RuntimeAlertText" Text="{Binding scheduledscriptEditor.RuntimeAlertText}" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" Margin="1 5">
                                                                         <TextBlock.Style>
@@ -397,8 +402,8 @@
                                                                                             <BeginStoryboard x:Name="YourStoryboardName">
                                                                                                 <Storyboard>
                                                                                                     <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                                                                                 From="0" To="1" Duration="0:0:1"
-                                                                                                                 RepeatBehavior="Forever"/>
+                                                                                                                     From="0" To="1" Duration="0:0:1"
+                                                                                                                     RepeatBehavior="Forever"/>
                                                                                                 </Storyboard>
                                                                                             </BeginStoryboard>
                                                                                         </DataTrigger.EnterActions>
@@ -416,13 +421,13 @@
 
                                                             <Grid >
                                                                 <StackPanel Orientation="Vertical" >
-                                                                    <StackPanel Orientation="Horizontal">
+                                                                    <StackPanel Orientation="Horizontal" Margin="5 5">
                                                                         <Button Width="95" Height="33"  
-                                                                Command="{Binding scheduledscriptEditor.ClearSubscript}"                                             
-                                                                ToolTip="View the path location" 
-                                                                VerticalAlignment="Center"
-                                                                HorizontalAlignment="Left" 
-                                                                Margin="10 0 5 3">
+                                                                                Command="{Binding scheduledscriptEditor.ClearSubscript}"                                             
+                                                                                ToolTip="View the path location" 
+                                                                                VerticalAlignment="Center"
+                                                                                HorizontalAlignment="Left" 
+                                                                                Margin="10 0 5 3">
 
                                                                             <Button.Style>
 
@@ -434,10 +439,10 @@
                                                                                                     <Border Name="innerborder" BorderBrush="Gray" BorderThickness="1.0 .9 1.0 1.2" Background="{TemplateBinding Background}" CornerRadius="4">
                                                                                                         <StackPanel Orientation="Horizontal" Margin="9 0 0 0">
                                                                                                             <materialDesign:PackIcon Kind="FormatClear" 
-                                                                                                                        Width="20" Height="20"
-                                                                                                                        VerticalAlignment="Stretch" 
-                                                                                                                        Foreground="#FF4D4D4D" 
-                                                                                                                        HorizontalAlignment="Stretch"/>
+                                                                                                                                     Width="20" Height="20"
+                                                                                                                                     VerticalAlignment="Stretch" 
+                                                                                                                                     Foreground="#FF4D4D4D" 
+                                                                                                                                     HorizontalAlignment="Stretch"/>
                                                                                                             <Label Content="Clear" VerticalAlignment="Center"/>
                                                                                                         </StackPanel>
                                                                                                     </Border>
@@ -455,11 +460,11 @@
                                                                             </Button.Style>
                                                                         </Button>
                                                                         <Button Width="95" Height="33"  
-                                                                Command="{Binding scheduledscriptEditor.SaveasSubscript}"                                             
-                                                                ToolTip="View the path location" 
-                                                                VerticalAlignment="Center"
-                                                                HorizontalAlignment="Left" 
-                                                                Margin="10 0 5 3">
+                                                                                Command="{Binding scheduledscriptEditor.SaveasSubscript}"                                             
+                                                                                ToolTip="View the path location" 
+                                                                                VerticalAlignment="Center"
+                                                                                HorizontalAlignment="Left" 
+                                                                                Margin="10 0 5 3">
 
                                                                             <Button.Style>
 
@@ -497,7 +502,7 @@
                                                                              FontFamily="Champagne &amp;amp; Limousines"
                                                                              HorizontalAlignment="Stretch" VerticalAlignment="Bottom"  Foreground="#FFABA8A8"
                                                                              />
-                                                                    <DataGrid x:Name="SequenceScript" MaxHeight="300"
+                                                                    <DataGrid x:Name="SequenceScript" MaxHeight="490"
                                                                               dd:DragDrop.DropScrollingMode="VerticalOnly"
                                                                               dd:DragDrop.IsDragSource="True"
                                                                               dd:DragDrop.IsDropTarget="True"
@@ -514,27 +519,35 @@
                                                                                >
                                                                         <DataGrid.Columns>
                                                                             <DataGridTextColumn Binding="{Binding ID}"
-                                                                                Header="ID" 
-                                                                                Width="50" />
+                                                                                                Header="ID" 
+                                                                                                IsReadOnly="True"
+                                                                                                Width="50" />
                                                                             <DataGridTemplateColumn Header="Send" Width="65">
                                                                                 <DataGridTemplateColumn.CellTemplate>
                                                                                     <DataTemplate>
                                                                                         <Button Command="{Binding Path=DataContext.ScriptSenderExecute,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                                                                CommandParameter="{Binding}"  >Send</Button>
+                                                                                                CommandParameter="{Binding}"  >Send</Button>
                                                                                     </DataTemplate>
                                                                                 </DataGridTemplateColumn.CellTemplate>
                                                                             </DataGridTemplateColumn >
-                                                                            <DataGridComboBoxColumn x:Name="ComboBoxColumn1" 
-                                                                                    Header="Port No." 
-                                                                                    Width="72"
-                                                                                    ItemsSource="{StaticResource PortIDItems}"
-                                                                                    SelectedItemBinding="{Binding SelectScriptPortnum}"/>
-
+                                                                            <DataGridComboBoxColumn Header="Type" 
+                                                                                                    Width="42"
+                                                                                                    ItemsSource="{StaticResource CMDtypeItems}"
+                                                                                                    SelectedItemBinding="{Binding CMDtype}"/>
+                                                                            <DataGridComboBoxColumn x:Name="CMDColumn1" 
+                                                                                                    Header="Port No." 
+                                                                                                    Width="42"
+                                                                                                    ItemsSource="{StaticResource PortIDItems}"
+                                                                                                    SelectedItemBinding="{Binding Portnum}"/> 
+                                                                            <DataGridComboBoxColumn Header="Parm1" 
+                                                                                                    Width="45"
+                                                                                                    ItemsSource="{StaticResource CMDparm1Items}"
+                                                                                                    SelectedItemBinding="{Binding CMDparm1}"/>
                                                                             <DataGridTextColumn Binding="{Binding MSGname}" Header="Name" Width="175" />
-                                                                            <DataGridTextColumn Binding="{Binding Sequence}" Header="Sequence" Width="200" />
+                                                                            <DataGridTextColumn Binding="{Binding Command}" Header="Sequence" Width="200" />
                                                                             <DataGridTextColumn Binding="{Binding Delaytime}" Header="Delay(ms)" Width="90"/>
                                                                             <DataGridTextColumn Binding="{Binding Loop}" Header="Loop" IsReadOnly="True" Width="80"/>
-                                                                            <DataGridTextColumn Binding="{Binding RecSequence}" Header="Rec Sequence" Width="200" />
+                                                                            <DataGridTextColumn Binding="{Binding RecCommand}" Header="Rec Sequence" Width="200" />
                                                                         </DataGrid.Columns>
 
                                                                     </DataGrid>

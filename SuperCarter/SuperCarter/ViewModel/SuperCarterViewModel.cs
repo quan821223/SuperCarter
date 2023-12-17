@@ -154,15 +154,15 @@ namespace SuperCarter.ViewModel
         private void ScriptitemExecute(object parameter)
         {
             int index = Scriptdatalist.IndexOf(parameter as ScriptItemtype);
-            if (Scriptdatalist[index].SelectScriptPortnum == "0" || Scriptdatalist[index].SelectScriptPortnum == "all")
+            if (Scriptdatalist[index].Portnum == "0" || Scriptdatalist[index].Portnum == "all")
                 if (DicSerialPort[0].IsOpen)
-                    serialportmanager.evnt_sendAsync(0, Scriptdatalist[index].Sequence);
-            if (Scriptdatalist[index].SelectScriptPortnum == "1" || Scriptdatalist[index].SelectScriptPortnum == "all")
+                    serialportmanager.evnt_sendAsync(0, Scriptdatalist[index]);
+            if (Scriptdatalist[index].Portnum == "1" || Scriptdatalist[index].Portnum == "all")
                 if (DicSerialPort[1].IsOpen)
-                    serialportmanager.evnt_sendAsync(1, Scriptdatalist[index].Sequence);
-            if (Scriptdatalist[index].SelectScriptPortnum == "2" || Scriptdatalist[index].SelectScriptPortnum == "all")
+                    serialportmanager.evnt_sendAsync(1, Scriptdatalist[index]);
+            if (Scriptdatalist[index].Portnum == "2" || Scriptdatalist[index].Portnum == "all")
                 if (DicSerialPort[2].IsOpen)
-                    serialportmanager.evnt_sendAsync(2, Scriptdatalist[index].Sequence);
+                    serialportmanager.evnt_sendAsync(2, Scriptdatalist[index]);
 
         }
         #endregion Single Sendor Execute function.  

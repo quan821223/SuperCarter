@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:Viewconfig="clr-namespace:SuperCarter.View.Dashboard"     
+             xmlns:Viewconfig="clr-namespace:SuperCarter.View.Dashboard"   
+             xmlns:Guide="clr-namespace:SuperCarter.View.Dashboard.ImgUI"    
              xmlns:local="clr-namespace:SuperCarter.View.Dashboard"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -54,7 +55,7 @@
                             </StackPanel>
                         </TabItem.Header>
 
-                        <Viewconfig:MonitoringGuide Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                        <Guide:MonitoringGuide Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                     </TabItem>
                     <TabItem>
                         <TabItem.Header>
