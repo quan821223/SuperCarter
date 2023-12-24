@@ -133,7 +133,11 @@ namespace SuperCarter.ViewModel
         {
             PageName = obj.ToString();
         }
-        #region Single Sendor Execute function.   
+        #region Single Sendor Execute function.  
+        /// <summary>
+        /// 功能:觸發介面 
+        /// 發送在腳本編譯器的指令內容
+        /// </summary>
         private ICommand _ScriptSenderExecute;
         public ICommand ScriptSenderExecute
         {
@@ -151,19 +155,29 @@ namespace SuperCarter.ViewModel
         {
             return true;
         }
-        private void ScriptitemExecute(object parameter)
+        /// <summary>
+        /// 功能:觸發方法
+        /// 發送在腳本編譯器的指令內容
+        /// </summary>
+        /// <param name="parameter"></param>
+        private async void ScriptitemExecute(object parameter)
         {
             int index = Scriptdatalist.IndexOf(parameter as ScriptItemtype);
-            if (Scriptdatalist[index].Portnum == "0" || Scriptdatalist[index].Portnum == "all")
-                if (DicSerialPort[0].IsOpen)
-                    serialportmanager.evnt_sendAsync(0, Scriptdatalist[index]);
-            if (Scriptdatalist[index].Portnum == "1" || Scriptdatalist[index].Portnum == "all")
-                if (DicSerialPort[1].IsOpen)
-                    serialportmanager.evnt_sendAsync(1, Scriptdatalist[index]);
-            if (Scriptdatalist[index].Portnum == "2" || Scriptdatalist[index].Portnum == "all")
-                if (DicSerialPort[2].IsOpen)
-                    serialportmanager.evnt_sendAsync(2, Scriptdatalist[index]);
-
+            if (Scriptdatalist[index].Portnum == "all")
+            {
+                for (int inum = 0; inum < DicSerialPort.Count; inum++)
+                {
+                    if (DicSerialPort[inum].IsOpen)
+                        serialportmanager.evnt_sendAsync(inum, Scriptdatalist[index]);
+              
+                }    
+            }
+            else
+            {
+                if (DicSerialPort[Convert.ToInt32(Scriptdatalist[index].Portnum)].IsOpen)
+                    serialportmanager.evnt_sendAsync(Convert.ToInt32(Scriptdatalist[index].Portnum), Scriptdatalist[index]);
+          
+            }  
         }
         #endregion Single Sendor Execute function.  
 

@@ -138,7 +138,8 @@ namespace SuperCarter.Model
                 throw;
             }
         }
-        public void ReadMonitoringmodeScriptfromJson(ScheduledScriptEditor _ScriptEditor) {
+        public void ReadMonitoringmodeScriptfromJson(ScheduledScriptEditor _ScriptEditor)
+        {
 
             try
             {
@@ -146,8 +147,6 @@ namespace SuperCarter.Model
 
                 if (System.IO.File.Exists(JSONfilePath))
                 {
-                    //System.IO.FileStream fs = new System.IO.FileStream (JSONfilePath, System.IO.FileAccess)
-       
                     List<Monitoringmodescripttype> dataset = LoadDataService<Monitoringmodescripttype>.ReadFile(JSONfilePath);
                     _ScriptEditor.Fullloop = dataset[0].Loop;
                     _ScriptEditor.BlockALoop = dataset[0].BlockALoop;
@@ -164,9 +163,9 @@ namespace SuperCarter.Model
                     _ScriptEditor.BlockA1ObsColSequences = dataset[0].TestSuiteA1[0].Command;
                     _ScriptEditor.BlockA2initscriptPath = dataset[0].TestSuiteA2init[0].ScriptPath;
                     _ScriptEditor.BlockA2initObsColSequences = dataset[0].TestSuiteA2init[0].Command;
-                    _ScriptEditor.BlockA2scriptPath = dataset[0].TestSuiteA2[0].ScriptPath ;
+                    _ScriptEditor.BlockA2scriptPath = dataset[0].TestSuiteA2[0].ScriptPath;
                     _ScriptEditor.BlockA2ObsColSequences = dataset[0].TestSuiteA2[0].Command;
-                    _ScriptEditor.BlockB1initscriptPath = dataset[0].TestSuiteB1init[0].ScriptPath; 
+                    _ScriptEditor.BlockB1initscriptPath = dataset[0].TestSuiteB1init[0].ScriptPath;
                     _ScriptEditor.BlockB1initObsColSequences = dataset[0].TestSuiteB1init[0].Command;
                     _ScriptEditor.BlockB1scriptPath = dataset[0].TestSuiteB1[0].ScriptPath;
                     _ScriptEditor.BlockB1ObsColSequences = dataset[0].TestSuiteB1[0].Command;
@@ -180,18 +179,16 @@ namespace SuperCarter.Model
                     _ScriptEditor.LowerLimitnormCurrentValue = dataset[0].NormCurrent[0].Lower;
                     _ScriptEditor.UpperLimitnormCurrentValue = dataset[0].NormCurrent[0].Upper;
                     _ScriptEditor.IsEnableDetectsleepCurrent = dataset[0].SleepCurrent[0].ISEnable;
-                    _ScriptEditor.UpperLimitsleepCurrentValue = dataset[0].SleepCurrent[0].Upper ;
+                    _ScriptEditor.UpperLimitsleepCurrentValue = dataset[0].SleepCurrent[0].Upper;
                     _ScriptEditor.IsEnableDetectLightsensor = dataset[0].Lightsensor[0].ISEnable;
                     _ScriptEditor.LowerLimitLightsensorValue = dataset[0].Lightsensor[0].Lower;
                     _ScriptEditor.UpperLimitLightsensorValue = dataset[0].Lightsensor[0].Upper;
                     _ScriptEditor.IsEnableTouchfinger = dataset[0].Touchfinger[0].ISEnable;
                     _ScriptEditor.IsEnableTouchXY = dataset[0].TouchXY[0].ISEnable;
-
                     nlogMessageAggregator.Instance.SendMessage(new nlogtype { LogLevel = NLog.LogLevel.Debug, Msg = JSONfilePath });
                     nlogMessageAggregator.Instance.SendMessage(new nlogtype { LogLevel = NLog.LogLevel.Debug, Msg = "ReadPortCandidatelist" });
-                  
 
-                }                
+                }
 
             }
             catch (Exception ex)
@@ -201,6 +198,129 @@ namespace SuperCarter.Model
                 throw;
             }
         }
+        public void ReadMonitoringmodeScriptfromJson(CustomScriptEditor _ScriptEditor) {
+
+            try
+            {
+                string JSONfilePath = _ScriptEditor.Scheduledscriptpath; // 路徑為你的JSON文件的實際路徑
+
+                if (System.IO.File.Exists(JSONfilePath))
+                {
+                    List<Monitoringmodescripttype> dataset = LoadDataService<Monitoringmodescripttype>.ReadFile(JSONfilePath);
+                    _ScriptEditor.Fullloop = dataset[0].Loop;
+                    _ScriptEditor.BlockALoop = dataset[0].BlockALoop;
+                    _ScriptEditor.BlockBLoop = dataset[0].BlockBLoop;
+                    _ScriptEditor.BlockB1Interval = dataset[0].BlockB1Interval;
+                    _ScriptEditor.BlockB2Interval = dataset[0].BlockB2Interval;
+                    _ScriptEditor.BlockA2Interval = dataset[0].BlockA2Interval;
+                    _ScriptEditor.BlockA1Interval = dataset[0].BlockA1Interval;
+                    _ScriptEditor.MonitoringIntervaltime = dataset[0].MonitoringIntervaltime;
+                    _ScriptEditor.MonitoringIntervaltime = dataset[0].MonitoringIntervaltime;
+                    _ScriptEditor.blockA1initscriptpath = dataset[0].TestSuiteA1init[0].ScriptPath;
+                    _ScriptEditor.BlockA1initSequencesList = ConvertOCBlockscript( dataset[0].TestSuiteA1init[0].Command);
+                    _ScriptEditor.blockA1scriptpath = dataset[0].TestSuiteA1[0].ScriptPath;
+                    _ScriptEditor.BlockA1SequencesList = ConvertOCBlockscript(dataset[0].TestSuiteA1[0].Command);
+                    _ScriptEditor.blockA2initscriptpath = dataset[0].TestSuiteA2init[0].ScriptPath;
+                    _ScriptEditor.BlockA2initSequencesList = ConvertOCBlockscript(dataset[0].TestSuiteA2init[0].Command);
+                    _ScriptEditor.blockA2scriptpath = dataset[0].TestSuiteA2[0].ScriptPath;
+                    _ScriptEditor.BlockA2SequencesList = ConvertOCBlockscript(dataset[0].TestSuiteA2[0].Command);
+                    _ScriptEditor.blockB1initscriptpath = dataset[0].TestSuiteB1init[0].ScriptPath;
+                    _ScriptEditor.BlockB1initSequencesList = ConvertOCBlockscript(dataset[0].TestSuiteB1init[0].Command);
+                    _ScriptEditor.blockB1scriptpath = dataset[0].TestSuiteB1[0].ScriptPath;
+                    _ScriptEditor.BlockB1SequencesList = ConvertOCBlockscript(dataset[0].TestSuiteB1[0].Command);
+                    _ScriptEditor.blockB2initscriptpath = dataset[0].TestSuiteB2init[0].ScriptPath;
+                    _ScriptEditor.BlockB2initSequencesList = ConvertOCBlockscript(dataset[0].TestSuiteB2init[0].Command);
+                    _ScriptEditor.blockB2scriptpath = dataset[0].TestSuiteB2[0].ScriptPath;
+                    _ScriptEditor.BlockB2SequencesList = ConvertOCBlockscript(dataset[0].TestSuiteB2[0].Command);
+
+                    _ScriptEditor.IsEnableDetectDiag = dataset[0].DetectDiag[0].ISEnable;
+                    _ScriptEditor.IsEnableDetectnormCurrent = dataset[0].NormCurrent[0].ISEnable;
+                    _ScriptEditor.LowerLimitnormCurrentValue = dataset[0].NormCurrent[0].Lower;
+                    _ScriptEditor.UpperLimitnormCurrentValue = dataset[0].NormCurrent[0].Upper;
+                    _ScriptEditor.IsEnableDetectsleepCurrent = dataset[0].SleepCurrent[0].ISEnable;
+                    _ScriptEditor.UpperLimitsleepCurrentValue = dataset[0].SleepCurrent[0].Upper;
+                    _ScriptEditor.IsEnableDetectLightsensor = dataset[0].Lightsensor[0].ISEnable;
+                    _ScriptEditor.LowerLimitLightsensorValue = dataset[0].Lightsensor[0].Lower;
+                    _ScriptEditor.UpperLimitLightsensorValue = dataset[0].Lightsensor[0].Upper;
+                    _ScriptEditor.IsEnableTouchfinger = dataset[0].Touchfinger[0].ISEnable;
+                    _ScriptEditor.IsEnableTouchXY = dataset[0].TouchXY[0].ISEnable;
+                    nlogMessageAggregator.Instance.SendMessage(new nlogtype { LogLevel = NLog.LogLevel.Debug, Msg = JSONfilePath });
+                    nlogMessageAggregator.Instance.SendMessage(new nlogtype { LogLevel = NLog.LogLevel.Debug, Msg = "ReadPortCandidatelist" });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.StackTrace);
+                throw;
+            }
+        }
+
+        public List<SendorExecuteSendType> ConvertOCBlockscript(ObservableCollection<ScriptItemtype> OCbuffer)
+        {
+            List<SendorExecuteSendType> Temp = new List<SendorExecuteSendType>();
+            try
+            {
+                foreach (var item in OCbuffer)
+                {
+                    if (item.Portnum == "all")
+                    {
+                        Temp.Add(new SendorExecuteSendType()
+                        {
+                            PortNum = 99,
+                            CommandData = new byte[0],
+                            intDataLen = 0,
+                            strDataLen = "0",
+                            Delaytime = Convert.ToInt32(item.Delaytime),
+                            Loop = 1,
+                            SendMsgdata = String.Format("延遲項目不應該出現")
+                        });
+
+                        for (int inum = 0; inum < 3; inum++)
+                        {
+                            Temp.Add(new SendorExecuteSendType()
+                            {
+                                PortNum = inum,
+                                CommandData = SerialPortModel.Instance.HexStrToByte(item.Command),
+                                strCommandData = item.Command,
+                                intDataLen = SerialPortModel.Instance.HexStrToByte(item.Command).Length,
+                                strDataLen = SerialPortModel.Instance.HexStrToByte(item.Command).Length.ToString(),
+                                Delaytime = 0,
+                                Loop = Convert.ToInt32(item.Loop),
+                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}", item.ID.ToString().PadLeft(3, ' '), inum, item.Command.Replace(" ", ""))
+                            });
+                        }
+
+                    }
+                    else
+                    {
+                        Temp.Add(new SendorExecuteSendType()
+                        {
+                            PortNum = Convert.ToInt32(item.Portnum),
+                            CommandData = SerialPortModel.Instance.HexStrToByte(item.Command),
+                            strCommandData = item.Command,
+                            intDataLen = SerialPortModel.Instance.HexStrToByte(item.Command).Length,
+                            strDataLen = SerialPortModel.Instance.HexStrToByte(item.Command).Length.ToString(),
+                            Delaytime = Convert.ToInt32(item.Delaytime),
+                            Loop = Convert.ToInt32(item.Loop),
+                            SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}", item.ID.ToString().PadLeft(3, ' '), item.Portnum, item.Command.Replace(" ", ""))
+                        });
+
+                    }
+
+                }
+                return Temp;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.StackTrace);
+                return new List<SendorExecuteSendType> { };
+            }
+        }
+
         public void WriteMonitoringmodeScripttoJSON(string SavePath, ScheduledScriptEditor _ScriptEditor)
         {
 

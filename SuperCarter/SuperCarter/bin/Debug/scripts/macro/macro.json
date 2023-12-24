@@ -1,337 +1,25 @@
 [
   {
-    "Loop": 11,
-    "BlockALoop": 22,
-    "BlockBLoop": 33,
-    "BlockA1Interval": 44,
-    "BlockA2Interval": 55,
-    "BlockB1Interval": 66,
-    "BlockB2Interval": 0,
+    "Loop": 2,
+    "BlockALoop": 2,
+    "BlockBLoop": 2,
+    "BlockA1Interval": 60000,
+    "BlockA2Interval": 60000,
+    "BlockB1Interval": 60000,
+    "BlockB2Interval": 60000,
     "MonitoringIntervaltime": 3000,
     "TestSuiteA1init": [
       {
-        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\dynamicmonitor.xml",
+        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\wakeup.xml",
         "Command": [
           {
             "ID": 1,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
-            "MSGname": "ReadDiagnostic1",
-            "Command": "FA 52 01 04 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 2,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "ReadDiagnostic2",
-            "Command": "FA 52 02 04 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 3,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "ReadDiagnostic3",
-            "Command": "FA 52 03 04 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 4,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "SWversion1",
-            "Command": "FA 52 01 00 02",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 5,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "SWversion2",
-            "Command": "FA 52 02 00 02",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 6,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "SWversion3",
-            "Command": "FA 52 03 00 02",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 7,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "HWversion1",
-            "Command": "FA 52 01 00 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 8,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "HWversion2",
-            "Command": "FA 52 02 00 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 9,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "HWversion3",
-            "Command": "FA 52 03 00 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 10,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "ReadBrightness1",
-            "Command": "FA 52 01 01 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 11,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "ReadBrightness2",
-            "Command": "FA 52 02 01 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 12,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "ReadBrightness3",
-            "Command": "FA 52 03 01 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 13,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "ReadInputVoltage1",
-            "Command": "FA 52 01 04 02",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 14,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "ReadInputVoltage2",
-            "Command": "FA 52 02 04 02",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 15,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "ReadInputVoltage3",
-            "Command": "FA 52 03 04 02",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 16,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "Read_temp1",
-            "Command": "FA 52 01 04 03",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 17,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "Read_temp2",
-            "Command": "FA 52 02 04 03",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 18,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "Read_temp3",
-            "Command": "FA 52 03 04 03",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 19,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "T_chamber_temp1",
-            "Command": "FA 52 01 04 04",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 20,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "T_chamber_temp2",
-            "Command": "FA 52 02 04 04",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 21,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "T_chamber_temp3",
-            "Command": "FA 52 03 04 04",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 22,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "display_brightness_ADC1",
-            "Command": "FA 52 01 04 05",
-            "Delaytime": 100,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 23,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "display_brightness_ADC2",
-            "Command": "FA 52 02 04 05",
-            "Delaytime": 100,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 24,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "display_brightness_ADC3",
-            "Command": "FA 52 03 04 05",
-            "Delaytime": 100,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 25,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "TXB1send_curr1",
-            "Command": "FA 52 01 05 01",
-            "Delaytime": 100,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 26,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "TXB1send_curr3",
-            "Command": "FA 52 03 05 01",
-            "Delaytime": 100,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 27,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "TXB1send_curr2",
-            "Command": "FA 52 02 05 01",
-            "Delaytime": 500,
+            "MSGname": "Wakeup",
+            "Command": "FA 57 00 02 01",
+            "Delaytime": 5000,
             "RecCommand": "",
             "HashCodevalue": "",
             "Loop": 1
@@ -341,13 +29,7 @@
     ],
     "TestSuiteA1": [
       {
-        "ScriptPath": null,
-        "Command": []
-      }
-    ],
-    "TestSuiteA2init": [
-      {
-        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\dynamicmonitor2.xml",
+        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\dynamicmonitor.xml",
         "Command": [
           {
             "ID": 1,
@@ -390,78 +72,6 @@
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
-            "MSGname": "SWversion1",
-            "Command": "FA 52 01 00 02",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 5,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "SWversion2",
-            "Command": "FA 52 02 00 02",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 6,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "SWversion3",
-            "Command": "FA 52 03 00 02",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 7,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "HWversion1",
-            "Command": "FA 52 01 00 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 8,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "HWversion2",
-            "Command": "FA 52 02 00 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 9,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
-            "MSGname": "HWversion3",
-            "Command": "FA 52 03 00 01",
-            "Delaytime": 0,
-            "RecCommand": "",
-            "HashCodevalue": "",
-            "Loop": 1
-          },
-          {
-            "ID": 10,
-            "Portnum": "all",
-            "CMDtype": "UART",
-            "CMDparm1": "HEX",
             "MSGname": "ReadBrightness1",
             "Command": "FA 52 01 01 01",
             "Delaytime": 0,
@@ -470,7 +80,7 @@
             "Loop": 1
           },
           {
-            "ID": 11,
+            "ID": 5,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -482,7 +92,7 @@
             "Loop": 1
           },
           {
-            "ID": 12,
+            "ID": 6,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -494,7 +104,7 @@
             "Loop": 1
           },
           {
-            "ID": 13,
+            "ID": 7,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -506,7 +116,7 @@
             "Loop": 1
           },
           {
-            "ID": 14,
+            "ID": 8,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -518,7 +128,7 @@
             "Loop": 1
           },
           {
-            "ID": 15,
+            "ID": 9,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -530,7 +140,7 @@
             "Loop": 1
           },
           {
-            "ID": 16,
+            "ID": 10,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -542,7 +152,7 @@
             "Loop": 1
           },
           {
-            "ID": 17,
+            "ID": 11,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -554,7 +164,7 @@
             "Loop": 1
           },
           {
-            "ID": 18,
+            "ID": 12,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -566,7 +176,7 @@
             "Loop": 1
           },
           {
-            "ID": 19,
+            "ID": 13,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -578,7 +188,7 @@
             "Loop": 1
           },
           {
-            "ID": 20,
+            "ID": 14,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -590,7 +200,7 @@
             "Loop": 1
           },
           {
-            "ID": 21,
+            "ID": 15,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -602,7 +212,7 @@
             "Loop": 1
           },
           {
-            "ID": 22,
+            "ID": 16,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -614,7 +224,7 @@
             "Loop": 1
           },
           {
-            "ID": 23,
+            "ID": 17,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -626,7 +236,7 @@
             "Loop": 1
           },
           {
-            "ID": 24,
+            "ID": 18,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -638,7 +248,7 @@
             "Loop": 1
           },
           {
-            "ID": 25,
+            "ID": 19,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -650,7 +260,7 @@
             "Loop": 1
           },
           {
-            "ID": 26,
+            "ID": 20,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -662,7 +272,7 @@
             "Loop": 1
           },
           {
-            "ID": 27,
+            "ID": 21,
             "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
@@ -672,19 +282,49 @@
             "RecCommand": "",
             "HashCodevalue": "",
             "Loop": 1
+          },
+          {
+            "ID": 22,
+            "Portnum": "0",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadTouchinfo",
+            "Command": "FA 52 01 06 01",
+            "Delaytime": 200,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 23,
+            "Portnum": "0",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadTouchinfo",
+            "Command": "FA 52 02 06 01",
+            "Delaytime": 200,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 24,
+            "Portnum": "0",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadTouchinfo",
+            "Command": "FA 52 03 06 01",
+            "Delaytime": 200,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
           }
         ]
       }
     ],
-    "TestSuiteA2": [
+    "TestSuiteA2init": [
       {
-        "ScriptPath": null,
-        "Command": []
-      }
-    ],
-    "TestSuiteB1init": [
-      {
-        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep.xml",
+        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep.xml",
         "Command": [
           {
             "ID": 1,
@@ -701,22 +341,423 @@
         ]
       }
     ],
+    "TestSuiteA2": [
+      {
+        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep_detectionitem.xml",
+        "Command": [
+          {
+            "ID": 1,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "TXB1send_curr1",
+            "Command": "FA 52 01 05 01",
+            "Delaytime": 100,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 2,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "TXB1send_curr2",
+            "Command": "FA 52 02 05 01",
+            "Delaytime": 200,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 3,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "TXB1send_curr3",
+            "Command": "FA 52 03 05 01",
+            "Delaytime": 100,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          }
+        ]
+      }
+    ],
+    "TestSuiteB1init": [
+      {
+        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\wakeup.xml",
+        "Command": [
+          {
+            "ID": 1,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "Wakeup",
+            "Command": "FA 57 00 02 01",
+            "Delaytime": 5000,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          }
+        ]
+      }
+    ],
     "TestSuiteB1": [
       {
-        "ScriptPath": null,
-        "Command": []
+        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\dynamicmonitor.xml",
+        "Command": [
+          {
+            "ID": 1,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadDiagnostic1",
+            "Command": "FA 52 01 04 01",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 2,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadDiagnostic2",
+            "Command": "FA 52 02 04 01",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 3,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadDiagnostic3",
+            "Command": "FA 52 03 04 01",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 4,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadBrightness1",
+            "Command": "FA 52 01 01 01",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 5,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadBrightness2",
+            "Command": "FA 52 02 01 01",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 6,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadBrightness3",
+            "Command": "FA 52 03 01 01",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 7,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadInputVoltage1",
+            "Command": "FA 52 01 04 02",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 8,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadInputVoltage2",
+            "Command": "FA 52 02 04 02",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 9,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadInputVoltage3",
+            "Command": "FA 52 03 04 02",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 10,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "Read_temp1",
+            "Command": "FA 52 01 04 03",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 11,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "Read_temp2",
+            "Command": "FA 52 02 04 03",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 12,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "Read_temp3",
+            "Command": "FA 52 03 04 03",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 13,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "T_chamber_temp1",
+            "Command": "FA 52 01 04 04",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 14,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "T_chamber_temp2",
+            "Command": "FA 52 02 04 04",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 15,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "T_chamber_temp3",
+            "Command": "FA 52 03 04 04",
+            "Delaytime": 0,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 16,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "display_brightness_ADC1",
+            "Command": "FA 52 01 04 05",
+            "Delaytime": 100,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 17,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "display_brightness_ADC2",
+            "Command": "FA 52 02 04 05",
+            "Delaytime": 100,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 18,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "display_brightness_ADC3",
+            "Command": "FA 52 03 04 05",
+            "Delaytime": 100,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 19,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "TXB1send_curr1",
+            "Command": "FA 52 01 05 01",
+            "Delaytime": 100,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 20,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "TXB1send_curr3",
+            "Command": "FA 52 03 05 01",
+            "Delaytime": 100,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 21,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "TXB1send_curr2",
+            "Command": "FA 52 02 05 01",
+            "Delaytime": 500,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 22,
+            "Portnum": "0",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadTouchinfo",
+            "Command": "FA 52 01 06 01",
+            "Delaytime": 200,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 23,
+            "Portnum": "0",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadTouchinfo",
+            "Command": "FA 52 02 06 01",
+            "Delaytime": 200,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 24,
+            "Portnum": "0",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "ReadTouchinfo",
+            "Command": "FA 52 03 06 01",
+            "Delaytime": 200,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          }
+        ]
       }
     ],
     "TestSuiteB2init": [
       {
-        "ScriptPath": null,
-        "Command": []
+        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep.xml",
+        "Command": [
+          {
+            "ID": 1,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "Sleep",
+            "Command": "FA 57 00 02 00",
+            "Delaytime": 5000,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          }
+        ]
       }
     ],
     "TestSuiteB2": [
       {
-        "ScriptPath": null,
-        "Command": []
+        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep_detectionitem.xml",
+        "Command": [
+          {
+            "ID": 1,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "TXB1send_curr1",
+            "Command": "FA 52 01 05 01",
+            "Delaytime": 100,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 2,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "TXB1send_curr2",
+            "Command": "FA 52 02 05 01",
+            "Delaytime": 200,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          },
+          {
+            "ID": 3,
+            "Portnum": "all",
+            "CMDtype": "UART",
+            "CMDparm1": "HEX",
+            "MSGname": "TXB1send_curr3",
+            "Command": "FA 52 03 05 01",
+            "Delaytime": 100,
+            "RecCommand": "",
+            "HashCodevalue": "",
+            "Loop": 1
+          }
+        ]
       }
     ],
     "DetectDiag": [

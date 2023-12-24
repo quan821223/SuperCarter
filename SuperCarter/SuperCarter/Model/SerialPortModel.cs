@@ -64,6 +64,28 @@ namespace SuperCarter.Model
         {
             int SendCount = 0;
             string[] _sendData = strhex.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (_sendData[0].Length > 2)
+            {
+                string temp_str = _sendData[0];
+                int len = _sendData[0].Length;
+                System.Array.Resize(ref _sendData, len / 2); //array resize
+                int j = 0;
+                for (int i = 0; i < len; i = i + 2)
+                {
+                    try
+                    {
+                        _sendData[j] = temp_str.Substring(i, 2);
+                        j += 1;
+                    }
+                    catch (Exception)
+                    {
+                        //do nothing
+                    }
+
+                }
+            }
+
             byte[] BytedData = new byte[_sendData.Length];
             foreach (var tmp in _sendData)
             {

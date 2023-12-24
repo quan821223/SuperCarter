@@ -116,6 +116,7 @@ namespace SuperCarter.ViewModel
                 return _SciptToolBar_Saveas;
             }
         }
+
         public ICommand SciptToolBar_Openfolder
         {
             get
@@ -125,6 +126,7 @@ namespace SuperCarter.ViewModel
                 return _SciptToolBar_Openfolder;
             }
         }
+
         private ICommand _SelectCommand;
         public ICommand SelectCommand
         {

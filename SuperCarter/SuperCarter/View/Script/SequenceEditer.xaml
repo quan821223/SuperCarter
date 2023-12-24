@@ -81,9 +81,7 @@
                                                     HorizontalAlignment="Stretch"/>
                             <AccessText Grid.Row="1" 
                                         Text="Sequencebox"
-                                        VerticalAlignment="Center"
-                                        
-                                                                         />
+                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
                     <Button Command="{Binding }" 
@@ -93,16 +91,14 @@
                             >
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Grid.Row="0" 
-                                                    Kind="ApplicationOutline"
-                                                    Width="20" Height="20"
-                                                    VerticalAlignment="Stretch" 
-                                                    Foreground="#FF4D4D4D" 
-                                                    HorizontalAlignment="Stretch"/>
+                                                     Kind="ApplicationOutline"
+                                                     Width="20" Height="20"
+                                                     VerticalAlignment="Stretch" 
+                                                     Foreground="#FF4D4D4D" 
+                                                     HorizontalAlignment="Stretch"/>
                             <AccessText Grid.Row="1" 
                                         Text="Sequences"
-                                        VerticalAlignment="Center"
-                                       
-                                                        />
+                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
@@ -110,151 +106,140 @@
                 </ToolBar>
             </ToolBarTray>
             <Grid Grid.Row="1" >
-                <avalonDock:DockingManager x:Name="dockManager"  
-                                           AnchorablesSource="{Binding Tools}" 
-                                           DocumentsSource="{Binding Files}"                                           
-                                           Margin="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"                          
-                                           >
-                    <avalonDock:LayoutRoot>
-                        <avalonDock:LayoutPanel Orientation="Horizontal">
-                            <avalonDock:LayoutAnchorablePaneGroup Orientation="Vertical" >
-                                <avalonDock:LayoutAnchorablePaneGroup  Orientation="Horizontal">
-                                    <!--Sequence list-->
-                                    <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequencebox">
-                                        <avalonDock:LayoutAnchorable CanAutoHide="True"
-                                                                     CanClose="False"
-                                                                     ContentId="toolWindow_Sequencebox"
-                                                                     Title="Items" >
-
-                                            <TabControl>
-                                                <!-- general sequence list -->
-                                                <TabItem>
-                                                    <TabItem.Header>
-                                                        <StackPanel Orientation="Horizontal">
-                                                           
-                                                            <TextBlock Text="Squence" Foreground="Blue" />
-                                                        </StackPanel>
-                                                    </TabItem.Header>
-                                                    <!--dd:DragDrop.IsDragSource="True"
-                                                                        dd:DragDrop.IsDropTarget="True"
-                                                                      dd:DragDrop.ShowAlwaysDropTargetAdorner="True"
-                                                                      dd:DragDrop.UseDefaultEffectDataTemplate="True"-->
-                                                
-                                                        <TreeView x:Name="SequenceItemtreeView" 
+                <DockingManager x:Name="dockManager"  
+                                AnchorablesSource="{Binding Tools}" 
+                                DocumentsSource="{Binding Files}"                                           
+                                Margin="3"     
+                                AllowMixedOrientation="True"
+                                AutoWindowSizeWhenOpened="True"                                            
+                                IsVirtualizingAnchorable="True"
+                                IsVirtualizingDocument="True"
+                                >
+                    <LayoutRoot>
+                        <LayoutPanel Orientation="Horizontal"  >
+                            <LayoutAnchorablePane Name="ToolsPanel_Sequencebox" DockWidth="250" >
+                                <LayoutAnchorable CanAutoHide="True" 
+                                                  CanClose="False"
+                                                  ContentId="toolWindow_Sequencebox"
+                                                  Title="Items" >
+                                    <TabControl>
+                                        <TabItem>
+                                            <TabItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Squence" Foreground="Blue" />
+                                                </StackPanel>
+                                            </TabItem.Header>
+                                            <TreeView x:Name="SequenceItemtreeView" 
                                                                   Margin="0"
                                                                   ItemsSource="{Binding scriptEditor.ScriptToolboxTree}" 
                                                                   >
-                                                            <i:Interaction.Triggers>
-                                                                <!--MouseDoubleClick or SelectedItemChanged-->
-                                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                                    <i:InvokeCommandAction Command="{Binding scriptEditor.SelectCommand}"
+                                                <i:Interaction.Triggers>
+                                                    <!--MouseDoubleClick or SelectedItemChanged-->
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <i:InvokeCommandAction Command="{Binding scriptEditor.SelectCommand}"
                                                                                            CommandParameter="{Binding ElementName=SequenceItemtreeView,Path=SelectedItem}" />
-                                                                </i:EventTrigger>
-                                                            </i:Interaction.Triggers>
-                                                            <TreeView.ItemContainerStyle>
-                                                                <Style TargetType="{x:Type TreeViewItem}">
-                                                                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
-                                                                    <Setter Property="IsExpanded" Value="True"/>
-                                                                </Style>
-                                                            </TreeView.ItemContainerStyle>
-                                                            <TreeView.ItemTemplate>
-                                                                <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                <TreeView.ItemContainerStyle>
+                                                    <Style TargetType="{x:Type TreeViewItem}">
+                                                        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                                                        <Setter Property="IsExpanded" Value="True"/>
+                                                    </Style>
+                                                </TreeView.ItemContainerStyle>
+                                                <TreeView.ItemTemplate>
+                                                    <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
 
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <materialDesign:PackIcon Grid.Row="0" 
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <materialDesign:PackIcon Grid.Row="0" 
                                                                                             Kind="Folder"
                                                                                             Width="20" Height="20"
                                                                                             VerticalAlignment="Stretch" 
                                                                                             Foreground="#FF4D4D4D" 
                                                                                             HorizontalAlignment="Stretch"/>
-                                                                        <Label Content="{Binding Key}"/>
-                                                                    </StackPanel>
-                                                                    <HierarchicalDataTemplate.ItemTemplate>
-                                                                        <DataTemplate>
-                                                                            <StackPanel Orientation="Horizontal">
-                                                                                <materialDesign:PackIcon Grid.Row="0" 
+                                                            <Label Content="{Binding Key}"/>
+                                                        </StackPanel>
+                                                        <HierarchicalDataTemplate.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <materialDesign:PackIcon Grid.Row="0" 
                                                                                                        Kind="TextShort"
                                                                                                        Width="20" Height="20"
                                                                                                        VerticalAlignment="Stretch" 
                                                                                                        Foreground="#FF4D4D4D" 
                                                                                                        HorizontalAlignment="Stretch"/>
-                                                                                <Label Content="{Binding Nodename}"/>
-                                                                            </StackPanel>
-                                                                        </DataTemplate>
-                                                                    </HierarchicalDataTemplate.ItemTemplate>
-                                                                </HierarchicalDataTemplate>
-                                                            </TreeView.ItemTemplate>
-                                                        </TreeView>                                                 
+                                                                    <Label Content="{Binding Nodename}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </HierarchicalDataTemplate.ItemTemplate>
+                                                    </HierarchicalDataTemplate>
+                                                </TreeView.ItemTemplate>
+                                            </TreeView>
+                                        </TabItem>
+                                        <TabItem IsEnabled="False">
+                                            <TabItem.Header>
+                                                <StackPanel Orientation="Horizontal">
 
-                                                </TabItem>
-                                                <!--MacroSequence-->
-                                                <TabItem IsEnabled="False">
-                                                    <TabItem.Header>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            
-                                                            <TextBlock Text="Script" Foreground="Orchid" />
-                                                        </StackPanel>
-                                                    </TabItem.Header>
-                                                    <TreeView x:Name="MacroSequenceItemtreeView" 
+                                                    <TextBlock Text="Script" Foreground="Orchid" />
+                                                </StackPanel>
+                                            </TabItem.Header>
+                                            <TreeView x:Name="MacroSequenceItemtreeView" 
                                                                 dd:DragDrop.IsDragSource="True"
                                                                 dd:DragDrop.IsDropTarget="True"
                                                                 dd:DragDrop.DragDirectlySelectedOnly="True"
                                                                 Margin="0"
                                                                 ItemsSource="{Binding MacroScriptToolboxTree}" 
                                                               >
-                                                        <i:Interaction.Triggers>
-                                                            <!--MouseDoubleClick or SelectedItemChanged-->
-                                                            <i:EventTrigger EventName="MouseDoubleClick">
-                                                                <i:InvokeCommandAction Command="{Binding SelectItemSequenceitemChangeCommand}"
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                                        <i:InvokeCommandAction Command="{Binding SelectItemSequenceitemChangeCommand}"
                                                                                         CommandParameter="{Binding ElementName=SequenceItemtreeView,Path=SelectedItem}" />
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
-                                                        <TreeView.ItemContainerStyle>
-                                                            <Style TargetType="{x:Type TreeViewItem}">
-                                                                <Setter Property="IsSelected" Value="{Binding IsSelected}" />
-                                                                <Setter Property="IsExpanded" Value="True"/>
-                                                            </Style>
-                                                        </TreeView.ItemContainerStyle>
-                                                        <TreeView.ItemTemplate>
-                                                            <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                <TreeView.ItemContainerStyle>
+                                                    <Style TargetType="{x:Type TreeViewItem}">
+                                                        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                                                        <Setter Property="IsExpanded" Value="True"/>
+                                                    </Style>
+                                                </TreeView.ItemContainerStyle>
+                                                <TreeView.ItemTemplate>
+                                                    <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
 
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <materialDesign:PackIcon Grid.Row="0" 
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <materialDesign:PackIcon Grid.Row="0" 
                                                                                                Kind="Folder"
                                                                                                Width="20" Height="20"
                                                                                                VerticalAlignment="Stretch" 
                                                                                                Foreground="#FF4D4D4D" 
                                                                                                HorizontalAlignment="Stretch"/>
-                                                                    <Label Content="{Binding Key}"/>
-                                                                </StackPanel>
-                                                                <HierarchicalDataTemplate.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <StackPanel Orientation="Horizontal">
-                                                                            <materialDesign:PackIcon Grid.Row="0" 
+                                                            <Label Content="{Binding Key}"/>
+                                                        </StackPanel>
+                                                        <HierarchicalDataTemplate.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <materialDesign:PackIcon Grid.Row="0" 
                                                                                                        Kind="TextShort"
                                                                                                        Width="20" Height="20"
                                                                                                        VerticalAlignment="Stretch" 
                                                                                                        Foreground="#FF4D4D4D" 
                                                                                                        HorizontalAlignment="Stretch"/>
-                                                                            <Label Content="{Binding Nodename}"/>
-                                                                        </StackPanel>
-                                                                    </DataTemplate>
-                                                                </HierarchicalDataTemplate.ItemTemplate>
-                                                            </HierarchicalDataTemplate>
-                                                        </TreeView.ItemTemplate>
-                                                    </TreeView>
+                                                                    <Label Content="{Binding Nodename}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </HierarchicalDataTemplate.ItemTemplate>
+                                                    </HierarchicalDataTemplate>
+                                                </TreeView.ItemTemplate>
+                                            </TreeView>
 
-                                                </TabItem>
-                                            </TabControl>
-                                        </avalonDock:LayoutAnchorable>
-                                    </avalonDock:LayoutAnchorablePane>
-
-
-                                    <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequences">
-                                        <avalonDock:LayoutAnchorable CanAutoHide="True"
-                                                                     CanClose="False"
-                                                                     ContentId="toolWindow_Sequences"
-                                                                     Title="Sequences">
+                                        </TabItem>
+                                    </TabControl>
+                                </LayoutAnchorable>
+                            </LayoutAnchorablePane>
+                            <LayoutPanel>
+                                <LayoutDocumentPaneGroup Orientation="Vertical" >
+                                    <LayoutDocumentPane x:Name="ToolsPanel_Sequences">
+                                        <LayoutDocument CanClose="False"
+                                                          ContentId="toolWindow_Sequences"
+                                                          Title="Sequences">
                                             <Grid Grid.Column="1" >
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="5"/>
@@ -266,20 +251,20 @@
                                                     <ScrollViewer Name="scrollViewer"   HorizontalScrollBarVisibility="Auto">
                                                         <ToolBarTray DockPanel.Dock="Left"       
                                                                      MinWidth="100"
-                                                                 Orientation="Horizontal" 
-                                                                 ToolBarTray.IsLocked="True" >
+                                                                     Orientation="Horizontal" 
+                                                                     ToolBarTray.IsLocked="True" >
                                                             <ToolBar >
                                                                 <Button Command="{Binding scriptEditor.ScriptToolBar_Clear}"
-                                                                    Width="68"                                   
-                                                                    ToolTip="清除"
-                                                                    >
+                                                                        Width="68"                                   
+                                                                        ToolTip="清除"
+                                                                        >
                                                                     <StackPanel Orientation="Vertical">
                                                                         <materialDesign:PackIcon Grid.Row="0" 
-                                                                                             Kind="broom"
-                                                                                             Width="26" Height="26"
-                                                                                             VerticalAlignment="Stretch" 
-                                                                                             Foreground="#FF4D4D4D" 
-                                                                                             HorizontalAlignment="Stretch"/>
+                                                                                                 Kind="broom"
+                                                                                                 Width="26" Height="26"
+                                                                                                 VerticalAlignment="Stretch" 
+                                                                                                 Foreground="#FF4D4D4D" 
+                                                                                                 HorizontalAlignment="Stretch"/>
                                                                         <TextBlock Text="Clear"
                                                                                 HorizontalAlignment="Center"
                                                                                 VerticalAlignment="Stretch"
@@ -309,15 +294,15 @@
                                                                     >
                                                                     <StackPanel Orientation="Vertical">
                                                                         <materialDesign:PackIcon Grid.Row="0" 
-                                                                                             Kind="TableRowPlusAfter"
-                                                                                             Width="26" Height="26"
-                                                                                             VerticalAlignment="Stretch" 
-                                                                                             Foreground="#FF4D4D4D" 
-                                                                                             HorizontalAlignment="Stretch"/>
+                                                                                                 Kind="TableRowPlusAfter"
+                                                                                                 Width="26" Height="26"
+                                                                                                 VerticalAlignment="Stretch" 
+                                                                                                 Foreground="#FF4D4D4D" 
+                                                                                                 HorizontalAlignment="Stretch"/>
                                                                         <TextBlock Text="Add"
-                                                                                HorizontalAlignment="Center"
-                                                                                VerticalAlignment="Stretch"
-                                                                                />
+                                                                                   HorizontalAlignment="Center"
+                                                                                   VerticalAlignment="Stretch"
+                                                                                   />
                                                                     </StackPanel>
                                                                 </Button>
                                                                 <Button Command="{Binding scriptEditor.ScriptToolBar_RemoveScriptitem}"
@@ -325,15 +310,15 @@
                                                                         >
                                                                     <StackPanel Orientation="Vertical">
                                                                         <materialDesign:PackIcon Grid.Row="0" 
-                                                                                             Kind="TableRowRemove"
-                                                                                             Width="26" Height="26"
-                                                                                             VerticalAlignment="Stretch" 
-                                                                                             Foreground="#FF4D4D4D"
-                                                                                             HorizontalAlignment="Stretch"/>
+                                                                                                 Kind="TableRowRemove"
+                                                                                                 Width="26" Height="26"
+                                                                                                 VerticalAlignment="Stretch" 
+                                                                                                 Foreground="#FF4D4D4D"
+                                                                                                 HorizontalAlignment="Stretch"/>
                                                                         <TextBlock Text="Delete"
-                                                                                HorizontalAlignment="Center"
-                                                                                VerticalAlignment="Stretch"
-                                                                                />
+                                                                                   HorizontalAlignment="Center"
+                                                                                   VerticalAlignment="Stretch"
+                                                                                   />
                                                                     </StackPanel>
                                                                 </Button>
                                                                 <Separator/>
@@ -347,8 +332,8 @@
                                                                                              Foreground="#FF4D4D4D"
                                                                                              HorizontalAlignment="Stretch"/>
                                                                         <TextBlock Text="Open"
-                                                                                HorizontalAlignment="Center"
-                                                                                VerticalAlignment="Stretch"
+                                                                                   HorizontalAlignment="Center"
+                                                                                   VerticalAlignment="Stretch"
                                                                                 />
                                                                     </StackPanel>
                                                                 </Button>
@@ -357,8 +342,8 @@
                                                                     <TextBox Text="{Binding scriptEditor.script_itervalue}"/>
                                                                 </WrapPanel>
                                                                 <Button x:Name="ScriptToolBar_SortScriptitem" Command="{Binding }"
-                                                                    Width="68" ToolTip="若對文件有任何異動建議先行刷新在另將文件儲存"
-                                                                    Click="ScriptToolBar_SortScriptitem_Click"  >
+                                                                        Width="68" ToolTip="若對文件有任何異動建議先行刷新在另將文件儲存"
+                                                                        Click="ScriptToolBar_SortScriptitem_Click"  >
                                                                     <StackPanel Orientation="Vertical">
                                                                         <materialDesign:PackIcon Grid.Row="0" 
                                                                                              Kind="SortNumericAscending"
@@ -411,8 +396,6 @@
                                                             </ToolBar>
                                                         </ToolBarTray>
                                                     </ScrollViewer>
-
-
                                                 </Grid>
                                                 <Grid Grid.Row="2">
 
@@ -433,7 +416,7 @@
                                                               GridLinesVisibility="All" 
                                                               Margin="0" 
                                                               SelectedCellsChanged="SequenceScript_SelectedCellsChanged" 
-                                                                SelectedIndex="{Binding scriptEditor.SelectedCMD }"
+                                                              SelectedIndex="{Binding scriptEditor.SelectedCMD }"
                                                               >
                                                         <DataGrid.Columns>
                                                             <DataGridTextColumn Binding="{Binding ID}"
@@ -458,8 +441,6 @@
                                                                                     ItemsSource="{StaticResource PortIDItems}"
                                                                                     SelectedItemBinding="{Binding Portnum}"/>
 
-                                                            <!--<DataGridTextColumn Binding="{Binding CMDtype}" Header="Type" Width="55" />-->
-
                                                             <DataGridComboBoxColumn Header="Parm1" 
                                                                                     Width="45"
                                                                                     ItemsSource="{StaticResource CMDparm1Items}"
@@ -470,7 +451,7 @@
                                                             <DataGridTextColumn Binding="{Binding Loop}" Header="Loop" IsReadOnly="True" Width="80"/>
                                                             <DataGridTextColumn Binding="{Binding RecCommand}" Header="Rec Sequence" Width="200" />
                                                         </DataGrid.Columns>
-                                                     
+
                                                     </DataGrid>
                                                     <TextBox FontSize="14" x:Name ="Textscriptpath"
                                                              Text="{Binding scriptEditor.Textscriptpath, Mode=TwoWay}"
@@ -482,14 +463,14 @@
 
 
                                             </Grid>
-                                            <!--<RichTextBox></RichTextBox>-->
-                                        </avalonDock:LayoutAnchorable>
-                                    </avalonDock:LayoutAnchorablePane>
-                                </avalonDock:LayoutAnchorablePaneGroup >                              
-                            </avalonDock:LayoutAnchorablePaneGroup>
-                        </avalonDock:LayoutPanel>
-                    </avalonDock:LayoutRoot>
-                </avalonDock:DockingManager>
+                                        </LayoutDocument>
+                                    </LayoutDocumentPane>
+                                </LayoutDocumentPaneGroup>
+                            </LayoutPanel>
+                            
+                        </LayoutPanel>
+                    </LayoutRoot>
+                </DockingManager>
             </Grid>
 
         </Grid>

@@ -312,43 +312,55 @@ namespace SuperCarter.Model
         }
         private void ProcessBytes(SendAndReceiveDatabatchcheck bytes)
         {
-            if (bytes.byte_buffer_Receive.Length > 4 && bytes.byte_buffer_Receive[0] == 0xFA && bytes.byte_buffer_Send[1] == 0x52)
-            {
-                byte sendByte3 = bytes.byte_buffer_Send[3];
-                byte sendByte4 = bytes.byte_buffer_Send[4];
-                byte receiveByte2 = bytes.byte_buffer_Receive[2];
-
-                // ... continue with your checks
-
-                switch (sendByte3)
+            try
+            {     
+                if (bytes.byte_buffer_Receive.Length > 4 && bytes.byte_buffer_Receive[0] == 0xFA && bytes.byte_buffer_Send[1] == 0x52)
                 {
-                    case 0x00:
-                        HandleBufferSend_00(sendByte4, bytes);
-                        break;
-                    case 0x01:
-                        HandleBufferSend_01(sendByte4, bytes);
-                        break;
-                    case 0x04:
-                        HandleBufferSend_04(sendByte4, bytes);
-                        break;
-                    case 0x05:
-                        HandleBufferSend_05(sendByte4, bytes);
-                        break;
-                    case 0x06:
-                        HandleBufferSend_06(sendByte4, bytes);
-                        break;
+                    byte sendByte3 = bytes.byte_buffer_Send[3];
+                    byte sendByte4 = bytes.byte_buffer_Send[4];
+                    byte receiveByte2 = bytes.byte_buffer_Receive[2];
+                    // ... continue with your checks
+                    switch (sendByte3)
+                    {
+                        case 0x00:
+                            HandleBufferSend_00(sendByte4, bytes);
+                            break;
+                        case 0x01:
+                            HandleBufferSend_01(sendByte4, bytes);
+                            break;
+                        case 0x04:
+                            HandleBufferSend_04(sendByte4, bytes);
+                            break;
+                        case 0x05:
+                            HandleBufferSend_05(sendByte4, bytes);
+                            break;
+                        case 0x06:
+                            HandleBufferSend_06(sendByte4, bytes);
+                            break;
+                        default: 
+                            
+                            break;
+                    }
+
+                    App.Current.Dispatcher.Invoke(() =>
+                    {
+                        updateUIobj();      // 刷新項目
+                    });
+                }
+                if (IsEnableScheduledDetectmode && bytes.byte_buffer_Send.Length > 0 && bytes.strCommandData_Rec.Length < 1)
+                {
+                    Error_cSVfile.ErrordataAppendTocsv(UnifiedHostCommandSet, bytes);
                 }
 
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    updateUIobj();      // 刷新項目
-                });
             }
-            if(IsEnableScheduledDetectmode && bytes.byte_buffer_Send.Length > 0 && bytes.strCommandData_Rec.Length < 1)
+            catch (Exception ex)
             {
-                Error_cSVfile.ErrordataAppendTocsv(UnifiedHostCommandSet, bytes);
-            }
-            
+                System.Windows.MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.StackTrace);          
+                string Errormsg = $"接收異常 - ID:{bytes.CommnadID} Portnum:{bytes.Portnum} Command:{bytes.strCommandData_send} RecCommand:{bytes.strCommandData_Rec}";
+                logger.Log(NLog.LogLevel.Warn, Errormsg);
+                logger.Log(NLog.LogLevel.Warn, ex.StackTrace);
+            }                         
 
         }
         #endregion
@@ -412,14 +424,14 @@ namespace SuperCarter.Model
 
         #region properties
         public string Scheduledscriptpath { get; set; }
-        public static List<SendorExecuteSendType> BlockA1SequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockA2SequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockB1SequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockB2SequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockA1initSequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockA2initSequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockB1initSequencesList { get; set; } = new List<SendorExecuteSendType>();
-        public static List<SendorExecuteSendType> BlockB2initSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public List<SendorExecuteSendType> BlockA1SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public List<SendorExecuteSendType> BlockA2SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public List<SendorExecuteSendType> BlockB1SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public List<SendorExecuteSendType> BlockB2SequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public List<SendorExecuteSendType> BlockA1initSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public List<SendorExecuteSendType> BlockA2initSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public List<SendorExecuteSendType> BlockB1initSequencesList { get; set; } = new List<SendorExecuteSendType>();
+        public List<SendorExecuteSendType> BlockB2initSequencesList { get; set; } = new List<SendorExecuteSendType>();
 
         private int _CurLoopValue;
         public int CurLoopValue
@@ -483,9 +495,13 @@ namespace SuperCarter.Model
         private void evt_LoadScheduledscript()
         {
             Scheduledscriptpath = evt_Openfile();
-            ImportBlockScript(Scheduledscriptpath);
+            ConfigbyJSON.Instance.ReadMonitoringmodeScriptfromJson(this);
+            //ImportBlockScript(Scheduledscriptpath);
             OnPropertyChanged(nameof(Scheduledscriptpath));
         }
+
+     
+
         public void ImportBlockScript(string ScriptPath)
         {
             try
@@ -554,7 +570,6 @@ namespace SuperCarter.Model
                         XmlNode requisites = ScriptionXML.SelectSingleNode(strrequisites);
 
                         XmlElement element = (XmlElement)block;
-                        ObservableCollection<ScriptItemtype> obsTemp = new ObservableCollection<ScriptItemtype>();
                         List<SendorExecuteSendType> Temp = new List<SendorExecuteSendType>();
                         //取得節點內的欄位
                         foreach (XmlElement node in element)
@@ -858,7 +873,7 @@ namespace SuperCarter.Model
                     if (cancellationToken.IsCancellationRequested)
                         break;
 
-                    if (sequences[i].PortNum == 9)
+                    if (sequences[i].PortNum == 99)
                     {
                         var roundtimedelay = sequences[i].Delaytime;
 
@@ -904,6 +919,7 @@ namespace SuperCarter.Model
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.StackTrace);
             }
             finally
             {
@@ -949,7 +965,7 @@ namespace SuperCarter.Model
 
                         if (sequenceIndex < sequences.Count)
                         {
-                            if (sequences[sequenceIndex].PortNum == 9)
+                            if (sequences[sequenceIndex].PortNum == 99)
                             {
                                 for (int j = 0; j < 3; j++)
                                 {
@@ -1087,7 +1103,7 @@ namespace SuperCarter.Model
 
                 while (!cancellationToken.IsCancellationRequested && (DicSerialPort[0].IsOpen || DicSerialPort[1].IsOpen || DicSerialPort[2].IsOpen))
                 {
-                    if (sequences[sequenceIndex].PortNum == 9)
+                    if (sequences[sequenceIndex].PortNum == 99)
                     {
                         var roundTimeDelay = sequences[sequenceIndex].Delaytime;
                         Sendorwatch.Restart();
@@ -1112,7 +1128,7 @@ namespace SuperCarter.Model
                         {
                             await Task.Delay(remainingSpentTime, cancellationToken);
                         }
-                        await Task.Delay(200, cancellationToken);
+                        //await Task.Delay(200, cancellationToken);
                     }
                     else
                     {
@@ -1214,15 +1230,12 @@ namespace SuperCarter.Model
         #region event
         private async Task SendAndReceivesAsync(object Sequence, CancellationToken cancellationToken)
         {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                return;
-            }
+            if (cancellationToken.IsCancellationRequested) return;
+            
 
             var command = (SendorExecuteSendType)Sequence;
 
-            if (!DicSerialPort[command.PortNum].IsOpen)
-                return;
+            if (!DicSerialPort[command.PortNum].IsOpen) return;
 
             byte[] receivedData = new byte[0];
 
@@ -1247,16 +1260,14 @@ namespace SuperCarter.Model
             }
 
             String OutputMsg = String.Format("{0}|{1}|{2}| S | CommandID {4}| {3}",
-                DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
-                SerialPortModel.Instance.PortNameBinding[DicSerialPort[command.PortNum].PortName].ToString().PadLeft(2, ' '),
-                DicSerialPort[command.PortNum].PortName.PadLeft(6, ' '),
-                command.strCommandData.Replace(" ", ""),
-                CommnadID.ToString().PadLeft(6, ' ')
-                );
+                               DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
+                               SerialPortModel.Instance.PortNameBinding[DicSerialPort[command.PortNum].PortName].ToString().PadLeft(2, ' '),
+                               DicSerialPort[command.PortNum].PortName.PadLeft(6, ' '),
+                               command.strCommandData.Replace(" ", ""),
+                               CommnadID.ToString().PadLeft(6, ' ')
+                               );
             logger.Log(NLog.LogLevel.Trace, OutputMsg);
             WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum, msg = OutputMsg });
-
-          
 
             DicSerialPort[command.PortNum].Write(command.CommandData, 0, command.CommandData.Length);
 
@@ -1271,12 +1282,12 @@ namespace SuperCarter.Model
             recmsg = SerialPortModel.Instance.byteToHexStr(receivedData);
 
             OutputMsg = String.Format("{0}|{1}|{2}| R | CommandID {4}| {3}",
-                DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
-                SerialPortModel.Instance.PortNameBinding[DicSerialPort[command.PortNum].PortName].ToString().PadLeft(2, ' '),
-                DicSerialPort[command.PortNum].PortName.PadLeft(6, ' '),
-                recmsg.Replace(" ", ""),
-              CommnadID.ToString().PadLeft(6, ' ')
-                );
+                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
+                        SerialPortModel.Instance.PortNameBinding[DicSerialPort[command.PortNum].PortName].ToString().PadLeft(2, ' '),
+                        DicSerialPort[command.PortNum].PortName.PadLeft(6, ' '),
+                        recmsg.Replace(" ", ""),
+                        CommnadID.ToString().PadLeft(6, ' ')
+                        );
             // update to nlog file
             logger.Log(NLog.LogLevel.Trace, OutputMsg);
 
@@ -1399,7 +1410,7 @@ namespace SuperCarter.Model
                     }
                 }
 
-                if (SendorExecuteSequencesList.Count <1 || string.IsNullOrEmpty(SDMChecklistscriptXMLPath) || ! (DicSerialPort[0].IsOpen || DicSerialPort[1].IsOpen || DicSerialPort[2].IsOpen ))
+                if (SendorExecuteSequencesList.Count < 1 || string.IsNullOrEmpty(SDMChecklistscriptXMLPath) || ! (DicSerialPort[0].IsOpen || DicSerialPort[1].IsOpen || DicSerialPort[2].IsOpen ))
                 {
                     IsEnableRollingmode = false;
                     OnPropertyChanged(nameof(IsEnableRollingmode));
@@ -1601,18 +1612,15 @@ namespace SuperCarter.Model
                 string myPath = AppPath + @"\script\";
                 string strpath = null;
                 // 設定OpenFileDialog屬性
-                openFileDialog1.Title = "選擇要開啟的 XML 檔案";
-                openFileDialog1.Filter = "xml Files (.xml)|*.xml|All Files (*.*)|*.*";
+                openFileDialog1.Title = "選擇要開啟的 JSON 檔案";
+                openFileDialog1.Filter = "json Files (.json)|*.json|All Files (*.*)|*.*";
                 openFileDialog1.FilterIndex = 1;
                 openFileDialog1.Multiselect = true;
                 openFileDialog1.InitialDirectory = myPath;
 
                 if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-
                     strpath = openFileDialog1.FileName; //取得檔名
-                    //Openblockfilepath = strpath;
-                    //ConfigModel.Instance.GetScriptXMLTestSuite(this);
                     evt_ReleasetoRefresh();
                 }
                 return strpath;

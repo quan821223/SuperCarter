@@ -817,7 +817,6 @@ namespace SuperCarter.Model
         public List<SendorExecuteSendType> GetSendorExecuteSequencesList(string SavePath)
         {
             /// TODO: 1. 新增獨立的 DELAY ITEM, 該作用目的在於 PORTNUM 為ALL後面有需要做閒置的時間延遲效果在發送完所有 以開通的PORT NUM 
-            ///  
             try
             {
                 // Loading from a file, you can also load from a stream
@@ -830,7 +829,7 @@ namespace SuperCarter.Model
                 if (root == null)
                     return new List<SendorExecuteSendType>();
                 XmlElement element = (XmlElement)root;
-
+           
                 //取得節點內的欄位
                 foreach (XmlElement node in element)
                 {
@@ -849,78 +848,45 @@ namespace SuperCarter.Model
                     {
                         Temp.Add(new SendorExecuteSendType()
                         {
-                            PortNum = 9,
+                            PortNum = 99,
                             CommandData = new byte[0],
                             intDataLen = 0,
                             strDataLen = "0",
                             Delaytime = Convert.ToInt32(Delaytime),
                             Loop = 1,
-                            SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                      ID.PadLeft(3, ' '),
-                         9,
-                         "delay time")
+                            SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}", ID.PadLeft(3, ' '), 99, "delay time")
                         });
-                        Temp.Add(new SendorExecuteSendType()
+
+                        for (int inum = 0; inum < 3; inum++)
                         {
-                            PortNum = 0,
-                            CommandData = SerialPortModel.Instance.HexStrToByte(Command),
-                            strCommandData = Command,
-                            intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
-                            strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
-                            Delaytime = 0,
-                            Loop = Convert.ToInt32(Loop),
-                            SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                                                      ID.PadLeft(3, ' '),
-                                                        0,
-                                                        Command.Replace(" ", ""))
-                        });
-                        Temp.Add(new SendorExecuteSendType()
-                        {
-                            PortNum = 1,
-                            CommandData = SerialPortModel.Instance.HexStrToByte(Command),
-                            strCommandData = Command,
-                            intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
-                            strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
-                            Delaytime = 0,
-                            Loop = Convert.ToInt32(Loop),
-                            SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                                                    ID.PadLeft(3, ' '),
-                                                        1,
-                                                        Command.Replace(" ", ""))
-                        });
-                        Temp.Add(new SendorExecuteSendType()
-                        {
-                            PortNum = 2,
-                            CommandData = SerialPortModel.Instance.HexStrToByte(Command),
-                            strCommandData = Command,
-                            intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
-                            strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
-                            Delaytime = 0,
-                            Loop = Convert.ToInt32(Loop),
-                            SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                                                     ID.PadLeft(3, ' '),
-                                                        2,
-                                                        Command.Replace(" ", ""))
-                        });
-                 
+                            Temp.Add(new SendorExecuteSendType()
+                            {
+                                PortNum = inum,
+                                CommandData = SerialPortModel.Instance.HexStrToByte(Command),
+                                strCommandData = Command,
+                                intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
+                                strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
+                                Delaytime = 0,
+                                Loop = Convert.ToInt32(Loop),
+                                SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}", ID.PadLeft(3, ' '), inum, Command.Replace(" ", ""))
+                            });  
+                        }  
                     }
                     else
                     {
                         Temp.Add(new SendorExecuteSendType()
                         {
                             PortNum = Convert.ToInt32(PortNum),
+                            CommandData = SerialPortModel.Instance.HexStrToByte(Command),
+                            strCommandData = Command,
                             intDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length,
                             strDataLen = SerialPortModel.Instance.HexStrToByte(Command).Length.ToString(),
                             Delaytime = Convert.ToInt32(Delaytime),
                             Loop = Convert.ToInt32(Loop),
-                            SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}",
-                                                   ID.PadLeft(3, ' '),
-                                                        PortNum,
-                                                        Command.Replace(" ", ""))
+                            SendMsgdata = String.Format("ID:{0}|Port:{1}|S| {2}", ID.PadLeft(3, ' '), PortNum, Command.Replace(" ", ""))
                         });
                     }
                 }
-
                 return Temp;
 
             }

@@ -95,10 +95,8 @@ namespace SuperCarter.ViewModel
             }
     
         }
-        public void evnt_sendAsync(int _SelectedCom, ScriptItemtype cmd)
+        public async void evnt_sendAsync(int _SelectedCom, ScriptItemtype cmd)
         {
-    
-
             try
             {
                 int SendCount = 0;
@@ -117,6 +115,28 @@ namespace SuperCarter.ViewModel
                     {
 
                         string[] _sendData = cmd.Command.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                       
+                        if (_sendData[0].Length > 2)
+                        {
+                            string temp_str = _sendData[0];
+                            int len = _sendData[0].Length;
+                            System.Array.Resize(ref _sendData, len / 2); //array resize
+                            int j = 0;
+                            for (int i = 0; i < len; i = i + 2)
+                            {
+                                try
+                                {
+                                    _sendData[j] = temp_str.Substring(i, 2);
+                                    j += 1;
+                                }
+                                catch (Exception)
+                                {
+                                    //do nothing
+                                }
+
+                            }
+                        }
+
                         byte[] sendData = new byte[_sendData.Length];
                         foreach (var tmp in _sendData)
                         {
@@ -147,8 +167,9 @@ namespace SuperCarter.ViewModel
                         // await serialPortBase.BaseStream.WriteAsync(serialPortBase.Encoding.GetBytes(msg), 0, SendCount).ConfigureAwait(false);
 
                     }
+                  
                     logger.Log(NLog.LogLevel.Trace, OutputMsg);
-
+            
                 }
             }
             catch (ArgumentException e)
@@ -184,7 +205,6 @@ namespace SuperCarter.ViewModel
             {
                 UpdateSystemInfo = e.Message.Replace("\r\n", ""); AllViewText += UpdateSystemInfo;
             }
-
             OnPropertyChangedForStatic(nameof(AllViewText));
         }
         #endregion

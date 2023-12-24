@@ -108,12 +108,6 @@ D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\SuperC
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\SuperCarter.genruntimeconfig.cache
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\bin\Debug\SuperCarter.pdb
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\ref\SuperCarter.dll
-D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\MonitoringGuide.g.cs
-D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img1.g.cs
-D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img2.g.cs
-D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\MonitoringGuide.baml
-D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img1.baml
-D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\navi_img2.baml
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\MonitoringGuide.g.cs
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img1.g.cs
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img2.g.cs
@@ -122,3 +116,11 @@ D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\D
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img2.baml
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img0.g.cs
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img0.baml
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\MonitoringGuide.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img0.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img1.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img2.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\MonitoringGuide.baml
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img0.baml
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img1.baml
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Dashboard\ImgUI\navi_img2.baml
