@@ -3,14 +3,14 @@
     "Loop": 2,
     "BlockALoop": 2,
     "BlockBLoop": 2,
-    "BlockA1Interval": 60000,
+    "BlockA1Interval": 300000,
     "BlockA2Interval": 60000,
-    "BlockB1Interval": 60000,
+    "BlockB1Interval": 300000,
     "BlockB2Interval": 60000,
     "MonitoringIntervaltime": 3000,
     "TestSuiteA1init": [
       {
-        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\wakeup.xml",
+        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\wakeup.xml",
         "Command": [
           {
             "ID": 1,
@@ -21,7 +21,8 @@
             "Command": "FA 57 00 02 01",
             "Delaytime": 5000,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           }
         ]
@@ -29,7 +30,7 @@
     ],
     "TestSuiteA1": [
       {
-        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\dynamicmonitor.xml",
+        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\wakeup_detectionitem.xml",
         "Command": [
           {
             "ID": 1,
@@ -40,7 +41,8 @@
             "Command": "FA 52 01 04 01",
             "Delaytime": 0,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -50,9 +52,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadDiagnostic2",
             "Command": "FA 52 02 04 01",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -62,9 +65,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadDiagnostic3",
             "Command": "FA 52 03 04 01",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -74,9 +78,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadBrightness1",
             "Command": "FA 52 01 01 01",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -86,9 +91,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadBrightness2",
             "Command": "FA 52 02 01 01",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -98,9 +104,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadBrightness3",
             "Command": "FA 52 03 01 01",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -110,9 +117,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadInputVoltage1",
             "Command": "FA 52 01 04 02",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -122,9 +130,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadInputVoltage2",
             "Command": "FA 52 02 04 02",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -134,9 +143,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadInputVoltage3",
             "Command": "FA 52 03 04 02",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -146,9 +156,10 @@
             "CMDparm1": "HEX",
             "MSGname": "Read_temp1",
             "Command": "FA 52 01 04 03",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -158,9 +169,10 @@
             "CMDparm1": "HEX",
             "MSGname": "Read_temp2",
             "Command": "FA 52 02 04 03",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -170,9 +182,10 @@
             "CMDparm1": "HEX",
             "MSGname": "Read_temp3",
             "Command": "FA 52 03 04 03",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -182,9 +195,10 @@
             "CMDparm1": "HEX",
             "MSGname": "T_chamber_temp1",
             "Command": "FA 52 01 04 04",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -194,9 +208,10 @@
             "CMDparm1": "HEX",
             "MSGname": "T_chamber_temp2",
             "Command": "FA 52 02 04 04",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -206,9 +221,10 @@
             "CMDparm1": "HEX",
             "MSGname": "T_chamber_temp3",
             "Command": "FA 52 03 04 04",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -218,9 +234,10 @@
             "CMDparm1": "HEX",
             "MSGname": "display_brightness_ADC1",
             "Command": "FA 52 01 04 05",
-            "Delaytime": 100,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -230,9 +247,10 @@
             "CMDparm1": "HEX",
             "MSGname": "display_brightness_ADC2",
             "Command": "FA 52 02 04 05",
-            "Delaytime": 100,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -242,9 +260,10 @@
             "CMDparm1": "HEX",
             "MSGname": "display_brightness_ADC3",
             "Command": "FA 52 03 04 05",
-            "Delaytime": 100,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -254,9 +273,10 @@
             "CMDparm1": "HEX",
             "MSGname": "TXB1send_curr1",
             "Command": "FA 52 01 05 01",
-            "Delaytime": 100,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -266,9 +286,10 @@
             "CMDparm1": "HEX",
             "MSGname": "TXB1send_curr3",
             "Command": "FA 52 03 05 01",
-            "Delaytime": 100,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -278,45 +299,49 @@
             "CMDparm1": "HEX",
             "MSGname": "TXB1send_curr2",
             "Command": "FA 52 02 05 01",
-            "Delaytime": 500,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
             "ID": 22,
-            "Portnum": "0",
+            "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
             "MSGname": "ReadTouchinfo",
             "Command": "FA 52 01 06 01",
             "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
             "ID": 23,
-            "Portnum": "0",
+            "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
             "MSGname": "ReadTouchinfo",
             "Command": "FA 52 02 06 01",
             "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
             "ID": 24,
-            "Portnum": "0",
+            "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
             "MSGname": "ReadTouchinfo",
             "Command": "FA 52 03 06 01",
             "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           }
         ]
@@ -324,7 +349,7 @@
     ],
     "TestSuiteA2init": [
       {
-        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep.xml",
+        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep.xml",
         "Command": [
           {
             "ID": 1,
@@ -335,7 +360,8 @@
             "Command": "FA 57 00 02 00",
             "Delaytime": 5000,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           }
         ]
@@ -343,7 +369,7 @@
     ],
     "TestSuiteA2": [
       {
-        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep_detectionitem.xml",
+        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep_detectitems.xml",
         "Command": [
           {
             "ID": 1,
@@ -354,7 +380,8 @@
             "Command": "FA 52 01 05 01",
             "Delaytime": 100,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -366,7 +393,8 @@
             "Command": "FA 52 02 05 01",
             "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -378,7 +406,8 @@
             "Command": "FA 52 03 05 01",
             "Delaytime": 100,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           }
         ]
@@ -386,7 +415,7 @@
     ],
     "TestSuiteB1init": [
       {
-        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\wakeup.xml",
+        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\wakeup.xml",
         "Command": [
           {
             "ID": 1,
@@ -397,7 +426,8 @@
             "Command": "FA 57 00 02 01",
             "Delaytime": 5000,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           }
         ]
@@ -405,7 +435,7 @@
     ],
     "TestSuiteB1": [
       {
-        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\dynamicmonitor.xml",
+        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\wakeup_detectionitem.xml",
         "Command": [
           {
             "ID": 1,
@@ -416,7 +446,8 @@
             "Command": "FA 52 01 04 01",
             "Delaytime": 0,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -426,9 +457,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadDiagnostic2",
             "Command": "FA 52 02 04 01",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -438,9 +470,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadDiagnostic3",
             "Command": "FA 52 03 04 01",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -450,9 +483,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadBrightness1",
             "Command": "FA 52 01 01 01",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -462,9 +496,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadBrightness2",
             "Command": "FA 52 02 01 01",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -474,9 +509,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadBrightness3",
             "Command": "FA 52 03 01 01",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -486,9 +522,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadInputVoltage1",
             "Command": "FA 52 01 04 02",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -498,9 +535,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadInputVoltage2",
             "Command": "FA 52 02 04 02",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -510,9 +548,10 @@
             "CMDparm1": "HEX",
             "MSGname": "ReadInputVoltage3",
             "Command": "FA 52 03 04 02",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -522,9 +561,10 @@
             "CMDparm1": "HEX",
             "MSGname": "Read_temp1",
             "Command": "FA 52 01 04 03",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -534,9 +574,10 @@
             "CMDparm1": "HEX",
             "MSGname": "Read_temp2",
             "Command": "FA 52 02 04 03",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -546,9 +587,10 @@
             "CMDparm1": "HEX",
             "MSGname": "Read_temp3",
             "Command": "FA 52 03 04 03",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -558,9 +600,10 @@
             "CMDparm1": "HEX",
             "MSGname": "T_chamber_temp1",
             "Command": "FA 52 01 04 04",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -570,9 +613,10 @@
             "CMDparm1": "HEX",
             "MSGname": "T_chamber_temp2",
             "Command": "FA 52 02 04 04",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -582,9 +626,10 @@
             "CMDparm1": "HEX",
             "MSGname": "T_chamber_temp3",
             "Command": "FA 52 03 04 04",
-            "Delaytime": 0,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -594,9 +639,10 @@
             "CMDparm1": "HEX",
             "MSGname": "display_brightness_ADC1",
             "Command": "FA 52 01 04 05",
-            "Delaytime": 100,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -606,9 +652,10 @@
             "CMDparm1": "HEX",
             "MSGname": "display_brightness_ADC2",
             "Command": "FA 52 02 04 05",
-            "Delaytime": 100,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -618,9 +665,10 @@
             "CMDparm1": "HEX",
             "MSGname": "display_brightness_ADC3",
             "Command": "FA 52 03 04 05",
-            "Delaytime": 100,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -630,9 +678,10 @@
             "CMDparm1": "HEX",
             "MSGname": "TXB1send_curr1",
             "Command": "FA 52 01 05 01",
-            "Delaytime": 100,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -642,9 +691,10 @@
             "CMDparm1": "HEX",
             "MSGname": "TXB1send_curr3",
             "Command": "FA 52 03 05 01",
-            "Delaytime": 100,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -654,45 +704,49 @@
             "CMDparm1": "HEX",
             "MSGname": "TXB1send_curr2",
             "Command": "FA 52 02 05 01",
-            "Delaytime": 500,
+            "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
             "ID": 22,
-            "Portnum": "0",
+            "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
             "MSGname": "ReadTouchinfo",
             "Command": "FA 52 01 06 01",
             "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
             "ID": 23,
-            "Portnum": "0",
+            "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
             "MSGname": "ReadTouchinfo",
             "Command": "FA 52 02 06 01",
             "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
             "ID": 24,
-            "Portnum": "0",
+            "Portnum": "all",
             "CMDtype": "UART",
             "CMDparm1": "HEX",
             "MSGname": "ReadTouchinfo",
             "Command": "FA 52 03 06 01",
             "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           }
         ]
@@ -700,7 +754,7 @@
     ],
     "TestSuiteB2init": [
       {
-        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep.xml",
+        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep.xml",
         "Command": [
           {
             "ID": 1,
@@ -711,7 +765,8 @@
             "Command": "FA 57 00 02 00",
             "Delaytime": 5000,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           }
         ]
@@ -719,7 +774,7 @@
     ],
     "TestSuiteB2": [
       {
-        "ScriptPath": "D:\\yqgithub\\SuperCarter\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep_detectionitem.xml",
+        "ScriptPath": "D:\\YQRepos\\SuperCarter\\SuperCarter-main\\SuperCarter\\SuperCarter\\bin\\Debug\\scripts\\template\\sleep_detectitems.xml",
         "Command": [
           {
             "ID": 1,
@@ -730,7 +785,8 @@
             "Command": "FA 52 01 05 01",
             "Delaytime": 100,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -742,7 +798,8 @@
             "Command": "FA 52 02 05 01",
             "Delaytime": 200,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           },
           {
@@ -754,7 +811,8 @@
             "Command": "FA 52 03 05 01",
             "Delaytime": 100,
             "RecCommand": "",
-            "HashCodevalue": "",
+            "HashValue": "",
+            "HashCode": "",
             "Loop": 1
           }
         ]

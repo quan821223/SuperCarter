@@ -208,7 +208,9 @@ namespace SuperCarter.Model
         [DataMember]
         public string RecCommand { get; set; } = "";
         [DataMember]
-        public string HashCodevalue { get; set; } = "";
+        public string HashValue { get; set; } = "";
+        [DataMember]
+        public string HashCode { get; set; } = "";
         public List<ScriptItemtype> ChildNode { get; set; }
         [DataMember]
         public int Loop { get; set; } = 1;

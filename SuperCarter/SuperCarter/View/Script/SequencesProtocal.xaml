@@ -6,11 +6,11 @@
         xmlns:paz="clr-namespace:Wpf.Controls.PanAndZoom;assembly=Wpf.Controls.PanAndZoom"
         xmlns:local="clr-namespace:SuperCarter.View.Script"
         mc:Ignorable="d"
-        Title="SequencesProtocal" Height="450" Width="800">
+        Title="SequencesProtocal" >
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
             <DockPanel LastChildFill="True">
-                <paz:ZoomBorder Name="zoomBorder" Stretch="UniformToFill" ZoomSpeed="1.2" ClipToBounds="True" Focusable="True"
+                <paz:ZoomBorder Name="zoomBorder" Stretch="UniformToFill" ZoomSpeed="1.1" ClipToBounds="True" Focusable="True"
                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Image Source="/Images/CMDprotocal.png" />
                 </paz:ZoomBorder>

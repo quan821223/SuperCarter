@@ -43,31 +43,36 @@ namespace SuperCarter
           
             sequenceEditer = new SequenceEditer();
             overview = new Overview();
-
-            if (dockManager.Visibility == Visibility.Visible)
-                dockManager.Visibility = Visibility.Hidden;
-
+            // AppPaneGroup.Background = new SolidColorBrush(Colors.Transparent);
+            AppPaneGroup.Hide();
+            dockManager.Background = new SolidColorBrush(Colors.Transparent);
             GridPrincipal.Children.Clear();
             // hiding all text views.
             /// TextViewPortIII_Output
             var TextViewPortIII_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "TextViewPortIII_Output");
             if (TextViewPortIII_Output.IsEnabled)
-                TextViewPortIII_Output.Hide();
+            {
+                TextViewPortIII_Output.Hide();            
+            }                      
 
             /// TextViewPortII_Output
             var TextViewPortII_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "TextViewPortII_Output");
-            if (TextViewPortII_Output.IsEnabled)
+            if (TextViewPortII_Output.IsEnabled) {
                 TextViewPortII_Output.Hide();
+            }                 
 
             /// TextViewPortI_Output
             var TextViewPortI_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "TextViewPortI_Output");
-            if (TextViewPortI_Output.IsEnabled)
+            if (TextViewPortI_Output.IsEnabled) {
                 TextViewPortI_Output.Hide();
+            }                     
 
             /// AllViewText_Output
             var AllViewText_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "AllViewText_Output");
             if (AllViewText_Output.IsEnabled)
+            {
                 AllViewText_Output.Hide();
+            }               
 
             this.DataContext = SuperCarterVM;
            
@@ -80,24 +85,29 @@ namespace SuperCarter
             {
                 case 1:
                     GridPrincipal.Children.Clear();
-
-                    if (dockManager.Visibility != Visibility.Hidden)
-                        dockManager.Visibility = Visibility.Hidden;
+                    AppPaneGroup.Hide();
+                    dockManager.Background = new SolidColorBrush(Colors.Transparent);
+                    // dockManager.Background = new SolidColorBrush(Colors.Transparent);
                     break;
                 case 2:
                     GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(sequenceEditer);
+                    AppPaneGroup.Show();
+                    dockManager.Background = new SolidColorBrush(Colors.White);
                     if (dockManager.Visibility != Visibility.Visible)
+                    {
                         dockManager.Visibility = Visibility.Visible;
+                    }
+                 
                     break;
                 case 3:
                     GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(overview);
+                    dockManager.Background = new SolidColorBrush(Colors.White);
+                    AppPaneGroup.Show();
                     if (dockManager.Visibility != Visibility.Visible)
                         dockManager.Visibility = Visibility.Visible;
                     break;
-
-
             }
         }
         private void ClearTextViewPortII_Click(object sender, RoutedEventArgs e)
@@ -268,6 +278,48 @@ namespace SuperCarter
             }
         }
 
-   
+        private void bt_OpenISPapp_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var exeFilePath = @".\src\ISP\ISP.exe";
+                string arg = null;
+
+                System.Diagnostics.Process diagAction = new System.Diagnostics.Process();
+                diagAction.StartInfo.FileName = exeFilePath;
+                diagAction.StartInfo.Arguments = arg;
+                diagAction.StartInfo.CreateNoWindow = true;
+                diagAction.StartInfo.UseShellExecute = false;
+                diagAction.Start();
+                // diagAction.WaitForExit();//關鍵，等待外部程式退出後才能往下執行
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+
+            }
+        }
+
+        private void bt_OpenTouchpadapp_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var exeFilePath = @".\src\Touchpad\TouchScratchpadMaster.exe";
+                string arg = null;
+
+                System.Diagnostics.Process diagAction = new System.Diagnostics.Process();
+                diagAction.StartInfo.FileName = exeFilePath;
+                diagAction.StartInfo.Arguments = arg;
+                diagAction.StartInfo.CreateNoWindow = true;
+                diagAction.StartInfo.UseShellExecute = false;
+                diagAction.Start();
+                /// diagAction.WaitForExit();//關鍵，等待外部程式退出後才能往下執行
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+
+            }
+        }
     }
 }

@@ -26,6 +26,7 @@ namespace SuperCarter.Model
             BlockA2Interval = 0;
             BlockB1Interval = 0;
             BlockB2Interval = 0;
+
             //folderViewerlist = new ObservableCollection<Foldertype>();
             //evt_Loadscriptroot(AppPath + @"scripts");
             //Viewerpath = AppPath + @"scripts";
@@ -46,6 +47,7 @@ namespace SuperCarter.Model
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
         #region properties
         /// <summary>
         /// 燈號控制
@@ -418,7 +420,6 @@ namespace SuperCarter.Model
                 {
                     strpath = openFileDialog1.FileName; //取得檔名
                     OpenedBlockScriptPath = strpath;
-                    // ConfigModel.Instance.GetScriptXMLTestSuite(this);
                     ConfigbyJSON.Instance.ReadMonitoringmodeScriptfromJson(this);
                     evt_objfresh();
                 }
@@ -440,7 +441,6 @@ namespace SuperCarter.Model
 
                 if (savefiledialog.ShowDialog() == DialogResult.OK)
                 {
-                    // ConfigModel.Instance.evt_SaveScriptTestSuitefile(savefiledialog.FileName, this);
                     ConfigbyJSON.Instance.WriteMonitoringmodeScripttoJSON(savefiledialog.FileName, this);
                     MessageAggregator.Instance.SendMessage(new POPNotifyMsgType
                     {

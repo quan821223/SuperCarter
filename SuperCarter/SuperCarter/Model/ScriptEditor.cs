@@ -160,7 +160,8 @@ namespace SuperCarter.ViewModel
                     Command = _va.Command,
                     Delaytime = _va.Delaytime,
                     RecCommand = _va.RecCommand,
-                    HashCodevalue = _va.HashCodevalue,
+                    HashValue = _va.HashValue,
+                    HashCode = _va.HashCode,
                     Loop = _va.Loop,
                 });
             }
@@ -188,6 +189,9 @@ namespace SuperCarter.ViewModel
         public void evt_ScriptToolBar_Clear()
         {
             Scriptdatalist.Clear();
+            Textscriptpath = null;
+            OnPropertyChanged(nameof(Textscriptpath));
+
         }
         public void evt_ScriptToolBar_Additem()
         {

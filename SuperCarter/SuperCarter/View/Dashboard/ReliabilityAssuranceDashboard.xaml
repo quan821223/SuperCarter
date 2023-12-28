@@ -518,7 +518,7 @@
                                         ArcRotationDegree="270" ArcDirection="Clockwise"
                                         Foreground="#FF005087" InnerBackgroundBrush="White"
                                         ArcWidth="20"
-                                        Width="170" Height="170"
+                                        Width="170" Height="3170"
                                         />-->
                                         <!--<xrpb:RadialProgressBar Value="82" VerticalAlignment="Center" HorizontalAlignment="Center" 
                                                 Margin="0"

@@ -337,10 +337,7 @@
                                                                                 />
                                                                     </StackPanel>
                                                                 </Button>
-                                                                <WrapPanel Orientation="Vertical">
-                                                                    <Label Content="Iterations"/>
-                                                                    <TextBox Text="{Binding scriptEditor.script_itervalue}"/>
-                                                                </WrapPanel>
+                                                       
                                                                 <Button x:Name="ScriptToolBar_SortScriptitem" Command="{Binding }"
                                                                         Width="68" ToolTip="若對文件有任何異動建議先行刷新在另將文件儲存"
                                                                         Click="ScriptToolBar_SortScriptitem_Click"  >

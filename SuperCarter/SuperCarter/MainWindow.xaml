@@ -56,17 +56,18 @@
                 <Setter Property="Height" Value="25" />
             </Style>
         </Grid.Resources>
-        <!--以下為 home page-->
-        <Grid MinHeight="300">
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
+      
+        <Grid   Grid.Row="0" Margin="37,30,3,3" >
+                       <Grid MinHeight="300">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
 
-                <Image Grid.Row="0"
+                    <Image Grid.Row="0"
                        MaxWidth="100"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Bottom"
                        Margin="0 0 0 5"
                        Source="/Images/auo_lite.png"  />
-                <TextBlock Grid.Row="1"
+                    <TextBlock Grid.Row="1"
                            Text="DQA Standart FIDM test&#x000A;@ Super Carrier board" 
                            FontWeight="Bold" 
                            FontFamily="Georgia"
@@ -75,71 +76,74 @@
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"
                            Foreground="#FF005087"/>
-                <TextBlock Text="設計驗證" 
+                    <TextBlock Text="設計驗證" 
                            FontWeight="Bold"                           
                            FontSize="13"
                            Margin="0 0 0 0"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"
                            Foreground="#FF005087"/>
-                <TextBlock Text="{Binding SoftwareVersion}" 
+                    <TextBlock Text="{Binding SoftwareVersion}" 
                            FontWeight="Bold"                           
                            FontSize="13"
                            Margin="0 0 0 0"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"
                            Foreground="#FF005087"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Width="110"
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="bt_OpenISPapp"
+                            Width="110"
                             Height="110"
                             Margin="12"
                             Content="ISP"
                             Command="{Binding OpenISPtool}"
                             Background="#19DDDDDD"
                             VerticalAlignment="Top"
+                            ToolTip="開啟 ISP app" Click="bt_OpenISPapp_Click"
                             >
                             <Button.Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <ContentControl>
-                                                <Border Name="innerborder" 
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <ContentControl>
+                                                    <Border Name="innerborder" 
                                                     BorderBrush="#FFD4D4D4"
                                                     BorderThickness="1,1,2,2" 
                                                     Background="{TemplateBinding Background}" CornerRadius="5">
-                                                    <StackPanel Orientation="Vertical" 
+                                                        <StackPanel Orientation="Vertical" 
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center">
-                                                        <Image Width="60" Height="60" 
+                                                            <Image Width="60" Height="60" 
                                                            Source="/Images/firmware-icon-15.jpg" 
                                                            />
-                                                        <TextBlock Text="View"
+                                                            <TextBlock Text="View"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Stretch"
                                                                />
-                                                    </StackPanel>
-                                                </Border>
-                                            </ContentControl>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="Button.IsPressed" Value="True" >
-                                                    <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
-                                                    <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                    <Button Width="110"
+                                                        </StackPanel>
+                                                    </Border>
+                                                </ContentControl>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="Button.IsPressed" Value="True" >
+                                                        <Setter TargetName="innerborder" Property="BorderBrush" Value="DarkGray" />
+                                                        <Setter TargetName="innerborder" Property="BorderThickness" Value="1" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button x:Name="bt_OpenTouchpadapp" Width="110"
                             Height="110"
                             Margin="12"
                             Content="ISP"
                             Command="{Binding OpenISPtool}"
                             Background="#19DDDDDD"
                             VerticalAlignment="Top"
+                            ToolTip="開啟 Touchpad app" Click="bt_OpenTouchpadapp_Click" 
                             >
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
@@ -175,24 +179,23 @@
                                     </Setter>
                                 </Style>
                             </Button.Style>
-                    </Button>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </Grid>
-        <Grid   Grid.Row="0" Margin="37,30,3,3" >
-            <avalonDock:DockingManager x:Name="dockManager"  
-                                       Background="White"
+            </Grid>
+            <avalonDock:DockingManager x:Name="dockManager" 
+                                   
                                        AnchorablesSource="{Binding Tools}" 
                                        DocumentsSource="{Binding Files}"                                           
                                        Margin="3" >
-                <avalonDock:LayoutRoot>
-                    <avalonDock:LayoutPanel Orientation="Horizontal" >
-                        <avalonDock:LayoutAnchorablePaneGroup DockWidth="3*" DockHeight="1*"
+                <avalonDock:LayoutRoot >
+                    <avalonDock:LayoutPanel Orientation="Horizontal"  >
+                        <avalonDock:LayoutAnchorablePaneGroup DockWidth="3*" DockHeight="1*" 
                                                               Orientation="Vertical" >
-                            <avalonDock:LayoutAnchorablePaneGroup DockHeight="3*"
+                            <avalonDock:LayoutAnchorablePaneGroup  DockHeight="3*"
                                                                   Orientation="Horizontal">
                                 <avalonDock:LayoutAnchorablePane Name="ToolsPanel_Sequences" DockHeight="4*">
-                                    <avalonDock:LayoutAnchorable CanAutoHide="False"
+                                    <avalonDock:LayoutAnchorable x:Name="AppPaneGroup" CanAutoHide="False"
                                                                  CanHide="False"
                                                                  CanClose="False"
                                                                      ContentId="Application_window"
@@ -201,12 +204,12 @@
                                     </avalonDock:LayoutAnchorable>
                                 </avalonDock:LayoutAnchorablePane>
                             </avalonDock:LayoutAnchorablePaneGroup >
-                            <avalonDock:LayoutAnchorablePane Name="AllViewText_window" DockWidth="1*" DockHeight="1*">
+                            <avalonDock:LayoutAnchorablePane Name="AllViewText_window" DockWidth="1*" DockHeight="1*" >
                                 <avalonDock:LayoutAnchorable ContentId="AllViewText_Output"
                                                                  CanAutoHide="True"
                                                                  CanClose="False"
                                                                  Title="Output">
-                                    <Grid >
+                                    <Grid  Background="White">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1*"/>
                                             <RowDefinition Height="22"/>
@@ -284,6 +287,7 @@
                                     </Grid>
                                 </avalonDock:LayoutAnchorable>
                                 <avalonDock:LayoutAnchorable ContentId="TextViewPortII_Output"
+                                                             
                                                              CanAutoHide="True"
                                                              CanClose="False"
                                                              Title="Port II">
@@ -363,27 +367,19 @@
                                 </avalonDock:LayoutAnchorable>
                             </avalonDock:LayoutAnchorablePane>
                         </avalonDock:LayoutAnchorablePaneGroup>
-
-
-
-
                     </avalonDock:LayoutPanel>
-
                 </avalonDock:LayoutRoot>
-
             </avalonDock:DockingManager>
-
+   
         </Grid>
 
         <Grid>
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="29"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <Grid>
-                    <!--此網格為前端物件的項目-->
+                <Grid>                   
                     <Grid>
                         <Border  Background="White" CornerRadius="0">
                             <Border.Effect>
@@ -398,11 +394,11 @@
                                 <VisualBrush>
                                     <VisualBrush.Visual>
                                         <Border Background="Black"
-                                            SnapsToDevicePixels="True"
-                                            CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
-                                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
-                                            Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
-                                            />
+                                                SnapsToDevicePixels="True"
+                                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                />
                                     </VisualBrush.Visual>
                                 </VisualBrush>
                             </Border.OpacityMask>
@@ -412,7 +408,6 @@
 
                         </Border>
                     </Grid>
-                    <!--此網格為後端物件的項目-->
                     <Grid >
                         <Menu x:Name="ItemMenu" Grid.Column="1"  HorizontalAlignment="Left" Margin="0 2 0 0" Background="White">
                             <Menu.Resources>
@@ -485,11 +480,10 @@
                     <Border  Background="White" CornerRadius="0">
                         <Border.Effect>
                             <DropShadowEffect Color="Black" 
-                                  ShadowDepth = "0" 
+                                              ShadowDepth = "0" 
                                               BlurRadius = "3" 
                                               Opacity = "3" 
-                                              Direction = "0"                                   
-                                  />
+                                              Direction = "0"/>
                         </Border.Effect>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -497,12 +491,9 @@
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" >
-
-                                <Button Background="White"
-                                        >
+                                <Button Background="White" >
                                     <Image gif:ImageBehavior.AnimatedSource="/Images/ezgif.com-gif-maker.gif"  />
                                 </Button>
-
                             </Grid>
                             <Grid Grid.Row="1">
                                 <Grid.RowDefinitions>
@@ -623,11 +614,8 @@
                                                         </Setter>
                                                     </Style>
                                                 </Button.Style>
-                                            </Button> 
-                                            
-                                            
+                                            </Button>   
                                         </WrapPanel>
-
                                     </Border>
                                 </Grid>
                             </Grid>
@@ -636,15 +624,9 @@
 
                 </Grid>
                 <Grid Grid.Column="1"  >
-                    <notifications:NotificationArea x:Name="WindowArea" HorizontalAlignment="Right" VerticalAlignment="Bottom" Position="TopLeft" MaxItems="3"/>
-                
-                    
-                
+                    <notifications:NotificationArea x:Name="WindowArea" HorizontalAlignment="Right" VerticalAlignment="Bottom" Position="TopLeft" MaxItems="3"/> 
                 </Grid>
             </Grid>
-
-        </Grid>
-    
-
+        </Grid>      
     </Grid>
 </Window>

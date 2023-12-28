@@ -1,0 +1,3 @@
+D:/yqgithub/SuperCarter/pico-hostII/build/pioasm/CMakeFiles/pioasm.dir
+D:/yqgithub/SuperCarter/pico-hostII/build/pioasm/CMakeFiles/edit_cache.dir
+D:/yqgithub/SuperCarter/pico-hostII/build/pioasm/CMakeFiles/rebuild_cache.dir

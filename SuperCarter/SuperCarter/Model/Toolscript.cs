@@ -27,18 +27,23 @@ namespace SuperCarter.Model
             {
                 Nodename = "HWversion",
                 MSGname = "HWversion",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
                 Command = "FA 52 01 00 01",
                 RecCommand = "",
-                HashCodevalue = "",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             InformationItems.Add(new ScriptItemtype()
             {
                 Nodename = "SWversion",
                 MSGname = "SWversion",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
                 Command = "FA 52 01 00 02",
-                RecCommand = "",
-                HashCodevalue = "",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             CategoryItems.Add("Information", InformationItems);
@@ -51,7 +56,10 @@ namespace SuperCarter.Model
                 MSGname = "ReadDiagnostic",
                 Command = "FA 52 01 04 01",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             DiagnosticItems.Add(new ScriptItemtype()
@@ -60,7 +68,10 @@ namespace SuperCarter.Model
                 MSGname = "ReadInputVoltage",
                 Command = "FA 52 01 04 02",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             DiagnosticItems.Add(new ScriptItemtype()
@@ -69,7 +80,10 @@ namespace SuperCarter.Model
                 MSGname = "Read_temp",
                 Command = "FA 52 01 04 03",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             DiagnosticItems.Add(new ScriptItemtype()
@@ -78,7 +92,10 @@ namespace SuperCarter.Model
                 MSGname = "T_chamber_temp",
                 Command = "FA 52 01 04 04",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             DiagnosticItems.Add(new ScriptItemtype()
@@ -87,7 +104,10 @@ namespace SuperCarter.Model
                 MSGname = "display_brightness_ADC",
                 Command = "FA 52 01 04 05",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             CategoryItems.Add("Diagnostic", DiagnosticItems);
@@ -100,7 +120,10 @@ namespace SuperCarter.Model
                 MSGname = "WriteBrightness",
                 Command = "FA 57 01 01 00",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             BrightnessItems.Add(new ScriptItemtype()
@@ -109,7 +132,10 @@ namespace SuperCarter.Model
                 MSGname = "ReadBrightness",
                 Command = "FA 52 01 01 01",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             CategoryItems.Add("Brightness", BrightnessItems);
@@ -122,7 +148,10 @@ namespace SuperCarter.Model
                 MSGname = "Sleep",
                 Command = "FA 57 00 02 00",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             PowermodesItems.Add(new ScriptItemtype()
@@ -131,7 +160,10 @@ namespace SuperCarter.Model
                 MSGname = "Wakeup",
                 Command = "FA 57 00 02 01",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
 
@@ -141,7 +173,10 @@ namespace SuperCarter.Model
                 MSGname = "FIDM_Poweroff",
                 Command = "FA 57 00 02 04",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             CategoryItems.Add("PowerModes", PowermodesItems);
@@ -153,7 +188,10 @@ namespace SuperCarter.Model
                 Nodename = "Auto_scrolling",
                 MSGname = "Pattern_Auto_scroll",
                 Command = "FA 57 01 03 00",
-
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             PatternItems.Add(new ScriptItemtype()
@@ -162,7 +200,10 @@ namespace SuperCarter.Model
                 MSGname = "Pattern_White",
                 Command = "FA 57 01 03 01",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             PatternItems.Add(new ScriptItemtype()
@@ -171,7 +212,10 @@ namespace SuperCarter.Model
                 MSGname = "Pattern_Black",
                 Command = "FA 57 01 03 02",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             PatternItems.Add(new ScriptItemtype()
@@ -180,7 +224,10 @@ namespace SuperCarter.Model
                 MSGname = "Pattern_Red",
                 Command = "FA 57 01 03 03",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             PatternItems.Add(new ScriptItemtype()
@@ -189,7 +236,10 @@ namespace SuperCarter.Model
                 MSGname = "Pattern_Green",
                 Command = "FA 57 01 03 04",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             PatternItems.Add(new ScriptItemtype()
@@ -198,7 +248,10 @@ namespace SuperCarter.Model
                 MSGname = "Pattern_Blue",
                 Command = "FA 57 01 03 05",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             PatternItems.Add(new ScriptItemtype()
@@ -207,7 +260,10 @@ namespace SuperCarter.Model
                 MSGname = "Pattern_Grey",
                 Command = "FA 57 01 03 06",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             PatternItems.Add(new ScriptItemtype()
@@ -216,7 +272,10 @@ namespace SuperCarter.Model
                 MSGname = "Pattern_checker",
                 Command = "FA 57 01 03 07",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             CategoryItems.Add("Pattern", PatternItems);
@@ -229,7 +288,10 @@ namespace SuperCarter.Model
                 MSGname = "TXB1send_curr",
                 Command = "FA 52 01 05 01",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             CategoryItems.Add("Current", CurrentItems);
@@ -242,7 +304,10 @@ namespace SuperCarter.Model
                 MSGname = "StopsTriggeringTP",
                 Command = "FA 57 00 06 00",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             TouchItems.Add(new ScriptItemtype()
@@ -251,7 +316,10 @@ namespace SuperCarter.Model
                 MSGname = "TXB1StartTriggerTP",
                 Command = "FA 57 00 06 01",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             TouchItems.Add(new ScriptItemtype()
@@ -260,7 +328,10 @@ namespace SuperCarter.Model
                 MSGname = "ReadTouchinfo",
                 Command = "FA 52 01 06 01",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             CategoryItems.Add("Touch", TouchItems);
@@ -273,7 +344,10 @@ namespace SuperCarter.Model
                 MSGname = "default_hex",
                 Command = "",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             CustomerItems.Add(new ScriptItemtype()
@@ -282,7 +356,10 @@ namespace SuperCarter.Model
                 MSGname = "default_tag",
                 Command = "",
                 RecCommand = "",
-                HashCodevalue = "",
+                CMDtype = "UART",
+                CMDparm1 = "HEX",
+                HashCode = "",
+                HashValue = "",
                 Delaytime = 200
             });
             CategoryItems.Add("CustomerItems", CustomerItems);

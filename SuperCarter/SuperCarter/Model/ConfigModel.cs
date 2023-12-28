@@ -220,13 +220,14 @@ namespace SuperCarter.Model
                     testitem = ScriptionXML.CreateElement("Command");
                     testitem.SetAttribute("ID", _Scriptdatalist[iD].ID.ToString() ?? "");
                     testitem.SetAttribute("PortNum", _Scriptdatalist[iD].Portnum.ToString() ?? "");
-                    testitem.SetAttribute("Commandtype", _Scriptdatalist[iD].CMDtype.ToString() ?? "");
-                    testitem.SetAttribute("Commandparm1", _Scriptdatalist[iD].CMDparm1.ToString() ?? "");
+                    testitem.SetAttribute("CMDtype", _Scriptdatalist[iD].CMDtype.ToString() ?? "");
+                    testitem.SetAttribute("CMDparm1", _Scriptdatalist[iD].CMDparm1.ToString() ?? "");
                     testitem.SetAttribute("MSGname", _Scriptdatalist[iD].MSGname.ToString() ?? "");
                     testitem.SetAttribute("Command", _Scriptdatalist[iD].Command.ToString() ?? "");
                     testitem.SetAttribute("Delaytime", _Scriptdatalist[iD].Delaytime.ToString() ?? "100");
                     testitem.SetAttribute("RecCommand", _Scriptdatalist[iD].RecCommand.ToString() ?? "");
-                    testitem.SetAttribute("HashCodevalue", _Scriptdatalist[iD].HashCodevalue.ToString() ?? "");
+                    testitem.SetAttribute("HashCode", _Scriptdatalist[iD].HashCode.ToString() ?? "");
+                    testitem.SetAttribute("HashValue", _Scriptdatalist[iD].HashValue.ToString() ?? "");
                     testitem.SetAttribute("Loop", _Scriptdatalist[iD].Loop.ToString() ?? "");
 
                     // calculate the total time to estimate the duration required for entire scheduling. 
@@ -303,161 +304,6 @@ namespace SuperCarter.Model
                 MessageBox.Show(ex.Message);
                 return iteravalue;
             }
-        }
-
-        public void GetScriptXMLTestSuite(ScheduledScriptEditor _ScriptEditor)
-        {
-            try
-            {
-                // Loading from a file, you can also load from a stream
-                XmlDocument ScriptionXML = new XmlDocument();
-                ScriptionXML.Load(_ScriptEditor.OpenedBlockScriptPath);
-                List<string> list = new List<string>() {"TestSuiteA1init", "TestSuiteA1",
-                                                             "TestSuiteA2init", "TestSuiteA2",
-                                                             "TestSuiteB1init", "TestSuiteB1",
-                                                             "TestSuiteB2init", "TestSuiteB2",
-                                                            };
-
-                XmlNode root = ScriptionXML.SelectSingleNode("TestSuites");
-
-                 if (root is null)
-                    return;
-
-                _ScriptEditor.Fullloop = Convert.ToInt32(root.Attributes["Loop"]?.Value ?? "1");
-                _ScriptEditor.BlockALoop = Convert.ToInt32(root.Attributes["BlockALoop"]?.Value);
-                _ScriptEditor.BlockBLoop = Convert.ToInt32(root.Attributes["BlockBLoop"]?.Value);
-                _ScriptEditor.BlockA1Interval = Convert.ToInt32(root.Attributes["BlockA1Interval"]?.Value);
-                _ScriptEditor.BlockA2Interval = Convert.ToInt32(root.Attributes["BlockA2Interval"]?.Value);
-                _ScriptEditor.BlockB1Interval = Convert.ToInt32(root.Attributes["BlockB1Interval"]?.Value);
-                _ScriptEditor.BlockB2Interval = Convert.ToInt32(root.Attributes["BlockB2Interval"]?.Value);
-                _ScriptEditor.MonitoringIntervaltime = Convert.ToInt32(root.Attributes["MonitoringIntervaltime"]?.Value ?? "3000");
-
-                foreach (var ite in list)
-                {
-                    string strblock = "TestSuites/" + ite + "/TestSequence";
-                    XmlNode block = ScriptionXML.SelectSingleNode(strblock);
-                    string strrequisites = "TestSuites/" + ite + "/Prerequisites";
-                    XmlNode requisites = ScriptionXML.SelectSingleNode(strrequisites);
-
-                    XmlElement element = (XmlElement)block;
-                    ObservableCollection<ScriptItemtype> Temp = new ObservableCollection<ScriptItemtype>();
-                    //取得節點內的欄位
-                    if (element is null)
-                        break;
-                    foreach (XmlElement node in element)
-                    {
-                        String ID = node.Attributes["ID"].Value ?? "";
-                        String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
-                        String Nodename = node.Attributes["Nodename"]?.Value ?? "";
-                        String MSGname = node.Attributes["MSGname"]?.Value ?? "";
-                        String Command = node.Attributes["Command"]?.Value ?? "";
-                        String Delaytime = node.Attributes["Delaytime"]?.Value ?? "100";
-                        String RecCommand = node.Attributes["RecCommand"]?.Value ?? "";
-                        String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
-                        String Loop = node.Attributes["Loop"]?.Value ?? "1";
-
-                        Temp.Add(new ScriptItemtype()
-                        {
-                            ID = Convert.ToInt32(ID),
-                            Portnum = PortNum,
-                            Nodename = Nodename,
-                            MSGname = MSGname,
-                            Command = Command,
-                            Delaytime = Convert.ToInt32(Delaytime),
-                            RecCommand = RecCommand,
-                            HashCodevalue = HashCodevalue,
-                            Loop = Convert.ToInt32(Loop),
-                        });
-
-                    }
-                    if (ite == "TestSuiteA1init")
-                    {
-                        _ScriptEditor.BlockA1initObsColSequences = Temp;
-                        _ScriptEditor.BlockA1initscriptPath = requisites.Attributes["Path"]?.Value ?? "";
-                    }
-                    else if (ite == "TestSuiteA1")
-                    {
-                        _ScriptEditor.BlockA1ObsColSequences = Temp;
-                        _ScriptEditor.BlockA1scriptPath = requisites.Attributes["Path"]?.Value ?? "";
-                    }
-                    else if (ite == "TestSuiteA2init")
-                    {
-                        _ScriptEditor.BlockA2initObsColSequences = Temp;
-                        _ScriptEditor.BlockA2initscriptPath = requisites.Attributes["Path"]?.Value ?? "";
-                    }
-                    else if (ite == "TestSuiteA2")
-                    {
-                        _ScriptEditor.BlockA2ObsColSequences = Temp;
-                        _ScriptEditor.BlockA2scriptPath = requisites.Attributes["Path"]?.Value ?? "";
-                    }
-                    else if (ite == "TestSuiteB1init")
-                    {
-                        _ScriptEditor.BlockB1initObsColSequences = Temp;
-                        _ScriptEditor.BlockB1initscriptPath = requisites.Attributes["Path"]?.Value ?? "";
-                    }
-                    else if (ite == "TestSuiteB1")
-                    {
-                        _ScriptEditor.BlockB1ObsColSequences = Temp;
-                        _ScriptEditor.BlockB1scriptPath = requisites.Attributes["Path"]?.Value ?? "";
-                    }
-                    else if (ite == "TestSuiteB2init")
-                    {
-                        _ScriptEditor.BlockB2initObsColSequences = Temp;
-                        _ScriptEditor.BlockB2initscriptPath = requisites.Attributes["Path"]?.Value ?? "";
-                    }
-                    else if (ite == "TestSuiteB2")
-                    {
-                        _ScriptEditor.BlockB2ObsColSequences = Temp;
-                        _ScriptEditor.BlockB2scriptPath = requisites.Attributes["Path"]?.Value ?? "";
-                    }
-                }
-                string Thresetting = "TestSuites/ThresholdSetting";
-                XmlNode Threblock = ScriptionXML.SelectSingleNode(Thresetting);
-                XmlElement elements = (XmlElement)Threblock;
-                if (elements is null)
-                    return;
-                foreach (XmlElement node in elements)
-                {
-                    if (node.Name == "DetectDiag")
-                    {
-                        _ScriptEditor.IsEnableDetectDiag = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                    }
-                    else if (node.Name == "NormCurrent")
-                    {
-                        _ScriptEditor.IsEnableDetectnormCurrent = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                        _ScriptEditor.UpperLimitnormCurrentValue = Convert.ToInt32(node.Attributes["Upper"].Value);
-                        _ScriptEditor.LowerLimitnormCurrentValue = Convert.ToInt32(node.Attributes["Lower"].Value);
-                    }
-                    else if (node.Name == "SleepCurrent")
-                    {
-                        _ScriptEditor.IsEnableDetectsleepCurrent = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                        _ScriptEditor.UpperLimitsleepCurrentValue = Convert.ToInt32(node.Attributes["Upper"].Value);
-                    }
-                    else if (node.Name == "Lightsensor")
-                    {
-                        _ScriptEditor.IsEnableDetectLightsensor = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                        _ScriptEditor.UpperLimitLightsensorValue = Convert.ToInt32(node.Attributes["Upper"].Value);
-                        _ScriptEditor.LowerLimitLightsensorValue = Convert.ToInt32(node.Attributes["Lower"].Value);
-                    }
-                    else if (node.Name == "Touchfinger")
-                    {
-                        _ScriptEditor.IsEnableTouchfinger = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                    }
-                    else if (node.Name == "TouchXY")
-                    {
-                        _ScriptEditor.IsEnableTouchXY = Convert.ToBoolean(node.Attributes["IsEnable"].Value ?? "false");
-                    }
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                MessageBox.Show(ex.StackTrace);
-            }
-            
-
         }
 
         public void evt_SaveScriptTestSuitefile(string SavePath, ScheduledScriptEditor _ScriptEditor)
@@ -550,12 +396,15 @@ namespace SuperCarter.Model
                         testitem = ScriptionXML.CreateElement("Sequence");
                         testitem.SetAttribute("ID", tempblockobsv[iD].ID.ToString() ?? "");
                         testitem.SetAttribute("PortNum", tempblockobsv[iD].Portnum.ToString() ?? "");
+                        testitem.SetAttribute("CMDtype", tempblockobsv[iD].CMDtype.ToString() ?? "");
+                        testitem.SetAttribute("CMDparm1", tempblockobsv[iD].CMDparm1.ToString() ?? "");
                         testitem.SetAttribute("Nodename", tempblockobsv[iD].Nodename.ToString() ?? "");
                         testitem.SetAttribute("MSGname", tempblockobsv[iD].MSGname.ToString() ?? "");
                         testitem.SetAttribute("Command", tempblockobsv[iD].Command.ToString() ?? "");
                         testitem.SetAttribute("Delaytime", tempblockobsv[iD].Delaytime.ToString() ?? "");
                         testitem.SetAttribute("RecCommand", tempblockobsv[iD].RecCommand.ToString() ?? "");
-                        testitem.SetAttribute("HashCodevalue", tempblockobsv[iD].HashCodevalue.ToString() ?? "");
+                        testitem.SetAttribute("HashCode", tempblockobsv[iD].HashCode.ToString() ?? "");
+                        testitem.SetAttribute("HashValue", tempblockobsv[iD].HashValue.ToString() ?? "");
                         testitem.SetAttribute("Loop", tempblockobsv[iD].Loop.ToString() ?? "");
 
                         // calculate the total time to estimate the duration required for entire scheduling.   
@@ -643,13 +492,14 @@ namespace SuperCarter.Model
                         {
                             String ID = node.Attributes["ID"].Value ?? "";
                             String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
-                            String Commandtype = node.Attributes["Commandtype"]?.Value ?? "UART";
-                            String Commandparm1 = node.Attributes["Commandparm1"]?.Value ?? "HEX";
+                            String Commandtype = node.Attributes["CMDtype"]?.Value ?? "UART";
+                            String Commandparm1 = node.Attributes["CMDparm1"]?.Value ?? "HEX";
                             String MSGname = node.Attributes["MSGname"]?.Value ?? "";
                             String Command = node.Attributes["Sequence"]?.Value ?? "";
                             String Delaytime = node.Attributes["Delaytime"]?.Value ?? "100";
                             String RecCommand = node.Attributes["RecCommand"]?.Value ?? "";
-                            String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
+                            String HashValue = node.Attributes["HashValue"]?.Value ?? "";
+                            String HashCode = node.Attributes["HashCode"]?.Value ?? "";
                             String Loop = node.Attributes["Loop"]?.Value ?? "1";
                             index += 1;
                             Temp.Add(new ScriptItemtype()
@@ -662,7 +512,8 @@ namespace SuperCarter.Model
                                 Command = Command,
                                 Delaytime = Convert.ToInt32(Delaytime),
                                 RecCommand = RecCommand,
-                                HashCodevalue = HashCodevalue,
+                                HashValue = HashValue,
+                                HashCode = HashCode,
                                 Loop = Convert.ToInt32(Loop),
                             });
 
@@ -712,8 +563,6 @@ namespace SuperCarter.Model
             }
         }
 
-
-
         /// <summary>
         ///  Associate the schema with XML. Then, load the XML and validate it against the schema.
         /// </summary>
@@ -746,13 +595,14 @@ namespace SuperCarter.Model
                 {
                     String ID = node.Attributes["ID"].Value ?? "";
                     String PortNum = node.Attributes["PortNum"]?.Value ?? "all";
-                    String Commandtype = node.Attributes["Commandtype"]?.Value ?? "UART";
-                    String Commandparm1 = node.Attributes["Commandparm1"]?.Value ?? "HEX";
+                    String Commandtype = node.Attributes["CMDtype"]?.Value ?? "UART";
+                    String Commandparm1 = node.Attributes["CMDparm1"]?.Value ?? "HEX";
                     String MSGname = node.Attributes["MSGname"]?.Value ?? "";
                     String Command = node.Attributes["Command"]?.Value ?? "";
                     String Delaytime = node.Attributes["Delaytime"]?.Value ?? "100";
                     String RecCommand = node.Attributes["RecCommand"]?.Value ?? "";
-                    String HashCodevalue = node.Attributes["HashCodevalue"]?.Value ?? "";
+                    String HashValue = node.Attributes["HashValue"]?.Value ?? "";
+                    String HashCode = node.Attributes["HashCode"]?.Value ?? "";
                     String Loop = node.Attributes["Loop"]?.Value ?? "1";
                     index += 1;
                     Temp.Add(new ScriptItemtype()
@@ -766,7 +616,8 @@ namespace SuperCarter.Model
                         Command = Command,
                         Delaytime = Convert.ToInt32(Delaytime),
                         RecCommand = RecCommand,
-                        HashCodevalue = HashCodevalue,
+                        HashCode = HashCode,
+                        HashValue = HashValue,
                         Loop = Convert.ToInt32(Loop),
                     });
 
@@ -813,7 +664,6 @@ namespace SuperCarter.Model
             return PATHDDSSCRIPT == null ? "" : PATHDDSSCRIPT;
 
         }
-
         public List<SendorExecuteSendType> GetSendorExecuteSequencesList(string SavePath)
         {
             /// TODO: 1. 新增獨立的 DELAY ITEM, 該作用目的在於 PORTNUM 為ALL後面有需要做閒置的時間延遲效果在發送完所有 以開通的PORT NUM 
@@ -898,7 +748,6 @@ namespace SuperCarter.Model
             }
         }
 
-
         public void WriteDefaultxmlformate()
         {
             #region config flow
@@ -960,8 +809,6 @@ namespace SuperCarter.Model
             #endregion
         }
 
-
-
         public void ReadDefaultxmlformate()
         {
             //取得根節點內的子節點
@@ -1013,40 +860,6 @@ namespace SuperCarter.Model
 
         }
 
-        public void ReadDefaultxmlformate2()
-        {
-            //取得根節點內的子節點
-            XmlDocument doc = new XmlDocument();
-            doc.Load(FOLDER_CONFIG + CONFIGNAME);
-            //選擇節點
-            XmlNode main = doc.SelectSingleNode("Systemroot/Serialport/Protocal/Parameter");
-            //XmlNode main = doc.SelectSingleNode("Systemroot/Serialport/Port");
-
-            if (main == null)
-                return;
-
-            //取得節點內的欄位
-            XmlElement element = (XmlElement)main;
-
-            //取得節點內的"部門名稱"內容
-            string data = element.GetAttribute("item");
-
-            //取得節點內的"部門名稱"的屬性
-            XmlAttribute attribute = element.GetAttributeNode("item");
-
-            //列舉節點內的屬性
-            XmlAttributeCollection attributes = element.Attributes;
-            string content = "";
-            foreach (XmlAttribute item in attributes)
-            {
-                content += item.Name + "," + item.Value + Environment.NewLine;
-                if (item.Name == "BaudRate")
-                    item.Value = "BaudRate";
-                if (item.Name == "部門負責人")
-                    item.Value = "胎哥郎";
-            }
-
-        }
 
     }
 }
