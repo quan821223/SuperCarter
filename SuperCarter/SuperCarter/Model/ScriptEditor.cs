@@ -141,19 +141,21 @@ namespace SuperCarter.ViewModel
 
         #region Scription TreeView funcions events
 
-
+        /// <summary>
+        /// Sequence list 當中被選則的索引碼 
+        /// </summary>
         public int SelectedCMD { get; set; } = 0;
-
+        /// <summary>
+        /// func : 雙擊指令清單後所觸發的新增指令事件
+        /// </summary>
+        /// <param name="_va"></param>
         private void SelectedCommandItem(ScriptItemtype _va)
         {
-            //SelectedCMDItem = this;
             if (_va is not null)
             {
-                if (SelectedCMD == -1)
-                    SelectedCMD = 0;
-                Scriptdatalist.Insert(SelectedCMD , new ScriptItemtype()
+                var item = new ScriptItemtype()
                 {
-                    ID = _va.ID,                   
+                    ID = _va.ID,
                     CMDtype = _va.CMDtype,
                     CMDparm1 = _va.CMDparm1,
                     MSGname = _va.MSGname,
@@ -163,7 +165,17 @@ namespace SuperCarter.ViewModel
                     HashValue = _va.HashValue,
                     HashCode = _va.HashCode,
                     Loop = _va.Loop,
-                });
+                };
+
+                if (SelectedCMD <= 0)
+                {
+                    SelectedCMD = Scriptdatalist.Count;
+                    Scriptdatalist.Add(item);
+                }
+                else
+                {                 
+                    Scriptdatalist.Insert(SelectedCMD, item);
+                }    
             }
         }
         public void evt_ScriptToolBar_Sortintitem()
@@ -180,11 +192,8 @@ namespace SuperCarter.ViewModel
                 }
                 Scriptdatalist = null;
                 Scriptdatalist = _Scriptdatalist;
-                //OnPropertyChangedForStatic(nameof(Scriptdatalist));
             }
-
         }
-
 
         public void evt_ScriptToolBar_Clear()
         {

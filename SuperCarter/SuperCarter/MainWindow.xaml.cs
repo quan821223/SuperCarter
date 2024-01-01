@@ -35,13 +35,14 @@ namespace SuperCarter
         public SequenceEditer sequenceEditer { get; set; }
         public Overview overview { get; set; }
         public CommunicationInterface communicationInterface { get; set; }
+        public Applicationtable applicationList { get; set; }
         public MainWindow()
         {
             InitializeComponent();
 
-            SuperCarterVM = new SuperCarterViewModel();
-          
+            SuperCarterVM = new SuperCarterViewModel();          
             sequenceEditer = new SequenceEditer();
+            applicationList = new Applicationtable();
             overview = new Overview();
             // AppPaneGroup.Background = new SolidColorBrush(Colors.Transparent);
             AppPaneGroup.Hide();
@@ -69,8 +70,7 @@ namespace SuperCarter
 
             /// AllViewText_Output
             var AllViewText_Output = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "AllViewText_Output");
-            if (AllViewText_Output.IsEnabled)
-            {
+            if (AllViewText_Output.IsEnabled) {
                 AllViewText_Output.Hide();
             }               
 
@@ -85,8 +85,9 @@ namespace SuperCarter
             {
                 case 1:
                     GridPrincipal.Children.Clear();
-                    AppPaneGroup.Hide();
-                    dockManager.Background = new SolidColorBrush(Colors.Transparent);
+                    GridPrincipal.Children.Add(applicationList);
+                    AppPaneGroup.Show();
+                    dockManager.Background = new SolidColorBrush(Colors.White);
                     // dockManager.Background = new SolidColorBrush(Colors.Transparent);
                     break;
                 case 2:
@@ -278,48 +279,6 @@ namespace SuperCarter
             }
         }
 
-        private void bt_OpenISPapp_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var exeFilePath = @".\src\ISP\ISP.exe";
-                string arg = null;
 
-                System.Diagnostics.Process diagAction = new System.Diagnostics.Process();
-                diagAction.StartInfo.FileName = exeFilePath;
-                diagAction.StartInfo.Arguments = arg;
-                diagAction.StartInfo.CreateNoWindow = true;
-                diagAction.StartInfo.UseShellExecute = false;
-                diagAction.Start();
-                // diagAction.WaitForExit();//關鍵，等待外部程式退出後才能往下執行
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-
-            }
-        }
-
-        private void bt_OpenTouchpadapp_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var exeFilePath = @".\src\Touchpad\TouchScratchpadMaster.exe";
-                string arg = null;
-
-                System.Diagnostics.Process diagAction = new System.Diagnostics.Process();
-                diagAction.StartInfo.FileName = exeFilePath;
-                diagAction.StartInfo.Arguments = arg;
-                diagAction.StartInfo.CreateNoWindow = true;
-                diagAction.StartInfo.UseShellExecute = false;
-                diagAction.Start();
-                /// diagAction.WaitForExit();//關鍵，等待外部程式退出後才能往下執行
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-
-            }
-        }
     }
 }

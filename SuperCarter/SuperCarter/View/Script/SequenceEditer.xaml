@@ -137,7 +137,7 @@
                                                     <!--MouseDoubleClick or SelectedItemChanged-->
                                                     <i:EventTrigger EventName="MouseDoubleClick">
                                                         <i:InvokeCommandAction Command="{Binding scriptEditor.SelectCommand}"
-                                                                                           CommandParameter="{Binding ElementName=SequenceItemtreeView,Path=SelectedItem}" />
+                                                                               CommandParameter="{Binding ElementName=SequenceItemtreeView,Path=SelectedItem}" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                                 <TreeView.ItemContainerStyle>

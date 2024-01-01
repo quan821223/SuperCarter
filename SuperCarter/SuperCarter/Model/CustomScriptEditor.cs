@@ -59,7 +59,6 @@ namespace SuperCarter.Model
         }
 
         #region property
-
         public bool IsEnableDetectnormCurrent { get; set; } = false;
         public int UpperLimitnormCurrentValue { get; set; } = 0;
         public int LowerLimitnormCurrentValue { get; set; } = 0;
@@ -715,7 +714,7 @@ namespace SuperCarter.Model
             {
                 //await semaphoreSlim.WaitAsync(); // 等待許可
                 cancellationToken.Register(() => cancellationTokenSource.Cancel());
-             
+                                                                                                                                                ㄎ
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
                 var msg1 = $"- {blockName} 進入偵測階段";
@@ -1019,25 +1018,7 @@ namespace SuperCarter.Model
 
             byte[] receivedData = new byte[0];
 
-            if (command.CommandData[0] == 0xFA && command.CommandData[3] == 0x02 && command.CommandData[4] == 0x01)
-            {
-                PowerMode = 1;
-                // UnifiedHostCommandSet = new UnifiedHostCommandSettype();
-                UnifiedHostCommandSet.DUT1PowerMode = "Normal";
-                UnifiedHostCommandSet.DUT2PowerMode = "Normal";
-                UnifiedHostCommandSet.DUT3PowerMode = "Normal";
-             
-            }
 
-            else if (command.CommandData[0] == 0xFA && command.CommandData[3] == 0x02 && command.CommandData[4] == 0x00)
-            {
-                PowerMode = 0;
-                // UnifiedHostCommandSet = new UnifiedHostCommandSettype();
-                UnifiedHostCommandSet.DUT1PowerMode = "Sleep";
-                UnifiedHostCommandSet.DUT2PowerMode = "Sleep";
-                UnifiedHostCommandSet.DUT3PowerMode = "Sleep";
-          
-            }
 
             String OutputMsg = String.Format("{0}|{1}|{2}| S | CommandID {4}| {3}",
                                DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
@@ -1046,43 +1027,70 @@ namespace SuperCarter.Model
                                command.strCommandData.Replace(" ", ""),
                                CommnadID.ToString().PadLeft(6, ' ')
                                );
+
             logger.Log(NLog.LogLevel.Trace, OutputMsg);
             WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum, msg = OutputMsg });
 
             DicSerialPort[command.PortNum].Write(command.CommandData, 0, command.CommandData.Length);
 
-            // 紀錄讀取 sdm 回傳的資料
-            receivedData = await ReadFromPortAsync(Sequence, cancellationToken);
 
-            // update to Dashboard
-            if (receivedData.Length > 0)
-                RealtimeSDMDataQueue.Enqueue(receivedData);
 
-            
-            recmsg = SerialPortModel.Instance.byteToHexStr(receivedData);
-
-            OutputMsg = String.Format("{0}|{1}|{2}| R | CommandID {4}| {3}",
-                        DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
-                        SerialPortModel.Instance.PortNameBinding[DicSerialPort[command.PortNum].PortName].ToString().PadLeft(2, ' '),
-                        DicSerialPort[command.PortNum].PortName.PadLeft(6, ' '),
-                        recmsg.Replace(" ", ""),
-                        CommnadID.ToString().PadLeft(6, ' ')
-                        );
-            // update to nlog file
-            logger.Log(NLog.LogLevel.Trace, OutputMsg);
-
-            WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum, msg = OutputMsg });
-            SendAndReceiveDatabatchQ.Enqueue(new SendAndReceiveDatabatchcheck()
+            if (command.CommandData[0] == 0xFA && command.CommandData[3] == 0x02 && command.CommandData[4] == 0x01)
             {
-                CommnadID = CommnadID,
-                Portnum = command.PortNum,
-                strCommandData_send = command.strCommandData,
-                strCommandData_Rec = recmsg,
-                byte_buffer_Send = command.CommandData,
-                byte_buffer_Receive = receivedData,
-            });
+                PowerMode = 1;
+                // UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                UnifiedHostCommandSet.DUT1PowerMode = "Normal";
+                UnifiedHostCommandSet.DUT2PowerMode = "Normal";
+                UnifiedHostCommandSet.DUT3PowerMode = "Normal";
 
-            CommnadID += 1;
+            }
+            else if (command.CommandData[0] == 0xFA && command.CommandData[3] == 0x02 && command.CommandData[4] == 0x00)
+            {
+                PowerMode = 0;
+                // UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                UnifiedHostCommandSet.DUT1PowerMode = "Sleep";
+                UnifiedHostCommandSet.DUT2PowerMode = "Sleep";
+                UnifiedHostCommandSet.DUT3PowerMode = "Sleep";
+            }
+            else if (command.CommandData[0] == 0xFA && command.CommandData[3] == 0x02 && command.CommandData[4] == 0x02)
+            { 
+            
+            }
+            else
+            {
+                // 紀錄讀取 sdm 回傳的資料
+                receivedData = await ReadFromPortAsync(Sequence, cancellationToken);
+
+                // update to Dashboard
+                if (receivedData.Length > 0)
+                    RealtimeSDMDataQueue.Enqueue(receivedData);
+
+                recmsg = SerialPortModel.Instance.byteToHexStr(receivedData);
+
+                OutputMsg = String.Format("{0}|{1}|{2}| R | CommandID {4}| {3}",
+                            DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
+                            SerialPortModel.Instance.PortNameBinding[DicSerialPort[command.PortNum].PortName].ToString().PadLeft(2, ' '),
+                            DicSerialPort[command.PortNum].PortName.PadLeft(6, ' '),
+                            recmsg.Replace(" ", ""),
+                            CommnadID.ToString().PadLeft(6, ' ')
+                            );
+                // update to nlog file
+                logger.Log(NLog.LogLevel.Trace, OutputMsg);
+
+                WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum, msg = OutputMsg });
+                SendAndReceiveDatabatchQ.Enqueue(new SendAndReceiveDatabatchcheck()
+                {
+                    CommnadID = CommnadID,
+                    Portnum = command.PortNum,
+                    strCommandData_send = command.strCommandData,
+                    strCommandData_Rec = recmsg,
+                    byte_buffer_Send = command.CommandData,
+                    byte_buffer_Receive = receivedData,
+                });
+
+                CommnadID += 1;
+            }
+
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
@@ -1096,7 +1104,7 @@ namespace SuperCarter.Model
             byte[] buffer = new byte[bufferSize];
             int bufferIndex = 0;
             string data;
-            using (var cts = new CancellationTokenSource(300))
+            using (var cts = new CancellationTokenSource(100))
             {
                 while (!cts.Token.IsCancellationRequested)
                 {
