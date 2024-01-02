@@ -126,3 +126,5 @@ D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\ref\Su
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Applicationtable.g.cs
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\View\Applicationtable.baml
 D:\YQRepos\SuperCarter\SuperCarter-main\SuperCarter\SuperCarter\obj\Debug\SuperCarter.csproj.Fody.CopyLocal.cache
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Applicationtable.g.cs
+D:\yqgithub\SuperCarter\SuperCarter\SuperCarter\obj\Debug\View\Applicationtable.baml

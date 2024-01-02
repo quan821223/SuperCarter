@@ -27,7 +27,6 @@ namespace SuperCarter.ViewModel
         public ScriptEditor scriptEditor { get; set; }
         public SerialPortManager serialportmanager { get; set; }
         public InitialStateConfirm initialStateConfirm { get; set; }
-        public CustomscriptExecution Customscript { get; set; }
         public int SelectSerialportIndex { get; set; }
         public CustomScriptEditor CustomScriptEditor { get; set; } = new CustomScriptEditor();
         public SuperCarterViewModel() {
@@ -45,10 +44,6 @@ namespace SuperCarter.ViewModel
             scriptEditor = new ScriptEditor();
             serialportmanager = new SerialPortManager();
             initialStateConfirm = new InitialStateConfirm();
-
-            //Customscript = new CustomscriptExecution();
-            //Customscript.serialPortViewModelBase = serialPortViewModelBase;
-            //Customscript.UpdateDashboardStartThread();
 
             // 更新 View Text UI 的程序
             var systemMissonExecute = new SystemMissonExecute();

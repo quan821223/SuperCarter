@@ -298,9 +298,12 @@ namespace SuperCarter.Model
                         }
                         catch (Exception ex)
                         {
-
-                            System.Windows.MessageBox.Show(ex.StackTrace);
-                            System.Windows.MessageBox.Show(ex.Message);
+                            string Errormsg = $" === ProcessQueue's been a slight mistake. ===";
+                            logger.Log(NLog.LogLevel.Warn, Errormsg);
+                            logger.Log(NLog.LogLevel.Warn, ex.Message);
+                            logger.Log(NLog.LogLevel.Warn, ex.StackTrace);
+                            //System.Windows.MessageBox.Show(ex.StackTrace);
+                            //System.Windows.MessageBox.Show(ex.Message);
                         }
                     }
                 }
@@ -354,10 +357,11 @@ namespace SuperCarter.Model
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.Message);
-                System.Windows.MessageBox.Show(ex.StackTrace);          
-                string Errormsg = $"接收異常 - ID:{bytes.CommnadID} Portnum:{bytes.Portnum} Command:{bytes.strCommandData_send} RecCommand:{bytes.strCommandData_Rec}";
+                //System.Windows.MessageBox.Show(ex.Message);
+                //System.Windows.MessageBox.Show(ex.StackTrace);          
+                string Errormsg = $" === 接收異常 - ID:{bytes.CommnadID} Portnum:{bytes.Portnum} Command:{bytes.strCommandData_send} RecCommand:{bytes.strCommandData_Rec} === ";
                 logger.Log(NLog.LogLevel.Warn, Errormsg);
+                logger.Log(NLog.LogLevel.Warn, ex.Message);
                 logger.Log(NLog.LogLevel.Warn, ex.StackTrace);
             }                         
 
@@ -439,10 +443,11 @@ namespace SuperCarter.Model
             set
             {
                 _CurLoopValue = value;
-                float temp = (CurLoopValue * 1.0f / Fullloop) * 100;
+                float temp = (_CurLoopValue * 1.0f / Fullloop) * 100;
                 PercentLoopValue = Convert.ToInt32(temp);
                 strLoopValue = PercentLoopValue.ToString();
                 OnPropertyChanged(nameof(strLoopValue));
+                OnPropertyChanged(nameof(CurLoopValue));
             }
         }
         private string _strLoopValue;
@@ -493,6 +498,7 @@ namespace SuperCarter.Model
         #region event
         private void evt_LoadScheduledscript()
         {
+            CurLoopValue = 0;
             Scheduledscriptpath = evt_Openfile();
             ConfigbyJSON.Instance.ReadMonitoringmodeScriptfromJson(this);     
             OnPropertyChanged(nameof(Scheduledscriptpath));
@@ -514,13 +520,13 @@ namespace SuperCarter.Model
 
                 CommnadID = 0;
 
-                logger.Log(NLog.LogLevel.Trace, "– Start Custom script schedule.");
-                var Startmsg = "– Start Custom script schedule.";
+                logger.Log(NLog.LogLevel.Trace, " Start Custom script schedule.");
+                var Startmsg = " Start Custom script schedule.";
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = Startmsg });
 
                 for (CurLoopValue = 0; CurLoopValue < Fullloop; CurLoopValue++) // 總迴圈
                 {
-                    var msg = string.Format("- Currently on iteration : {0}", CurLoopValue);
+                    var msg = string.Format(" Currently on iteration : {0}", CurLoopValue);
                     logger.Log(NLog.LogLevel.Trace, msg);
                     WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg });
 
@@ -530,6 +536,7 @@ namespace SuperCarter.Model
                     OnPropertyChanged(nameof(Fullloop));
                     OnPropertyChanged(nameof(CurLoopValue));
                     OnPropertyChanged(nameof(PercentLoopValue));
+
                     await BlockWorkstation("A", BlockA1initSequencesList, BlockA2initSequencesList, BlockA1SequencesList, BlockA2SequencesList, BlockALoop, BlockA1Interval, BlockA2Interval, cancellationToken);
                     await BlockWorkstation("B", BlockB1initSequencesList, BlockB2initSequencesList, BlockB1SequencesList, BlockB2SequencesList, BlockBLoop, BlockB1Interval, BlockB2Interval, cancellationToken);
 
@@ -568,8 +575,7 @@ namespace SuperCarter.Model
             try 
             {
                 //cancellationToken.ThrowIfCancellationRequested();
-                int blockcycletime = Block1Interval + Block2Interval;
-          
+                int blockcycletime = Block1Interval + Block2Interval;           
 
                 for (int curLoop = 0; curLoop < maxLoop; curLoop++)
                 {
@@ -578,38 +584,35 @@ namespace SuperCarter.Model
                     //cancellationToken.ThrowIfCancellationRequested();
                     subloop = curLoop;
 
-                    logger.Log(NLog.LogLevel.Trace, $"– Enter {blockName}-{curLoop} step.");
-                    WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = $"– Enter {blockName}-{curLoop} step." });
+                    logger.Log(NLog.LogLevel.Trace, $" Enter {blockName}-{curLoop} step.");
+                    WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = $" Enter {blockName}-{curLoop} step." });
                     // 
                     var blockStartTime = DateTime.Now;
 
                     if (Block1Interval > 0)
                     {
                         var block1StartTime = DateTime.Now;
-                        await ExecuteBlockinitSequences($"{blockName}-{1} initial", initsequences1, cancellationToken);
+                        await ExecuteBlockinitSequences($"{blockName}-{1}initial", initsequences1, cancellationToken);
                         var remainingblock1SpentTime = Block1Interval - (DateTime.Now - block1StartTime).TotalMilliseconds;
                         // Execute sequences1 within cycletime
                         if (!cancellationToken.IsCancellationRequested)
                         {
-                            var seq1Task = ExecuteBlockSequences($"{blockName}-{1}", sequences1, (int)remainingblock1SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
-                            await seq1Task; // Wait for seq1Task to complete
-                        }                    
-
+                            await ExecuteBlockSequences($"{blockName}-{1}", sequences1, (int)remainingblock1SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
+                            //await seq1Task; // Wait for seq1Task to complete
+                        }  
                     }
 
                     if (Block2Interval > 0)
                     {
                         var block2StartTime = DateTime.Now;
-                        await ExecuteBlockinitSequences($"{blockName}-{2} initial", initsequences2, cancellationToken);
+                        await ExecuteBlockinitSequences($"{blockName}-{2}initial", initsequences2, cancellationToken);
                         var remainingblock2SpentTime = Block2Interval - (DateTime.Now - block2StartTime).TotalMilliseconds;
                         // Execute sequences2 within cycletime
                         if (!cancellationToken.IsCancellationRequested)
                         {
-                            var seq2Task = ExecuteBlockSequences($"{blockName}-{2}", sequences2, (int)remainingblock2SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
-                            await seq2Task; // Wait for seq2Task to complete
-
+                            await ExecuteBlockSequences($"{blockName}-{2}", sequences2, (int)remainingblock2SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
+                            //await seq2Task; // Wait for seq2Task to complete
                         }
-
                     }
                     if (cancellationToken.IsCancellationRequested)
                         break;
@@ -641,7 +644,7 @@ namespace SuperCarter.Model
                 stopwatch.Start();
                 var Sendorwatch = new Stopwatch();
                 Curphase = blockName;
-                var msg1 = $"- {blockName}";
+                var msg1 = $" {blockName}";
                 logger.Log(NLog.LogLevel.Trace, msg1);
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg1 });
                 // 
@@ -714,10 +717,10 @@ namespace SuperCarter.Model
             {
                 //await semaphoreSlim.WaitAsync(); // 等待許可
                 cancellationToken.Register(() => cancellationTokenSource.Cancel());
-                                                                                                                                                ㄎ
+                                                                                                                                                
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                var msg1 = $"- {blockName} 進入偵測階段";
+                var msg1 = $" {blockName} 進入偵測階段";
                 logger.Log(NLog.LogLevel.Trace, msg1);
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg1 });
                 var blockStartTime = DateTime.Now;
@@ -736,8 +739,7 @@ namespace SuperCarter.Model
                         if (cancellationToken.IsCancellationRequested )
                         {
                             break;
-                        }
-                         
+                        }                          
 
                         var elapsedTime = (DateTime.Now - cycleStartTime).TotalMilliseconds;
                         var remainingTime = cycletime - (int)elapsedTime;
@@ -966,7 +968,7 @@ namespace SuperCarter.Model
                 OnPropertyChanged(nameof(SDMChecklistscriptXMLPath));
                 SendorExecuteSequencesList = new List<SendorExecuteSendType>();
                 SendorExecuteSequencesList = ConfigModel.Instance.GetSendorExecuteSequencesList(SDMChecklistscriptXMLPath);
-
+                CurLoopValue = 0;
             }
             else
             {
@@ -1009,16 +1011,13 @@ namespace SuperCarter.Model
         #region event
         private async Task SendAndReceivesAsync(object Sequence, CancellationToken cancellationToken)
         {
-            if (cancellationToken.IsCancellationRequested) return;
-            
+            if (cancellationToken.IsCancellationRequested) return;           
 
             var command = (SendorExecuteSendType)Sequence;
 
             if (!DicSerialPort[command.PortNum].IsOpen) return;
 
             byte[] receivedData = new byte[0];
-
-
 
             String OutputMsg = String.Format("{0}|{1}|{2}| S | CommandID {4}| {3}",
                                DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
@@ -1032,8 +1031,6 @@ namespace SuperCarter.Model
             WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum, msg = OutputMsg });
 
             DicSerialPort[command.PortNum].Write(command.CommandData, 0, command.CommandData.Length);
-
-
 
             if (command.CommandData[0] == 0xFA && command.CommandData[3] == 0x02 && command.CommandData[4] == 0x01)
             {
@@ -1067,7 +1064,7 @@ namespace SuperCarter.Model
 
                 recmsg = SerialPortModel.Instance.byteToHexStr(receivedData);
 
-                OutputMsg = String.Format("{0}|{1}|{2}| R | CommandID {4}| {3}",
+                OutputMsg = String.Format("{0}|{1}|{2}| R | ID {4}| {3}",
                             DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
                             SerialPortModel.Instance.PortNameBinding[DicSerialPort[command.PortNum].PortName].ToString().PadLeft(2, ' '),
                             DicSerialPort[command.PortNum].PortName.PadLeft(6, ' '),
