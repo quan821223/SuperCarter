@@ -598,7 +598,6 @@ namespace SuperCarter.Model
                         if (!cancellationToken.IsCancellationRequested)
                         {
                             await ExecuteBlockSequences($"{blockName}-{1}", sequences1, (int)remainingblock1SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
-                            //await seq1Task; // Wait for seq1Task to complete
                         }  
                     }
 
@@ -611,7 +610,7 @@ namespace SuperCarter.Model
                         if (!cancellationToken.IsCancellationRequested)
                         {
                             await ExecuteBlockSequences($"{blockName}-{2}", sequences2, (int)remainingblock2SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
-                            //await seq2Task; // Wait for seq2Task to complete
+                    
                         }
                     }
                     if (cancellationToken.IsCancellationRequested)
