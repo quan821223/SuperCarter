@@ -377,56 +377,39 @@ namespace SuperCarter.ViewModel
         }
         private void evt_SelectedSerialport(Portdetectedtype _va)
         {
-         
-            bool IsAllowAddingitem = false;
-
-            if (SerialCandidator.Count < 3)
+            //
+            try
             {
-                if (SerialCandidator.Count < 1)
+                if (SerialCandidator.Count < 7)
                 {
-                    IsAllowAddingitem = true;
+                    if (SerialCandidator.Count > 0)
+                    {
+                        if (SerialCandidator.Any(p => p.PortName == _va.PortName))
+                        {
+                            MessageBox.Show($"無法新增此{_va.PortName}，{_va.PortName} 已被取用", "提醒 !", MessageBoxButton.OK, MessageBoxImage.Information);
+                            return;
+                        }  
+                    }
+
+                    SerialCandidator.Add(new Portdetectedtype()
+                    {
+                        IsUse = false,
+                        PortID = 0,
+                        FullPortName = _va.FullPortName,
+                        PortName = _va.PortName,
+                        BaudRateValue = 115200,
+                        DataReceivedCasenum = 0
+                    });
                 }
                 else
                 {
-                    foreach (var _item in SerialCandidator)
-                    {
-                        if (!_item.PortName.Contains(_va.PortName))
-                        {
-                            IsAllowAddingitem = true;
-                            logger.Log(NLog.LogLevel.Debug, "catch_" + _va.PortName);
-                        }
-                        else
-                        {
-                            IsAllowAddingitem = false;
-                            logger.Log(NLog.LogLevel.Debug, "catch_" + _va.PortName + " be denied");
-                            MessageBox.Show("無法新增此物件，comport 已被取用", "提醒 !", MessageBoxButton.OK, MessageBoxImage.Information);
-                            break;
-                        }
-                    }
-                }
-                if (IsAllowAddingitem)
-                {
-                    try
-                    {
-                        SerialCandidator.Add(new Portdetectedtype()
-                        {
-                            IsUse = false,
-                            PortID = 0,
-                            FullPortName = _va.FullPortName,
-                            PortName = _va.PortName,
-                            BaudRateValue = 115200,
-                            DataReceivedCasenum = 0
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    MessageBox.Show("無法新增此物件，目前數量 已達上限", "Warning !", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            else
+            catch(Exception e) 
             {
-                MessageBox.Show("無法新增此物件，目前數量 已達上限", "Warning !", MessageBoxButton.OK, MessageBoxImage.Warning);
+                nlogMessageAggregator.Instance.SendMessage(new nlogtype { LogLevel = NLog.LogLevel.Info, Msg = e.Message });
+                nlogMessageAggregator.Instance.SendMessage(new nlogtype { LogLevel = NLog.LogLevel.Info, Msg = e.StackTrace });
             }
             OnPropertyChangedForStatic(nameof(SerialCandidator));
 
@@ -457,6 +440,26 @@ namespace SuperCarter.ViewModel
         {
             ConfigbyJSON.Instance.WritePortCandidatelist(SerialCandidator);
         }
+        private ICommand _SelectComport;
+        public ICommand SelectComport
+        {
+            get
+            {
+                if (_SelectComport == null)
+                {
+                    _SelectComport = new RelayCommand(
+                  param => envt_EnableCOMport((Portdetectedtype)param));
+                    OnPropertyChanged(nameof(SelectComport));
+                }
+                return _SelectComport;
+            }
+        }
+       
+        public void envt_EnableCOMport(Portdetectedtype param) 
+        {
+            MessageBox.Show(param.PortName);
+        }
+
         public void UpdateSystemIntrospectionEvent(object source, System.Timers.ElapsedEventArgs e)
         {
             PortTree = new ObservableCollection<Portdetectedtype>(ConfigModel.Instance.GetComPorts());

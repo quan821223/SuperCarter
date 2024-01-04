@@ -27,7 +27,7 @@ namespace SuperCarter.Model
 {
     public class CustomScriptEditor : ViewModelBase
     {
-     
+
         public CustomScriptEditor()
         {
             Fullloop = 1;
@@ -38,14 +38,14 @@ namespace SuperCarter.Model
             OnPropertyChanged(nameof(Viewerpath));
 
             blockAfolderViewerlist = new ObservableCollection<IFiletype>();
-            ctsScrollingcheck= new CancellationTokenSource();
+            ctsScrollingcheck = new CancellationTokenSource();
 
             /// 燈號設定
             DynamicdisplaySwitch = Visibility.Visible;
             DynamicLabelText = "●";
             DynamicForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
             /// 燈號設定
-            SDdisplaySwitch = Visibility.Visible;                                                                                                                         
+            SDdisplaySwitch = Visibility.Visible;
             SDLabelText = "●";
             SDForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
 
@@ -71,9 +71,9 @@ namespace SuperCarter.Model
         public bool IsEnableTouchfinger { get; set; } = false;
         public bool IsEnableTouchXY { get; set; } = false;
         public string Openblockfilepath { get; set; }
-        public CSVfile cSVfile { get; set; } 
-        public CSVfile Error_cSVfile { get; set; } 
-        private static UnifiedHostCommandSettype UnifiedHostCommandSet { get; set; } =new UnifiedHostCommandSettype();
+        public CSVfile cSVfile { get; set; }
+        public CSVfile Error_cSVfile { get; set; }
+        private static UnifiedHostCommandSettype UnifiedHostCommandSet { get; set; } = new UnifiedHostCommandSettype();
         public ObservableCollection<IFiletype> blockAfolderViewerlist { get; set; } = new ObservableCollection<IFiletype>();
         public ObservableCollection<Foldertype> folderViewerlist { get; set; } = new ObservableCollection<Foldertype>();
         public string Viewerpath { get; set; }
@@ -95,7 +95,7 @@ namespace SuperCarter.Model
             get => _IsEnableRollingmode;
             set {
                 _IsEnableRollingmode = value;
-                if(_IsEnableRollingmode)
+                if (_IsEnableRollingmode)
                     DynamicForeColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
                 else
                     DynamicForeColor = new SolidColorBrush(Color.FromRgb(255, 97, 3));
@@ -153,14 +153,14 @@ namespace SuperCarter.Model
         public string blockB1initscriptpath { get; set; }
         public string blockB2initscriptpath { get; set; }
 
-        private int _ExecuteFullloop, _BlockALoop, _BlockBLoop ;
+        private int _ExecuteFullloop, _BlockALoop, _BlockBLoop;
         private double _Estimateruntimefullblock, _EstimateruntimeforblockA, _EstimateruntimeforblockB, _EstimateruntimeforblockC, _EstimateruntimeforblockD;
         public int BlockALoop
         {
             get => _BlockALoop;
             set
             {
-                _BlockALoop =  value;
+                _BlockALoop = value;
                 EstimateruntimeforblockA = (BlockA1Interval + BlockA2Interval) * BlockALoop;
                 OnPropertyChanged(nameof(EstimateruntimeforblockA));
                 Fullloop = Fullloop;
@@ -177,7 +177,7 @@ namespace SuperCarter.Model
                 Fullloop = Fullloop;
             }
         }
-        private int _EstimateBlockAtotaltime= 0, _EstimateBlockBtotaltime= 0;
+        private int _EstimateBlockAtotaltime = 0, _EstimateBlockBtotaltime = 0;
         public int EstimateBlockAtotaltime
         {
             get
@@ -315,7 +315,7 @@ namespace SuperCarter.Model
         private void ProcessBytes(SendAndReceiveDatabatchcheck bytes)
         {
             try
-            {     
+            {
                 if (bytes.byte_buffer_Receive.Length > 4 && bytes.byte_buffer_Receive[0] == 0xFA && bytes.byte_buffer_Send[1] == 0x52)
                 {
                     byte sendByte3 = bytes.byte_buffer_Send[3];
@@ -339,8 +339,8 @@ namespace SuperCarter.Model
                         case 0x06:
                             HandleBufferSend_06(sendByte4, bytes);
                             break;
-                        default: 
-                            
+                        default:
+
                             break;
                     }
 
@@ -359,11 +359,11 @@ namespace SuperCarter.Model
             {
                 //System.Windows.MessageBox.Show(ex.Message);
                 //System.Windows.MessageBox.Show(ex.StackTrace);          
-                string Errormsg = $" === 接收異常 - ID:{bytes.CommnadID} Portnum:{bytes.Portnum} Command:{bytes.strCommandData_send} RecCommand:{bytes.strCommandData_Rec} === ";
-                logger.Log(NLog.LogLevel.Warn, Errormsg);
+                string Errormsg = $", COM{bytes.Portnum}, Msg, ID:{bytes.CommnadID}, Portnum:{bytes.Portnum}, Command:{bytes.strCommandData_send}, RecCommand:{bytes.strCommandData_Rec} ";
+                logger.Log(NLog.LogLevel.Trace, Errormsg);
                 logger.Log(NLog.LogLevel.Warn, ex.Message);
                 logger.Log(NLog.LogLevel.Warn, ex.StackTrace);
-            }                         
+            }
 
         }
         #endregion
@@ -378,7 +378,7 @@ namespace SuperCarter.Model
                     param => evt_ExecuteRollingmode());
                 return _ExecuteRollingmode;
             }
-        
+
         }
         public ICommand ExecuteScheduledDetectgmode
         {
@@ -500,7 +500,7 @@ namespace SuperCarter.Model
         {
             CurLoopValue = 0;
             Scheduledscriptpath = evt_Openfile();
-            ConfigbyJSON.Instance.ReadMonitoringmodeScriptfromJson(this);     
+            ConfigbyJSON.Instance.ReadMonitoringmodeScriptfromJson(this);
             OnPropertyChanged(nameof(Scheduledscriptpath));
         }
 
@@ -508,25 +508,25 @@ namespace SuperCarter.Model
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            try 
+            try
             {
-                string path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-outputtestdata.csv");           
-                cSVfile = new CSVfile( path); // 請替換為您希望保存文件的路徑
+                string path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-outputtestdata.csv");
+                cSVfile = new CSVfile(path); // 請替換為您希望保存文件的路徑
                 cSVfile.SetCSVfileStoragepath(path);
 
-                string error_path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-Errordata.csv");            
-                Error_cSVfile = new CSVfile( error_path);
+                string error_path = string.Format("{0}\\{1}_{2}", FOLDER_RESULT, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"), "-Errordata.csv");
+                Error_cSVfile = new CSVfile(error_path);
                 Error_cSVfile.SetCSVfileStoragepath(error_path);
 
-                CommnadID = 0;
-
-                logger.Log(NLog.LogLevel.Trace, " Start Custom script schedule.");
-                var Startmsg = " Start Custom script schedule.";
+                CommnadID = 0;          
+                
+                var Startmsg = ", COMX, Msg, Start Custom script schedule.";
+                logger.Log(NLog.LogLevel.Trace, Startmsg);
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = Startmsg });
 
                 for (CurLoopValue = 0; CurLoopValue < Fullloop; CurLoopValue++) // 總迴圈
                 {
-                    var msg = string.Format(" Currently on iteration : {0}", CurLoopValue);
+                    var msg = string.Format(", COMX, Msg, Currently on iteration : {0}", CurLoopValue);
                     logger.Log(NLog.LogLevel.Trace, msg);
                     WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg });
 
@@ -536,7 +536,7 @@ namespace SuperCarter.Model
                     OnPropertyChanged(nameof(Fullloop));
                     OnPropertyChanged(nameof(CurLoopValue));
                     OnPropertyChanged(nameof(PercentLoopValue));
-
+                
                     await BlockWorkstation("A", BlockA1initSequencesList, BlockA2initSequencesList, BlockA1SequencesList, BlockA2SequencesList, BlockALoop, BlockA1Interval, BlockA2Interval, cancellationToken);
                     await BlockWorkstation("B", BlockB1initSequencesList, BlockB2initSequencesList, BlockB1SequencesList, BlockB2SequencesList, BlockBLoop, BlockB1Interval, BlockB2Interval, cancellationToken);
 
@@ -551,65 +551,83 @@ namespace SuperCarter.Model
                 OnPropertyChanged(nameof(PercentLoopValue));
                 OnPropertyChanged(nameof(IsEnableScheduledDetectmode));
 
-                logger.Log(NLog.LogLevel.Trace, "– End Custom script schedule.");
+                logger.Log(NLog.LogLevel.Trace, ", COMX, Msg, End Custom script schedule.");
 
-                var Endmmsg = "– End Custom script schedule.";
+                var Endmmsg = ", COMX, Msg, End Custom script schedule.";
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = Endmmsg });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message, "Error");
                 System.Windows.MessageBox.Show(ex.StackTrace, "Error");
             }
             finally
             {
-     
+
             }
 
         }
+        class PhaseOrderTicket
+        {
+            public DateTime Firsttime { get; set; } 
+            public int Executetime { get; set; } 
+        }
 
-        private async Task BlockWorkstation(string blockName, List<SendorExecuteSendType> initsequences1, List<SendorExecuteSendType> initsequences2,
-            List<SendorExecuteSendType> sequences1, List<SendorExecuteSendType> sequences2,
-                                             int maxLoop, int Block1Interval, int Block2Interval, CancellationToken cancellationToken)
+        private async Task BlockWorkstation(string blockName,
+            List<SendorExecuteSendType> initsequences1, List<SendorExecuteSendType> initsequences2,
+            List<SendorExecuteSendType> sequences1, List<SendorExecuteSendType> sequences2,  
+            int PhaseLoop, int Block1Cycletime, int Block2Cycletime, CancellationToken cancellationToken)
         {
             try 
             {
                 //cancellationToken.ThrowIfCancellationRequested();
-                int blockcycletime = Block1Interval + Block2Interval;           
+                int blockcycletime = Block1Cycletime + Block2Cycletime;
 
-                for (int curLoop = 0; curLoop < maxLoop; curLoop++)
+                var phaseStartime = DateTime.Now;
+
+                PhaseOrderTicket phaseOrderTicket = new PhaseOrderTicket()
+                {
+                    Firsttime = DateTime.Now,
+                    Executetime = blockcycletime * PhaseLoop   // ms
+                };
+
+                for (int curLoop = 0; curLoop < PhaseLoop; curLoop++)
                 {
                     if (cancellationToken.IsCancellationRequested)
                         break;
                     //cancellationToken.ThrowIfCancellationRequested();
                     subloop = curLoop;
+              
 
-                    logger.Log(NLog.LogLevel.Trace, $" Enter {blockName}-{curLoop} step.");
+
+                    logger.Log(NLog.LogLevel.Trace, $", COMX, Msg, Enter {blockName}-{curLoop} step.");
                     WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = $" Enter {blockName}-{curLoop} step." });
                     // 
                     var blockStartTime = DateTime.Now;
 
-                    if (Block1Interval > 0)
+                    if (Block1Cycletime > 0)
                     {
                         var block1StartTime = DateTime.Now;
-                        await ExecuteBlockinitSequences($"{blockName}-{1}initial", initsequences1, cancellationToken);
-                        var remainingblock1SpentTime = Block1Interval - (DateTime.Now - block1StartTime).TotalMilliseconds;
+                        await ExecuteBlockinitSequences($"{blockName}-{1}initial", phaseOrderTicket, initsequences1, cancellationToken);
+                        // 計算 phase 設定的數值扣除 初始化所剩餘的時間 
+                        var remainingblock1SpentTime = Block1Cycletime - (DateTime.Now - block1StartTime).TotalMilliseconds;
                         // Execute sequences1 within cycletime
                         if (!cancellationToken.IsCancellationRequested)
                         {
-                            await ExecuteBlockSequences($"{blockName}-{1}", sequences1, (int)remainingblock1SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
+                            await ExecuteBlockSequences($"{blockName}-{1}", phaseOrderTicket, sequences1, (int)remainingblock1SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
                         }  
                     }
 
-                    if (Block2Interval > 0)
+                    if (Block2Cycletime > 0)
                     {
                         var block2StartTime = DateTime.Now;
-                        await ExecuteBlockinitSequences($"{blockName}-{2}initial", initsequences2, cancellationToken);
-                        var remainingblock2SpentTime = Block2Interval - (DateTime.Now - block2StartTime).TotalMilliseconds;
+                        await ExecuteBlockinitSequences($"{blockName}-{2}initial", phaseOrderTicket, initsequences2, cancellationToken);
+                        // 計算 phase 設定的數值扣除 初始化所剩餘的時間 
+                        var remainingblock2SpentTime = Block2Cycletime - (DateTime.Now - block2StartTime).TotalMilliseconds;
                         // Execute sequences2 within cycletime
                         if (!cancellationToken.IsCancellationRequested)
                         {
-                            await ExecuteBlockSequences($"{blockName}-{2}", sequences2, (int)remainingblock2SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
+                            await ExecuteBlockSequences($"{blockName}-{2}", phaseOrderTicket, sequences2, (int)remainingblock2SpentTime, cancellationToken, curLoop, MonitoringIntervaltime);
                     
                         }
                     }
@@ -617,7 +635,7 @@ namespace SuperCarter.Model
                         break;
 
                     // Check if block working time is reached
-                    if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockcycletime * maxLoop)
+                    if ((DateTime.Now - blockStartTime).TotalMilliseconds >= blockcycletime * PhaseLoop)
                     {
                         break; // Exit the loop
                     }
@@ -625,8 +643,11 @@ namespace SuperCarter.Model
             }
             catch(Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.Message, "Error");
-                System.Windows.MessageBox.Show(ex.StackTrace, "Error");
+                logger.Log(NLog.LogLevel.Trace, $", COMx, Error,{blockName}-{subloop} in the BlockWorkstation function's been a slight mistake.");
+                logger.Log(NLog.LogLevel.Warn, $", COMx, Error, {ex.Message}");
+                logger.Log(NLog.LogLevel.Warn, $", COMx, Error, {ex.StackTrace}");
+                //System.Windows.MessageBox.Show(ex.Message, "Error");
+                //System.Windows.MessageBox.Show(ex.StackTrace, "Error");
             }
             finally
             {
@@ -634,7 +655,7 @@ namespace SuperCarter.Model
             }
 
         }
-        private async Task ExecuteBlockinitSequences(string blockName, List<SendorExecuteSendType> sequences,  CancellationToken cancellationToken)
+        private async Task ExecuteBlockinitSequences(string blockName, PhaseOrderTicket phaseOrderTicket, List<SendorExecuteSendType> sequences,  CancellationToken cancellationToken)
         {
             try
             {
@@ -643,7 +664,7 @@ namespace SuperCarter.Model
                 stopwatch.Start();
                 var Sendorwatch = new Stopwatch();
                 Curphase = blockName;
-                var msg1 = $" {blockName}";
+                var msg1 = $", COMX, Msg, {blockName}";
                 logger.Log(NLog.LogLevel.Trace, msg1);
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg1 });
                 // 
@@ -674,6 +695,8 @@ namespace SuperCarter.Model
 
                         if (remainingSpentTime > 0)
                         {
+                            if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + remainingSpentTime) > phaseOrderTicket.Executetime)
+                            { break; }
                             await Task.Delay(remainingSpentTime, cancellationToken);
                         }
                     }
@@ -687,6 +710,8 @@ namespace SuperCarter.Model
 
                         if (remainingSpentTime > 0)
                         {
+                            if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + remainingSpentTime) > phaseOrderTicket.Executetime)
+                            { break; }
                             await Task.Delay(remainingSpentTime, cancellationToken);
                         }
                     }
@@ -699,8 +724,11 @@ namespace SuperCarter.Model
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.Message);
-                System.Windows.MessageBox.Show(ex.StackTrace);
+                logger.Log(NLog.LogLevel.Trace, $", COMx, Error, in the ExecuteBlockinitSequences function's been a slight mistake.");
+                logger.Log(NLog.LogLevel.Warn, $", COMx, Error, {ex.Message}");
+                logger.Log(NLog.LogLevel.Warn, $", COMx, Error, {ex.StackTrace}");
+                //System.Windows.MessageBox.Show(ex.Message);
+                //System.Windows.MessageBox.Show(ex.StackTrace);
             }
             finally
             {
@@ -708,7 +736,7 @@ namespace SuperCarter.Model
             }
         }
         private SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-        private async Task ExecuteBlockSequences(string blockName, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken, int curLoop, int cycletime )
+        private async Task ExecuteBlockSequences(string blockName, PhaseOrderTicket phaseOrderTicket, List<SendorExecuteSendType> sequences, int scriptDelayTime, CancellationToken cancellationToken, int curLoop, int cycletime )
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();          
 
@@ -719,15 +747,20 @@ namespace SuperCarter.Model
                                                                                                                                                 
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                var msg1 = $" {blockName} 進入偵測階段";
+                var msg1 = $", COMX, Msg, {blockName} 進入偵測階段";
                 logger.Log(NLog.LogLevel.Trace, msg1);
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.Message, msg = msg1 });
                 var blockStartTime = DateTime.Now;
                 Curphase = blockName;
-                while ((DateTime.Now - blockStartTime).TotalMilliseconds < scriptDelayTime)
+                // 在初始化後所剩餘的時間下運行
+                /// 需要優化(scriptDelayTime- cycletime)增加錯誤機制
+                while ((DateTime.Now - blockStartTime).TotalMilliseconds < (scriptDelayTime- cycletime) )
                 {
                     if (cancellationToken.IsCancellationRequested)
                         break;
+
+                    if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + cycletime) > phaseOrderTicket.Executetime)
+                    { break; }
 
                     var cycleStartTime = DateTime.Now;
                     int sequenceIndex = 0;
@@ -764,7 +797,10 @@ namespace SuperCarter.Model
                             }
                         }
 
-                        if (sequenceIndex >= sequences.Count -1)
+                        if(((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + cycletime) > phaseOrderTicket.Executetime)
+                        { break; }
+
+                        if (sequenceIndex >= sequences.Count - 1)
                         {
                             UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
                             UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
@@ -781,7 +817,10 @@ namespace SuperCarter.Model
                             }
                             await Task.Delay(Math.Min(remainingTime, remainingScriptTime), cancellationToken);
                         }
+                        
                     }
+                    if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + cycletime) > phaseOrderTicket.Executetime)
+                    { break; }
 
                     UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
                     UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
@@ -794,7 +833,10 @@ namespace SuperCarter.Model
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.Message);
+                logger.Log(NLog.LogLevel.Trace, $", COMx, Error, in the ExecuteBlockSequences function's been a slight mistake.");
+                logger.Log(NLog.LogLevel.Warn, $", COMx, Error, {ex.Message}");
+                logger.Log(NLog.LogLevel.Warn, $", COMx, Error, {ex.StackTrace}");
+                //System.Windows.MessageBox.Show(ex.Message);
             }
             finally
             {
@@ -1018,7 +1060,7 @@ namespace SuperCarter.Model
 
             byte[] receivedData = new byte[0];
 
-            String OutputMsg = String.Format("{0}|{1}|{2}| S | CommandID {4}| {3}",
+            String OutputMsg = String.Format("{0}|{1}|{2}| S | ID {4}| {3}",
                                DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff"),
                                SerialPortModel.Instance.PortNameBinding[DicSerialPort[command.PortNum].PortName].ToString().PadLeft(2, ' '),
                                DicSerialPort[command.PortNum].PortName.PadLeft(6, ' '),
@@ -1026,7 +1068,7 @@ namespace SuperCarter.Model
                                CommnadID.ToString().PadLeft(6, ' ')
                                );
 
-            logger.Log(NLog.LogLevel.Trace, OutputMsg);
+            logger.Log(NLog.LogLevel.Trace,$", COMX, Msg, {OutputMsg}");
             WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum, msg = OutputMsg });
 
             DicSerialPort[command.PortNum].Write(command.CommandData, 0, command.CommandData.Length);
@@ -1071,8 +1113,8 @@ namespace SuperCarter.Model
                             CommnadID.ToString().PadLeft(6, ' ')
                             );
                 // update to nlog file
-                logger.Log(NLog.LogLevel.Trace, OutputMsg);
-
+             
+                logger.Log(NLog.LogLevel.Trace, $", COMX, Msg, {OutputMsg}");
                 WritedataToViewTextAggregator.Instance.Updatemsg(new RealtimeMsgQueuetype { msgtype = Msgtype.FromPort, PortNum = command.PortNum, msg = OutputMsg });
                 SendAndReceiveDatabatchQ.Enqueue(new SendAndReceiveDatabatchcheck()
                 {
@@ -1165,13 +1207,13 @@ namespace SuperCarter.Model
                 // 如果超時且沒有得到預期響應
                 if (bufferIndex > 0)
                 {
-                    logger.Log(NLog.LogLevel.Trace, "Timeout without receiving expected response. Partial data returned.");
+                    logger.Log(NLog.LogLevel.Trace, ", COMX, Msg, Timeout without receiving expected response. Partial data returned.");
                     Array.Resize(ref buffer, bufferIndex);
                     return buffer;
                 }
                 else
                 {
-                    logger.Log(NLog.LogLevel.Trace, "Timeout without any data received.");
+                    logger.Log(NLog.LogLevel.Trace, ", COMX, Msg, Timeout without any data received.");
                     return Array.Empty<byte>();
                 }
             }

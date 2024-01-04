@@ -1,0 +1,8 @@
+[
+  {
+    "PortID": 0,
+    "PortName": "COM80",
+    "BaudRateValue": 115200,
+    "Reccase": 0
+  }
+]

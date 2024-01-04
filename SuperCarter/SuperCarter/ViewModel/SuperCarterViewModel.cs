@@ -129,6 +129,9 @@ namespace SuperCarter.ViewModel
             PageName = obj.ToString();
         }
         #region Single Sendor Execute function.  
+   
+
+
         /// <summary>
         /// 功能:觸發介面 
         /// 發送在腳本編譯器的指令內容

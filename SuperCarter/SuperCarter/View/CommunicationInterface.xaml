@@ -7,7 +7,8 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:self="clr-namespace:SuperCarter.Model"
         xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-
+        xmlns:SpyderToggle="clr-namespace:Spyder.Controls.Toggle;assembly=Spyder.Controls.Toggle" 
+        xmlns:serialvm="clr-namespace:SuperCarter.ViewModel"
         xmlns:local="clr-namespace:SuperCarter.View"
         mc:Ignorable="d"
         Title="CommunicationInterface" Height="450" Width="900" Closing="Window_Closing" Closed="Window_Closed">
@@ -17,6 +18,7 @@
                 <TextBlock Text="{Binding Data.YourProperty}" />
             </Border>
         </DataTemplate>
+
     </Window.Resources>
     <Grid Margin="8">
         <TabControl Grid.Column="1" TabStripPlacement="Top" Margin="1" >            
@@ -105,86 +107,93 @@
                         </TreeView>
                     </Grid>                  
                     <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="61"/>
-                            <RowDefinition Height="1*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Background="#FFEEF5FD" >
-                            <ToolBarTray DockPanel.Dock="Left" Orientation="Horizontal" 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="90"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="61"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Background="#FFEEF5FD" >
+                                <ToolBarTray DockPanel.Dock="Left" Orientation="Horizontal" 
                                          ToolBarTray.IsLocked="True" Margin="12 5">
-                                <ToolBar >
-                                    <Button Command="{Binding serialportmanager.ClearPortitems}"
+                                    <ToolBar >
+                                        <Button Command="{Binding serialportmanager.ClearPortitems}"
                                             ToolTip="Delete the selected item" Width="62">
-                                        <StackPanel Orientation="Vertical">
-                                            <materialDesign:PackIcon Grid.Row="0" 
+                                            <StackPanel Orientation="Vertical">
+                                                <materialDesign:PackIcon Grid.Row="0" 
                                                                          Kind="broom"
                                                                          Width="25" Height="25"
                                                                          VerticalAlignment="Stretch" 
                                                                          Foreground="#FF4D4D4D" 
                                                                          HorizontalAlignment="Stretch"/>
-                                         
-                                            <AccessText Grid.Row="1" 
+
+                                                <AccessText Grid.Row="1" 
                                                         Text="Clear"
                                                         Style="{StaticResource AccessTextstyle}"
                                                                          />
-                                        </StackPanel>
-                                    </Button>
-                                    <Button Command="{Binding serialportmanager.DelectedSelectPortitem}"  Width="62"
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Command="{Binding serialportmanager.DelectedSelectPortitem}"  Width="62"
                                             ToolTip="Delete the selected item " >
-                                        <StackPanel Orientation="Vertical">
-                                            <materialDesign:PackIcon Grid.Row="0" 
+                                            <StackPanel Orientation="Vertical">
+                                                <materialDesign:PackIcon Grid.Row="0" 
                                                                          Kind="eraser"
                                                                          Width="25" Height="25"
                                                                          VerticalAlignment="Stretch" 
                                                                          Foreground="#FF4D4D4D" 
                                                                          HorizontalAlignment="Stretch"/>
-                                      
-                                            <AccessText Grid.Row="1" 
+
+                                                <AccessText Grid.Row="1" 
                                                         Text="Remove"
                                                         Style="{StaticResource AccessTextstyle}"
                                                         />
-                                        </StackPanel>
-                                    </Button>
-                                    <Button Command="{Binding serialportmanager.SortingPortitem}" Width="62"
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Command="{Binding serialportmanager.SortingPortitem}" Width="62"
                                             ToolTip="Delete the selected item "
                                             >
-                                        <StackPanel Orientation="Vertical">
-                                            <materialDesign:PackIcon Grid.Row="0" 
+                                            <StackPanel Orientation="Vertical">
+                                                <materialDesign:PackIcon Grid.Row="0" 
                                                                          Kind="SortNumericAscending"
                                                                          Width="25" Height="25"
                                                                          VerticalAlignment="Stretch" 
                                                                          Foreground="#FF4D4D4D" 
                                                                          HorizontalAlignment="Stretch"/>
-                                  
-                                            <AccessText Grid.Row="1" 
+
+                                                <AccessText Grid.Row="1" 
                                                         Text="Sort"
                                                         Style="{StaticResource AccessTextstyle}"
                                                                          />
-                                        </StackPanel>
-                                    </Button>
-                                    <Button x:Name="SavePortsetting"  Command="{Binding }" Width="62"
+                                            </StackPanel>
+                                        </Button>
+                                        <Button x:Name="SavePortsetting"  Command="{Binding }" Width="62"
                                                     ToolTip="Save all setting" Click="SavePortsetting_Click"
                                                     >
-                                        <StackPanel Orientation="Vertical">
-                                            <materialDesign:PackIcon Grid.Row="0" 
+                                            <StackPanel Orientation="Vertical">
+                                                <materialDesign:PackIcon Grid.Row="0" 
                                                                          Kind="ContentSaveOutline"
                                                                          Width="25" Height="25"
                                                                          VerticalAlignment="Stretch" 
                                                                          Foreground="#FF4D4D4D" 
                                                                          HorizontalAlignment="Stretch"/>
-                                            <AccessText Grid.Row="1" 
+                                                <AccessText Grid.Row="1" 
                                                         Text="Save"
                                                         Style="{StaticResource AccessTextstyle}"
                                                                          />
-                                        </StackPanel>
-                                    </Button>
-                                    <Separator/>
-                                </ToolBar>
-                            </ToolBarTray>
+                                            </StackPanel>
+                                        </Button>
+                                        <Separator/>
+                                    </ToolBar>
+                                </ToolBarTray>
 
-                        </Grid>
-                        <Grid Grid.Row="1" Background="#FFEEF5FD">
-                            <DataGrid x:Name="SerialPortCandidateDatagrid" Margin="12 5" 
+                            </Grid>
+                            <Grid Grid.Row="1" Background="#FFEEF5FD">
+
+                                <DataGrid x:Name="SerialPortCandidateDatagrid" Margin="12 5"
+                                      Grid.Column="0"
                                       ItemsSource="{Binding serialportmanager.SerialCandidator,  Mode=TwoWay}" 
                                       HorizontalScrollBarVisibility="Visible"
                                       VerticalScrollBarVisibility="Visible" 
@@ -195,35 +204,84 @@
                                       SelectedCellsChanged="SerialPortCandidateDatagrid_SelectedCellsChanged" MouseLeave="SerialPortCandidateDatagrid_MouseLeave" 
                                       >
 
-                                <DataGrid.RowStyle>
-                                    <Style TargetType="DataGridRow">
-                                        <Setter Property="Height" Value="27"/>
-                                        <Setter Property="FontSize" Value="12"/>
-                                        <Setter Property="BorderBrush" Value="#FFD6D6D6"/>
-                                    </Style>
-                                </DataGrid.RowStyle>
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Setter Property="Height" Value="27"/>
+                                            <Setter Property="FontSize" Value="12"/>
+                                            <Setter Property="BorderBrush" Value="#FFD6D6D6"/>
+                                        </Style>
+                                    </DataGrid.RowStyle>
 
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Width="112"
+                                    <DataGrid.Columns>
+
+                                        <DataGridTextColumn Width="112"
                                                     Header="Port ID"
                                                     Binding="{Binding Path=PortID, StringFormat=N0}">
-                                    </DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding PortName}" 
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding PortName}" 
                                                     IsReadOnly="True"
                                                     Header="Name" 
                                                     Width="112"   />
-                                    <DataGridTextColumn Binding="{Binding BaudRateValue}" 
+                                        <DataGridTextColumn Binding="{Binding BaudRateValue}" 
                                                     Header="BaudRate" 
                                                     Width="112"   />
-                                    <DataGridTextColumn Binding="{Binding DataReceivedCasenum}"
+                                        <DataGridTextColumn Binding="{Binding DataReceivedCasenum}"
                                                     Header="Rec Case" 
                                                     Width="112"
                                                     IsReadOnly="True"
                                                     />
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+
                         </Grid>
-                        
+                        <Grid  Grid.Column="1">
+                            <ScrollViewer  VerticalScrollBarVisibility="Visible">
+                                <WrapPanel  Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 1 11 0">
+
+                                    <Label Content="Port0:"/>
+                                    <SpyderToggle:RoundToggleButton Grid.Column="1"
+                                                    IsChecked="{Binding serialportmanager.tbt__Port0, Mode=TwoWay}"
+                                                    MaxHeight="29"
+                                                    Margin="5 4 5 4"                                                                
+                                                    HorizontalAlignment="Right" />
+                                    <Label Content="Port1:"/>
+                                    <SpyderToggle:RoundToggleButton Grid.Column="1"
+                                                    IsChecked="{Binding serialportmanager.tbt__Port1, Mode=TwoWay}"
+                                                    MaxHeight="29"
+                                                    Margin="5 4 5 4"                                                                 
+                                                    HorizontalAlignment="Right" />
+                                    <Label Content="Port2:"/>
+                                    <SpyderToggle:RoundToggleButton Grid.Column="1"
+                                                    IsChecked="{Binding serialportmanager.tbt__Port2, Mode=TwoWay}"
+                                                    MaxHeight="29"
+                                                    Margin="5 4 5 4"                                                                 
+                                                    HorizontalAlignment="Right" />
+                                    <Label Content="Port0:"/>
+                                    <SpyderToggle:RoundToggleButton Grid.Column="1"
+                                                    IsChecked="{Binding serialportmanager.tbt__Port0, Mode=TwoWay}"
+                                                    MaxHeight="29"
+                                                    Margin="5 4 5 4"                                                                
+                                                    HorizontalAlignment="Right" />
+                                    <Label Content="Port1:"/>
+                                    <SpyderToggle:RoundToggleButton Grid.Column="1"
+                                                    IsChecked="{Binding serialportmanager.tbt__Port1, Mode=TwoWay}"
+                                                    MaxHeight="29"
+                                                    Margin="5 4 5 4"                                                                 
+                                                    HorizontalAlignment="Right" />
+                                    <Label Content="Port2:"/>
+                                    <SpyderToggle:RoundToggleButton Grid.Column="1"
+                                                    IsChecked="{Binding serialportmanager.tbt__Port2, Mode=TwoWay}"
+                                                    MaxHeight="29"
+                                                    Margin="5 4 5 4"                                                                 
+                                                    HorizontalAlignment="Right" />
+
+                                </WrapPanel>
+
+                            </ScrollViewer>
+                            
+                        </Grid>
+                            
                  
 
                     </Grid>

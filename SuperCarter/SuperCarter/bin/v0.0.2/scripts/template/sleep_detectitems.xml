@@ -1,0 +1,8 @@
+<TestSuite>
+  <Prerequisites />
+  <TestSequence>
+    <Command ID="1" PortNum="all" Nodename="current" MSGname="TXB1send_curr1" Command="FA 52 01 05 01" Delaytime="100" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="2" PortNum="all" Nodename="current" MSGname="TXB1send_curr2" Command="FA 52 02 05 01" Delaytime="200" RecCommand="" HashCodevalue="" Loop="1" />
+    <Command ID="3" PortNum="all" Nodename="current" MSGname="TXB1send_curr3" Command="FA 52 03 05 01" Delaytime="100" RecCommand="" HashCodevalue="" Loop="1" />
+  </TestSequence>
+</TestSuite>
