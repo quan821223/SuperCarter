@@ -29,7 +29,9 @@ namespace SuperCarter.ViewModel
         public InitialStateConfirm initialStateConfirm { get; set; }
         public int SelectSerialportIndex { get; set; }
         public CustomScriptEditor CustomScriptEditor { get; set; } = new CustomScriptEditor();
+        public string SWversion { get; set; } 
         public SuperCarterViewModel() {
+            SWversion = "v0.0.4";
 
             // 允許定位該事件並且供給給其他視圖使用
             MessageAggregator.Instance.Subscribe(evt_promptlyMessageNotify);
@@ -129,9 +131,6 @@ namespace SuperCarter.ViewModel
             PageName = obj.ToString();
         }
         #region Single Sendor Execute function.  
-   
-
-
         /// <summary>
         /// 功能:觸發介面 
         /// 發送在腳本編譯器的指令內容

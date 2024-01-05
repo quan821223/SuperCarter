@@ -691,12 +691,19 @@ namespace SuperCarter.Model
                         }
 
                         Sendorwatch.Stop();
+                        /// 總時間 = 腳本的延遲時間- 發送後的剩餘時間
                         var remainingSpentTime = roundtimedelay - (int)Sendorwatch.ElapsedMilliseconds;
 
                         if (remainingSpentTime > 0)
                         {
-                            if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + remainingSpentTime) > phaseOrderTicket.Executetime)
-                            { break; }
+                            if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + remainingSpentTime) > phaseOrderTicket.Executetime && ((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds) < phaseOrderTicket.Executetime)
+                            {
+                                remainingSpentTime =Convert.ToInt32((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds);
+                            }
+                            else if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds) > phaseOrderTicket.Executetime)
+                            {
+                                break;
+                            }
                             await Task.Delay(remainingSpentTime, cancellationToken);
                         }
                     }
@@ -710,8 +717,14 @@ namespace SuperCarter.Model
 
                         if (remainingSpentTime > 0)
                         {
-                            if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + remainingSpentTime) > phaseOrderTicket.Executetime)
-                            { break; }
+                            if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + remainingSpentTime) > phaseOrderTicket.Executetime && ((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds) < phaseOrderTicket.Executetime)
+                            {
+                                remainingSpentTime = Convert.ToInt32((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds);
+                            }
+                            else if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds) > phaseOrderTicket.Executetime)
+                            {
+                                break;
+                            }
                             await Task.Delay(remainingSpentTime, cancellationToken);
                         }
                     }
@@ -754,12 +767,12 @@ namespace SuperCarter.Model
                 Curphase = blockName;
                 // 在初始化後所剩餘的時間下運行
                 /// 需要優化(scriptDelayTime- cycletime)增加錯誤機制
-                while ((DateTime.Now - blockStartTime).TotalMilliseconds < (scriptDelayTime- cycletime) )
+                while ((DateTime.Now - blockStartTime).TotalMilliseconds < (scriptDelayTime) )
                 {
                     if (cancellationToken.IsCancellationRequested)
                         break;
 
-                    if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + cycletime) > phaseOrderTicket.Executetime)
+                    if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds ) > phaseOrderTicket.Executetime)
                     { break; }
 
                     var cycleStartTime = DateTime.Now;
@@ -819,15 +832,15 @@ namespace SuperCarter.Model
                         }
                         
                     }
-                    if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + cycletime) > phaseOrderTicket.Executetime)
-                    { break; }
+                    //if (((DateTime.Now - phaseOrderTicket.Firsttime).TotalMilliseconds + cycletime) > phaseOrderTicket.Executetime)
+                    //{ break; }
 
-                    UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
-                    UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
-                    UnifiedHostCommandSet.Blockphase = Curphase.ToString();
-                    UnifiedHostCommandSet.Blockloop = curLoop.ToString();
-                    cSVfile.AppendToCsv(UnifiedHostCommandSet);
-                    UnifiedHostCommandSet = new UnifiedHostCommandSettype();
+                    //UnifiedHostCommandSet.Time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:ffff");
+                    //UnifiedHostCommandSet.Loop = CurLoopValue.ToString();
+                    //UnifiedHostCommandSet.Blockphase = Curphase.ToString();
+                    //UnifiedHostCommandSet.Blockloop = curLoop.ToString();
+                    //cSVfile.AppendToCsv(UnifiedHostCommandSet);
+                    //UnifiedHostCommandSet = new UnifiedHostCommandSettype();
 
                 }
             }
