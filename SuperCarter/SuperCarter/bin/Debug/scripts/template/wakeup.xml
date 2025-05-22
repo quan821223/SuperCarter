@@ -1,6 +1,0 @@
-<TestSuite>
-  <Prerequisites />
-  <TestSequence>
-    <Command ID="1" PortNum="all" Nodename="Wakeup" MSGname="Wakeup" Command="FA 57 00 02 01" Delaytime="5000" RecCommand="" HashCodevalue="" Loop="1" />
-  </TestSequence>
-</TestSuite>
